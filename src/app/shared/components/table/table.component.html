@@ -1,0 +1,61 @@
+<div class="rounded-xl shadow-sm text-neutral-800 overflow-hidden">
+    <!-- Header -->
+    <div class="flex items-center px-4 py-3 bg-gray-200/80">
+        @for (col of columns; track col) {
+        <button class="flex items-center gap-2 text-xs uppercase font-medium select-none px-3 py-2" [class]="col.width ?? 'flex-1'" (click)="onHeaderClick(col)" [attr.data-sortable]="col.sortable ? true : null" role="button">
+            <span class="truncate">{{ col.title }}</span>
+
+            @if (col.sortable) {
+            <span class="material-icons text-sm opacity-80">
+                @if (sort().columnId === col.id && sort().direction === 'asc') { arrow_upward } @else if (sort().columnId === col.id && sort().direction === 'desc') { arrow_downward } @else { unfold_more }
+            </span>
+            }
+        </button>
+        }
+    </div>
+
+    <!-- Body -->
+    <div class="divide-y divide-solid divide-neutral-300/50">
+        @for (row of displayRows(); track row) {
+        <div class="flex items-center px-4 py-4 transition">
+            @for (col of columns; track col) {
+            <div class="px-3 py-1 text-sm truncate" [class]="col.width ?? 'flex-1'">
+                @if (hasTemplate(col.id)) {
+                <ng-container *ngTemplateOutlet="getTemplate(col.id); context: { $implicit: row, value: getValue(row, col) }"></ng-container>
+                } @else {
+                <span class="text-sm text-neutral-700 truncate">{{ getValue(row, col) }}</span>
+                }
+            </div>
+            }
+        </div>
+        }
+    </div>
+
+    <!-- Pagination -->
+    <div class="flex items-center justify-between px-4 py-3 border-t border-neutral-300/50">
+        <div class="flex items-center gap-3">
+            <button class="p-2 cursor-pointer transition" [disabled]="page() === 1" (click)="prevPage()" aria-label="Previous page">
+                <span class="material-icons">chevron_left</span>
+            </button>
+
+            <button class="p-2 cursor-pointer transition" [disabled]="page() === totalPages()" (click)="nextPage()" aria-label="Next page">
+                <span class="material-icons">chevron_right</span>
+            </button>
+
+            <div class="text-sm text-neutral-400">
+                Página <span class="">{{ page() }}</span> de <span class="">{{ totalPages() }}</span>
+            </div>
+        </div>
+
+        <div class="flex items-center gap-3">
+            <label class="text-sm text-neutral-600 flex items-center gap-2">
+                <span class="text-xs">Filas</span>
+                <select class="text-neutral-600 rounded px-2 py-1 text-sm" (change)="changePageSize($any($event.target).value)" [value]="pageSize()">
+                    @for (opt of pageSizeOptions; track opt ) {
+                    <option [value]="opt">{{ opt }}</option>
+                    }
+                </select>
+            </label>
+        </div>
+    </div>
+</div>
