@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { CommonModule } from '@angular/common';
 import { Component, Input, Output, EventEmitter, Directive, TemplateRef, ContentChildren, QueryList, signal, computed } from '@angular/core';
 
 
@@ -26,7 +27,7 @@ export class ModernTableCellDirective {
 
 @Component({
   selector: 'app-table',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './table.component.html',
   styleUrl: './table.component.css'
 })
@@ -127,11 +128,16 @@ export class TableComponent {
 
   // template template helpers
   hasTemplate(colId: string) {
-    return !!this.templates?.find(t => t.columnId === colId);
+
+    const hasIt = !!this.templates?.find(t => t.columnId === colId);
+    console.log('hasTemplate', colId, hasIt);
+    return hasIt;
   }
 
   getTemplate(colId: string) {
-    return this.templates?.find(t => t.columnId === colId)?.template ?? null;
+    const template = this.templates?.find(t => t.columnId === colId)?.template ?? null;
+    console.log('getTemplate', colId, template);
+    return template;
   }
 
   // trackBy for @for

@@ -1,4 +1,4 @@
-<div class="rounded-xl shadow-sm text-neutral-800 overflow-hidden">
+<div class="rounded-xl shadow-sm text-neutral-800 overflow-auto">
     <!-- Header -->
     <div class="flex items-center px-4 py-3 bg-gray-200/80">
         @for (col of columns; track col) {
@@ -42,7 +42,7 @@
                 <span class="material-icons">chevron_right</span>
             </button>
 
-            <div class="text-sm text-neutral-400">
+            <div class="text-sm text-neutral-600">
                 Página <span class="">{{ page() }}</span> de <span class="">{{ totalPages() }}</span>
             </div>
         </div>
