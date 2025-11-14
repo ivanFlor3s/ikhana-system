@@ -96,7 +96,7 @@ export class Button {
 
     // subtle elevation for solid
     if (this.variant === 'solid') {
-      parts.push('shadow-md');
+      parts.push('shadow-sm');
     } else {
       parts.push('shadow-none');
     }
