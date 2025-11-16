@@ -37,6 +37,22 @@ Esto va a:
 
 ### 4. Instalar dependencias y configurar Laravel
 
+**Opción A: Usar el script de setup automatizado (Recomendado) 🚀**
+
+```bash
+docker-compose exec app bash /usr/local/bin/setup.sh
+```
+
+Este script ejecuta automáticamente:
+- ✅ Instalación de dependencias de Composer
+- ✅ Generación de clave de aplicación
+- ✅ Espera a que la base de datos esté lista
+- ✅ Ejecución de migraciones
+- ✅ Generación de documentación API
+- ✅ Limpieza de cachés
+
+**Opción B: Manual (paso a paso)**
+
 ```bash
 # Entrar al contenedor de la aplicación
 docker-compose exec app bash
@@ -49,12 +65,6 @@ php artisan scribe:generate
 
 # Salir del contenedor
 exit
-```
-
-**O usar el script de setup (todo en uno):**
-
-```bash
-docker-compose exec app bash setup.sh
 ```
 
 ### 5. Verificar que todo esté funcionando

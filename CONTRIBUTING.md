@@ -125,7 +125,7 @@ use Illuminate\Http\JsonResponse;
 class NombreModeloController extends Controller
 {
     /**
-     * List all records
+     * Listar todos los registros
      */
     public function index(): JsonResponse
     {
@@ -134,12 +134,12 @@ class NombreModeloController extends Controller
         return response()->json([
             'success' => true,
             'data' => $records,
-            'message' => 'Records retrieved successfully'
+            'message' => 'Registros obtenidos exitosamente'
         ], 200);
     }
 
     /**
-     * Create a new record
+     * Crear un nuevo registro
      */
     public function store(Request $request): JsonResponse
     {
@@ -153,12 +153,12 @@ class NombreModeloController extends Controller
         return response()->json([
             'success' => true,
             'data' => $record,
-            'message' => 'Record created successfully'
+            'message' => 'Registro creado exitosamente'
         ], 201);
     }
 
     /**
-     * Get a single record
+     * Obtener un registro específico
      */
     public function show(string $id): JsonResponse
     {
@@ -167,12 +167,12 @@ class NombreModeloController extends Controller
         return response()->json([
             'success' => true,
             'data' => $record,
-            'message' => 'Record retrieved successfully'
+            'message' => 'Registro obtenido exitosamente'
         ], 200);
     }
 
     /**
-     * Update a record
+     * Actualizar un registro
      */
     public function update(Request $request, string $id): JsonResponse
     {
@@ -188,12 +188,12 @@ class NombreModeloController extends Controller
         return response()->json([
             'success' => true,
             'data' => $record->fresh(),
-            'message' => 'Record updated successfully'
+            'message' => 'Registro actualizado exitosamente'
         ], 200);
     }
 
     /**
-     * Delete a record
+     * Eliminar un registro
      */
     public function destroy(string $id): JsonResponse
     {
@@ -202,7 +202,7 @@ class NombreModeloController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'Record deleted successfully'
+            'message' => 'Registro eliminado exitosamente'
         ], 200);
     }
 }
@@ -289,7 +289,7 @@ public function getNombreEnums(): JsonResponse
     return response()->json([
         'success' => true,
         'data' => NombreEnum::toArray(),
-        'message' => 'Options retrieved successfully'
+        'message' => 'Opciones obtenidas exitosamente'
     ], 200);
 }
 ```
@@ -334,7 +334,7 @@ Usa anotaciones PHPDoc en los controladores:
  * @response 200 scenario="success" {
  *   "success": true,
  *   "data": {},
- *   "message": "Success message"
+ *   "message": "Mensaje de éxito"
  * }
  */
 public function metodo()
@@ -355,10 +355,10 @@ git checkout -b feature/nombre-de-la-feature
 
 ```bash
 git add .
-git commit -m "feat: add customer module"
+git commit -m "feat: agregar módulo de clientes"
 ```
 
-### Tipos de commits
+### Tipos de commits (Conventional Commits)
 
 - `feat:` Nueva funcionalidad
 - `fix:` Corrección de bug
@@ -366,6 +366,8 @@ git commit -m "feat: add customer module"
 - `refactor:` Refactorización de código
 - `test:` Agregar tests
 - `chore:` Cambios en configuración
+- `style:` Cambios de formato (sin afectar lógica)
+- `perf:` Mejoras de rendimiento
 
 ### Push y Pull Request
 
@@ -375,20 +377,117 @@ git push origin feature/nombre-de-la-feature
 
 Luego crea un Pull Request en GitHub.
 
-## ✅ Checklist antes de PR
+## ✅ Checklist antes de hacer PR
 
-- [ ] Código sigue las convenciones del proyecto
-- [ ] Tests agregados/actualizados
+- [ ] El código sigue las convenciones del proyecto
+- [ ] Tests agregados/actualizados y pasando
 - [ ] Documentación regenerada (`php artisan scribe:generate`)
-- [ ] Migraciones probadas
+- [ ] Migraciones probadas y funcionando
 - [ ] No hay errores de linting
-- [ ] Commit messages descriptivos
+- [ ] Commit messages son descriptivos
+- [ ] Las variables de entorno necesarias están documentadas
+- [ ] Se actualizó el README si es necesario
 
-## 🆘 Ayuda
+## 📝 Buenas Prácticas
 
-Si tienes dudas, consulta:
-- `README.md` - Documentación general
-- `ESTRUCTURA.md` - Estructura del proyecto
+### Validaciones
+- Siempre validar inputs en los controladores
+- Usar Form Requests para validaciones complejas
+- Definir reglas de validación claras y específicas
+
+### Modelos
+- Definir `$fillable` o `$guarded` explícitamente
+- Usar `$casts` para tipos de datos
+- Implementar relaciones de forma clara
+- Usar Soft Deletes cuando sea apropiado
+
+### Controladores
+- Mantenerlos simples y enfocados (Single Responsibility)
+- No incluir lógica de negocio compleja
+- Usar Services para lógica compleja
+- Retornar respuestas JSON consistentes
+
+### Base de Datos
+- Usar migraciones para TODOS los cambios de esquema
+- Nunca modificar migraciones ya ejecutadas en producción
+- Crear seeders para datos de prueba
+- Usar índices apropiadamente
+
+### Seguridad
+- Nunca commitear archivos `.env`
+- Validar TODOS los inputs del usuario
+- Usar prepared statements (Eloquent lo hace por defecto)
+- Sanitizar datos antes de mostrarlos
+
+## 🆘 Ayuda y Recursos
+
+### Documentación del Proyecto
+- `README.md` - Documentación general e instalación
+- `ESTRUCTURA.md` - Estructura detallada del proyecto
 - `DOCUMENTACION_API.md` - Guía de la API
-- O pregunta en el equipo
+- `ENUMS_FRONTEND.md` - Ejemplos para integración frontend
 
+### Recursos Externos
+- [Laravel 11 Documentation](https://laravel.com/docs/11.x)
+- [Docker Documentation](https://docs.docker.com/)
+- [Conventional Commits](https://www.conventionalcommits.org/)
+- [REST API Best Practices](https://restfulapi.net/)
+
+### Comandos Útiles
+
+```bash
+# Ver logs en tiempo real
+docker-compose logs -f app
+
+# Reiniciar contenedores
+docker-compose restart
+
+# Acceder a MySQL
+docker-compose exec db mysql -u ikhana -proot ikhana
+
+# Limpiar todo y empezar de cero
+docker-compose down -v
+docker-compose up -d --build
+docker-compose exec app bash /usr/local/bin/setup.sh
+
+# Ver rutas disponibles
+docker-compose exec app php artisan route:list
+
+# Crear migración
+docker-compose exec app php artisan make:migration nombre_descriptivo
+
+# Rollback última migración
+docker-compose exec app php artisan migrate:rollback
+
+# Refrescar base de datos (⚠️ borra todos los datos)
+docker-compose exec app php artisan migrate:fresh
+```
+
+## 🐛 Troubleshooting
+
+### El contenedor no arranca
+```bash
+docker-compose down
+docker-compose up -d --build
+```
+
+### Error de permisos en storage/
+```bash
+docker-compose exec app chmod -R 775 storage bootstrap/cache
+docker-compose exec app chown -R www-data:www-data storage bootstrap/cache
+```
+
+### La documentación no se genera
+```bash
+docker-compose exec app composer require knuckleswtf/scribe --dev
+docker-compose exec app php artisan scribe:generate
+```
+
+### No conecta a la base de datos
+- Verifica que el contenedor de MySQL esté corriendo: `docker-compose ps`
+- Revisa el `.env`: host debe ser `db` (nombre del servicio en docker-compose)
+- Espera unos segundos, MySQL tarda en iniciar la primera vez
+
+---
+
+Si tienes dudas o encuentras problemas, no dudes en preguntar al equipo o abrir un issue en GitHub.

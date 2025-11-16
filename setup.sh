@@ -1,40 +1,40 @@
 #!/bin/bash
 
-echo "🚀 Setting up Ikhana Backend..."
+echo "🚀 Configurando Ikhana Backend..."
 
-# Install dependencies
-echo "📦 Installing Composer dependencies..."
+# Instalar dependencias
+echo "📦 Instalando dependencias de Composer..."
 composer install --no-interaction --prefer-dist --optimize-autoloader
 
-# Generate application key
-echo "🔑 Generating application key..."
+# Generar clave de aplicación
+echo "🔑 Generando clave de aplicación..."
 php artisan key:generate --ansi
 
-# Wait for database
-echo "⏳ Waiting for database connection..."
+# Esperar conexión a la base de datos
+echo "⏳ Esperando conexión a la base de datos..."
 until php artisan db:show 2>/dev/null; do
-    echo "Waiting for database..."
+    echo "Esperando base de datos..."
     sleep 2
 done
 
-# Run migrations
-echo "📊 Running migrations..."
+# Ejecutar migraciones
+echo "📊 Ejecutando migraciones..."
 php artisan migrate --force
 
-# Generate API documentation
-echo "📚 Generating API documentation..."
+# Generar documentación de la API
+echo "📚 Generando documentación de la API..."
 php artisan scribe:generate
 
-# Clear caches
-echo "🧹 Clearing caches..."
+# Limpiar cachés
+echo "🧹 Limpiando cachés..."
 php artisan config:clear
 php artisan cache:clear
 php artisan route:clear
 
 echo ""
-echo "✅ Setup completed successfully!"
+echo "✅ ¡Configuración completada exitosamente!"
 echo ""
-echo "🌐 API available at: http://localhost:8000/api"
-echo "📖 API Documentation: http://localhost:8000/docs"
+echo "🌐 API disponible en: http://localhost:8000/api"
+echo "📖 Documentación API: http://localhost:8000/docs"
 echo ""
 
