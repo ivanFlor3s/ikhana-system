@@ -17,7 +17,7 @@
     <!-- Body -->
     <div class="divide-y divide-solid divide-neutral-300/50">
         @for (row of displayRows(); track row) {
-        <div class="flex items-center px-4 py-4 transition">
+        <div class="flex items-center px-3 py-2 transition hover:bg-gray-200/90">
             @for (col of columns; track col) {
             <div class="px-3 py-1 text-sm truncate" [class]="col.width ?? 'flex-1'">
                 @if (hasTemplate(col.id)) {
