@@ -1,75 +1,17 @@
-<div class="demo-button-container">
-    <button mat-raised-button (click)="addData()" class="demo-button">Add data</button>
-    <button mat-raised-button [disabled]="!dataToDisplay.length" (click)="removeData()" class="demo-button">Remove data</button>
-</div>
+<app-table [columns]="columns" [data]="providers()" [initialPageSize]="10" [pageSizeOptions]="[5, 10, 20]">
+    <!-- custom renderer para la columna 'status' -->
+    <ng-template modernTableCell="status" let-row let-value="value">
+        <span class="px-2 py-1 text-xs rounded-full" [class.bg-green-600]="value === 'ok'" [class.bg-yellow-600]="value === 'pending'" [class.bg-red-600]="value === 'error'">
+            {{ value }}
+            {{ row | json }}
+        </span>
+    </ng-template>
 
-<table class="w-full border-collapse mt-4">
-    <thead class="h-16 bg-gray-200">
-        <tr class="uppercase text-sm">
-            <th class="font-normal text-slate-800 text-start">State</th>
-            <th class="font-normal text-slate-800 text-start">State</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td class="h-16 border border-gray-300">Indiana</td>
-            <td class="h-16 border border-gray-300">Indianapolis</td>
-        </tr>
-        <tr>
-            <td class="h-16 border border-gray-300">Ohio</td>
-            <td class="h-16 border border-gray-300">Columbus</td>
-        </tr>
-        <tr>
-            <td class="h-16 border border-gray-300">Michigan</td>
-            <td class="h-16 border border-gray-300">Detroit</td>
-        </tr>
-        <tr>
-            <td class="h-16 border border-gray-300">Indiana</td>
-            <td class="h-16 border border-gray-300">Indianapolis</td>
-        </tr>
-        <tr>
-            <td class="h-16 border border-gray-300">Ohio</td>
-            <td class="h-16 border border-gray-300">Columbus</td>
-        </tr>
-        <tr>
-            <td class="h-16 border border-gray-300">Michigan</td>
-            <td class="h-16 border border-gray-300">Detroit</td>
-        </tr>
-        <tr>
-            <td class="h-16 border border-gray-300">Indiana</td>
-            <td class="h-16 border border-gray-300">Indianapolis</td>
-        </tr>
-        <tr>
-            <td class="h-16 border border-gray-300">Ohio</td>
-            <td class="h-16 border border-gray-300">Columbus</td>
-        </tr>
-        <tr>
-            <td class="h-16 border border-gray-300">Michigan</td>
-            <td class="h-16 border border-gray-300">Detroit</td>
-        </tr>
-        <tr>
-            <td class="h-16 border border-gray-300">Indiana</td>
-            <td class="h-16 border border-gray-300">Indianapolis</td>
-        </tr>
-        <tr>
-            <td class="h-16 border border-gray-300">Ohio</td>
-            <td class="h-16 border border-gray-300">Columbus</td>
-        </tr>
-        <tr>
-            <td class="h-16 border border-gray-300">Michigan</td>
-            <td class="h-16 border border-gray-300">Detroit</td>
-        </tr>
-        <tr>
-            <td class="h-16 border border-gray-300">Indiana</td>
-            <td class="h-16 border border-gray-300">Indianapolis</td>
-        </tr>
-        <tr>
-            <td class="h-16 border border-gray-300">Ohio</td>
-            <td class="h-16 border border-gray-300">Columbus</td>
-        </tr>
-        <tr>
-            <td class="h-16 border border-gray-300">Michigan</td>
-            <td class="h-16 border border-gray-300">Detroit</td>
-        </tr>
-    </tbody>
-</table>
+    <!-- custom renderer para columna 'actions' -->
+    <ng-template modernTableCell="actions" let-row>
+        <div class="flex gap-2">
+            <button class="cursor-pointer text-shadow-neutral-500 hover:text-neutral-700 rounded"><span class="material-icons-outlined">edit</span></button>
+            <button class="cursor-pointer text-shadow-neutral-500 hover:text-neutral-700 rounded"><span class="material-icons-outlined">delete</span></button>
+        </div>
+    </ng-template>
+</app-table>
