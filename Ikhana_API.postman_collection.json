@@ -1,0 +1,174 @@
+{
+  "info": {
+    "name": "Ikhana API - Providers",
+    "_postman_id": "ikhana-providers-api",
+    "description": "API RESTful para gestión de proveedores",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8000/api",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Providers",
+      "item": [
+        {
+          "name": "List All Providers",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/providers",
+              "host": ["{{base_url}}"],
+              "path": ["providers"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Provider by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/providers/1",
+              "host": ["{{base_url}}"],
+              "path": ["providers", "1"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Provider",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fantasy_name\": \"Proveedor Demo\",\n  \"business_name\": \"Proveedor Demo S.A.\",\n  \"cuit\": \"20-12345678-9\",\n  \"iibb\": \"901-123456-7\",\n  \"tax_status\": \"Responsable Inscripto\",\n  \"agreement\": \"Convenio Multilateral\",\n  \"phone_1\": \"+54 11 1234-5678\",\n  \"phone_2\": \"+54 11 8765-4321\",\n  \"email_1\": \"contacto@proveedor.com\",\n  \"email_2\": \"ventas@proveedor.com\",\n  \"address\": \"Av. Corrientes 1234, CABA, Argentina\",\n  \"website\": \"https://proveedordemo.com\",\n  \"contact_name\": \"Juan Pérez\",\n  \"observations\": \"Proveedor preferencial con descuentos especiales\",\n  \"business_hours_start\": \"09:00\",\n  \"business_hours_end\": \"18:00\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/providers",
+              "host": ["{{base_url}}"],
+              "path": ["providers"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Provider (Minimal)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"business_name\": \"Proveedor Simple\",\n  \"cuit\": \"27-98765432-1\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/providers",
+              "host": ["{{base_url}}"],
+              "path": ["providers"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Provider",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fantasy_name\": \"Proveedor Actualizado\",\n  \"phone_1\": \"+54 11 9999-9999\",\n  \"email_1\": \"nuevo@proveedor.com\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/providers/1",
+              "host": ["{{base_url}}"],
+              "path": ["providers", "1"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Provider",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/providers/1",
+              "host": ["{{base_url}}"],
+              "path": ["providers", "1"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:8000",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8000"
+        }
+      },
+      "response": []
+    }
+  ]
+}
+
