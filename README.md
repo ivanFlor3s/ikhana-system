@@ -131,7 +131,7 @@ La API sigue principios RESTful con las siguientes convenciones:
 
 ### Endpoints Disponibles
 
-Para ver todos los endpoints disponibles con ejemplos completos, visita la documentación interactiva:
+Para ver todos los endpoints disponibles con ejemplos completos, visita la documentación interactiva en:
 
 👉 **http://localhost:8000/docs**
 
