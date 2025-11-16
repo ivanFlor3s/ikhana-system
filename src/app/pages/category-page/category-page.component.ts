@@ -77,6 +77,72 @@ export class CategoryPageComponent {
 
       since: { hour: 10, minute: 0 },
       to: { hour: 16, minute: 30 }
+    },
+    {
+      id: 4,
+      name: 'Soluciones Médicas SRL',
+      cuit: '30-98541235-6',
+      iib: '789-123654-8',
+      address: 'Av. Santa Fe 5400, CABA',
+      socialReason: 'Soluciones Médicas SRL',
+      ivaPosition: 'Responsable Inscripto',
+      convenio: 'No',
+      website: 'https://www.solucionesmedicas.com',
+
+      phone: '011-4700-8000',
+      otherPhones: [],
+
+      email: 'administracion@solucionesmedicas.com',
+      otherEmails: ['pagos@solucionesmedicas.com'],
+
+      observations: 'Solicitan orden de compra previa.',
+
+      since: { hour: 10, minute: 0 },
+      to: { hour: 16, minute: 30 }
+    },
+    {
+      id: 5,
+      name: 'Soluciones Médicas SRL',
+      cuit: '30-98541235-6',
+      iib: '789-123654-8',
+      address: 'Av. Santa Fe 5400, CABA',
+      socialReason: 'Soluciones Médicas SRL',
+      ivaPosition: 'Responsable Inscripto',
+      convenio: 'No',
+      website: 'https://www.solucionesmedicas.com',
+
+      phone: '011-4700-8000',
+      otherPhones: [],
+
+      email: 'administracion@solucionesmedicas.com',
+      otherEmails: ['pagos@solucionesmedicas.com'],
+
+      observations: 'Solicitan orden de compra previa.',
+
+      since: { hour: 10, minute: 0 },
+      to: { hour: 16, minute: 30 }
+    },
+    {
+      id: 6,
+      name: 'Soluciones Médicas SRL',
+      cuit: '30-98541235-6',
+      iib: '789-123654-8',
+      address: 'Av. Santa Fe 5400, CABA',
+      socialReason: 'Soluciones Médicas SRL',
+      ivaPosition: 'Responsable Inscripto',
+      convenio: 'No',
+      website: 'https://www.solucionesmedicas.com',
+
+      phone: '011-4700-8000',
+      otherPhones: [],
+
+      email: 'administracion@solucionesmedicas.com',
+      otherEmails: ['pagos@solucionesmedicas.com'],
+
+      observations: 'Solicitan orden de compra previa.',
+
+      since: { hour: 10, minute: 0 },
+      to: { hour: 16, minute: 30 }
     }
   ]
 
