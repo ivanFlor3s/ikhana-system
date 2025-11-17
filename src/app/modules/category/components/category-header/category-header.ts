@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Output } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { Button } from '../../../../shared/components/button/button';
 
@@ -9,4 +9,8 @@ import { Button } from '../../../../shared/components/button/button';
   styleUrl: './category-header.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CategoryHeader { }
+export class CategoryHeader {
+
+  @Output() createClicked = new EventEmitter<void>();
+
+}

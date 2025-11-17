@@ -130,13 +130,11 @@ export class TableComponent {
   hasTemplate(colId: string) {
 
     const hasIt = !!this.templates?.find(t => t.columnId === colId);
-    console.log('hasTemplate', colId, hasIt);
     return hasIt;
   }
 
   getTemplate(colId: string) {
     const template = this.templates?.find(t => t.columnId === colId)?.template ?? null;
-    console.log('getTemplate', colId, template);
     return template;
   }
 

@@ -1,11 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CategoryListComponent } from '../../modules/category/components/category-list/category-list.component';
 import { CategoryHeader } from '../../modules/category/components/category-header/category-header';
 import { Provider } from '../../models/provider';
+import { MatDialog } from '@angular/material/dialog';
+import { ProviderCreateOrEdit } from '../../modules/category/dialogs/provider-create-or-edit/provider-create-or-edit';
 
 @Component({
   selector: 'app-category-page',
-  imports: [CategoryListComponent, CategoryHeader],
+  imports: [CategoryListComponent, CategoryHeader,],
   templateUrl: './category-page.component.html',
   styleUrl: './category-page.component.css'
 })
@@ -145,5 +147,20 @@ export class CategoryPageComponent {
       to: { hour: 16, minute: 30 }
     }
   ]
+
+  readonly dialog = inject(MatDialog);
+
+  openProviderDialog() {
+    console.log('Open provider dialog');
+
+    const dialogRef = this.dialog.open(ProviderCreateOrEdit, {
+      width: '800px',
+    });
+
+    dialogRef.afterClosed().subscribe(() => {
+      console.log('The dialog was closed');
+    });
+
+  }
 
 }
