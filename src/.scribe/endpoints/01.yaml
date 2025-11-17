@@ -1,7 +1,7 @@
-name: 'System Enums'
+name: 'Opciones del Sistema'
 description: |-
 
-  APIs for getting system enumerations and select options
+  APIs para obtener enumeraciones y opciones para campos select
 endpoints:
   -
     custom: []
@@ -10,14 +10,14 @@ endpoints:
     uri: api/tax-statuses
     metadata:
       custom: []
-      groupName: 'System Enums'
+      groupName: 'Opciones del Sistema'
       groupDescription: |-
 
-        APIs for getting system enumerations and select options
+        APIs para obtener enumeraciones y opciones para campos select
       subgroup: ''
       subgroupDescription: ''
-      title: 'Get tax status options'
-      description: 'Get all available tax status options for the "Posición frente al IVA" field.'
+      title: 'Obtener opciones de posición frente al IVA'
+      description: 'Obtiene todas las opciones disponibles para el campo "Posición frente al IVA".'
       authenticated: false
       deprecated: false
     headers:
@@ -51,7 +51,7 @@ endpoints:
                 "label": "IVA no Responsable"
               }
             ],
-            "message": "Tax status options retrieved successfully"
+            "message": "Opciones de posición frente al IVA obtenidas exitosamente"
           }
         headers: []
         description: success
@@ -67,14 +67,14 @@ endpoints:
     uri: api/agreements
     metadata:
       custom: []
-      groupName: 'System Enums'
+      groupName: 'Opciones del Sistema'
       groupDescription: |-
 
-        APIs for getting system enumerations and select options
+        APIs para obtener enumeraciones y opciones para campos select
       subgroup: ''
       subgroupDescription: ''
-      title: 'Get agreement options'
-      description: 'Get all available agreement options for the "Convenio" field.'
+      title: 'Obtener opciones de convenio'
+      description: 'Obtiene todas las opciones disponibles para el campo "Convenio".'
       authenticated: false
       deprecated: false
     headers:
@@ -100,7 +100,7 @@ endpoints:
                 "label": "Convenio Multilateral"
               }
             ],
-            "message": "Agreement options retrieved successfully"
+            "message": "Opciones de convenio obtenidas exitosamente"
           }
         headers: []
         description: success

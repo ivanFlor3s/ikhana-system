@@ -1,7 +1,7 @@
-name: 'Provider Management'
+name: 'Gestión de Proveedores'
 description: |-
 
-  APIs for managing providers (suppliers/vendors)
+  APIs para gestionar proveedores (suppliers/vendors)
 endpoints:
   -
     custom: []
@@ -10,14 +10,14 @@ endpoints:
     uri: api/providers
     metadata:
       custom: []
-      groupName: 'Provider Management'
+      groupName: 'Gestión de Proveedores'
       groupDescription: |-
 
-        APIs for managing providers (suppliers/vendors)
+        APIs para gestionar proveedores (suppliers/vendors)
       subgroup: ''
       subgroupDescription: ''
-      title: 'List all providers'
-      description: 'Get a paginated list of all providers in the system.'
+      title: 'Listar todos los proveedores'
+      description: 'Obtiene una lista de todos los proveedores del sistema.'
       authenticated: false
       deprecated: false
     headers:
@@ -60,7 +60,7 @@ endpoints:
                 "deleted_at": null
               }
             ],
-            "message": "Providers retrieved successfully"
+            "message": "Proveedores obtenidos exitosamente"
           }
         headers: []
         description: success
@@ -76,14 +76,14 @@ endpoints:
     uri: api/providers
     metadata:
       custom: []
-      groupName: 'Provider Management'
+      groupName: 'Gestión de Proveedores'
       groupDescription: |-
 
-        APIs for managing providers (suppliers/vendors)
+        APIs para gestionar proveedores (suppliers/vendors)
       subgroup: ''
       subgroupDescription: ''
-      title: 'Create a new provider'
-      description: 'Store a newly created provider in the database.'
+      title: 'Crear un nuevo proveedor'
+      description: 'Crea y almacena un nuevo proveedor en la base de datos.'
       authenticated: false
       deprecated: false
     headers:
@@ -97,7 +97,7 @@ endpoints:
       business_name:
         custom: []
         name: business_name
-        description: 'The legal business name.'
+        description: 'Razón social del proveedor.'
         required: true
         example: 'Proveedor Demo S.A.'
         type: string
@@ -108,7 +108,7 @@ endpoints:
       fantasy_name:
         custom: []
         name: fantasy_name
-        description: 'optional The fantasy/trade name.'
+        description: 'optional Nombre de fantasía.'
         required: false
         example: 'Proveedor Demo'
         type: string
@@ -119,7 +119,7 @@ endpoints:
       cuit:
         custom: []
         name: cuit
-        description: 'Unique tax identification number (CUIT).'
+        description: 'CUIT único (número de identificación tributaria).'
         required: true
         example: 20-12345678-9
         type: string
@@ -130,7 +130,7 @@ endpoints:
       iibb:
         custom: []
         name: iibb
-        description: 'optional Provincial tax identification.'
+        description: 'optional Ingresos Brutos.'
         required: false
         example: 901-123456-7
         type: string
@@ -141,7 +141,7 @@ endpoints:
       tax_status:
         custom: []
         name: tax_status
-        description: 'optional Tax status value (use GET /api/tax-statuses to get options).'
+        description: 'optional Posición frente al IVA (usar GET /api/tax-statuses para obtener opciones).'
         required: false
         example: '1'
         type: string
@@ -152,7 +152,7 @@ endpoints:
       agreement:
         custom: []
         name: agreement
-        description: 'optional Agreement value (use GET /api/agreements to get options).'
+        description: 'optional Convenio (usar GET /api/agreements para obtener opciones).'
         required: false
         example: convenio_multilateral
         type: string
@@ -163,7 +163,7 @@ endpoints:
       phone_1:
         custom: []
         name: phone_1
-        description: 'optional Primary phone number.'
+        description: 'optional Teléfono principal.'
         required: false
         example: '+54 11 1234-5678'
         type: string
@@ -174,7 +174,7 @@ endpoints:
       phone_2:
         custom: []
         name: phone_2
-        description: 'optional Secondary phone number.'
+        description: 'optional Teléfono secundario.'
         required: false
         example: '+54 11 8765-4321'
         type: string
@@ -185,7 +185,7 @@ endpoints:
       email_1:
         custom: []
         name: email_1
-        description: 'optional Primary email address.'
+        description: 'optional Email principal.'
         required: false
         example: contacto@proveedor.com
         type: string
@@ -196,7 +196,7 @@ endpoints:
       email_2:
         custom: []
         name: email_2
-        description: 'optional Secondary email address.'
+        description: 'optional Email secundario.'
         required: false
         example: ventas@proveedor.com
         type: string
@@ -207,7 +207,7 @@ endpoints:
       address:
         custom: []
         name: address
-        description: 'optional Physical address.'
+        description: 'optional Dirección física.'
         required: false
         example: 'Av. Corrientes 1234, CABA'
         type: string
@@ -218,7 +218,7 @@ endpoints:
       website:
         custom: []
         name: website
-        description: 'optional Website URL.'
+        description: 'optional Sitio web.'
         required: false
         example: 'https://proveedor.com'
         type: string
@@ -229,7 +229,7 @@ endpoints:
       contact_name:
         custom: []
         name: contact_name
-        description: 'optional Contact person name.'
+        description: 'optional Nombre de contacto.'
         required: false
         example: 'Juan Pérez'
         type: string
@@ -240,7 +240,7 @@ endpoints:
       observations:
         custom: []
         name: observations
-        description: 'optional Additional notes.'
+        description: 'optional Observaciones adicionales.'
         required: false
         example: 'Cliente preferencial'
         type: string
@@ -251,7 +251,7 @@ endpoints:
       business_hours_start:
         custom: []
         name: business_hours_start
-        description: 'optional Opening time (HH:MM).'
+        description: 'optional Horario de apertura (HH:MM).'
         required: false
         example: '09:00'
         type: string
@@ -262,7 +262,7 @@ endpoints:
       business_hours_end:
         custom: []
         name: business_hours_end
-        description: 'optional Closing time (HH:MM).'
+        description: 'optional Horario de cierre (HH:MM).'
         required: false
         example: '18:00'
         type: string
@@ -303,7 +303,7 @@ endpoints:
               "created_at": "2024-11-16T10:00:00.000000Z",
               "updated_at": "2024-11-16T10:00:00.000000Z"
             },
-            "message": "Provider created successfully"
+            "message": "Proveedor creado exitosamente"
           }
         headers: []
         description: success
@@ -313,14 +313,14 @@ endpoints:
         content: |-
           {
             "success": false,
-            "message": "Validation error",
+            "message": "Error de validación",
             "errors": {
-              "cuit": ["The cuit field is required."],
-              "business_name": ["The business name field is required."]
+              "cuit": ["El campo CUIT es requerido."],
+              "business_name": ["El campo razón social es requerido."]
             }
           }
         headers: []
-        description: 'validation error'
+        description: 'error de validación'
     responseFields: []
     auth: []
     controller: null
@@ -333,14 +333,14 @@ endpoints:
     uri: 'api/providers/{id}'
     metadata:
       custom: []
-      groupName: 'Provider Management'
+      groupName: 'Gestión de Proveedores'
       groupDescription: |-
 
-        APIs for managing providers (suppliers/vendors)
+        APIs para gestionar proveedores (suppliers/vendors)
       subgroup: ''
       subgroupDescription: ''
-      title: 'Get a single provider'
-      description: 'Retrieve detailed information about a specific provider by ID.'
+      title: 'Obtener un proveedor específico'
+      description: 'Obtiene información detallada de un proveedor específico por su ID.'
       authenticated: false
       deprecated: false
     headers:
@@ -350,7 +350,7 @@ endpoints:
       id:
         custom: []
         name: id
-        description: 'The provider ID.'
+        description: 'ID del proveedor.'
         required: true
         example: 1
         type: integer
@@ -391,7 +391,7 @@ endpoints:
               "created_at": "2024-11-16T10:00:00.000000Z",
               "updated_at": "2024-11-16T10:00:00.000000Z"
             },
-            "message": "Provider retrieved successfully"
+            "message": "Proveedor obtenido exitosamente"
           }
         headers: []
         description: success
@@ -401,10 +401,10 @@ endpoints:
         content: |-
           {
             "success": false,
-            "message": "Provider not found"
+            "message": "Proveedor no encontrado"
           }
         headers: []
-        description: 'not found'
+        description: 'no encontrado'
     responseFields: []
     auth: []
     controller: null
@@ -417,14 +417,14 @@ endpoints:
     uri: 'api/providers/{id}'
     metadata:
       custom: []
-      groupName: 'Provider Management'
+      groupName: 'Gestión de Proveedores'
       groupDescription: |-
 
-        APIs for managing providers (suppliers/vendors)
+        APIs para gestionar proveedores (suppliers/vendors)
       subgroup: ''
       subgroupDescription: ''
-      title: 'Update a provider'
-      description: "Update an existing provider's information. Only send the fields you want to update."
+      title: 'Actualizar un proveedor'
+      description: 'Actualiza la información de un proveedor existente. Solo envía los campos que deseas actualizar.'
       authenticated: false
       deprecated: false
     headers:
@@ -434,7 +434,7 @@ endpoints:
       id:
         custom: []
         name: id
-        description: 'The provider ID.'
+        description: 'ID del proveedor.'
         required: true
         example: 1
         type: integer
@@ -450,7 +450,7 @@ endpoints:
       business_name:
         custom: []
         name: business_name
-        description: 'optional The legal business name.'
+        description: 'optional Razón social.'
         required: false
         example: 'Proveedor Actualizado S.A.'
         type: string
@@ -461,7 +461,7 @@ endpoints:
       fantasy_name:
         custom: []
         name: fantasy_name
-        description: 'optional The fantasy/trade name.'
+        description: 'optional Nombre de fantasía.'
         required: false
         example: 'Proveedor Actualizado'
         type: string
@@ -472,7 +472,7 @@ endpoints:
       phone_2:
         custom: []
         name: phone_2
-        description: 'optional Secondary phone number.'
+        description: 'optional Teléfono secundario.'
         required: false
         example: '+54 11 9999-8888'
         type: string
@@ -483,7 +483,7 @@ endpoints:
       email_2:
         custom: []
         name: email_2
-        description: 'optional Secondary email address.'
+        description: 'optional Email secundario.'
         required: false
         example: nuevo@proveedor.com
         type: string
@@ -511,7 +511,7 @@ endpoints:
               "cuit": "20-12345678-9",
               "updated_at": "2024-11-16T11:00:00.000000Z"
             },
-            "message": "Provider updated successfully"
+            "message": "Proveedor actualizado exitosamente"
           }
         headers: []
         description: success
@@ -521,23 +521,23 @@ endpoints:
         content: |-
           {
             "success": false,
-            "message": "Provider not found"
+            "message": "Proveedor no encontrado"
           }
         headers: []
-        description: 'not found'
+        description: 'no encontrado'
       -
         custom: []
         status: 422
         content: |-
           {
             "success": false,
-            "message": "Validation error",
+            "message": "Error de validación",
             "errors": {
-              "email_2": ["The email 2 must be a valid email address."]
+              "email_2": ["El email 2 debe ser una dirección de correo válida."]
             }
           }
         headers: []
-        description: 'validation error'
+        description: 'error de validación'
     responseFields: []
     auth: []
     controller: null
@@ -550,14 +550,14 @@ endpoints:
     uri: 'api/providers/{id}'
     metadata:
       custom: []
-      groupName: 'Provider Management'
+      groupName: 'Gestión de Proveedores'
       groupDescription: |-
 
-        APIs for managing providers (suppliers/vendors)
+        APIs para gestionar proveedores (suppliers/vendors)
       subgroup: ''
       subgroupDescription: ''
-      title: 'Delete a provider'
-      description: 'Soft delete a provider from the system. The provider will be marked as deleted but not permanently removed.'
+      title: 'Eliminar un proveedor'
+      description: 'Elimina un proveedor del sistema (soft delete). El proveedor será marcado como eliminado pero no se borrará permanentemente.'
       authenticated: false
       deprecated: false
     headers:
@@ -567,7 +567,7 @@ endpoints:
       id:
         custom: []
         name: id
-        description: 'The provider ID.'
+        description: 'ID del proveedor.'
         required: true
         example: 1
         type: integer
@@ -589,7 +589,7 @@ endpoints:
         content: |-
           {
             "success": true,
-            "message": "Provider deleted successfully"
+            "message": "Proveedor eliminado exitosamente"
           }
         headers: []
         description: success
@@ -599,10 +599,10 @@ endpoints:
         content: |-
           {
             "success": false,
-            "message": "Provider not found"
+            "message": "Proveedor no encontrado"
           }
         headers: []
-        description: 'not found'
+        description: 'no encontrado'
     responseFields: []
     auth: []
     controller: null

@@ -8,16 +8,16 @@ use App\Enums\Agreement;
 use Illuminate\Http\JsonResponse;
 
 /**
- * @group System Enums
+ * @group Opciones del Sistema
  * 
- * APIs for getting system enumerations and select options
+ * APIs para obtener enumeraciones y opciones para campos select
  */
 class EnumController extends Controller
 {
     /**
-     * Get tax status options
+     * Obtener opciones de posición frente al IVA
      * 
-     * Get all available tax status options for the "Posición frente al IVA" field.
+     * Obtiene todas las opciones disponibles para el campo "Posición frente al IVA".
      * 
      * @response 200 scenario="success" {
      *   "success": true,
@@ -35,7 +35,7 @@ class EnumController extends Controller
      *       "label": "IVA no Responsable"
      *     }
      *   ],
-     *   "message": "Tax status options retrieved successfully"
+     *   "message": "Opciones de posición frente al IVA obtenidas exitosamente"
      * }
      */
     public function getTaxStatuses(): JsonResponse
@@ -43,14 +43,14 @@ class EnumController extends Controller
         return response()->json([
             'success' => true,
             'data' => TaxStatus::toArray(),
-            'message' => 'Tax status options retrieved successfully'
+            'message' => 'Opciones de posición frente al IVA obtenidas exitosamente'
         ], 200);
     }
 
     /**
-     * Get agreement options
+     * Obtener opciones de convenio
      * 
-     * Get all available agreement options for the "Convenio" field.
+     * Obtiene todas las opciones disponibles para el campo "Convenio".
      * 
      * @response 200 scenario="success" {
      *   "success": true,
@@ -60,7 +60,7 @@ class EnumController extends Controller
      *       "label": "Convenio Multilateral"
      *     }
      *   ],
-     *   "message": "Agreement options retrieved successfully"
+     *   "message": "Opciones de convenio obtenidas exitosamente"
      * }
      */
     public function getAgreements(): JsonResponse
@@ -68,7 +68,7 @@ class EnumController extends Controller
         return response()->json([
             'success' => true,
             'data' => Agreement::toArray(),
-            'message' => 'Agreement options retrieved successfully'
+            'message' => 'Opciones de convenio obtenidas exitosamente'
         ], 200);
     }
 }

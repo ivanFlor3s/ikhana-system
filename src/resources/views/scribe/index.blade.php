@@ -76,38 +76,38 @@
                             </li>
                                                                         </ul>
                             </ul>
-                    <ul id="tocify-header-provider-management" class="tocify-header">
-                <li class="tocify-item level-1" data-unique="provider-management">
-                    <a href="#provider-management">Provider Management</a>
+                    <ul id="tocify-header-gestion-de-proveedores" class="tocify-header">
+                <li class="tocify-item level-1" data-unique="gestion-de-proveedores">
+                    <a href="#gestion-de-proveedores">Gestión de Proveedores</a>
                 </li>
-                                    <ul id="tocify-subheader-provider-management" class="tocify-subheader">
-                                                    <li class="tocify-item level-2" data-unique="provider-management-GETapi-providers">
-                                <a href="#provider-management-GETapi-providers">List all providers</a>
+                                    <ul id="tocify-subheader-gestion-de-proveedores" class="tocify-subheader">
+                                                    <li class="tocify-item level-2" data-unique="gestion-de-proveedores-GETapi-providers">
+                                <a href="#gestion-de-proveedores-GETapi-providers">Listar todos los proveedores</a>
                             </li>
-                                                                                <li class="tocify-item level-2" data-unique="provider-management-POSTapi-providers">
-                                <a href="#provider-management-POSTapi-providers">Create a new provider</a>
+                                                                                <li class="tocify-item level-2" data-unique="gestion-de-proveedores-POSTapi-providers">
+                                <a href="#gestion-de-proveedores-POSTapi-providers">Crear un nuevo proveedor</a>
                             </li>
-                                                                                <li class="tocify-item level-2" data-unique="provider-management-GETapi-providers--id-">
-                                <a href="#provider-management-GETapi-providers--id-">Get a single provider</a>
+                                                                                <li class="tocify-item level-2" data-unique="gestion-de-proveedores-GETapi-providers--id-">
+                                <a href="#gestion-de-proveedores-GETapi-providers--id-">Obtener un proveedor específico</a>
                             </li>
-                                                                                <li class="tocify-item level-2" data-unique="provider-management-PUTapi-providers--id-">
-                                <a href="#provider-management-PUTapi-providers--id-">Update a provider</a>
+                                                                                <li class="tocify-item level-2" data-unique="gestion-de-proveedores-PUTapi-providers--id-">
+                                <a href="#gestion-de-proveedores-PUTapi-providers--id-">Actualizar un proveedor</a>
                             </li>
-                                                                                <li class="tocify-item level-2" data-unique="provider-management-DELETEapi-providers--id-">
-                                <a href="#provider-management-DELETEapi-providers--id-">Delete a provider</a>
+                                                                                <li class="tocify-item level-2" data-unique="gestion-de-proveedores-DELETEapi-providers--id-">
+                                <a href="#gestion-de-proveedores-DELETEapi-providers--id-">Eliminar un proveedor</a>
                             </li>
                                                                         </ul>
                             </ul>
-                    <ul id="tocify-header-system-enums" class="tocify-header">
-                <li class="tocify-item level-1" data-unique="system-enums">
-                    <a href="#system-enums">System Enums</a>
+                    <ul id="tocify-header-opciones-del-sistema" class="tocify-header">
+                <li class="tocify-item level-1" data-unique="opciones-del-sistema">
+                    <a href="#opciones-del-sistema">Opciones del Sistema</a>
                 </li>
-                                    <ul id="tocify-subheader-system-enums" class="tocify-subheader">
-                                                    <li class="tocify-item level-2" data-unique="system-enums-GETapi-tax-statuses">
-                                <a href="#system-enums-GETapi-tax-statuses">Get tax status options</a>
+                                    <ul id="tocify-subheader-opciones-del-sistema" class="tocify-subheader">
+                                                    <li class="tocify-item level-2" data-unique="opciones-del-sistema-GETapi-tax-statuses">
+                                <a href="#opciones-del-sistema-GETapi-tax-statuses">Obtener opciones de posición frente al IVA</a>
                             </li>
-                                                                                <li class="tocify-item level-2" data-unique="system-enums-GETapi-agreements">
-                                <a href="#system-enums-GETapi-agreements">Get agreement options</a>
+                                                                                <li class="tocify-item level-2" data-unique="opciones-del-sistema-GETapi-agreements">
+                                <a href="#opciones-del-sistema-GETapi-agreements">Obtener opciones de convenio</a>
                             </li>
                                                                         </ul>
                             </ul>
@@ -120,7 +120,7 @@
     </ul>
 
     <ul class="toc-footer" id="last-updated">
-        <li>Last updated: November 16, 2025</li>
+        <li>Last updated: November 17, 2025</li>
     </ul>
 </div>
 
@@ -269,16 +269,16 @@ You can check the Dev Tools console for debugging information.</code></pre>
             </div>
                         </form>
 
-                <h1 id="provider-management">Provider Management</h1>
+                <h1 id="gestion-de-proveedores">Gestión de Proveedores</h1>
 
-    <p>APIs for managing providers (suppliers/vendors)</p>
+    <p>APIs para gestionar proveedores (suppliers/vendors)</p>
 
-                                <h2 id="provider-management-GETapi-providers">List all providers</h2>
+                                <h2 id="gestion-de-proveedores-GETapi-providers">Listar todos los proveedores</h2>
 
 <p>
 </p>
 
-<p>Get a paginated list of all providers in the system.</p>
+<p>Obtiene una lista de todos los proveedores del sistema.</p>
 
 <span id="example-requests-GETapi-providers">
 <blockquote>Example request:</blockquote>
@@ -339,7 +339,7 @@ fetch(url, {
             &quot;deleted_at&quot;: null
         }
     ],
-    &quot;message&quot;: &quot;Providers retrieved successfully&quot;
+    &quot;message&quot;: &quot;Proveedores obtenidos exitosamente&quot;
 }</code>
  </pre>
     </span>
@@ -416,12 +416,12 @@ You can check the Dev Tools console for debugging information.</code></pre>
             </div>
                         </form>
 
-                    <h2 id="provider-management-POSTapi-providers">Create a new provider</h2>
+                    <h2 id="gestion-de-proveedores-POSTapi-providers">Crear un nuevo proveedor</h2>
 
 <p>
 </p>
 
-<p>Store a newly created provider in the database.</p>
+<p>Crea y almacena un nuevo proveedor en la base de datos.</p>
 
 <span id="example-requests-POSTapi-providers">
 <blockquote>Example request:</blockquote>
@@ -506,23 +506,23 @@ fetch(url, {
         &quot;created_at&quot;: &quot;2024-11-16T10:00:00.000000Z&quot;,
         &quot;updated_at&quot;: &quot;2024-11-16T10:00:00.000000Z&quot;
     },
-    &quot;message&quot;: &quot;Provider created successfully&quot;
+    &quot;message&quot;: &quot;Proveedor creado exitosamente&quot;
 }</code>
  </pre>
             <blockquote>
-            <p>Example response (422, validation error):</p>
+            <p>Example response (422, error de validación):</p>
         </blockquote>
                 <pre>
 
 <code class="language-json" style="max-height: 300px;">{
     &quot;success&quot;: false,
-    &quot;message&quot;: &quot;Validation error&quot;,
+    &quot;message&quot;: &quot;Error de validaci&oacute;n&quot;,
     &quot;errors&quot;: {
         &quot;cuit&quot;: [
-            &quot;The cuit field is required.&quot;
+            &quot;El campo CUIT es requerido.&quot;
         ],
         &quot;business_name&quot;: [
-            &quot;The business name field is required.&quot;
+            &quot;El campo raz&oacute;n social es requerido.&quot;
         ]
     }
 }</code>
@@ -610,7 +610,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
                value="Proveedor Demo S.A."
                data-component="body">
     <br>
-<p>The legal business name. Example: <code>Proveedor Demo S.A.</code></p>
+<p>Razón social del proveedor. Example: <code>Proveedor Demo S.A.</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>fantasy_name</code></b>&nbsp;&nbsp;
@@ -622,7 +622,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
                value="Proveedor Demo"
                data-component="body">
     <br>
-<p>optional The fantasy/trade name. Example: <code>Proveedor Demo</code></p>
+<p>optional Nombre de fantasía. Example: <code>Proveedor Demo</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>cuit</code></b>&nbsp;&nbsp;
@@ -634,7 +634,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
                value="20-12345678-9"
                data-component="body">
     <br>
-<p>Unique tax identification number (CUIT). Example: <code>20-12345678-9</code></p>
+<p>CUIT único (número de identificación tributaria). Example: <code>20-12345678-9</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>iibb</code></b>&nbsp;&nbsp;
@@ -646,7 +646,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
                value="901-123456-7"
                data-component="body">
     <br>
-<p>optional Provincial tax identification. Example: <code>901-123456-7</code></p>
+<p>optional Ingresos Brutos. Example: <code>901-123456-7</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>tax_status</code></b>&nbsp;&nbsp;
@@ -658,7 +658,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
                value="1"
                data-component="body">
     <br>
-<p>optional Tax status value (use GET /api/tax-statuses to get options). Example: <code>1</code></p>
+<p>optional Posición frente al IVA (usar GET /api/tax-statuses para obtener opciones). Example: <code>1</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>agreement</code></b>&nbsp;&nbsp;
@@ -670,7 +670,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
                value="convenio_multilateral"
                data-component="body">
     <br>
-<p>optional Agreement value (use GET /api/agreements to get options). Example: <code>convenio_multilateral</code></p>
+<p>optional Convenio (usar GET /api/agreements para obtener opciones). Example: <code>convenio_multilateral</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>phone_1</code></b>&nbsp;&nbsp;
@@ -682,7 +682,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
                value="+54 11 1234-5678"
                data-component="body">
     <br>
-<p>optional Primary phone number. Example: <code>+54 11 1234-5678</code></p>
+<p>optional Teléfono principal. Example: <code>+54 11 1234-5678</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>phone_2</code></b>&nbsp;&nbsp;
@@ -694,7 +694,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
                value="+54 11 8765-4321"
                data-component="body">
     <br>
-<p>optional Secondary phone number. Example: <code>+54 11 8765-4321</code></p>
+<p>optional Teléfono secundario. Example: <code>+54 11 8765-4321</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>email_1</code></b>&nbsp;&nbsp;
@@ -706,7 +706,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
                value="contacto@proveedor.com"
                data-component="body">
     <br>
-<p>optional Primary email address. Example: <code>contacto@proveedor.com</code></p>
+<p>optional Email principal. Example: <code>contacto@proveedor.com</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>email_2</code></b>&nbsp;&nbsp;
@@ -718,7 +718,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
                value="ventas@proveedor.com"
                data-component="body">
     <br>
-<p>optional Secondary email address. Example: <code>ventas@proveedor.com</code></p>
+<p>optional Email secundario. Example: <code>ventas@proveedor.com</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>address</code></b>&nbsp;&nbsp;
@@ -730,7 +730,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
                value="Av. Corrientes 1234, CABA"
                data-component="body">
     <br>
-<p>optional Physical address. Example: <code>Av. Corrientes 1234, CABA</code></p>
+<p>optional Dirección física. Example: <code>Av. Corrientes 1234, CABA</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>website</code></b>&nbsp;&nbsp;
@@ -742,7 +742,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
                value="https://proveedor.com"
                data-component="body">
     <br>
-<p>optional Website URL. Example: <code>https://proveedor.com</code></p>
+<p>optional Sitio web. Example: <code>https://proveedor.com</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>contact_name</code></b>&nbsp;&nbsp;
@@ -754,7 +754,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
                value="Juan Pérez"
                data-component="body">
     <br>
-<p>optional Contact person name. Example: <code>Juan Pérez</code></p>
+<p>optional Nombre de contacto. Example: <code>Juan Pérez</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>observations</code></b>&nbsp;&nbsp;
@@ -766,7 +766,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
                value="Cliente preferencial"
                data-component="body">
     <br>
-<p>optional Additional notes. Example: <code>Cliente preferencial</code></p>
+<p>optional Observaciones adicionales. Example: <code>Cliente preferencial</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>business_hours_start</code></b>&nbsp;&nbsp;
@@ -778,7 +778,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
                value="09:00"
                data-component="body">
     <br>
-<p>optional Opening time (HH:MM). Example: <code>09:00</code></p>
+<p>optional Horario de apertura (HH:MM). Example: <code>09:00</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>business_hours_end</code></b>&nbsp;&nbsp;
@@ -790,16 +790,16 @@ You can check the Dev Tools console for debugging information.</code></pre>
                value="18:00"
                data-component="body">
     <br>
-<p>optional Closing time (HH:MM). Example: <code>18:00</code></p>
+<p>optional Horario de cierre (HH:MM). Example: <code>18:00</code></p>
         </div>
         </form>
 
-                    <h2 id="provider-management-GETapi-providers--id-">Get a single provider</h2>
+                    <h2 id="gestion-de-proveedores-GETapi-providers--id-">Obtener un proveedor específico</h2>
 
 <p>
 </p>
 
-<p>Retrieve detailed information about a specific provider by ID.</p>
+<p>Obtiene información detallada de un proveedor específico por su ID.</p>
 
 <span id="example-requests-GETapi-providers--id-">
 <blockquote>Example request:</blockquote>
@@ -856,17 +856,17 @@ fetch(url, {
         &quot;created_at&quot;: &quot;2024-11-16T10:00:00.000000Z&quot;,
         &quot;updated_at&quot;: &quot;2024-11-16T10:00:00.000000Z&quot;
     },
-    &quot;message&quot;: &quot;Provider retrieved successfully&quot;
+    &quot;message&quot;: &quot;Proveedor obtenido exitosamente&quot;
 }</code>
  </pre>
             <blockquote>
-            <p>Example response (404, not found):</p>
+            <p>Example response (404, no encontrado):</p>
         </blockquote>
                 <pre>
 
 <code class="language-json" style="max-height: 300px;">{
     &quot;success&quot;: false,
-    &quot;message&quot;: &quot;Provider not found&quot;
+    &quot;message&quot;: &quot;Proveedor no encontrado&quot;
 }</code>
  </pre>
     </span>
@@ -952,16 +952,16 @@ You can check the Dev Tools console for debugging information.</code></pre>
                value="1"
                data-component="url">
     <br>
-<p>The provider ID. Example: <code>1</code></p>
+<p>ID del proveedor. Example: <code>1</code></p>
             </div>
                     </form>
 
-                    <h2 id="provider-management-PUTapi-providers--id-">Update a provider</h2>
+                    <h2 id="gestion-de-proveedores-PUTapi-providers--id-">Actualizar un proveedor</h2>
 
 <p>
 </p>
 
-<p>Update an existing provider's information. Only send the fields you want to update.</p>
+<p>Actualiza la información de un proveedor existente. Solo envía los campos que deseas actualizar.</p>
 
 <span id="example-requests-PUTapi-providers--id-">
 <blockquote>Example request:</blockquote>
@@ -1021,30 +1021,30 @@ fetch(url, {
         &quot;cuit&quot;: &quot;20-12345678-9&quot;,
         &quot;updated_at&quot;: &quot;2024-11-16T11:00:00.000000Z&quot;
     },
-    &quot;message&quot;: &quot;Provider updated successfully&quot;
+    &quot;message&quot;: &quot;Proveedor actualizado exitosamente&quot;
 }</code>
  </pre>
             <blockquote>
-            <p>Example response (404, not found):</p>
+            <p>Example response (404, no encontrado):</p>
         </blockquote>
                 <pre>
 
 <code class="language-json" style="max-height: 300px;">{
     &quot;success&quot;: false,
-    &quot;message&quot;: &quot;Provider not found&quot;
+    &quot;message&quot;: &quot;Proveedor no encontrado&quot;
 }</code>
  </pre>
             <blockquote>
-            <p>Example response (422, validation error):</p>
+            <p>Example response (422, error de validación):</p>
         </blockquote>
                 <pre>
 
 <code class="language-json" style="max-height: 300px;">{
     &quot;success&quot;: false,
-    &quot;message&quot;: &quot;Validation error&quot;,
+    &quot;message&quot;: &quot;Error de validaci&oacute;n&quot;,
     &quot;errors&quot;: {
         &quot;email_2&quot;: [
-            &quot;The email 2 must be a valid email address.&quot;
+            &quot;El email 2 debe ser una direcci&oacute;n de correo v&aacute;lida.&quot;
         ]
     }
 }</code>
@@ -1132,7 +1132,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
                value="1"
                data-component="url">
     <br>
-<p>The provider ID. Example: <code>1</code></p>
+<p>ID del proveedor. Example: <code>1</code></p>
             </div>
                             <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
         <div style=" padding-left: 28px;  clear: unset;">
@@ -1145,7 +1145,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
                value="Proveedor Actualizado S.A."
                data-component="body">
     <br>
-<p>optional The legal business name. Example: <code>Proveedor Actualizado S.A.</code></p>
+<p>optional Razón social. Example: <code>Proveedor Actualizado S.A.</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>fantasy_name</code></b>&nbsp;&nbsp;
@@ -1157,7 +1157,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
                value="Proveedor Actualizado"
                data-component="body">
     <br>
-<p>optional The fantasy/trade name. Example: <code>Proveedor Actualizado</code></p>
+<p>optional Nombre de fantasía. Example: <code>Proveedor Actualizado</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>phone_2</code></b>&nbsp;&nbsp;
@@ -1169,7 +1169,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
                value="+54 11 9999-8888"
                data-component="body">
     <br>
-<p>optional Secondary phone number. Example: <code>+54 11 9999-8888</code></p>
+<p>optional Teléfono secundario. Example: <code>+54 11 9999-8888</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>email_2</code></b>&nbsp;&nbsp;
@@ -1181,16 +1181,16 @@ You can check the Dev Tools console for debugging information.</code></pre>
                value="nuevo@proveedor.com"
                data-component="body">
     <br>
-<p>optional Secondary email address. Example: <code>nuevo@proveedor.com</code></p>
+<p>optional Email secundario. Example: <code>nuevo@proveedor.com</code></p>
         </div>
         </form>
 
-                    <h2 id="provider-management-DELETEapi-providers--id-">Delete a provider</h2>
+                    <h2 id="gestion-de-proveedores-DELETEapi-providers--id-">Eliminar un proveedor</h2>
 
 <p>
 </p>
 
-<p>Soft delete a provider from the system. The provider will be marked as deleted but not permanently removed.</p>
+<p>Elimina un proveedor del sistema (soft delete). El proveedor será marcado como eliminado pero no se borrará permanentemente.</p>
 
 <span id="example-requests-DELETEapi-providers--id-">
 <blockquote>Example request:</blockquote>
@@ -1228,17 +1228,17 @@ fetch(url, {
 
 <code class="language-json" style="max-height: 300px;">{
     &quot;success&quot;: true,
-    &quot;message&quot;: &quot;Provider deleted successfully&quot;
+    &quot;message&quot;: &quot;Proveedor eliminado exitosamente&quot;
 }</code>
  </pre>
             <blockquote>
-            <p>Example response (404, not found):</p>
+            <p>Example response (404, no encontrado):</p>
         </blockquote>
                 <pre>
 
 <code class="language-json" style="max-height: 300px;">{
     &quot;success&quot;: false,
-    &quot;message&quot;: &quot;Provider not found&quot;
+    &quot;message&quot;: &quot;Proveedor no encontrado&quot;
 }</code>
  </pre>
     </span>
@@ -1324,20 +1324,20 @@ You can check the Dev Tools console for debugging information.</code></pre>
                value="1"
                data-component="url">
     <br>
-<p>The provider ID. Example: <code>1</code></p>
+<p>ID del proveedor. Example: <code>1</code></p>
             </div>
                     </form>
 
-                <h1 id="system-enums">System Enums</h1>
+                <h1 id="opciones-del-sistema">Opciones del Sistema</h1>
 
-    <p>APIs for getting system enumerations and select options</p>
+    <p>APIs para obtener enumeraciones y opciones para campos select</p>
 
-                                <h2 id="system-enums-GETapi-tax-statuses">Get tax status options</h2>
+                                <h2 id="opciones-del-sistema-GETapi-tax-statuses">Obtener opciones de posición frente al IVA</h2>
 
 <p>
 </p>
 
-<p>Get all available tax status options for the &quot;Posición frente al IVA&quot; field.</p>
+<p>Obtiene todas las opciones disponibles para el campo &quot;Posición frente al IVA&quot;.</p>
 
 <span id="example-requests-GETapi-tax-statuses">
 <blockquote>Example request:</blockquote>
@@ -1389,7 +1389,7 @@ fetch(url, {
             &quot;label&quot;: &quot;IVA no Responsable&quot;
         }
     ],
-    &quot;message&quot;: &quot;Tax status options retrieved successfully&quot;
+    &quot;message&quot;: &quot;Opciones de posici&oacute;n frente al IVA obtenidas exitosamente&quot;
 }</code>
  </pre>
     </span>
@@ -1466,12 +1466,12 @@ You can check the Dev Tools console for debugging information.</code></pre>
             </div>
                         </form>
 
-                    <h2 id="system-enums-GETapi-agreements">Get agreement options</h2>
+                    <h2 id="opciones-del-sistema-GETapi-agreements">Obtener opciones de convenio</h2>
 
 <p>
 </p>
 
-<p>Get all available agreement options for the &quot;Convenio&quot; field.</p>
+<p>Obtiene todas las opciones disponibles para el campo &quot;Convenio&quot;.</p>
 
 <span id="example-requests-GETapi-agreements">
 <blockquote>Example request:</blockquote>
@@ -1515,7 +1515,7 @@ fetch(url, {
             &quot;label&quot;: &quot;Convenio Multilateral&quot;
         }
     ],
-    &quot;message&quot;: &quot;Agreement options retrieved successfully&quot;
+    &quot;message&quot;: &quot;Opciones de convenio obtenidas exitosamente&quot;
 }</code>
  </pre>
     </span>

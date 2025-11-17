@@ -9,16 +9,16 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Validation\ValidationException;
 
 /**
- * @group Provider Management
+ * @group Gestión de Proveedores
  * 
- * APIs for managing providers (suppliers/vendors)
+ * APIs para gestionar proveedores (suppliers/vendors)
  */
 class ProviderController extends Controller
 {
     /**
-     * List all providers
+     * Listar todos los proveedores
      * 
-     * Get a paginated list of all providers in the system.
+     * Obtiene una lista de todos los proveedores del sistema.
      * 
      * @response 200 scenario="success" {
      *   "success": true,
@@ -45,7 +45,7 @@ class ProviderController extends Controller
      *       "deleted_at": null
      *     }
      *   ],
-     *   "message": "Providers retrieved successfully"
+     *   "message": "Proveedores obtenidos exitosamente"
      * }
      */
     public function index(): JsonResponse
@@ -60,26 +60,26 @@ class ProviderController extends Controller
     }
 
     /**
-     * Create a new provider
+     * Crear un nuevo proveedor
      * 
-     * Store a newly created provider in the database.
+     * Crea y almacena un nuevo proveedor en la base de datos.
      * 
-     * @bodyParam business_name string required The legal business name. Example: Proveedor Demo S.A.
-     * @bodyParam fantasy_name string optional The fantasy/trade name. Example: Proveedor Demo
-     * @bodyParam cuit string required Unique tax identification number (CUIT). Example: 20-12345678-9
-     * @bodyParam iibb string optional Provincial tax identification. Example: 901-123456-7
-     * @bodyParam tax_status string optional Tax status value (use GET /api/tax-statuses to get options). Example: 1
-     * @bodyParam agreement string optional Agreement value (use GET /api/agreements to get options). Example: convenio_multilateral
-     * @bodyParam phone_1 string optional Primary phone number. Example: +54 11 1234-5678
-     * @bodyParam phone_2 string optional Secondary phone number. Example: +54 11 8765-4321
-     * @bodyParam email_1 string optional Primary email address. Example: contacto@proveedor.com
-     * @bodyParam email_2 string optional Secondary email address. Example: ventas@proveedor.com
-     * @bodyParam address string optional Physical address. Example: Av. Corrientes 1234, CABA
-     * @bodyParam website string optional Website URL. Example: https://proveedor.com
-     * @bodyParam contact_name string optional Contact person name. Example: Juan Pérez
-     * @bodyParam observations string optional Additional notes. Example: Cliente preferencial
-     * @bodyParam business_hours_start string optional Opening time (HH:MM). Example: 09:00
-     * @bodyParam business_hours_end string optional Closing time (HH:MM). Example: 18:00
+     * @bodyParam business_name string required Razón social del proveedor. Example: Proveedor Demo S.A.
+     * @bodyParam fantasy_name string optional Nombre de fantasía. Example: Proveedor Demo
+     * @bodyParam cuit string required CUIT único (número de identificación tributaria). Example: 20-12345678-9
+     * @bodyParam iibb string optional Ingresos Brutos. Example: 901-123456-7
+     * @bodyParam tax_status string optional Posición frente al IVA (usar GET /api/tax-statuses para obtener opciones). Example: 1
+     * @bodyParam agreement string optional Convenio (usar GET /api/agreements para obtener opciones). Example: convenio_multilateral
+     * @bodyParam phone_1 string optional Teléfono principal. Example: +54 11 1234-5678
+     * @bodyParam phone_2 string optional Teléfono secundario. Example: +54 11 8765-4321
+     * @bodyParam email_1 string optional Email principal. Example: contacto@proveedor.com
+     * @bodyParam email_2 string optional Email secundario. Example: ventas@proveedor.com
+     * @bodyParam address string optional Dirección física. Example: Av. Corrientes 1234, CABA
+     * @bodyParam website string optional Sitio web. Example: https://proveedor.com
+     * @bodyParam contact_name string optional Nombre de contacto. Example: Juan Pérez
+     * @bodyParam observations string optional Observaciones adicionales. Example: Cliente preferencial
+     * @bodyParam business_hours_start string optional Horario de apertura (HH:MM). Example: 09:00
+     * @bodyParam business_hours_end string optional Horario de cierre (HH:MM). Example: 18:00
      * 
      * @response 201 scenario="success" {
      *   "success": true,
@@ -91,15 +91,15 @@ class ProviderController extends Controller
      *     "created_at": "2024-11-16T10:00:00.000000Z",
      *     "updated_at": "2024-11-16T10:00:00.000000Z"
      *   },
-     *   "message": "Provider created successfully"
+     *   "message": "Proveedor creado exitosamente"
      * }
      * 
-     * @response 422 scenario="validation error" {
+     * @response 422 scenario="error de validación" {
      *   "success": false,
-     *   "message": "Validation error",
+     *   "message": "Error de validación",
      *   "errors": {
-     *     "cuit": ["The cuit field is required."],
-     *     "business_name": ["The business name field is required."]
+     *     "cuit": ["El campo CUIT es requerido."],
+     *     "business_name": ["El campo razón social es requerido."]
      *   }
      * }
      */
@@ -155,11 +155,11 @@ class ProviderController extends Controller
     }
 
     /**
-     * Get a single provider
+     * Obtener un proveedor específico
      * 
-     * Retrieve detailed information about a specific provider by ID.
+     * Obtiene información detallada de un proveedor específico por su ID.
      * 
-     * @urlParam id integer required The provider ID. Example: 1
+     * @urlParam id integer required ID del proveedor. Example: 1
      * 
      * @response 200 scenario="success" {
      *   "success": true,
@@ -182,12 +182,12 @@ class ProviderController extends Controller
      *     "created_at": "2024-11-16T10:00:00.000000Z",
      *     "updated_at": "2024-11-16T10:00:00.000000Z"
      *   },
-     *   "message": "Provider retrieved successfully"
+     *   "message": "Proveedor obtenido exitosamente"
      * }
      * 
-     * @response 404 scenario="not found" {
+     * @response 404 scenario="no encontrado" {
      *   "success": false,
-     *   "message": "Provider not found"
+     *   "message": "Proveedor no encontrado"
      * }
      */
     public function show(string $id): JsonResponse
@@ -210,15 +210,15 @@ class ProviderController extends Controller
     }
 
     /**
-     * Update a provider
+     * Actualizar un proveedor
      * 
-     * Update an existing provider's information. Only send the fields you want to update.
+     * Actualiza la información de un proveedor existente. Solo envía los campos que deseas actualizar.
      * 
-     * @urlParam id integer required The provider ID. Example: 1
-     * @bodyParam business_name string optional The legal business name. Example: Proveedor Actualizado S.A.
-     * @bodyParam fantasy_name string optional The fantasy/trade name. Example: Proveedor Actualizado
-     * @bodyParam phone_2 string optional Secondary phone number. Example: +54 11 9999-8888
-     * @bodyParam email_2 string optional Secondary email address. Example: nuevo@proveedor.com
+     * @urlParam id integer required ID del proveedor. Example: 1
+     * @bodyParam business_name string optional Razón social. Example: Proveedor Actualizado S.A.
+     * @bodyParam fantasy_name string optional Nombre de fantasía. Example: Proveedor Actualizado
+     * @bodyParam phone_2 string optional Teléfono secundario. Example: +54 11 9999-8888
+     * @bodyParam email_2 string optional Email secundario. Example: nuevo@proveedor.com
      * 
      * @response 200 scenario="success" {
      *   "success": true,
@@ -229,19 +229,19 @@ class ProviderController extends Controller
      *     "cuit": "20-12345678-9",
      *     "updated_at": "2024-11-16T11:00:00.000000Z"
      *   },
-     *   "message": "Provider updated successfully"
+     *   "message": "Proveedor actualizado exitosamente"
      * }
      * 
-     * @response 404 scenario="not found" {
+     * @response 404 scenario="no encontrado" {
      *   "success": false,
-     *   "message": "Provider not found"
+     *   "message": "Proveedor no encontrado"
      * }
      * 
-     * @response 422 scenario="validation error" {
+     * @response 422 scenario="error de validación" {
      *   "success": false,
-     *   "message": "Validation error",
+     *   "message": "Error de validación",
      *   "errors": {
-     *     "email_2": ["The email 2 must be a valid email address."]
+     *     "email_2": ["El email 2 debe ser una dirección de correo válida."]
      *   }
      * }
      */
@@ -304,20 +304,20 @@ class ProviderController extends Controller
     }
 
     /**
-     * Delete a provider
+     * Eliminar un proveedor
      * 
-     * Soft delete a provider from the system. The provider will be marked as deleted but not permanently removed.
+     * Elimina un proveedor del sistema (soft delete). El proveedor será marcado como eliminado pero no se borrará permanentemente.
      * 
-     * @urlParam id integer required The provider ID. Example: 1
+     * @urlParam id integer required ID del proveedor. Example: 1
      * 
      * @response 200 scenario="success" {
      *   "success": true,
-     *   "message": "Provider deleted successfully"
+     *   "message": "Proveedor eliminado exitosamente"
      * }
      * 
-     * @response 404 scenario="not found" {
+     * @response 404 scenario="no encontrado" {
      *   "success": false,
-     *   "message": "Provider not found"
+     *   "message": "Proveedor no encontrado"
      * }
      */
     public function destroy(string $id): JsonResponse
