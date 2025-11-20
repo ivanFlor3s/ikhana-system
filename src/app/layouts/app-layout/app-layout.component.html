@@ -1,1 +1,36 @@
-<p>app-layout works!</p>
+<div class="flex h-screen w-full bg-gray-100">
+    <!-- Sidebar -->
+    <aside class="flex flex-col border-r shadow-lg transition-all overflow-hidden duration-300 bg-gray-900 text-gray-200" [class.w-64]="!collapsed()" [class.w-20]="collapsed()">
+        <!-- Header -->
+        <div class="p-4 border-b border-gray-700 flex items-center justify-between">
+            @if (!collapsed()) {
+            <h1 class="font-bold text-xl tracking-wide text-nowrap">Kikhana App</h1>
+            } @else {
+            <h1 class="font-bold text-xl tracking-wide text-nowrap">KA</h1>
+            }
+
+            <button (click)="toggleSidebar()" class="p-2 rounded hover:bg-gray-800 transition">
+                @if (!collapsed()) {
+                <span>«</span>
+                } @else {
+                <span>»</span>
+                }
+            </button>
+        </div>
+
+        <!-- Navigation -->
+        <nav class="flex-1 p-4 space-y-2">
+            <a routerLink="/app/category" class="flex items-center gap-3 px-3 py-2 rounded hover:bg-gray-800 transition">
+                <span class="material-icons"> local_shipping </span>
+                @if (!collapsed()) {
+                <span>Proveedores</span>
+                }
+            </a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 overflow-y-auto p-6 transition-all duration-300">
+        <router-outlet></router-outlet>
+    </main>
+</div>
