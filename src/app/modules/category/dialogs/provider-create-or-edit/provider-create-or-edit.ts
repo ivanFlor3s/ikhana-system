@@ -28,7 +28,6 @@ import { Button } from '../../../../shared/components/button/button';
     MatDialogTitle,
     MatDialogContent,
     MatDialogActions,
-    MatDialogClose,
     Button],
   templateUrl: './provider-create-or-edit.html',
   styleUrl: './provider-create-or-edit.css',
