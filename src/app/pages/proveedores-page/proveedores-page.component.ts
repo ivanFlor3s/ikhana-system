@@ -4,6 +4,9 @@ import { ProveedoresHeader } from '../../modules/proveedores/components/proveedo
 import { Provider } from '../../models/provider';
 import { MatDialog } from '@angular/material/dialog';
 import { ProviderCreateOrEdit } from '../../modules/proveedores/dialogs/provider-create-or-edit/provider-create-or-edit';
+import { ProviderService } from '../../services/provider.service';
+import { ProviderFormData } from '../../interfaces/form-data-models/provider-form-data.model';
+import { mapProviderFormToDto } from '../../interfaces/mappers/provider-form.mapper';
 
 @Component({
     selector: 'app-proveedores-page',
@@ -149,6 +152,7 @@ export class ProveedoresPageComponent {
     ]
 
     readonly dialog = inject(MatDialog);
+    readonly providerService = inject(ProviderService);
 
     openProviderDialog() {
         console.log('Open provider dialog');
@@ -157,8 +161,29 @@ export class ProveedoresPageComponent {
             width: '800px',
         });
 
-        dialogRef.afterClosed().subscribe(() => {
-            console.log('The dialog was closed');
+        dialogRef.afterClosed().subscribe((result: ProviderFormData) => {
+            if (result) {
+                console.log('Form data received:', result);
+
+                // Map form data to API DTO
+                const createDto = mapProviderFormToDto(result);
+                console.log('Mapped DTO:', createDto);
+
+                // Call the service to create the provider
+                this.providerService.createProvider(createDto).subscribe({
+                    next: (response) => {
+                        console.log('Provider created successfully:', response);
+                        // TODO: Show success message to user
+                        // TODO: Refresh the providers list
+                    },
+                    error: (error) => {
+                        console.error('Error creating provider:', error);
+                        // TODO: Show error message to user
+                    }
+                });
+            } else {
+                console.log('Dialog was closed without submitting');
+            }
         });
 
     }

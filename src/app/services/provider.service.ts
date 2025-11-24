@@ -2,6 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Provider } from '../models/provider.model';
+import { CreateProviderDto } from '../interfaces/dtos/create-provider.dto';
 import { environment } from '../../environments/environment';
 
 @Injectable({
@@ -15,7 +16,7 @@ export class ProviderService {
     return this.http.get<{ success: boolean, data: Provider[], message: string }>(this.apiUrl);
   }
 
-  createProvider(provider: Omit<Provider, 'id' | 'created_at' | 'updated_at' | 'deleted_at'>): Observable<{ success: boolean, data: Provider, message: string }> {
+  createProvider(provider: CreateProviderDto): Observable<{ success: boolean, data: Provider, message: string }> {
     return this.http.post<{ success: boolean, data: Provider, message: string }>(this.apiUrl, provider);
   }
 

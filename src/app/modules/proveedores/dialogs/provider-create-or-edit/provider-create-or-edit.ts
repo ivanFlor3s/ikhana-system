@@ -105,7 +105,7 @@ export class ProviderCreateOrEdit {
 
   submit() {
     if (this.form.valid) {
-      // this.submitted.emit(this.form.value);
+      this.dialogRef.close(this.form.value);
     } else {
       this.form.markAllAsTouched();
     }
