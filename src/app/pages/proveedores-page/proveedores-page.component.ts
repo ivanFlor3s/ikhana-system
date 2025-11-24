@@ -1,12 +1,12 @@
 import { Component, inject } from '@angular/core';
-import { ProveedoresListComponent } from '../../modules/proveedores/components/proveedores-list/proveedores-list.component';
-import { ProveedoresHeader } from '../../modules/proveedores/components/proveedores-header/proveedores-header';
 import { Provider } from '../../models/provider';
 import { MatDialog } from '@angular/material/dialog';
 import { ProviderCreateOrEdit } from '../../modules/proveedores/dialogs/provider-create-or-edit/provider-create-or-edit';
 import { ProviderService } from '../../services/provider.service';
 import { ProviderFormData } from '../../interfaces/form-data-models/provider-form-data.model';
 import { mapProviderFormToDto } from '../../interfaces/mappers/provider-form.mapper';
+import { ProveedoresListComponent } from '../../modules/proveedores/components/proveedores-list/proveedores-list.component';
+import { ProveedoresHeader } from '../../modules/proveedores/components/proveedores-header/proveedores-header';
 
 @Component({
     selector: 'app-proveedores-page',
