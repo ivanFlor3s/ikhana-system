@@ -50,7 +50,7 @@
                     <mat-label>Teléfono principal</mat-label>
                     <input matInput formControlName="phone" />
                 </mat-form-field>
-                <button mat-stroked-button color="primary" (click)="addPhone()">Agregar teléfono</button>
+                <button type="button" mat-stroked-button color="primary" (click)="addPhone()">Agregar teléfono</button>
             </div>
 
             <div class="grid grid-cols-12">
@@ -59,7 +59,7 @@
                     <mat-label>Teléfono {{ i + 1 }}</mat-label>
                     <input matInput [formControl]="ctrl" />
                 </mat-form-field>
-                <button mat-icon-button color="warn" (click)="removePhone(i)">
+                <button type="button" mat-icon-button color="warn" (click)="removePhone(i)">
                     <span class="material-icons">delete</span>
                 </button>
                 }
@@ -72,7 +72,7 @@
                     <mat-label>Email principal</mat-label>
                     <input matInput formControlName="email" type="email" />
                 </mat-form-field>
-                <button mat-stroked-button color="primary" (click)="addEmail()">Agregar email</button>
+                <button type="button" mat-stroked-button color="primary" (click)="addEmail()">Agregar email</button>
             </div>
             <div class="grid grid-cols-12">
                 @for (ctrl of otherEmails.controls; track $index; let i = $index) {
@@ -80,7 +80,7 @@
                     <mat-label>Email {{ i + 1 }}</mat-label>
                     <input matInput [formControl]="ctrl" type="email" />
                 </mat-form-field>
-                <button mat-icon-button class="col-span-1" color="warn" (click)="removeEmail(i)">
+                <button type="button" mat-icon-button class="col-span-1" color="warn" (click)="removeEmail(i)">
                     <span class="material-icons">delete</span>
                 </button>
                 }
