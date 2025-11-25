@@ -1,0 +1,35 @@
+.resize-handle {
+    position: relative;
+    transition: background-color 0.2s ease;
+}
+
+.resize-handle::before {
+    content: '';
+    position: absolute;
+    left: -2px;
+    top: 0;
+    width: 5px;
+    height: 100%;
+}
+
+/* Prevent text selection during resize */
+.resize-handle:active {
+    user-select: none;
+}
+
+/* Smooth transitions for panel */
+.side-detail-panel {
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+        width 0.15s ease-out;
+}
+
+/* Loading spinner animation */
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.animate-spin {
+    animation: spin 1s linear infinite;
+}

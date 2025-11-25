@@ -1,0 +1,22 @@
+/* Loading spinner animation */
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.animate-spin {
+    animation: spin 1s linear infinite;
+}
+
+/* Smooth transitions for interactive elements */
+a {
+    transition: all 0.2s ease-in-out;
+}
+
+/* Responsive grid adjustments */
+@media (max-width: 640px) {
+    .grid-cols-1 {
+        grid-template-columns: 1fr;
+    }
+}

@@ -1,9 +1,11 @@
-import { Component, input } from '@angular/core';
+import { Component, input, inject } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { TableComponent, ColumnDef, ModernTableCellDirective } from '../../../../shared/components/table/table.component';
 import { CommonModule } from '@angular/common';
 import { Provider } from '../../../../models/provider';
+import { SideDetailService } from '../../../../services/side-detail.service';
+import { ProviderDetailComponent } from '../provider-detail/provider-detail.component';
 
 @Component({
     selector: 'app-proveedores-list',
@@ -12,6 +14,7 @@ import { Provider } from '../../../../models/provider';
     styleUrl: './proveedores-list.component.css'
 })
 export class ProveedoresListComponent {
+    private sideDetailService = inject(SideDetailService);
 
     providers = input<Provider[]>([]);
     columns: ColumnDef[] = [
@@ -51,7 +54,7 @@ export class ProveedoresListComponent {
         }
     ]
 
-
-
-
+    onProviderClick(provider: Provider) {
+        this.sideDetailService.open(ProviderDetailComponent, { providerId: provider.id });
+    }
 }
