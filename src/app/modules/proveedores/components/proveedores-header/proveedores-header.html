@@ -1,11 +1,15 @@
-<section>
-    <div class="flex justify-between flex-wrap gap-4">
-        <h1 class="text-3xl">Administrar Proveedores</h1>
+<app-page-header title="Proveedores">
+    <ng-container icon>
+        <div class="bg-teal-500 text-white w-15  flex items-center justify-center ">
+            <span class="material-icons">restaurant</span>
+        </div>
+    </ng-container>
+    <ng-container actions>
         <app-button appearance="secondary" variant="solid" size="md" (click)="createClicked.emit()">
             <span class="inline-flex items-center gap-2">
                 <span class="material-icons">add</span>
                 Crear
             </span>
         </app-button>
-    </div>
-</section>
+    </ng-container>
+</app-page-header>
