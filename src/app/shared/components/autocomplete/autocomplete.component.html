@@ -1,0 +1,98 @@
+<div class="autocomplete-container" (click)="onInputFocus()">
+    <!-- Label -->
+    @if (label) {
+    <label class="autocomplete-label">{{ label }}</label>
+    }
+
+    <!-- Input Container -->
+    <div class="autocomplete-input-wrapper" [class.disabled]="disabled" [class.focused]="isOpen()">
+        <!-- Selected Items (Multiple Mode) -->
+        @if (multiple && selectedItems().length > 0) {
+        <div class="selected-chips">
+            @for (item of selectedItems(); track trackByValue($index, item)) {
+            <div class="chip">
+                <span class="chip-text">{{ item.name }}</span>
+                <button type="button" class="chip-remove" (click)="removeItem(item, $event)" [disabled]="disabled">
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                        <path d="M10.5 3.5L3.5 10.5M3.5 3.5L10.5 10.5" stroke="currentColor" stroke-width="1.5"
+                            stroke-linecap="round" />
+                    </svg>
+                </button>
+            </div>
+            }
+        </div>
+        }
+
+        <!-- Search Input -->
+        <div class="input-container">
+            <input #searchInput type="text" class="autocomplete-input" [placeholder]="placeholder"
+                [value]="multiple ? searchTerm() : displayValue()" (input)="onInputChange($any($event.target).value)"
+                (focus)="onInputFocus()" (keydown)="onKeyDown($event)" [disabled]="disabled" autocomplete="off" />
+
+            <!-- Clear Button -->
+            @if (!multiple && selectedItems().length > 0 && !disabled) {
+            <button type="button" class="clear-button" (click)="clearSelection($event)">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                    <path d="M12 4L4 12M4 4L12 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                </svg>
+            </button>
+            }
+
+            <!-- Dropdown Arrow -->
+            <div class="dropdown-arrow" [class.open]="isOpen()">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                    <path d="M4 6L8 10L12 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                </svg>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dropdown -->
+    @if (isOpen() && !disabled) {
+    <div class="autocomplete-dropdown">
+        <!-- Loading State -->
+        @if (isLoading()) {
+        <div class="dropdown-message">
+            <div class="spinner"></div>
+            <span>Loading...</span>
+        </div>
+        }
+
+        <!-- Error State -->
+        @else if (error()) {
+        <div class="dropdown-message error">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <circle cx="10" cy="10" r="8" stroke="currentColor" stroke-width="1.5" />
+                <path d="M10 6V10M10 13V13.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+            </svg>
+            <span>{{ error() }}</span>
+        </div>
+        }
+
+        <!-- No Results -->
+        @else if (filteredOptions().length === 0) {
+        <div class="dropdown-message">
+            <span>No results found</span>
+        </div>
+        }
+
+        <!-- Options List -->
+        @else {
+        <ul class="options-list">
+            @for (option of filteredOptions(); track trackByValue($index, option); let i = $index) {
+            <li class="option-item" [class.highlighted]="i === highlightedIndex()" (click)="selectOption(option)"
+                (mouseenter)="highlightedIndex.set(i)">
+                {{ option.name }}
+            </li>
+            }
+        </ul>
+        }
+    </div>
+    }
+</div>
+
+<!-- Click Outside Handler -->
+@if (isOpen()) {
+<div class="backdrop" (click)="onClickOutside($event)"></div>
+}
