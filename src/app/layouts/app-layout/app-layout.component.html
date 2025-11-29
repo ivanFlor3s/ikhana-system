@@ -1,7 +1,6 @@
 <div class="flex h-screen w-full bg-gray-100">
     <!-- Sidebar -->
-    <aside
-        class="flex flex-col border-r shadow-lg transition-all overflow-hidden duration-300 bg-gray-900 text-gray-200"
+    <aside class="flex flex-col  shadow-lg transition-all overflow-hidden duration-300 bg-gray-900 text-gray-200"
         [class.w-64]="!collapsed()" [class.w-20]="collapsed()">
         <!-- Header -->
         <div class="p-4 border-b border-gray-700 flex items-center justify-between">
@@ -33,7 +32,7 @@
     </aside>
 
     <!-- Main Content -->
-    <main class="flex-1 overflow-y-auto  transition-all duration-300">
+    <main class="flex-1 overflow-y-auto transition-all duration-300">
         <router-outlet></router-outlet>
     </main>
 
