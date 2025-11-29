@@ -7,10 +7,11 @@ import { ProviderFormData } from '../../interfaces/form-data-models/provider-for
 import { mapProviderFormToDto } from '../../interfaces/mappers/provider-form.mapper';
 import { ProveedoresListComponent } from '../../modules/proveedores/components/proveedores-list/proveedores-list.component';
 import { ProveedoresHeader } from '../../modules/proveedores/components/proveedores-header/proveedores-header';
+import { ProveedoresFilterComponent } from '../../modules/proveedores/components/proveedores-filter/proveedores-filter.component';
 
 @Component({
     selector: 'app-proveedores-page',
-    imports: [ProveedoresListComponent, ProveedoresHeader,],
+    imports: [ProveedoresListComponent, ProveedoresHeader, ProveedoresFilterComponent],
     templateUrl: './proveedores-page.component.html',
     styleUrl: './proveedores-page.component.css'
 })

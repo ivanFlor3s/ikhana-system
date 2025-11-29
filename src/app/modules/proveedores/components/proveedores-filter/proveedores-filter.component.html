@@ -1,0 +1,9 @@
+<form [formGroup]="forma" class="grid grid-cols-6 items-center gap-4" (ngSubmit)="onSubmit()">
+    <mat-form-field appearance="outline" class="col-span-1" subscriptSizing="dynamic">
+        <mat-label>Nombre</mat-label>
+        <input matInput formControlName="name" />
+    </mat-form-field>
+    <app-button appearance="secondary">
+        Filtrar
+    </app-button>
+</form>
