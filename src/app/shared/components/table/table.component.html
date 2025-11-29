@@ -1,6 +1,6 @@
-<div class="rounded-xl shadow-sm text-neutral-800 overflow-auto">
+<div class="rounded-xl border border-neutral-300/60 shadow-sm text-neutral-800 overflow-auto ">
     <!-- Header -->
-    <div class="flex items-center px-4 py-3 bg-gray-200/80">
+    <div class="flex items-center px-4 py-3 bg-gray-200">
         @for (col of columns; track col) {
         <button class="flex items-center gap-2 text-xs uppercase font-medium select-none px-3 py-2"
             [class]="col.width ?? 'flex-1'" (click)="onHeaderClick(col)"
