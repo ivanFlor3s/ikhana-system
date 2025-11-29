@@ -2,10 +2,12 @@ import { Component, inject } from '@angular/core';
 import { MatLabel, MatFormField, MatInput } from "@angular/material/input";
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Button } from '@shared/components/button/button';
+import { InputComponent } from '@shared/components/input/input';
+import { MatIcon } from "@angular/material/icon";
 
 @Component({
   selector: 'app-proveedores-filter',
-  imports: [MatLabel, MatFormField, MatInput, ReactiveFormsModule, FormsModule, Button],
+  imports: [MatLabel, MatFormField, MatInput, ReactiveFormsModule, FormsModule, Button, InputComponent, MatIcon],
   templateUrl: './proveedores-filter.component.html',
 
 })

@@ -1,8 +1,12 @@
 <form [formGroup]="forma" class="grid grid-cols-6 items-center gap-4" (ngSubmit)="onSubmit()">
-    <mat-form-field appearance="outline" class="col-span-1" subscriptSizing="dynamic">
-        <mat-label>Nombre</mat-label>
-        <input matInput formControlName="name" />
-    </mat-form-field>
+
+    <app-input class="col-span-1" [hasPrefix]="true" placeholder="Buscar proveedor" formControlName="name" size="md">
+        <ng-container prefix>
+            <span class="text-gray-500 h-full flex items-center">
+                <mat-icon matPrefix>search</mat-icon>
+            </span>
+        </ng-container>
+    </app-input>
     <app-button appearance="secondary">
         Filtrar
     </app-button>
