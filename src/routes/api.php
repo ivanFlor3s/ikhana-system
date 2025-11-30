@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\TaxStatusController;
 use App\Http\Controllers\Api\AgreementController;
 use App\Http\Controllers\Api\TaxIdValidationController;
 use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\BrokerController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -37,6 +38,15 @@ Route::prefix('categories')->group(function () {
     Route::get('/{id}', [CategoryController::class, 'show']);
     Route::put('/{id}', [CategoryController::class, 'update']);
     Route::delete('/{id}', [CategoryController::class, 'destroy']);
+});
+
+// Broker routes (Corredores/Contactos)
+Route::prefix('brokers')->group(function () {
+    Route::get('/', [BrokerController::class, 'index']);
+    Route::post('/', [BrokerController::class, 'store']);
+    Route::get('/{id}', [BrokerController::class, 'show']);
+    Route::put('/{id}', [BrokerController::class, 'update']);
+    Route::delete('/{id}', [BrokerController::class, 'destroy']);
 });
 
 // Provider routes (Proveedores)

@@ -23,6 +23,7 @@ class Provider extends Model
         'tax_status_id',
         'agreement_id',
         'category_id',
+        'broker_id',
         'phone_1',
         'phone_2',
         'phone_3',
@@ -76,6 +77,14 @@ class Provider extends Model
     public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+
+    /**
+     * Relación: Proveedor pertenece a un Broker (Corredor)
+     */
+    public function broker()
+    {
+        return $this->belongsTo(Broker::class);
     }
 }
 
