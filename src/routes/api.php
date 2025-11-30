@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\ProviderController;
 use App\Http\Controllers\Api\TaxStatusController;
 use App\Http\Controllers\Api\AgreementController;
+use App\Http\Controllers\Api\TaxIdValidationController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -37,3 +38,5 @@ Route::prefix('providers')->group(function () {
     Route::delete('/{id}', [ProviderController::class, 'destroy']);
 });
 
+// Tax ID Validation route (Validación CUIT/CUIL)
+Route::post('tax-id/validate', [TaxIdValidationController::class, 'validate']);

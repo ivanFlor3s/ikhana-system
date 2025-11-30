@@ -66,6 +66,16 @@
                     <a href="#authenticating-requests">Authenticating requests</a>
                 </li>
                             </ul>
+                    <ul id="tocify-header-afip-integration" class="tocify-header">
+                <li class="tocify-item level-1" data-unique="afip-integration">
+                    <a href="#afip-integration">AFIP Integration</a>
+                </li>
+                                    <ul id="tocify-subheader-afip-integration" class="tocify-subheader">
+                                                    <li class="tocify-item level-2" data-unique="afip-integration-POSTapi-tax-id-validate">
+                                <a href="#afip-integration-POSTapi-tax-id-validate">Validate Tax ID (CUIT/CUIL)</a>
+                            </li>
+                                                                        </ul>
+                            </ul>
                     <ul id="tocify-header-endpoints" class="tocify-header">
                 <li class="tocify-item level-1" data-unique="endpoints">
                     <a href="#endpoints">Endpoints</a>
@@ -170,7 +180,178 @@ You can switch the language used with the tabs at the top right (or from the nav
         <h1 id="authenticating-requests">Authenticating requests</h1>
 <p>This API is not authenticated.</p>
 
-        <h1 id="endpoints">Endpoints</h1>
+        <h1 id="afip-integration">AFIP Integration</h1>
+
+    <p>APIs for integrating with AFIP (Administración Federal de Ingresos Públicos).</p>
+
+                                <h2 id="afip-integration-POSTapi-tax-id-validate">Validate Tax ID (CUIT/CUIL)</h2>
+
+<p>
+</p>
+
+<p>Validates if a CUIT/CUIL exists in AFIP's taxpayer registry.
+This endpoint verifies both the format and existence of the tax ID in AFIP's database.</p>
+
+<span id="example-requests-POSTapi-tax-id-validate">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request POST \
+    "http://localhost:8000/api/tax-id/validate" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json" \
+    --data "{
+    \"tax_id\": \"20-41173228-3\"
+}"
+</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/tax-id/validate"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "tax_id": "20-41173228-3"
+};
+
+fetch(url, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-POSTapi-tax-id-validate">
+            <blockquote>
+            <p>Example response (200):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;tax_id&quot;: &quot;20-41173228-3&quot;,
+    &quot;exists&quot;: true
+}</code>
+ </pre>
+            <blockquote>
+            <p>Example response (200):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;tax_id&quot;: &quot;20-99999999-9&quot;,
+    &quot;exists&quot;: false
+}</code>
+ </pre>
+            <blockquote>
+            <p>Example response (422):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;message&quot;: &quot;The tax id field is required.&quot;,
+    &quot;errors&quot;: {
+        &quot;tax_id&quot;: [
+            &quot;The tax id field is required.&quot;
+        ]
+    }
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-POSTapi-tax-id-validate" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTapi-tax-id-validate"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTapi-tax-id-validate"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-POSTapi-tax-id-validate" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTapi-tax-id-validate">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-POSTapi-tax-id-validate" data-method="POST"
+      data-path="api/tax-id/validate"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTapi-tax-id-validate', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTapi-tax-id-validate"
+                    onclick="tryItOut('POSTapi-tax-id-validate');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTapi-tax-id-validate"
+                    onclick="cancelTryOut('POSTapi-tax-id-validate');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTapi-tax-id-validate"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>api/tax-id/validate</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="POSTapi-tax-id-validate"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="POSTapi-tax-id-validate"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>tax_id</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="tax_id"                data-endpoint="POSTapi-tax-id-validate"
+               value="20-41173228-3"
+               data-component="body">
+    <br>
+<p>The CUIT/CUIL to validate. Can be with or without hyphens. Example: <code>20-41173228-3</code></p>
+        </div>
+        </form>
+
+                <h1 id="endpoints">Endpoints</h1>
 
     
 
