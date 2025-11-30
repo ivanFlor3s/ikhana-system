@@ -3848,6 +3848,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --data "{
     \"business_name\": \"Proveedor Actualizado S.A.\",
     \"fantasy_name\": \"Proveedor Actualizado\",
+    \"category_id\": 2,
     \"phone_2\": \"+54 11 9999-8888\",
     \"email_2\": \"nuevo@proveedor.com\"
 }"
@@ -3867,6 +3868,7 @@ const headers = {
 let body = {
     "business_name": "Proveedor Actualizado S.A.",
     "fantasy_name": "Proveedor Actualizado",
+    "category_id": 2,
     "phone_2": "+54 11 9999-8888",
     "email_2": "nuevo@proveedor.com"
 };
@@ -4031,6 +4033,18 @@ You can check the Dev Tools console for debugging information.</code></pre>
                data-component="body">
     <br>
 <p>optional Nombre de fantasía. Example: <code>Proveedor Actualizado</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>category_id</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+<i>optional</i> &nbsp;
+ &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="category_id"                data-endpoint="PUTapi-providers--id-"
+               value="2"
+               data-component="body">
+    <br>
+<p>optional ID del rubro/categoría (usar GET /api/categories). Example: <code>2</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>phone_2</code></b>&nbsp;&nbsp;

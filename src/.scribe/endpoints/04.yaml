@@ -481,6 +481,17 @@ endpoints:
         exampleWasSpecified: true
         nullable: false
         deprecated: false
+      category_id:
+        custom: []
+        name: category_id
+        description: 'optional ID del rubro/categoría (usar GET /api/categories).'
+        required: false
+        example: 2
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
       phone_2:
         custom: []
         name: phone_2
@@ -506,6 +517,7 @@ endpoints:
     cleanBodyParameters:
       business_name: 'Proveedor Actualizado S.A.'
       fantasy_name: 'Proveedor Actualizado'
+      category_id: 2
       phone_2: '+54 11 9999-8888'
       email_2: nuevo@proveedor.com
     fileParameters: []
