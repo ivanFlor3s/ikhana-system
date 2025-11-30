@@ -10,10 +10,14 @@ services:
       - ./src:/var/www
       - ./docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
       - ./setup.sh:/usr/local/bin/setup.sh:ro
+      - ./afip-certs:/var/www/afip-certs
     networks:
       - ikhana_network
     depends_on:
       - db
+    environment:
+      AFIP_CERT_PATH: /var/www/afip-certs/cert.crt
+      AFIP_KEY_PATH: /var/www/afip-certs/privada.key
 
   nginx:
     image: nginx:alpine

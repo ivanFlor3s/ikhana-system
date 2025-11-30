@@ -2,6 +2,54 @@
 
 API RESTful desarrollada con Laravel 11 y Docker. Backend modular y escalable con documentación automática.
 
+## 🚀 Quick Start para Frontend
+
+Si eres desarrollador frontend y solo necesitas levantar el backend, ejecuta estos comandos:
+
+```bash
+# 1. Clonar el repositorio
+git clone https://github.com/mfloreslucas/ikhana_backend.git
+cd ikhana_backend
+
+# 2. Copiar configuración
+cp src/.env.example src/.env
+
+# 3. Levantar todo con Docker
+docker-compose up -d --build
+
+# 4. Instalar dependencias y configurar (ejecutar una sola vez)
+docker-compose exec app bash /usr/local/bin/setup.sh
+
+# 5. Ver la documentación
+open http://localhost:8000/docs
+```
+
+**¡Listo!** La API estará disponible en: `http://localhost:8000/api`
+
+**Base URL para el frontend:** `http://localhost:8000/api`
+
+### 🔄 Actualizar Dependencias
+
+Si hay cambios en el proyecto o nuevas dependencias:
+
+```bash
+# Actualizar código
+git pull origin main
+
+# Reinstalar dependencias
+docker-compose exec app composer install
+
+# Aplicar nuevas migraciones
+docker-compose exec app php artisan migrate
+
+# Regenerar documentación
+docker-compose exec app php artisan scribe:generate
+
+# Limpiar cachés
+docker-compose exec app php artisan config:clear
+docker-compose exec app php artisan cache:clear
+```
+
 ## 🚀 Requisitos Previos
 
 - Docker
