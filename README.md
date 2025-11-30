@@ -40,7 +40,7 @@ git pull origin main
 docker-compose exec app composer install
 
 # Aplicar nuevas migraciones
-docker-compose exec app php artisan migrate
+docker-compose exec app php artisan migrate:fresh --seed
 
 # Regenerar documentación
 docker-compose exec app php artisan scribe:generate
