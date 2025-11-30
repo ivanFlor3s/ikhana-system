@@ -158,7 +158,7 @@
                 </li>
                                     <ul id="tocify-subheader-gestion-de-proveedores" class="tocify-subheader">
                                                     <li class="tocify-item level-2" data-unique="gestion-de-proveedores-GETapi-providers">
-                                <a href="#gestion-de-proveedores-GETapi-providers">Listar todos los proveedores</a>
+                                <a href="#gestion-de-proveedores-GETapi-providers">List all providers with filters and pagination</a>
                             </li>
                                                                                 <li class="tocify-item level-2" data-unique="gestion-de-proveedores-POSTapi-providers">
                                 <a href="#gestion-de-proveedores-POSTapi-providers">Crear un nuevo proveedor</a>
@@ -3132,12 +3132,12 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
     <p>APIs para gestionar proveedores (suppliers/vendors)</p>
 
-                                <h2 id="gestion-de-proveedores-GETapi-providers">Listar todos los proveedores</h2>
+                                <h2 id="gestion-de-proveedores-GETapi-providers">List all providers with filters and pagination</h2>
 
 <p>
 </p>
 
-<p>Obtiene una lista de todos los proveedores del sistema.</p>
+<p>Get a paginated list of providers with optional search and category filter.</p>
 
 <span id="example-requests-GETapi-providers">
 <blockquote>Example request:</blockquote>
@@ -3145,7 +3145,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/providers" \
+    --get "http://localhost:8000/api/providers?page=1&amp;per_page=20&amp;search=Construcci%C3%B3n&amp;category_id=1" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
@@ -3154,6 +3154,15 @@ You can check the Dev Tools console for debugging information.</code></pre>
     <pre><code class="language-javascript">const url = new URL(
     "http://localhost:8000/api/providers"
 );
+
+const params = {
+    "page": "1",
+    "per_page": "20",
+    "search": "Construcción",
+    "category_id": "1",
+};
+Object.keys(params)
+    .forEach(key =&gt; url.searchParams.append(key, params[key]));
 
 const headers = {
     "Content-Type": "application/json",
@@ -3175,29 +3184,59 @@ fetch(url, {
 
 <code class="language-json" style="max-height: 300px;">{
     &quot;success&quot;: true,
-    &quot;data&quot;: [
-        {
-            &quot;id&quot;: 1,
-            &quot;fantasy_name&quot;: &quot;Proveedor Demo&quot;,
-            &quot;business_name&quot;: &quot;Proveedor Demo S.A.&quot;,
-            &quot;cuit&quot;: &quot;20-12345678-9&quot;,
-            &quot;iibb&quot;: &quot;901-123456-7&quot;,
-            &quot;tax_status&quot;: &quot;Responsable Inscripto&quot;,
-            &quot;agreement&quot;: &quot;Convenio Multilateral&quot;,
-            &quot;phone_1&quot;: &quot;+54 11 1234-5678&quot;,
-            &quot;phone_2&quot;: null,
-            &quot;email_1&quot;: &quot;contacto@proveedor.com&quot;,
-            &quot;address&quot;: &quot;Av. Corrientes 1234, CABA&quot;,
-            &quot;website&quot;: &quot;https://proveedor.com&quot;,
-            &quot;contact_name&quot;: &quot;Juan P&eacute;rez&quot;,
-            &quot;observations&quot;: &quot;Cliente preferencial&quot;,
-            &quot;business_hours_start&quot;: &quot;09:00&quot;,
-            &quot;business_hours_end&quot;: &quot;18:00&quot;,
-            &quot;created_at&quot;: &quot;2024-11-16T10:00:00.000000Z&quot;,
-            &quot;updated_at&quot;: &quot;2024-11-16T10:00:00.000000Z&quot;,
-            &quot;deleted_at&quot;: null
-        }
-    ],
+    &quot;data&quot;: {
+        &quot;current_page&quot;: 1,
+        &quot;data&quot;: [
+            {
+                &quot;id&quot;: 1,
+                &quot;fantasy_name&quot;: &quot;Proveedor Demo&quot;,
+                &quot;business_name&quot;: &quot;Proveedor Demo S.A.&quot;,
+                &quot;cuit&quot;: &quot;20-12345678-9&quot;,
+                &quot;category&quot;: {
+                    &quot;id&quot;: 1,
+                    &quot;name&quot;: &quot;Construcci&oacute;n&quot;
+                },
+                &quot;tax_status&quot;: {
+                    &quot;id&quot;: 1,
+                    &quot;name&quot;: &quot;Responsable Inscripto&quot;
+                },
+                &quot;phone_1&quot;: &quot;+54 11 1234-5678&quot;,
+                &quot;email_1&quot;: &quot;contacto@proveedor.com&quot;,
+                &quot;created_at&quot;: &quot;2024-11-16T10:00:00.000000Z&quot;
+            }
+        ],
+        &quot;first_page_url&quot;: &quot;http://localhost:8000/api/providers?page=1&quot;,
+        &quot;from&quot;: 1,
+        &quot;last_page&quot;: 3,
+        &quot;last_page_url&quot;: &quot;http://localhost:8000/api/providers?page=3&quot;,
+        &quot;next_page_url&quot;: &quot;http://localhost:8000/api/providers?page=2&quot;,
+        &quot;path&quot;: &quot;http://localhost:8000/api/providers&quot;,
+        &quot;per_page&quot;: 15,
+        &quot;prev_page_url&quot;: null,
+        &quot;to&quot;: 15,
+        &quot;total&quot;: 45
+    },
+    &quot;message&quot;: &quot;Proveedores obtenidos exitosamente&quot;
+}</code>
+ </pre>
+            <blockquote>
+            <p>Example response (200, with search):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;success&quot;: true,
+    &quot;data&quot;: {
+        &quot;current_page&quot;: 1,
+        &quot;data&quot;: [
+            {
+                &quot;id&quot;: 3,
+                &quot;fantasy_name&quot;: &quot;TechProv&quot;,
+                &quot;business_name&quot;: &quot;Proveedor Tecnolog&iacute;a SRL&quot;
+            }
+        ],
+        &quot;total&quot;: 1
+    },
     &quot;message&quot;: &quot;Proveedores obtenidos exitosamente&quot;
 }</code>
  </pre>
@@ -3273,7 +3312,56 @@ You can check the Dev Tools console for debugging information.</code></pre>
     <br>
 <p>Example: <code>application/json</code></p>
             </div>
-                        </form>
+                            <h4 class="fancy-heading-panel"><b>Query Parameters</b></h4>
+                                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>page</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+<i>optional</i> &nbsp;
+ &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="page"                data-endpoint="GETapi-providers"
+               value="1"
+               data-component="query">
+    <br>
+<p>Page number for pagination. Example: <code>1</code></p>
+            </div>
+                                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>per_page</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+<i>optional</i> &nbsp;
+ &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="per_page"                data-endpoint="GETapi-providers"
+               value="20"
+               data-component="query">
+    <br>
+<p>Items per page (default: 15, max: 100). Example: <code>20</code></p>
+            </div>
+                                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>search</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="search"                data-endpoint="GETapi-providers"
+               value="Construcción"
+               data-component="query">
+    <br>
+<p>Search term to filter by fantasy_name or business_name. Example: <code>Construcción</code></p>
+            </div>
+                                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>category_id</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+<i>optional</i> &nbsp;
+ &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="category_id"                data-endpoint="GETapi-providers"
+               value="1"
+               data-component="query">
+    <br>
+<p>Filter by category ID. Example: <code>1</code></p>
+            </div>
+                </form>
 
                     <h2 id="gestion-de-proveedores-POSTapi-providers">Crear un nuevo proveedor</h2>
 

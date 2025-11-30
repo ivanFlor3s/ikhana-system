@@ -16,43 +16,87 @@ use Illuminate\Validation\ValidationException;
 class ProviderController extends Controller
 {
     /**
-     * Listar todos los proveedores
+     * List all providers with filters and pagination
      * 
-     * Obtiene una lista de todos los proveedores del sistema.
+     * Get a paginated list of providers with optional search and category filter.
+     * 
+     * @queryParam page integer Page number for pagination. Example: 1
+     * @queryParam per_page integer Items per page (default: 15, max: 100). Example: 20
+     * @queryParam search string Search term to filter by fantasy_name or business_name. Example: Construcción
+     * @queryParam category_id integer Filter by category ID. Example: 1
      * 
      * @response 200 scenario="success" {
      *   "success": true,
-     *   "data": [
-     *     {
-     *       "id": 1,
-     *       "fantasy_name": "Proveedor Demo",
-     *       "business_name": "Proveedor Demo S.A.",
-     *       "cuit": "20-12345678-9",
-     *       "iibb": "901-123456-7",
-     *       "tax_status": "Responsable Inscripto",
-     *       "agreement": "Convenio Multilateral",
-     *       "phone_1": "+54 11 1234-5678",
-     *       "phone_2": null,
-     *       "email_1": "contacto@proveedor.com",
-     *       "address": "Av. Corrientes 1234, CABA",
-     *       "website": "https://proveedor.com",
-     *       "contact_name": "Juan Pérez",
-     *       "observations": "Cliente preferencial",
-     *       "business_hours_start": "09:00",
-     *       "business_hours_end": "18:00",
-     *       "created_at": "2024-11-16T10:00:00.000000Z",
-     *       "updated_at": "2024-11-16T10:00:00.000000Z",
-     *       "deleted_at": null
-     *     }
-     *   ],
+     *   "data": {
+     *     "current_page": 1,
+     *     "data": [
+     *       {
+     *         "id": 1,
+     *         "fantasy_name": "Proveedor Demo",
+     *         "business_name": "Proveedor Demo S.A.",
+     *         "cuit": "20-12345678-9",
+     *         "category": {
+     *           "id": 1,
+     *           "name": "Construcción"
+     *         },
+     *         "tax_status": {
+     *           "id": 1,
+     *           "name": "Responsable Inscripto"
+     *         },
+     *         "phone_1": "+54 11 1234-5678",
+     *         "email_1": "contacto@proveedor.com",
+     *         "created_at": "2024-11-16T10:00:00.000000Z"
+     *       }
+     *     ],
+     *     "first_page_url": "http://localhost:8000/api/providers?page=1",
+     *     "from": 1,
+     *     "last_page": 3,
+     *     "last_page_url": "http://localhost:8000/api/providers?page=3",
+     *     "next_page_url": "http://localhost:8000/api/providers?page=2",
+     *     "path": "http://localhost:8000/api/providers",
+     *     "per_page": 15,
+     *     "prev_page_url": null,
+     *     "to": 15,
+     *     "total": 45
+     *   },
+     *   "message": "Proveedores obtenidos exitosamente"
+     * }
+     * 
+     * @response 200 scenario="with search" {
+     *   "success": true,
+     *   "data": {
+     *     "current_page": 1,
+     *     "data": [
+     *       {
+     *         "id": 3,
+     *         "fantasy_name": "TechProv",
+     *         "business_name": "Proveedor Tecnología SRL"
+     *       }
+     *     ],
+     *     "total": 1
+     *   },
      *   "message": "Proveedores obtenidos exitosamente"
      * }
      */
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse
     {
-        $providers = Provider::with(['taxStatus', 'agreement', 'category'])
-            ->orderBy('created_at', 'desc')
-            ->get();
+        $query = Provider::with(['taxStatus', 'agreement', 'category']);
+        if ($request->has('search') && $request->search != '') {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('fantasy_name', 'like', "%{$search}%")
+                  ->orWhere('business_name', 'like', "%{$search}%");
+            });
+        }
+        if ($request->has('category_id') && $request->category_id != '') {
+            $query->where('category_id', $request->category_id);
+        }
+        $query->orderBy('created_at', 'desc');
+
+        $perPage = $request->input('per_page', 15);
+        $perPage = min($perPage, 100); // Max 100 items per page
+        
+        $providers = $query->paginate($perPage);
         
         return response()->json([
             'success' => true,
