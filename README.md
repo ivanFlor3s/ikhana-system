@@ -143,11 +143,17 @@ La documentación incluye:
 - ✅ Botón "Try it out" para probar los endpoints directamente
 - ✅ Exportación automática a Postman y OpenAPI
 
+## 📚 Documentación
+
+**Documentación Interactiva de la API:** `http://localhost:8000/docs`
+
+**Postman Collection:** [`Ikhana_API.postman_collection.json`](./Ikhana_API.postman_collection.json) - Importa directamente en Postman
+
+**Documentación Adicional:** Ver carpeta [`docs/`](./docs/INDEX.md) para guías específicas
+
 ## 📚 API Endpoints
 
 **Base URL:** `http://localhost:8000/api`
-
-**Documentación Completa:** `http://localhost:8000/docs`
 
 La API sigue principios RESTful con las siguientes convenciones:
 - ✅ Respuestas en formato JSON

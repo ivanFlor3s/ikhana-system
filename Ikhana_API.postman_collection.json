@@ -1,174 +1,1370 @@
 {
-  "info": {
-    "name": "Ikhana API - Providers",
-    "_postman_id": "ikhana-providers-api",
-    "description": "API RESTful para gestión de proveedores",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
-  },
-  "variable": [
-    {
-      "key": "base_url",
-      "value": "http://localhost:8000/api",
-      "type": "string"
-    }
-  ],
-  "item": [
-    {
-      "name": "Providers",
-      "item": [
+    "variable": [
         {
-          "name": "List All Providers",
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "url": {
-              "raw": "{{base_url}}/providers",
-              "host": ["{{base_url}}"],
-              "path": ["providers"]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Get Provider by ID",
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "url": {
-              "raw": "{{base_url}}/providers/1",
-              "host": ["{{base_url}}"],
-              "path": ["providers", "1"]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Create Provider",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"fantasy_name\": \"Proveedor Demo\",\n  \"business_name\": \"Proveedor Demo S.A.\",\n  \"cuit\": \"20-12345678-9\",\n  \"iibb\": \"901-123456-7\",\n  \"tax_status\": \"Responsable Inscripto\",\n  \"agreement\": \"Convenio Multilateral\",\n  \"phone_1\": \"+54 11 1234-5678\",\n  \"phone_2\": \"+54 11 8765-4321\",\n  \"email_1\": \"contacto@proveedor.com\",\n  \"email_2\": \"ventas@proveedor.com\",\n  \"address\": \"Av. Corrientes 1234, CABA, Argentina\",\n  \"website\": \"https://proveedordemo.com\",\n  \"contact_name\": \"Juan Pérez\",\n  \"observations\": \"Proveedor preferencial con descuentos especiales\",\n  \"business_hours_start\": \"09:00\",\n  \"business_hours_end\": \"18:00\"\n}"
-            },
-            "url": {
-              "raw": "{{base_url}}/providers",
-              "host": ["{{base_url}}"],
-              "path": ["providers"]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Create Provider (Minimal)",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"business_name\": \"Proveedor Simple\",\n  \"cuit\": \"27-98765432-1\"\n}"
-            },
-            "url": {
-              "raw": "{{base_url}}/providers",
-              "host": ["{{base_url}}"],
-              "path": ["providers"]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Update Provider",
-          "request": {
-            "method": "PUT",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"fantasy_name\": \"Proveedor Actualizado\",\n  \"phone_1\": \"+54 11 9999-9999\",\n  \"email_1\": \"nuevo@proveedor.com\"\n}"
-            },
-            "url": {
-              "raw": "{{base_url}}/providers/1",
-              "host": ["{{base_url}}"],
-              "path": ["providers", "1"]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Delete Provider",
-          "request": {
-            "method": "DELETE",
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "url": {
-              "raw": "{{base_url}}/providers/1",
-              "host": ["{{base_url}}"],
-              "path": ["providers", "1"]
-            }
-          },
-          "response": []
+            "id": "baseUrl",
+            "key": "baseUrl",
+            "type": "string",
+            "name": "string",
+            "value": "http:\/\/localhost:8000"
         }
-      ]
+    ],
+    "info": {
+        "name": "Ikhana API Documentation",
+        "_postman_id": "224026d1-1522-4611-80a1-b8de11e88c06",
+        "description": "",
+        "schema": "https:\/\/schema.getpostman.com\/json\/collection\/v2.1.0\/collection.json"
     },
-    {
-      "name": "Health Check",
-      "request": {
-        "method": "GET",
-        "header": [
-          {
-            "key": "Accept",
-            "value": "application/json"
-          }
-        ],
-        "url": {
-          "raw": "http://localhost:8000",
-          "protocol": "http",
-          "host": ["localhost"],
-          "port": "8000"
+    "item": [
+        {
+            "name": "AFIP Integration",
+            "description": "\nAPIs for integrating with AFIP (Administraci\u00f3n Federal de Ingresos P\u00fablicos).",
+            "item": [
+                {
+                    "name": "Validate Tax ID (CUIT\/CUIL)",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/tax-id\/validate",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/tax-id\/validate"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"tax_id\":\"20-41173228-3\"}"
+                        },
+                        "description": "Validates if a CUIT\/CUIL exists in AFIP's taxpayer registry.\nThis endpoint verifies both the format and existence of the tax ID in AFIP's database.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n  \"tax_id\": \"20-41173228-3\",\n  \"exists\": true\n}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n  \"tax_id\": \"20-99999999-9\",\n  \"exists\": false\n}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 422,
+                            "body": "{\n  \"message\": \"The tax id field is required.\",\n  \"errors\": {\n    \"tax_id\": [\n      \"The tax id field is required.\"\n    ]\n  }\n}",
+                            "name": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Brokers Management",
+            "description": "\nAPIs for managing brokers (corredores\/contactos internos)",
+            "item": [
+                {
+                    "name": "List all brokers",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/brokers",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/brokers"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Get a list of all brokers in the system. Useful for populating select\/dropdown fields.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n  \"success\": true,\n  \"data\": [\n    {\n      \"id\": 1,\n      \"first_name\": \"Juan\",\n      \"last_name\": \"P\u00e9rez\",\n      \"full_name\": \"Juan P\u00e9rez\",\n      \"email\": \"juan.perez@example.com\",\n      \"phone\": \"+54 11 1234-5678\",\n      \"created_at\": \"2024-11-30T10:00:00.000000Z\",\n      \"updated_at\": \"2024-11-30T10:00:00.000000Z\",\n      \"deleted_at\": null\n    }\n  ],\n  \"message\": \"Corredores obtenidos exitosamente\"\n}",
+                            "name": "success"
+                        }
+                    ]
+                },
+                {
+                    "name": "Create a new broker",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/brokers",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/brokers"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"first_name\":\"Juan\",\"last_name\":\"P\u00e9rez\",\"email\":\"juan.perez@example.com\",\"phone\":\"+54 11 1234-5678\"}"
+                        },
+                        "description": "Create and store a new broker in the database.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 201,
+                            "body": "{\n  \"success\": true,\n  \"data\": {\n    \"id\": 1,\n    \"first_name\": \"Juan\",\n    \"last_name\": \"P\u00e9rez\",\n    \"full_name\": \"Juan P\u00e9rez\",\n    \"email\": \"juan.perez@example.com\",\n    \"phone\": \"+54 11 1234-5678\",\n    \"created_at\": \"2024-11-30T10:00:00.000000Z\",\n    \"updated_at\": \"2024-11-30T10:00:00.000000Z\"\n  },\n  \"message\": \"Corredor creado exitosamente\"\n}",
+                            "name": "success"
+                        },
+                        {
+                            "header": [],
+                            "code": 422,
+                            "body": "{\n  \"success\": false,\n  \"message\": \"Validation error\",\n  \"errors\": {\n    \"email\": [\"The email has already been taken.\"]\n  }\n}",
+                            "name": "validation error"
+                        }
+                    ]
+                },
+                {
+                    "name": "Get a specific broker",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/brokers\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/brokers\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "1",
+                                    "description": "Broker ID."
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Get detailed information about a specific broker by its ID.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n  \"success\": true,\n  \"data\": {\n    \"id\": 1,\n    \"first_name\": \"Juan\",\n    \"last_name\": \"P\u00e9rez\",\n    \"full_name\": \"Juan P\u00e9rez\",\n    \"email\": \"juan.perez@example.com\",\n    \"phone\": \"+54 11 1234-5678\",\n    \"provider\": {\n      \"id\": 1,\n      \"business_name\": \"Proveedor Demo SA\",\n      \"fantasy_name\": \"ProvDemo\"\n    },\n    \"created_at\": \"2024-11-30T10:00:00.000000Z\",\n    \"updated_at\": \"2024-11-30T10:00:00.000000Z\"\n  },\n  \"message\": \"Corredor obtenido exitosamente\"\n}",
+                            "name": "success"
+                        },
+                        {
+                            "header": [],
+                            "code": 404,
+                            "body": "{\n  \"success\": false,\n  \"message\": \"Corredor no encontrado\"\n}",
+                            "name": "not found"
+                        }
+                    ]
+                },
+                {
+                    "name": "Update a broker",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/brokers\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/brokers\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "1",
+                                    "description": "Broker ID."
+                                }
+                            ]
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"first_name\":\"Juan Carlos\",\"last_name\":\"P\u00e9rez Gonz\u00e1lez\",\"email\":\"juancarlos.perez@example.com\",\"phone\":\"+54 11 9999-8888\"}"
+                        },
+                        "description": "Update an existing broker's information. Only send the fields you want to update.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n  \"success\": true,\n  \"data\": {\n    \"id\": 1,\n    \"first_name\": \"Juan Carlos\",\n    \"last_name\": \"P\u00e9rez Gonz\u00e1lez\",\n    \"full_name\": \"Juan Carlos P\u00e9rez Gonz\u00e1lez\",\n    \"email\": \"juancarlos.perez@example.com\",\n    \"phone\": \"+54 11 9999-8888\",\n    \"created_at\": \"2024-11-30T10:00:00.000000Z\",\n    \"updated_at\": \"2024-11-30T11:00:00.000000Z\"\n  },\n  \"message\": \"Corredor actualizado exitosamente\"\n}",
+                            "name": "success"
+                        },
+                        {
+                            "header": [],
+                            "code": 404,
+                            "body": "{\n  \"success\": false,\n  \"message\": \"Corredor no encontrado\"\n}",
+                            "name": "not found"
+                        },
+                        {
+                            "header": [],
+                            "code": 422,
+                            "body": "{\n  \"success\": false,\n  \"message\": \"Validation error\",\n  \"errors\": {\n    \"email\": [\"The email has already been taken.\"]\n  }\n}",
+                            "name": "validation error"
+                        }
+                    ]
+                },
+                {
+                    "name": "Delete a broker",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/brokers\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/brokers\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "1",
+                                    "description": "Broker ID."
+                                }
+                            ]
+                        },
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Delete a broker from the system (soft delete). The broker will be marked as deleted but not permanently removed.\nIf a provider is using this broker, the relationship will be set to null automatically.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n  \"success\": true,\n  \"message\": \"Corredor eliminado exitosamente\"\n}",
+                            "name": "success"
+                        },
+                        {
+                            "header": [],
+                            "code": 404,
+                            "body": "{\n  \"success\": false,\n  \"message\": \"Corredor no encontrado\"\n}",
+                            "name": "not found"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Business Categories",
+            "description": "\nAPIs for managing business categories (rubros)",
+            "item": [
+                {
+                    "name": "List all categories",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/categories",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/categories"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Get a list of all business categories in the system.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n  \"success\": true,\n  \"data\": [\n    {\n      \"id\": 1,\n      \"name\": \"Construcci\u00f3n\",\n      \"description\": \"Materiales y servicios de construcci\u00f3n\",\n      \"created_at\": \"2024-11-30T10:00:00.000000Z\",\n      \"updated_at\": \"2024-11-30T10:00:00.000000Z\",\n      \"deleted_at\": null\n    },\n    {\n      \"id\": 2,\n      \"name\": \"Tecnolog\u00eda\",\n      \"description\": \"Equipos y servicios tecnol\u00f3gicos\",\n      \"created_at\": \"2024-11-30T10:00:00.000000Z\",\n      \"updated_at\": \"2024-11-30T10:00:00.000000Z\",\n      \"deleted_at\": null\n    }\n  ],\n  \"message\": \"Categor\u00edas obtenidas exitosamente\"\n}",
+                            "name": "success"
+                        }
+                    ]
+                },
+                {
+                    "name": "Create a new category",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/categories",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/categories"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"name\":\"Construcci\u00f3n\",\"description\":\"Materiales y servicios de construcci\u00f3n\"}"
+                        },
+                        "description": "Create and store a new business category in the database.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 201,
+                            "body": "{\n  \"success\": true,\n  \"data\": {\n    \"id\": 1,\n    \"name\": \"Construcci\u00f3n\",\n    \"description\": \"Materiales y servicios de construcci\u00f3n\",\n    \"created_at\": \"2024-11-30T10:00:00.000000Z\",\n    \"updated_at\": \"2024-11-30T10:00:00.000000Z\"\n  },\n  \"message\": \"Categor\u00eda creada exitosamente\"\n}",
+                            "name": "success"
+                        },
+                        {
+                            "header": [],
+                            "code": 422,
+                            "body": "{\n  \"success\": false,\n  \"message\": \"Validation error\",\n  \"errors\": {\n    \"name\": [\"The name field is required.\"]\n  }\n}",
+                            "name": "validation error"
+                        }
+                    ]
+                },
+                {
+                    "name": "Get a specific category",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/categories\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/categories\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "1",
+                                    "description": "Category ID."
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Get detailed information about a specific category by its ID.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n  \"success\": true,\n  \"data\": {\n    \"id\": 1,\n    \"name\": \"Construcci\u00f3n\",\n    \"description\": \"Materiales y servicios de construcci\u00f3n\",\n    \"providers_count\": 5,\n    \"created_at\": \"2024-11-30T10:00:00.000000Z\",\n    \"updated_at\": \"2024-11-30T10:00:00.000000Z\"\n  },\n  \"message\": \"Categor\u00eda obtenida exitosamente\"\n}",
+                            "name": "success"
+                        },
+                        {
+                            "header": [],
+                            "code": 404,
+                            "body": "{\n  \"success\": false,\n  \"message\": \"Categor\u00eda no encontrada\"\n}",
+                            "name": "not found"
+                        }
+                    ]
+                },
+                {
+                    "name": "Update a category",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/categories\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/categories\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "1",
+                                    "description": "Category ID."
+                                }
+                            ]
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"name\":\"Construcci\u00f3n y Arquitectura\",\"description\":\"Materiales, servicios de construcci\u00f3n y arquitectura\"}"
+                        },
+                        "description": "Update an existing category's information. Only send the fields you want to update.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n  \"success\": true,\n  \"data\": {\n    \"id\": 1,\n    \"name\": \"Construcci\u00f3n y Arquitectura\",\n    \"description\": \"Materiales, servicios de construcci\u00f3n y arquitectura\",\n    \"created_at\": \"2024-11-30T10:00:00.000000Z\",\n    \"updated_at\": \"2024-11-30T11:00:00.000000Z\"\n  },\n  \"message\": \"Categor\u00eda actualizada exitosamente\"\n}",
+                            "name": "success"
+                        },
+                        {
+                            "header": [],
+                            "code": 404,
+                            "body": "{\n  \"success\": false,\n  \"message\": \"Categor\u00eda no encontrada\"\n}",
+                            "name": "not found"
+                        },
+                        {
+                            "header": [],
+                            "code": 422,
+                            "body": "{\n  \"success\": false,\n  \"message\": \"Validation error\",\n  \"errors\": {\n    \"name\": [\"The name has already been taken.\"]\n  }\n}",
+                            "name": "validation error"
+                        }
+                    ]
+                },
+                {
+                    "name": "Delete a category",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/categories\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/categories\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "1",
+                                    "description": "Category ID."
+                                }
+                            ]
+                        },
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Delete a category from the system (soft delete). The category will be marked as deleted but not permanently removed.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n  \"success\": true,\n  \"message\": \"Categor\u00eda eliminada exitosamente\"\n}",
+                            "name": "success"
+                        },
+                        {
+                            "header": [],
+                            "code": 404,
+                            "body": "{\n  \"success\": false,\n  \"message\": \"Categor\u00eda no encontrada\"\n}",
+                            "name": "not found"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Endpoints",
+            "description": "",
+            "item": [
+                {
+                    "name": "GET api\/user",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/user",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/user"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "*"
+                                }
+                            ],
+                            "code": 500,
+                            "body": "{\n    \"message\": \"Server Error\"\n}",
+                            "name": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Gesti\u00f3n de Convenios",
+            "description": "\nAPIs para gestionar los convenios del sistema",
+            "item": [
+                {
+                    "name": "Listar todos los convenios",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/agreements",
+                            "query": [
+                                {
+                                    "key": "is_active",
+                                    "value": "1",
+                                    "description": "Filtrar solo los activos (1) o inactivos (0).",
+                                    "disabled": false
+                                }
+                            ],
+                            "raw": "{{baseUrl}}\/api\/agreements?is_active=1"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Obtiene una lista de todos los convenios disponibles en el sistema.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n  \"success\": true,\n  \"data\": [\n    {\n      \"id\": 1,\n      \"code\": \"convenio_multilateral\",\n      \"name\": \"Convenio Multilateral\",\n      \"description\": null,\n      \"is_active\": true,\n      \"created_at\": \"2024-11-16T10:00:00.000000Z\",\n      \"updated_at\": \"2024-11-16T10:00:00.000000Z\"\n    }\n  ],\n  \"message\": \"Convenios obtenidos exitosamente\"\n}",
+                            "name": "success"
+                        }
+                    ]
+                },
+                {
+                    "name": "Crear un nuevo convenio",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/agreements",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/agreements"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"code\":\"convenio_bilateral\",\"name\":\"Convenio Bilateral\",\"description\":\"Convenio entre dos jurisdicciones\",\"is_active\":true}"
+                        },
+                        "description": "Crea y almacena un nuevo convenio en el sistema.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 201,
+                            "body": "{\n  \"success\": true,\n  \"data\": {\n    \"id\": 2,\n    \"code\": \"convenio_bilateral\",\n    \"name\": \"Convenio Bilateral\",\n    \"description\": \"Convenio entre dos jurisdicciones\",\n    \"is_active\": true,\n    \"created_at\": \"2024-11-16T10:00:00.000000Z\",\n    \"updated_at\": \"2024-11-16T10:00:00.000000Z\"\n  },\n  \"message\": \"Convenio creado exitosamente\"\n}",
+                            "name": "success"
+                        },
+                        {
+                            "header": [],
+                            "code": 422,
+                            "body": "{\n  \"success\": false,\n  \"message\": \"Error de validaci\u00f3n\",\n  \"errors\": {\n    \"code\": [\"El c\u00f3digo ya existe.\"],\n    \"name\": [\"El nombre es requerido.\"]\n  }\n}",
+                            "name": "error de validaci\u00f3n"
+                        }
+                    ]
+                },
+                {
+                    "name": "Obtener un convenio espec\u00edfico",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/agreements\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/agreements\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "1",
+                                    "description": "ID del convenio."
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Obtiene informaci\u00f3n detallada de un convenio por su ID.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n  \"success\": true,\n  \"data\": {\n    \"id\": 1,\n    \"code\": \"convenio_multilateral\",\n    \"name\": \"Convenio Multilateral\",\n    \"description\": null,\n    \"is_active\": true,\n    \"created_at\": \"2024-11-16T10:00:00.000000Z\",\n    \"updated_at\": \"2024-11-16T10:00:00.000000Z\"\n  },\n  \"message\": \"Convenio obtenido exitosamente\"\n}",
+                            "name": "success"
+                        },
+                        {
+                            "header": [],
+                            "code": 404,
+                            "body": "{\n  \"success\": false,\n  \"message\": \"Convenio no encontrado\"\n}",
+                            "name": "no encontrado"
+                        }
+                    ]
+                },
+                {
+                    "name": "Actualizar un convenio",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/agreements\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/agreements\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "1",
+                                    "description": "ID del convenio."
+                                }
+                            ]
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"code\":\"convenio_multilateral\",\"name\":\"Convenio Multilateral Actualizado\",\"description\":\"Descripci\u00f3n actualizada\",\"is_active\":false}"
+                        },
+                        "description": "Actualiza la informaci\u00f3n de un convenio existente.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n  \"success\": true,\n  \"data\": {\n    \"id\": 1,\n    \"code\": \"convenio_multilateral\",\n    \"name\": \"Convenio Multilateral Actualizado\",\n    \"description\": \"Descripci\u00f3n actualizada\",\n    \"is_active\": false,\n    \"updated_at\": \"2024-11-16T11:00:00.000000Z\"\n  },\n  \"message\": \"Convenio actualizado exitosamente\"\n}",
+                            "name": "success"
+                        },
+                        {
+                            "header": [],
+                            "code": 404,
+                            "body": "{\n  \"success\": false,\n  \"message\": \"Convenio no encontrado\"\n}",
+                            "name": "no encontrado"
+                        }
+                    ]
+                },
+                {
+                    "name": "Eliminar un convenio",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/agreements\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/agreements\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "1",
+                                    "description": "ID del convenio."
+                                }
+                            ]
+                        },
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Elimina un convenio del sistema (soft delete).",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n  \"success\": true,\n  \"message\": \"Convenio eliminado exitosamente\"\n}",
+                            "name": "success"
+                        },
+                        {
+                            "header": [],
+                            "code": 404,
+                            "body": "{\n  \"success\": false,\n  \"message\": \"Convenio no encontrado\"\n}",
+                            "name": "no encontrado"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Gesti\u00f3n de Posiciones frente al IVA",
+            "description": "\nAPIs para gestionar las posiciones frente al IVA del sistema",
+            "item": [
+                {
+                    "name": "Listar todas las posiciones frente al IVA",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/tax-statuses",
+                            "query": [
+                                {
+                                    "key": "is_active",
+                                    "value": "1",
+                                    "description": "Filtrar solo las activas (1) o inactivas (0).",
+                                    "disabled": false
+                                }
+                            ],
+                            "raw": "{{baseUrl}}\/api\/tax-statuses?is_active=1"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Obtiene una lista de todas las posiciones frente al IVA disponibles en el sistema.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n  \"success\": true,\n  \"data\": [\n    {\n      \"id\": 1,\n      \"code\": \"1\",\n      \"name\": \"IVA Responsable Inscripto\",\n      \"description\": null,\n      \"is_active\": true,\n      \"created_at\": \"2024-11-16T10:00:00.000000Z\",\n      \"updated_at\": \"2024-11-16T10:00:00.000000Z\"\n    }\n  ],\n  \"message\": \"Posiciones frente al IVA obtenidas exitosamente\"\n}",
+                            "name": "success"
+                        }
+                    ]
+                },
+                {
+                    "name": "Crear una nueva posici\u00f3n frente al IVA",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/tax-statuses",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/tax-statuses"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"code\":\"15\",\"name\":\"Nuevo R\u00e9gimen IVA\",\"description\":\"Descripci\u00f3n del nuevo r\u00e9gimen\",\"is_active\":true}"
+                        },
+                        "description": "Crea y almacena una nueva posici\u00f3n frente al IVA en el sistema.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 201,
+                            "body": "{\n  \"success\": true,\n  \"data\": {\n    \"id\": 15,\n    \"code\": \"15\",\n    \"name\": \"Nuevo R\u00e9gimen IVA\",\n    \"description\": \"Descripci\u00f3n del nuevo r\u00e9gimen\",\n    \"is_active\": true,\n    \"created_at\": \"2024-11-16T10:00:00.000000Z\",\n    \"updated_at\": \"2024-11-16T10:00:00.000000Z\"\n  },\n  \"message\": \"Posici\u00f3n frente al IVA creada exitosamente\"\n}",
+                            "name": "success"
+                        },
+                        {
+                            "header": [],
+                            "code": 422,
+                            "body": "{\n  \"success\": false,\n  \"message\": \"Error de validaci\u00f3n\",\n  \"errors\": {\n    \"code\": [\"El c\u00f3digo ya existe.\"],\n    \"name\": [\"El nombre es requerido.\"]\n  }\n}",
+                            "name": "error de validaci\u00f3n"
+                        }
+                    ]
+                },
+                {
+                    "name": "Obtener una posici\u00f3n frente al IVA espec\u00edfica",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/tax-statuses\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/tax-statuses\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "1",
+                                    "description": "ID de la posici\u00f3n."
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Obtiene informaci\u00f3n detallada de una posici\u00f3n frente al IVA por su ID.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n  \"success\": true,\n  \"data\": {\n    \"id\": 1,\n    \"code\": \"1\",\n    \"name\": \"IVA Responsable Inscripto\",\n    \"description\": null,\n    \"is_active\": true,\n    \"created_at\": \"2024-11-16T10:00:00.000000Z\",\n    \"updated_at\": \"2024-11-16T10:00:00.000000Z\"\n  },\n  \"message\": \"Posici\u00f3n frente al IVA obtenida exitosamente\"\n}",
+                            "name": "success"
+                        },
+                        {
+                            "header": [],
+                            "code": 404,
+                            "body": "{\n  \"success\": false,\n  \"message\": \"Posici\u00f3n frente al IVA no encontrada\"\n}",
+                            "name": "no encontrado"
+                        }
+                    ]
+                },
+                {
+                    "name": "Actualizar una posici\u00f3n frente al IVA",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/tax-statuses\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/tax-statuses\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "1",
+                                    "description": "ID de la posici\u00f3n."
+                                }
+                            ]
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"code\":\"1\",\"name\":\"IVA Responsable Inscripto Actualizado\",\"description\":\"Descripci\u00f3n actualizada\",\"is_active\":false}"
+                        },
+                        "description": "Actualiza la informaci\u00f3n de una posici\u00f3n frente al IVA existente.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n  \"success\": true,\n  \"data\": {\n    \"id\": 1,\n    \"code\": \"1\",\n    \"name\": \"IVA Responsable Inscripto Actualizado\",\n    \"description\": \"Descripci\u00f3n actualizada\",\n    \"is_active\": false,\n    \"updated_at\": \"2024-11-16T11:00:00.000000Z\"\n  },\n  \"message\": \"Posici\u00f3n frente al IVA actualizada exitosamente\"\n}",
+                            "name": "success"
+                        },
+                        {
+                            "header": [],
+                            "code": 404,
+                            "body": "{\n  \"success\": false,\n  \"message\": \"Posici\u00f3n frente al IVA no encontrada\"\n}",
+                            "name": "no encontrado"
+                        }
+                    ]
+                },
+                {
+                    "name": "Eliminar una posici\u00f3n frente al IVA",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/tax-statuses\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/tax-statuses\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "1",
+                                    "description": "ID de la posici\u00f3n."
+                                }
+                            ]
+                        },
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Elimina una posici\u00f3n frente al IVA del sistema (soft delete).",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n  \"success\": true,\n  \"message\": \"Posici\u00f3n frente al IVA eliminada exitosamente\"\n}",
+                            "name": "success"
+                        },
+                        {
+                            "header": [],
+                            "code": 404,
+                            "body": "{\n  \"success\": false,\n  \"message\": \"Posici\u00f3n frente al IVA no encontrada\"\n}",
+                            "name": "no encontrado"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Gesti\u00f3n de Proveedores",
+            "description": "\nAPIs para gestionar proveedores (suppliers\/vendors)",
+            "item": [
+                {
+                    "name": "List all providers with filters and pagination",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/providers",
+                            "query": [
+                                {
+                                    "key": "page",
+                                    "value": "1",
+                                    "description": "Page number for pagination.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "per_page",
+                                    "value": "20",
+                                    "description": "Items per page (default: 15, max: 100).",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "search",
+                                    "value": "Construcci%C3%B3n",
+                                    "description": "Search term to filter by fantasy_name or business_name.",
+                                    "disabled": false
+                                },
+                                {
+                                    "key": "category_id",
+                                    "value": "1",
+                                    "description": "Filter by category ID.",
+                                    "disabled": false
+                                }
+                            ],
+                            "raw": "{{baseUrl}}\/api\/providers?page=1&per_page=20&search=Construcci%C3%B3n&category_id=1"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Get a paginated list of providers with optional search and category filter.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n  \"success\": true,\n  \"data\": {\n    \"current_page\": 1,\n    \"data\": [\n      {\n        \"id\": 1,\n        \"fantasy_name\": \"Proveedor Demo\",\n        \"business_name\": \"Proveedor Demo S.A.\",\n        \"cuit\": \"20-12345678-9\",\n        \"category\": {\n          \"id\": 1,\n          \"name\": \"Construcci\u00f3n\"\n        },\n        \"tax_status\": {\n          \"id\": 1,\n          \"name\": \"Responsable Inscripto\"\n        },\n        \"phone_1\": \"+54 11 1234-5678\",\n        \"email_1\": \"contacto@proveedor.com\",\n        \"created_at\": \"2024-11-16T10:00:00.000000Z\"\n      }\n    ],\n    \"first_page_url\": \"http:\/\/localhost:8000\/api\/providers?page=1\",\n    \"from\": 1,\n    \"last_page\": 3,\n    \"last_page_url\": \"http:\/\/localhost:8000\/api\/providers?page=3\",\n    \"next_page_url\": \"http:\/\/localhost:8000\/api\/providers?page=2\",\n    \"path\": \"http:\/\/localhost:8000\/api\/providers\",\n    \"per_page\": 15,\n    \"prev_page_url\": null,\n    \"to\": 15,\n    \"total\": 45\n  },\n  \"message\": \"Proveedores obtenidos exitosamente\"\n}",
+                            "name": "success"
+                        },
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n  \"success\": true,\n  \"data\": {\n    \"current_page\": 1,\n    \"data\": [\n      {\n        \"id\": 3,\n        \"fantasy_name\": \"TechProv\",\n        \"business_name\": \"Proveedor Tecnolog\u00eda SRL\"\n      }\n    ],\n    \"total\": 1\n  },\n  \"message\": \"Proveedores obtenidos exitosamente\"\n}",
+                            "name": "with search"
+                        }
+                    ]
+                },
+                {
+                    "name": "Crear un nuevo proveedor",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/providers",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/providers"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"business_name\":\"Proveedor Demo S.A.\",\"fantasy_name\":\"Proveedor Demo\",\"cuit\":\"20-12345678-9\",\"iibb\":\"901-123456-7\",\"tax_status_id\":1,\"agreement_id\":1,\"category_id\":1,\"broker_id\":1,\"phone_1\":\"+54 11 1234-5678\",\"phone_2\":\"+54 11 8765-4321\",\"email_1\":\"contacto@proveedor.com\",\"email_2\":\"ventas@proveedor.com\",\"address\":\"Av. Corrientes 1234, CABA\",\"website\":\"https:\\\/\\\/proveedor.com\",\"contact_name\":\"Juan P\u00e9rez\",\"observations\":\"Cliente preferencial\",\"business_hours_start\":\"09:00\",\"business_hours_end\":\"18:00\"}"
+                        },
+                        "description": "Crea y almacena un nuevo proveedor en la base de datos.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 201,
+                            "body": "{\n  \"success\": true,\n  \"data\": {\n    \"id\": 1,\n    \"business_name\": \"Proveedor Demo S.A.\",\n    \"fantasy_name\": \"Proveedor Demo\",\n    \"cuit\": \"20-12345678-9\",\n    \"created_at\": \"2024-11-16T10:00:00.000000Z\",\n    \"updated_at\": \"2024-11-16T10:00:00.000000Z\"\n  },\n  \"message\": \"Proveedor creado exitosamente\"\n}",
+                            "name": "success"
+                        },
+                        {
+                            "header": [],
+                            "code": 422,
+                            "body": "{\n  \"success\": false,\n  \"message\": \"Error de validaci\u00f3n\",\n  \"errors\": {\n    \"cuit\": [\"El campo CUIT es requerido.\"],\n    \"business_name\": [\"El campo raz\u00f3n social es requerido.\"]\n  }\n}",
+                            "name": "error de validaci\u00f3n"
+                        }
+                    ]
+                },
+                {
+                    "name": "Obtener un proveedor espec\u00edfico",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/providers\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/providers\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "1",
+                                    "description": "ID del proveedor."
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Obtiene informaci\u00f3n detallada de un proveedor espec\u00edfico por su ID.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n  \"success\": true,\n  \"data\": {\n    \"id\": 1,\n    \"fantasy_name\": \"Proveedor Demo\",\n    \"business_name\": \"Proveedor Demo S.A.\",\n    \"cuit\": \"20-12345678-9\",\n    \"iibb\": \"901-123456-7\",\n    \"tax_status\": \"Responsable Inscripto\",\n    \"agreement\": \"Convenio Multilateral\",\n    \"phone_1\": \"+54 11 1234-5678\",\n    \"email_1\": \"contacto@proveedor.com\",\n    \"address\": \"Av. Corrientes 1234, CABA\",\n    \"website\": \"https:\/\/proveedor.com\",\n    \"contact_name\": \"Juan P\u00e9rez\",\n    \"observations\": \"Cliente preferencial\",\n    \"business_hours_start\": \"09:00\",\n    \"business_hours_end\": \"18:00\",\n    \"created_at\": \"2024-11-16T10:00:00.000000Z\",\n    \"updated_at\": \"2024-11-16T10:00:00.000000Z\"\n  },\n  \"message\": \"Proveedor obtenido exitosamente\"\n}",
+                            "name": "success"
+                        },
+                        {
+                            "header": [],
+                            "code": 404,
+                            "body": "{\n  \"success\": false,\n  \"message\": \"Proveedor no encontrado\"\n}",
+                            "name": "no encontrado"
+                        }
+                    ]
+                },
+                {
+                    "name": "Actualizar un proveedor",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/providers\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/providers\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "1",
+                                    "description": "ID del proveedor."
+                                }
+                            ]
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"business_name\":\"Proveedor Actualizado S.A.\",\"fantasy_name\":\"Proveedor Actualizado\",\"category_id\":2,\"broker_id\":1,\"phone_2\":\"+54 11 9999-8888\",\"email_2\":\"nuevo@proveedor.com\"}"
+                        },
+                        "description": "Actualiza la informaci\u00f3n de un proveedor existente. Solo env\u00eda los campos que deseas actualizar.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n  \"success\": true,\n  \"data\": {\n    \"id\": 1,\n    \"fantasy_name\": \"Proveedor Actualizado\",\n    \"business_name\": \"Proveedor Actualizado S.A.\",\n    \"cuit\": \"20-12345678-9\",\n    \"updated_at\": \"2024-11-16T11:00:00.000000Z\"\n  },\n  \"message\": \"Proveedor actualizado exitosamente\"\n}",
+                            "name": "success"
+                        },
+                        {
+                            "header": [],
+                            "code": 404,
+                            "body": "{\n  \"success\": false,\n  \"message\": \"Proveedor no encontrado\"\n}",
+                            "name": "no encontrado"
+                        },
+                        {
+                            "header": [],
+                            "code": 422,
+                            "body": "{\n  \"success\": false,\n  \"message\": \"Error de validaci\u00f3n\",\n  \"errors\": {\n    \"email_2\": [\"El email 2 debe ser una direcci\u00f3n de correo v\u00e1lida.\"]\n  }\n}",
+                            "name": "error de validaci\u00f3n"
+                        }
+                    ]
+                },
+                {
+                    "name": "Eliminar un proveedor",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/providers\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/providers\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "1",
+                                    "description": "ID del proveedor."
+                                }
+                            ]
+                        },
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Elimina un proveedor del sistema (soft delete). El proveedor ser\u00e1 marcado como eliminado pero no se borrar\u00e1 permanentemente.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n  \"success\": true,\n  \"message\": \"Proveedor eliminado exitosamente\"\n}",
+                            "name": "success"
+                        },
+                        {
+                            "header": [],
+                            "code": 404,
+                            "body": "{\n  \"success\": false,\n  \"message\": \"Proveedor no encontrado\"\n}",
+                            "name": "no encontrado"
+                        }
+                    ]
+                }
+            ]
         }
-      },
-      "response": []
+    ],
+    "auth": {
+        "type": "noauth"
     }
-  ]
 }
-
