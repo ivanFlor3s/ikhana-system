@@ -20,8 +20,8 @@ class Provider extends Model
         'business_name',
         'cuit',
         'iibb',
-        'tax_status',
-        'agreement',
+        'tax_status_id',
+        'agreement_id',
         'phone_1',
         'phone_2',
         'phone_3',
@@ -52,5 +52,21 @@ class Provider extends Model
         'updated_at' => 'datetime',
         'deleted_at' => 'datetime',
     ];
+
+    /**
+     * Relación: Proveedor pertenece a un TaxStatus
+     */
+    public function taxStatus()
+    {
+        return $this->belongsTo(TaxStatus::class);
+    }
+
+    /**
+     * Relación: Proveedor pertenece a un Agreement
+     */
+    public function agreement()
+    {
+        return $this->belongsTo(Agreement::class);
+    }
 }
 

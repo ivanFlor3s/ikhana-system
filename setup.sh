@@ -21,6 +21,10 @@ done
 echo "📊 Ejecutando migraciones..."
 php artisan migrate --force
 
+# Ejecutar seeders (datos iniciales)
+echo "🌱 Poblando base de datos con datos iniciales..."
+php artisan db:seed --force
+
 # Generar documentación de la API
 echo "📚 Generando documentación de la API..."
 php artisan scribe:generate

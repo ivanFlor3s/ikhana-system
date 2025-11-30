@@ -17,8 +17,10 @@ return new class extends Migration
             $table->string('business_name');
             $table->string('cuit')->unique();
             $table->string('iibb')->nullable();
-            $table->string('tax_status')->nullable(); // Posición frente al IVA
-            $table->string('agreement')->nullable(); // Convenio
+            
+            // Foreign keys a tax_statuses y agreements
+            $table->foreignId('tax_status_id')->nullable()->constrained('tax_statuses')->nullOnDelete();
+            $table->foreignId('agreement_id')->nullable()->constrained('agreements')->nullOnDelete();
             
             // Teléfonos
             $table->string('phone_1')->nullable();

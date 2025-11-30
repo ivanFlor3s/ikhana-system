@@ -50,12 +50,14 @@ class ProviderController extends Controller
      */
     public function index(): JsonResponse
     {
-        $providers = Provider::orderBy('created_at', 'desc')->get();
+        $providers = Provider::with(['taxStatus', 'agreement'])
+            ->orderBy('created_at', 'desc')
+            ->get();
         
         return response()->json([
             'success' => true,
             'data' => $providers,
-            'message' => 'Providers retrieved successfully'
+            'message' => 'Proveedores obtenidos exitosamente'
         ], 200);
     }
 
@@ -68,8 +70,8 @@ class ProviderController extends Controller
      * @bodyParam fantasy_name string optional Nombre de fantasía. Example: Proveedor Demo
      * @bodyParam cuit string required CUIT único (número de identificación tributaria). Example: 20-12345678-9
      * @bodyParam iibb string optional Ingresos Brutos. Example: 901-123456-7
-     * @bodyParam tax_status string optional Posición frente al IVA (usar GET /api/tax-statuses para obtener opciones). Example: 1
-     * @bodyParam agreement string optional Convenio (usar GET /api/agreements para obtener opciones). Example: convenio_multilateral
+     * @bodyParam tax_status_id integer optional ID de la posición frente al IVA (usar GET /api/tax-statuses para obtener opciones). Example: 1
+     * @bodyParam agreement_id integer optional ID del convenio (usar GET /api/agreements para obtener opciones). Example: 1
      * @bodyParam phone_1 string optional Teléfono principal. Example: +54 11 1234-5678
      * @bodyParam phone_2 string optional Teléfono secundario. Example: +54 11 8765-4321
      * @bodyParam email_1 string optional Email principal. Example: contacto@proveedor.com
@@ -111,8 +113,8 @@ class ProviderController extends Controller
                 'fantasy_name' => 'nullable|string|max:255',
                 'cuit' => 'required|string|max:20|unique:providers,cuit',
                 'iibb' => 'nullable|string|max:50',
-                'tax_status' => 'nullable|in:1,2,3,4,5,6,7,8,9,10,11,12,13,14',
-                'agreement' => 'nullable|in:convenio_multilateral',
+                'tax_status_id' => 'nullable|exists:tax_statuses,id',
+                'agreement_id' => 'nullable|exists:agreements,id',
                 'phone_1' => 'nullable|string|max:50',
                 'phone_2' => 'nullable|string|max:50',
                 'phone_3' => 'nullable|string|max:50',
@@ -135,8 +137,8 @@ class ProviderController extends Controller
 
             return response()->json([
                 'success' => true,
-                'data' => $provider,
-                'message' => 'Provider created successfully'
+                'data' => $provider->load(['taxStatus', 'agreement']),
+                'message' => 'Proveedor creado exitosamente'
             ], 201);
 
         } catch (ValidationException $e) {
@@ -148,7 +150,7 @@ class ProviderController extends Controller
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Error creating provider',
+                'message' => 'Error al crear el proveedor',
                 'error' => $e->getMessage()
             ], 500);
         }
@@ -193,18 +195,18 @@ class ProviderController extends Controller
     public function show(string $id): JsonResponse
     {
         try {
-            $provider = Provider::findOrFail($id);
+            $provider = Provider::with(['taxStatus', 'agreement'])->findOrFail($id);
 
             return response()->json([
                 'success' => true,
                 'data' => $provider,
-                'message' => 'Provider retrieved successfully'
+                'message' => 'Proveedor obtenido exitosamente'
             ], 200);
 
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Provider not found'
+                'message' => 'Proveedor no encontrado'
             ], 404);
         }
     }
@@ -255,8 +257,8 @@ class ProviderController extends Controller
                 'fantasy_name' => 'nullable|string|max:255',
                 'cuit' => 'sometimes|required|string|max:20|unique:providers,cuit,' . $id,
                 'iibb' => 'nullable|string|max:50',
-                'tax_status' => 'nullable|in:1,2,3,4,5,6,7,8,9,10,11,12,13,14',
-                'agreement' => 'nullable|in:convenio_multilateral',
+                'tax_status_id' => 'nullable|exists:tax_statuses,id',
+                'agreement_id' => 'nullable|exists:agreements,id',
                 'phone_1' => 'nullable|string|max:50',
                 'phone_2' => 'nullable|string|max:50',
                 'phone_3' => 'nullable|string|max:50',
@@ -279,8 +281,8 @@ class ProviderController extends Controller
 
             return response()->json([
                 'success' => true,
-                'data' => $provider->fresh(),
-                'message' => 'Provider updated successfully'
+                'data' => $provider->fresh()->load(['taxStatus', 'agreement']),
+                'message' => 'Proveedor actualizado exitosamente'
             ], 200);
 
         } catch (ValidationException $e) {
@@ -292,12 +294,12 @@ class ProviderController extends Controller
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Provider not found'
+                'message' => 'Proveedor no encontrado'
             ], 404);
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Error updating provider',
+                'message' => 'Error al actualizar el proveedor',
                 'error' => $e->getMessage()
             ], 500);
         }
@@ -328,18 +330,18 @@ class ProviderController extends Controller
 
             return response()->json([
                 'success' => true,
-                'message' => 'Provider deleted successfully'
+                'message' => 'Proveedor eliminado exitosamente'
             ], 200);
 
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Provider not found'
+                'message' => 'Proveedor no encontrado'
             ], 404);
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Error deleting provider',
+                'message' => 'Error al eliminar el proveedor',
                 'error' => $e->getMessage()
             ], 500);
         }

@@ -76,6 +76,50 @@
                             </li>
                                                                         </ul>
                             </ul>
+                    <ul id="tocify-header-gestion-de-convenios" class="tocify-header">
+                <li class="tocify-item level-1" data-unique="gestion-de-convenios">
+                    <a href="#gestion-de-convenios">Gestión de Convenios</a>
+                </li>
+                                    <ul id="tocify-subheader-gestion-de-convenios" class="tocify-subheader">
+                                                    <li class="tocify-item level-2" data-unique="gestion-de-convenios-GETapi-agreements">
+                                <a href="#gestion-de-convenios-GETapi-agreements">Listar todos los convenios</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="gestion-de-convenios-POSTapi-agreements">
+                                <a href="#gestion-de-convenios-POSTapi-agreements">Crear un nuevo convenio</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="gestion-de-convenios-GETapi-agreements--id-">
+                                <a href="#gestion-de-convenios-GETapi-agreements--id-">Obtener un convenio específico</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="gestion-de-convenios-PUTapi-agreements--id-">
+                                <a href="#gestion-de-convenios-PUTapi-agreements--id-">Actualizar un convenio</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="gestion-de-convenios-DELETEapi-agreements--id-">
+                                <a href="#gestion-de-convenios-DELETEapi-agreements--id-">Eliminar un convenio</a>
+                            </li>
+                                                                        </ul>
+                            </ul>
+                    <ul id="tocify-header-gestion-de-posiciones-frente-al-iva" class="tocify-header">
+                <li class="tocify-item level-1" data-unique="gestion-de-posiciones-frente-al-iva">
+                    <a href="#gestion-de-posiciones-frente-al-iva">Gestión de Posiciones frente al IVA</a>
+                </li>
+                                    <ul id="tocify-subheader-gestion-de-posiciones-frente-al-iva" class="tocify-subheader">
+                                                    <li class="tocify-item level-2" data-unique="gestion-de-posiciones-frente-al-iva-GETapi-tax-statuses">
+                                <a href="#gestion-de-posiciones-frente-al-iva-GETapi-tax-statuses">Listar todas las posiciones frente al IVA</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="gestion-de-posiciones-frente-al-iva-POSTapi-tax-statuses">
+                                <a href="#gestion-de-posiciones-frente-al-iva-POSTapi-tax-statuses">Crear una nueva posición frente al IVA</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="gestion-de-posiciones-frente-al-iva-GETapi-tax-statuses--id-">
+                                <a href="#gestion-de-posiciones-frente-al-iva-GETapi-tax-statuses--id-">Obtener una posición frente al IVA específica</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="gestion-de-posiciones-frente-al-iva-PUTapi-tax-statuses--id-">
+                                <a href="#gestion-de-posiciones-frente-al-iva-PUTapi-tax-statuses--id-">Actualizar una posición frente al IVA</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="gestion-de-posiciones-frente-al-iva-DELETEapi-tax-statuses--id-">
+                                <a href="#gestion-de-posiciones-frente-al-iva-DELETEapi-tax-statuses--id-">Eliminar una posición frente al IVA</a>
+                            </li>
+                                                                        </ul>
+                            </ul>
                     <ul id="tocify-header-gestion-de-proveedores" class="tocify-header">
                 <li class="tocify-item level-1" data-unique="gestion-de-proveedores">
                     <a href="#gestion-de-proveedores">Gestión de Proveedores</a>
@@ -98,19 +142,6 @@
                             </li>
                                                                         </ul>
                             </ul>
-                    <ul id="tocify-header-opciones-del-sistema" class="tocify-header">
-                <li class="tocify-item level-1" data-unique="opciones-del-sistema">
-                    <a href="#opciones-del-sistema">Opciones del Sistema</a>
-                </li>
-                                    <ul id="tocify-subheader-opciones-del-sistema" class="tocify-subheader">
-                                                    <li class="tocify-item level-2" data-unique="opciones-del-sistema-GETapi-tax-statuses">
-                                <a href="#opciones-del-sistema-GETapi-tax-statuses">Obtener opciones de posición frente al IVA</a>
-                            </li>
-                                                                                <li class="tocify-item level-2" data-unique="opciones-del-sistema-GETapi-agreements">
-                                <a href="#opciones-del-sistema-GETapi-agreements">Obtener opciones de convenio</a>
-                            </li>
-                                                                        </ul>
-                            </ul>
             </div>
 
     <ul class="toc-footer" id="toc-footer">
@@ -120,7 +151,7 @@
     </ul>
 
     <ul class="toc-footer" id="last-updated">
-        <li>Last updated: November 17, 2025</li>
+        <li>Last updated: November 30, 2025</li>
     </ul>
 </div>
 
@@ -268,6 +299,1816 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <p>Example: <code>application/json</code></p>
             </div>
                         </form>
+
+                <h1 id="gestion-de-convenios">Gestión de Convenios</h1>
+
+    <p>APIs para gestionar los convenios del sistema</p>
+
+                                <h2 id="gestion-de-convenios-GETapi-agreements">Listar todos los convenios</h2>
+
+<p>
+</p>
+
+<p>Obtiene una lista de todos los convenios disponibles en el sistema.</p>
+
+<span id="example-requests-GETapi-agreements">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request GET \
+    --get "http://localhost:8000/api/agreements?is_active=1" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/agreements"
+);
+
+const params = {
+    "is_active": "1",
+};
+Object.keys(params)
+    .forEach(key =&gt; url.searchParams.append(key, params[key]));
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-GETapi-agreements">
+            <blockquote>
+            <p>Example response (200, success):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;success&quot;: true,
+    &quot;data&quot;: [
+        {
+            &quot;id&quot;: 1,
+            &quot;code&quot;: &quot;convenio_multilateral&quot;,
+            &quot;name&quot;: &quot;Convenio Multilateral&quot;,
+            &quot;description&quot;: null,
+            &quot;is_active&quot;: true,
+            &quot;created_at&quot;: &quot;2024-11-16T10:00:00.000000Z&quot;,
+            &quot;updated_at&quot;: &quot;2024-11-16T10:00:00.000000Z&quot;
+        }
+    ],
+    &quot;message&quot;: &quot;Convenios obtenidos exitosamente&quot;
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-GETapi-agreements" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-GETapi-agreements"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-GETapi-agreements"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-GETapi-agreements" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GETapi-agreements">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-GETapi-agreements" data-method="GET"
+      data-path="api/agreements"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('GETapi-agreements', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-GETapi-agreements"
+                    onclick="tryItOut('GETapi-agreements');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-GETapi-agreements"
+                    onclick="cancelTryOut('GETapi-agreements');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-GETapi-agreements"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-green">GET</small>
+            <b><code>api/agreements</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="GETapi-agreements"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="GETapi-agreements"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                            <h4 class="fancy-heading-panel"><b>Query Parameters</b></h4>
+                                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>is_active</code></b>&nbsp;&nbsp;
+<small>boolean</small>&nbsp;
+<i>optional</i> &nbsp;
+ &nbsp;
+                <label data-endpoint="GETapi-agreements" style="display: none">
+            <input type="radio" name="is_active"
+                   value="1"
+                   data-endpoint="GETapi-agreements"
+                   data-component="query"             >
+            <code>true</code>
+        </label>
+        <label data-endpoint="GETapi-agreements" style="display: none">
+            <input type="radio" name="is_active"
+                   value="0"
+                   data-endpoint="GETapi-agreements"
+                   data-component="query"             >
+            <code>false</code>
+        </label>
+    <br>
+<p>Filtrar solo los activos (1) o inactivos (0). Example: <code>true</code></p>
+            </div>
+                </form>
+
+                    <h2 id="gestion-de-convenios-POSTapi-agreements">Crear un nuevo convenio</h2>
+
+<p>
+</p>
+
+<p>Crea y almacena un nuevo convenio en el sistema.</p>
+
+<span id="example-requests-POSTapi-agreements">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request POST \
+    "http://localhost:8000/api/agreements" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json" \
+    --data "{
+    \"code\": \"convenio_bilateral\",
+    \"name\": \"Convenio Bilateral\",
+    \"description\": \"Convenio entre dos jurisdicciones\",
+    \"is_active\": true
+}"
+</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/agreements"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "code": "convenio_bilateral",
+    "name": "Convenio Bilateral",
+    "description": "Convenio entre dos jurisdicciones",
+    "is_active": true
+};
+
+fetch(url, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-POSTapi-agreements">
+            <blockquote>
+            <p>Example response (201, success):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;success&quot;: true,
+    &quot;data&quot;: {
+        &quot;id&quot;: 2,
+        &quot;code&quot;: &quot;convenio_bilateral&quot;,
+        &quot;name&quot;: &quot;Convenio Bilateral&quot;,
+        &quot;description&quot;: &quot;Convenio entre dos jurisdicciones&quot;,
+        &quot;is_active&quot;: true,
+        &quot;created_at&quot;: &quot;2024-11-16T10:00:00.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2024-11-16T10:00:00.000000Z&quot;
+    },
+    &quot;message&quot;: &quot;Convenio creado exitosamente&quot;
+}</code>
+ </pre>
+            <blockquote>
+            <p>Example response (422, error de validación):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;success&quot;: false,
+    &quot;message&quot;: &quot;Error de validaci&oacute;n&quot;,
+    &quot;errors&quot;: {
+        &quot;code&quot;: [
+            &quot;El c&oacute;digo ya existe.&quot;
+        ],
+        &quot;name&quot;: [
+            &quot;El nombre es requerido.&quot;
+        ]
+    }
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-POSTapi-agreements" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTapi-agreements"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTapi-agreements"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-POSTapi-agreements" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTapi-agreements">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-POSTapi-agreements" data-method="POST"
+      data-path="api/agreements"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTapi-agreements', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTapi-agreements"
+                    onclick="tryItOut('POSTapi-agreements');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTapi-agreements"
+                    onclick="cancelTryOut('POSTapi-agreements');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTapi-agreements"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>api/agreements</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="POSTapi-agreements"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="POSTapi-agreements"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>code</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="code"                data-endpoint="POSTapi-agreements"
+               value="convenio_bilateral"
+               data-component="body">
+    <br>
+<p>Código único del convenio. Example: <code>convenio_bilateral</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>name</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="name"                data-endpoint="POSTapi-agreements"
+               value="Convenio Bilateral"
+               data-component="body">
+    <br>
+<p>Nombre del convenio. Example: <code>Convenio Bilateral</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>description</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="description"                data-endpoint="POSTapi-agreements"
+               value="Convenio entre dos jurisdicciones"
+               data-component="body">
+    <br>
+<p>optional Descripción adicional. Example: <code>Convenio entre dos jurisdicciones</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>is_active</code></b>&nbsp;&nbsp;
+<small>boolean</small>&nbsp;
+<i>optional</i> &nbsp;
+ &nbsp;
+                <label data-endpoint="POSTapi-agreements" style="display: none">
+            <input type="radio" name="is_active"
+                   value="true"
+                   data-endpoint="POSTapi-agreements"
+                   data-component="body"             >
+            <code>true</code>
+        </label>
+        <label data-endpoint="POSTapi-agreements" style="display: none">
+            <input type="radio" name="is_active"
+                   value="false"
+                   data-endpoint="POSTapi-agreements"
+                   data-component="body"             >
+            <code>false</code>
+        </label>
+    <br>
+<p>optional Si está activo o no (por defecto true). Example: <code>true</code></p>
+        </div>
+        </form>
+
+                    <h2 id="gestion-de-convenios-GETapi-agreements--id-">Obtener un convenio específico</h2>
+
+<p>
+</p>
+
+<p>Obtiene información detallada de un convenio por su ID.</p>
+
+<span id="example-requests-GETapi-agreements--id-">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request GET \
+    --get "http://localhost:8000/api/agreements/1" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/agreements/1"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-GETapi-agreements--id-">
+            <blockquote>
+            <p>Example response (200, success):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;success&quot;: true,
+    &quot;data&quot;: {
+        &quot;id&quot;: 1,
+        &quot;code&quot;: &quot;convenio_multilateral&quot;,
+        &quot;name&quot;: &quot;Convenio Multilateral&quot;,
+        &quot;description&quot;: null,
+        &quot;is_active&quot;: true,
+        &quot;created_at&quot;: &quot;2024-11-16T10:00:00.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2024-11-16T10:00:00.000000Z&quot;
+    },
+    &quot;message&quot;: &quot;Convenio obtenido exitosamente&quot;
+}</code>
+ </pre>
+            <blockquote>
+            <p>Example response (404, no encontrado):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;success&quot;: false,
+    &quot;message&quot;: &quot;Convenio no encontrado&quot;
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-GETapi-agreements--id-" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-GETapi-agreements--id-"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-GETapi-agreements--id-"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-GETapi-agreements--id-" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GETapi-agreements--id-">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-GETapi-agreements--id-" data-method="GET"
+      data-path="api/agreements/{id}"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('GETapi-agreements--id-', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-GETapi-agreements--id-"
+                    onclick="tryItOut('GETapi-agreements--id-');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-GETapi-agreements--id-"
+                    onclick="cancelTryOut('GETapi-agreements--id-');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-GETapi-agreements--id-"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-green">GET</small>
+            <b><code>api/agreements/{id}</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="GETapi-agreements--id-"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="GETapi-agreements--id-"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                        <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>id</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="id"                data-endpoint="GETapi-agreements--id-"
+               value="1"
+               data-component="url">
+    <br>
+<p>ID del convenio. Example: <code>1</code></p>
+            </div>
+                    </form>
+
+                    <h2 id="gestion-de-convenios-PUTapi-agreements--id-">Actualizar un convenio</h2>
+
+<p>
+</p>
+
+<p>Actualiza la información de un convenio existente.</p>
+
+<span id="example-requests-PUTapi-agreements--id-">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request PUT \
+    "http://localhost:8000/api/agreements/1" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json" \
+    --data "{
+    \"code\": \"convenio_multilateral\",
+    \"name\": \"Convenio Multilateral Actualizado\",
+    \"description\": \"Descripción actualizada\",
+    \"is_active\": false
+}"
+</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/agreements/1"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "code": "convenio_multilateral",
+    "name": "Convenio Multilateral Actualizado",
+    "description": "Descripción actualizada",
+    "is_active": false
+};
+
+fetch(url, {
+    method: "PUT",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-PUTapi-agreements--id-">
+            <blockquote>
+            <p>Example response (200, success):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;success&quot;: true,
+    &quot;data&quot;: {
+        &quot;id&quot;: 1,
+        &quot;code&quot;: &quot;convenio_multilateral&quot;,
+        &quot;name&quot;: &quot;Convenio Multilateral Actualizado&quot;,
+        &quot;description&quot;: &quot;Descripci&oacute;n actualizada&quot;,
+        &quot;is_active&quot;: false,
+        &quot;updated_at&quot;: &quot;2024-11-16T11:00:00.000000Z&quot;
+    },
+    &quot;message&quot;: &quot;Convenio actualizado exitosamente&quot;
+}</code>
+ </pre>
+            <blockquote>
+            <p>Example response (404, no encontrado):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;success&quot;: false,
+    &quot;message&quot;: &quot;Convenio no encontrado&quot;
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-PUTapi-agreements--id-" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-PUTapi-agreements--id-"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-PUTapi-agreements--id-"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-PUTapi-agreements--id-" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-PUTapi-agreements--id-">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-PUTapi-agreements--id-" data-method="PUT"
+      data-path="api/agreements/{id}"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('PUTapi-agreements--id-', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-PUTapi-agreements--id-"
+                    onclick="tryItOut('PUTapi-agreements--id-');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-PUTapi-agreements--id-"
+                    onclick="cancelTryOut('PUTapi-agreements--id-');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-PUTapi-agreements--id-"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-darkblue">PUT</small>
+            <b><code>api/agreements/{id}</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="PUTapi-agreements--id-"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="PUTapi-agreements--id-"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                        <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>id</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="id"                data-endpoint="PUTapi-agreements--id-"
+               value="1"
+               data-component="url">
+    <br>
+<p>ID del convenio. Example: <code>1</code></p>
+            </div>
+                            <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>code</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="code"                data-endpoint="PUTapi-agreements--id-"
+               value="convenio_multilateral"
+               data-component="body">
+    <br>
+<p>optional Código único. Example: <code>convenio_multilateral</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>name</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="name"                data-endpoint="PUTapi-agreements--id-"
+               value="Convenio Multilateral Actualizado"
+               data-component="body">
+    <br>
+<p>optional Nombre del convenio. Example: <code>Convenio Multilateral Actualizado</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>description</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="description"                data-endpoint="PUTapi-agreements--id-"
+               value="Descripción actualizada"
+               data-component="body">
+    <br>
+<p>optional Descripción. Example: <code>Descripción actualizada</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>is_active</code></b>&nbsp;&nbsp;
+<small>boolean</small>&nbsp;
+<i>optional</i> &nbsp;
+ &nbsp;
+                <label data-endpoint="PUTapi-agreements--id-" style="display: none">
+            <input type="radio" name="is_active"
+                   value="true"
+                   data-endpoint="PUTapi-agreements--id-"
+                   data-component="body"             >
+            <code>true</code>
+        </label>
+        <label data-endpoint="PUTapi-agreements--id-" style="display: none">
+            <input type="radio" name="is_active"
+                   value="false"
+                   data-endpoint="PUTapi-agreements--id-"
+                   data-component="body"             >
+            <code>false</code>
+        </label>
+    <br>
+<p>optional Estado activo/inactivo. Example: <code>false</code></p>
+        </div>
+        </form>
+
+                    <h2 id="gestion-de-convenios-DELETEapi-agreements--id-">Eliminar un convenio</h2>
+
+<p>
+</p>
+
+<p>Elimina un convenio del sistema (soft delete).</p>
+
+<span id="example-requests-DELETEapi-agreements--id-">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request DELETE \
+    "http://localhost:8000/api/agreements/1" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/agreements/1"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "DELETE",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-DELETEapi-agreements--id-">
+            <blockquote>
+            <p>Example response (200, success):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;success&quot;: true,
+    &quot;message&quot;: &quot;Convenio eliminado exitosamente&quot;
+}</code>
+ </pre>
+            <blockquote>
+            <p>Example response (404, no encontrado):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;success&quot;: false,
+    &quot;message&quot;: &quot;Convenio no encontrado&quot;
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-DELETEapi-agreements--id-" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-DELETEapi-agreements--id-"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-DELETEapi-agreements--id-"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-DELETEapi-agreements--id-" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-DELETEapi-agreements--id-">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-DELETEapi-agreements--id-" data-method="DELETE"
+      data-path="api/agreements/{id}"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('DELETEapi-agreements--id-', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-DELETEapi-agreements--id-"
+                    onclick="tryItOut('DELETEapi-agreements--id-');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-DELETEapi-agreements--id-"
+                    onclick="cancelTryOut('DELETEapi-agreements--id-');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-DELETEapi-agreements--id-"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-red">DELETE</small>
+            <b><code>api/agreements/{id}</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="DELETEapi-agreements--id-"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="DELETEapi-agreements--id-"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                        <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>id</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="id"                data-endpoint="DELETEapi-agreements--id-"
+               value="1"
+               data-component="url">
+    <br>
+<p>ID del convenio. Example: <code>1</code></p>
+            </div>
+                    </form>
+
+                <h1 id="gestion-de-posiciones-frente-al-iva">Gestión de Posiciones frente al IVA</h1>
+
+    <p>APIs para gestionar las posiciones frente al IVA del sistema</p>
+
+                                <h2 id="gestion-de-posiciones-frente-al-iva-GETapi-tax-statuses">Listar todas las posiciones frente al IVA</h2>
+
+<p>
+</p>
+
+<p>Obtiene una lista de todas las posiciones frente al IVA disponibles en el sistema.</p>
+
+<span id="example-requests-GETapi-tax-statuses">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request GET \
+    --get "http://localhost:8000/api/tax-statuses?is_active=1" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/tax-statuses"
+);
+
+const params = {
+    "is_active": "1",
+};
+Object.keys(params)
+    .forEach(key =&gt; url.searchParams.append(key, params[key]));
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-GETapi-tax-statuses">
+            <blockquote>
+            <p>Example response (200, success):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;success&quot;: true,
+    &quot;data&quot;: [
+        {
+            &quot;id&quot;: 1,
+            &quot;code&quot;: &quot;1&quot;,
+            &quot;name&quot;: &quot;IVA Responsable Inscripto&quot;,
+            &quot;description&quot;: null,
+            &quot;is_active&quot;: true,
+            &quot;created_at&quot;: &quot;2024-11-16T10:00:00.000000Z&quot;,
+            &quot;updated_at&quot;: &quot;2024-11-16T10:00:00.000000Z&quot;
+        }
+    ],
+    &quot;message&quot;: &quot;Posiciones frente al IVA obtenidas exitosamente&quot;
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-GETapi-tax-statuses" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-GETapi-tax-statuses"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-GETapi-tax-statuses"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-GETapi-tax-statuses" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GETapi-tax-statuses">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-GETapi-tax-statuses" data-method="GET"
+      data-path="api/tax-statuses"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('GETapi-tax-statuses', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-GETapi-tax-statuses"
+                    onclick="tryItOut('GETapi-tax-statuses');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-GETapi-tax-statuses"
+                    onclick="cancelTryOut('GETapi-tax-statuses');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-GETapi-tax-statuses"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-green">GET</small>
+            <b><code>api/tax-statuses</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="GETapi-tax-statuses"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="GETapi-tax-statuses"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                            <h4 class="fancy-heading-panel"><b>Query Parameters</b></h4>
+                                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>is_active</code></b>&nbsp;&nbsp;
+<small>boolean</small>&nbsp;
+<i>optional</i> &nbsp;
+ &nbsp;
+                <label data-endpoint="GETapi-tax-statuses" style="display: none">
+            <input type="radio" name="is_active"
+                   value="1"
+                   data-endpoint="GETapi-tax-statuses"
+                   data-component="query"             >
+            <code>true</code>
+        </label>
+        <label data-endpoint="GETapi-tax-statuses" style="display: none">
+            <input type="radio" name="is_active"
+                   value="0"
+                   data-endpoint="GETapi-tax-statuses"
+                   data-component="query"             >
+            <code>false</code>
+        </label>
+    <br>
+<p>Filtrar solo las activas (1) o inactivas (0). Example: <code>true</code></p>
+            </div>
+                </form>
+
+                    <h2 id="gestion-de-posiciones-frente-al-iva-POSTapi-tax-statuses">Crear una nueva posición frente al IVA</h2>
+
+<p>
+</p>
+
+<p>Crea y almacena una nueva posición frente al IVA en el sistema.</p>
+
+<span id="example-requests-POSTapi-tax-statuses">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request POST \
+    "http://localhost:8000/api/tax-statuses" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json" \
+    --data "{
+    \"code\": \"15\",
+    \"name\": \"Nuevo Régimen IVA\",
+    \"description\": \"Descripción del nuevo régimen\",
+    \"is_active\": true
+}"
+</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/tax-statuses"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "code": "15",
+    "name": "Nuevo Régimen IVA",
+    "description": "Descripción del nuevo régimen",
+    "is_active": true
+};
+
+fetch(url, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-POSTapi-tax-statuses">
+            <blockquote>
+            <p>Example response (201, success):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;success&quot;: true,
+    &quot;data&quot;: {
+        &quot;id&quot;: 15,
+        &quot;code&quot;: &quot;15&quot;,
+        &quot;name&quot;: &quot;Nuevo R&eacute;gimen IVA&quot;,
+        &quot;description&quot;: &quot;Descripci&oacute;n del nuevo r&eacute;gimen&quot;,
+        &quot;is_active&quot;: true,
+        &quot;created_at&quot;: &quot;2024-11-16T10:00:00.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2024-11-16T10:00:00.000000Z&quot;
+    },
+    &quot;message&quot;: &quot;Posici&oacute;n frente al IVA creada exitosamente&quot;
+}</code>
+ </pre>
+            <blockquote>
+            <p>Example response (422, error de validación):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;success&quot;: false,
+    &quot;message&quot;: &quot;Error de validaci&oacute;n&quot;,
+    &quot;errors&quot;: {
+        &quot;code&quot;: [
+            &quot;El c&oacute;digo ya existe.&quot;
+        ],
+        &quot;name&quot;: [
+            &quot;El nombre es requerido.&quot;
+        ]
+    }
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-POSTapi-tax-statuses" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTapi-tax-statuses"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTapi-tax-statuses"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-POSTapi-tax-statuses" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTapi-tax-statuses">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-POSTapi-tax-statuses" data-method="POST"
+      data-path="api/tax-statuses"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTapi-tax-statuses', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTapi-tax-statuses"
+                    onclick="tryItOut('POSTapi-tax-statuses');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTapi-tax-statuses"
+                    onclick="cancelTryOut('POSTapi-tax-statuses');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTapi-tax-statuses"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>api/tax-statuses</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="POSTapi-tax-statuses"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="POSTapi-tax-statuses"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>code</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="code"                data-endpoint="POSTapi-tax-statuses"
+               value="15"
+               data-component="body">
+    <br>
+<p>Código único de la posición (ej: 1, 2, 3). Example: <code>15</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>name</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="name"                data-endpoint="POSTapi-tax-statuses"
+               value="Nuevo Régimen IVA"
+               data-component="body">
+    <br>
+<p>Nombre de la posición. Example: <code>Nuevo Régimen IVA</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>description</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="description"                data-endpoint="POSTapi-tax-statuses"
+               value="Descripción del nuevo régimen"
+               data-component="body">
+    <br>
+<p>optional Descripción adicional. Example: <code>Descripción del nuevo régimen</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>is_active</code></b>&nbsp;&nbsp;
+<small>boolean</small>&nbsp;
+<i>optional</i> &nbsp;
+ &nbsp;
+                <label data-endpoint="POSTapi-tax-statuses" style="display: none">
+            <input type="radio" name="is_active"
+                   value="true"
+                   data-endpoint="POSTapi-tax-statuses"
+                   data-component="body"             >
+            <code>true</code>
+        </label>
+        <label data-endpoint="POSTapi-tax-statuses" style="display: none">
+            <input type="radio" name="is_active"
+                   value="false"
+                   data-endpoint="POSTapi-tax-statuses"
+                   data-component="body"             >
+            <code>false</code>
+        </label>
+    <br>
+<p>optional Si está activo o no (por defecto true). Example: <code>true</code></p>
+        </div>
+        </form>
+
+                    <h2 id="gestion-de-posiciones-frente-al-iva-GETapi-tax-statuses--id-">Obtener una posición frente al IVA específica</h2>
+
+<p>
+</p>
+
+<p>Obtiene información detallada de una posición frente al IVA por su ID.</p>
+
+<span id="example-requests-GETapi-tax-statuses--id-">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request GET \
+    --get "http://localhost:8000/api/tax-statuses/1" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/tax-statuses/1"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-GETapi-tax-statuses--id-">
+            <blockquote>
+            <p>Example response (200, success):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;success&quot;: true,
+    &quot;data&quot;: {
+        &quot;id&quot;: 1,
+        &quot;code&quot;: &quot;1&quot;,
+        &quot;name&quot;: &quot;IVA Responsable Inscripto&quot;,
+        &quot;description&quot;: null,
+        &quot;is_active&quot;: true,
+        &quot;created_at&quot;: &quot;2024-11-16T10:00:00.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2024-11-16T10:00:00.000000Z&quot;
+    },
+    &quot;message&quot;: &quot;Posici&oacute;n frente al IVA obtenida exitosamente&quot;
+}</code>
+ </pre>
+            <blockquote>
+            <p>Example response (404, no encontrado):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;success&quot;: false,
+    &quot;message&quot;: &quot;Posici&oacute;n frente al IVA no encontrada&quot;
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-GETapi-tax-statuses--id-" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-GETapi-tax-statuses--id-"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-GETapi-tax-statuses--id-"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-GETapi-tax-statuses--id-" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GETapi-tax-statuses--id-">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-GETapi-tax-statuses--id-" data-method="GET"
+      data-path="api/tax-statuses/{id}"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('GETapi-tax-statuses--id-', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-GETapi-tax-statuses--id-"
+                    onclick="tryItOut('GETapi-tax-statuses--id-');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-GETapi-tax-statuses--id-"
+                    onclick="cancelTryOut('GETapi-tax-statuses--id-');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-GETapi-tax-statuses--id-"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-green">GET</small>
+            <b><code>api/tax-statuses/{id}</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="GETapi-tax-statuses--id-"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="GETapi-tax-statuses--id-"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                        <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>id</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="id"                data-endpoint="GETapi-tax-statuses--id-"
+               value="1"
+               data-component="url">
+    <br>
+<p>ID de la posición. Example: <code>1</code></p>
+            </div>
+                    </form>
+
+                    <h2 id="gestion-de-posiciones-frente-al-iva-PUTapi-tax-statuses--id-">Actualizar una posición frente al IVA</h2>
+
+<p>
+</p>
+
+<p>Actualiza la información de una posición frente al IVA existente.</p>
+
+<span id="example-requests-PUTapi-tax-statuses--id-">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request PUT \
+    "http://localhost:8000/api/tax-statuses/1" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json" \
+    --data "{
+    \"code\": \"1\",
+    \"name\": \"IVA Responsable Inscripto Actualizado\",
+    \"description\": \"Descripción actualizada\",
+    \"is_active\": false
+}"
+</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/tax-statuses/1"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "code": "1",
+    "name": "IVA Responsable Inscripto Actualizado",
+    "description": "Descripción actualizada",
+    "is_active": false
+};
+
+fetch(url, {
+    method: "PUT",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-PUTapi-tax-statuses--id-">
+            <blockquote>
+            <p>Example response (200, success):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;success&quot;: true,
+    &quot;data&quot;: {
+        &quot;id&quot;: 1,
+        &quot;code&quot;: &quot;1&quot;,
+        &quot;name&quot;: &quot;IVA Responsable Inscripto Actualizado&quot;,
+        &quot;description&quot;: &quot;Descripci&oacute;n actualizada&quot;,
+        &quot;is_active&quot;: false,
+        &quot;updated_at&quot;: &quot;2024-11-16T11:00:00.000000Z&quot;
+    },
+    &quot;message&quot;: &quot;Posici&oacute;n frente al IVA actualizada exitosamente&quot;
+}</code>
+ </pre>
+            <blockquote>
+            <p>Example response (404, no encontrado):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;success&quot;: false,
+    &quot;message&quot;: &quot;Posici&oacute;n frente al IVA no encontrada&quot;
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-PUTapi-tax-statuses--id-" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-PUTapi-tax-statuses--id-"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-PUTapi-tax-statuses--id-"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-PUTapi-tax-statuses--id-" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-PUTapi-tax-statuses--id-">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-PUTapi-tax-statuses--id-" data-method="PUT"
+      data-path="api/tax-statuses/{id}"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('PUTapi-tax-statuses--id-', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-PUTapi-tax-statuses--id-"
+                    onclick="tryItOut('PUTapi-tax-statuses--id-');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-PUTapi-tax-statuses--id-"
+                    onclick="cancelTryOut('PUTapi-tax-statuses--id-');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-PUTapi-tax-statuses--id-"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-darkblue">PUT</small>
+            <b><code>api/tax-statuses/{id}</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="PUTapi-tax-statuses--id-"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="PUTapi-tax-statuses--id-"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                        <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>id</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="id"                data-endpoint="PUTapi-tax-statuses--id-"
+               value="1"
+               data-component="url">
+    <br>
+<p>ID de la posición. Example: <code>1</code></p>
+            </div>
+                            <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>code</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="code"                data-endpoint="PUTapi-tax-statuses--id-"
+               value="1"
+               data-component="body">
+    <br>
+<p>optional Código único. Example: <code>1</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>name</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="name"                data-endpoint="PUTapi-tax-statuses--id-"
+               value="IVA Responsable Inscripto Actualizado"
+               data-component="body">
+    <br>
+<p>optional Nombre de la posición. Example: <code>IVA Responsable Inscripto Actualizado</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>description</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="description"                data-endpoint="PUTapi-tax-statuses--id-"
+               value="Descripción actualizada"
+               data-component="body">
+    <br>
+<p>optional Descripción. Example: <code>Descripción actualizada</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>is_active</code></b>&nbsp;&nbsp;
+<small>boolean</small>&nbsp;
+<i>optional</i> &nbsp;
+ &nbsp;
+                <label data-endpoint="PUTapi-tax-statuses--id-" style="display: none">
+            <input type="radio" name="is_active"
+                   value="true"
+                   data-endpoint="PUTapi-tax-statuses--id-"
+                   data-component="body"             >
+            <code>true</code>
+        </label>
+        <label data-endpoint="PUTapi-tax-statuses--id-" style="display: none">
+            <input type="radio" name="is_active"
+                   value="false"
+                   data-endpoint="PUTapi-tax-statuses--id-"
+                   data-component="body"             >
+            <code>false</code>
+        </label>
+    <br>
+<p>optional Estado activo/inactivo. Example: <code>false</code></p>
+        </div>
+        </form>
+
+                    <h2 id="gestion-de-posiciones-frente-al-iva-DELETEapi-tax-statuses--id-">Eliminar una posición frente al IVA</h2>
+
+<p>
+</p>
+
+<p>Elimina una posición frente al IVA del sistema (soft delete).</p>
+
+<span id="example-requests-DELETEapi-tax-statuses--id-">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request DELETE \
+    "http://localhost:8000/api/tax-statuses/1" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/tax-statuses/1"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "DELETE",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-DELETEapi-tax-statuses--id-">
+            <blockquote>
+            <p>Example response (200, success):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;success&quot;: true,
+    &quot;message&quot;: &quot;Posici&oacute;n frente al IVA eliminada exitosamente&quot;
+}</code>
+ </pre>
+            <blockquote>
+            <p>Example response (404, no encontrado):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;success&quot;: false,
+    &quot;message&quot;: &quot;Posici&oacute;n frente al IVA no encontrada&quot;
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-DELETEapi-tax-statuses--id-" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-DELETEapi-tax-statuses--id-"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-DELETEapi-tax-statuses--id-"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-DELETEapi-tax-statuses--id-" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-DELETEapi-tax-statuses--id-">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-DELETEapi-tax-statuses--id-" data-method="DELETE"
+      data-path="api/tax-statuses/{id}"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('DELETEapi-tax-statuses--id-', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-DELETEapi-tax-statuses--id-"
+                    onclick="tryItOut('DELETEapi-tax-statuses--id-');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-DELETEapi-tax-statuses--id-"
+                    onclick="cancelTryOut('DELETEapi-tax-statuses--id-');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-DELETEapi-tax-statuses--id-"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-red">DELETE</small>
+            <b><code>api/tax-statuses/{id}</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="DELETEapi-tax-statuses--id-"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="DELETEapi-tax-statuses--id-"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                        <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>id</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="id"                data-endpoint="DELETEapi-tax-statuses--id-"
+               value="1"
+               data-component="url">
+    <br>
+<p>ID de la posición. Example: <code>1</code></p>
+            </div>
+                    </form>
 
                 <h1 id="gestion-de-proveedores">Gestión de Proveedores</h1>
 
@@ -437,8 +2278,8 @@ You can check the Dev Tools console for debugging information.</code></pre>
     \"fantasy_name\": \"Proveedor Demo\",
     \"cuit\": \"20-12345678-9\",
     \"iibb\": \"901-123456-7\",
-    \"tax_status\": \"1\",
-    \"agreement\": \"convenio_multilateral\",
+    \"tax_status_id\": 1,
+    \"agreement_id\": 1,
     \"phone_1\": \"+54 11 1234-5678\",
     \"phone_2\": \"+54 11 8765-4321\",
     \"email_1\": \"contacto@proveedor.com\",
@@ -468,8 +2309,8 @@ let body = {
     "fantasy_name": "Proveedor Demo",
     "cuit": "20-12345678-9",
     "iibb": "901-123456-7",
-    "tax_status": "1",
-    "agreement": "convenio_multilateral",
+    "tax_status_id": 1,
+    "agreement_id": 1,
     "phone_1": "+54 11 1234-5678",
     "phone_2": "+54 11 8765-4321",
     "email_1": "contacto@proveedor.com",
@@ -649,28 +2490,28 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <p>optional Ingresos Brutos. Example: <code>901-123456-7</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
-            <b style="line-height: 2;"><code>tax_status</code></b>&nbsp;&nbsp;
-<small>string</small>&nbsp;
+            <b style="line-height: 2;"><code>tax_status_id</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
 <i>optional</i> &nbsp;
  &nbsp;
-                <input type="text" style="display: none"
-                              name="tax_status"                data-endpoint="POSTapi-providers"
+                <input type="number" style="display: none"
+               step="any"               name="tax_status_id"                data-endpoint="POSTapi-providers"
                value="1"
                data-component="body">
     <br>
-<p>optional Posición frente al IVA (usar GET /api/tax-statuses para obtener opciones). Example: <code>1</code></p>
+<p>optional ID de la posición frente al IVA (usar GET /api/tax-statuses para obtener opciones). Example: <code>1</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
-            <b style="line-height: 2;"><code>agreement</code></b>&nbsp;&nbsp;
-<small>string</small>&nbsp;
+            <b style="line-height: 2;"><code>agreement_id</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
 <i>optional</i> &nbsp;
  &nbsp;
-                <input type="text" style="display: none"
-                              name="agreement"                data-endpoint="POSTapi-providers"
-               value="convenio_multilateral"
+                <input type="number" style="display: none"
+               step="any"               name="agreement_id"                data-endpoint="POSTapi-providers"
+               value="1"
                data-component="body">
     <br>
-<p>optional Convenio (usar GET /api/agreements para obtener opciones). Example: <code>convenio_multilateral</code></p>
+<p>optional ID del convenio (usar GET /api/agreements para obtener opciones). Example: <code>1</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>phone_1</code></b>&nbsp;&nbsp;
@@ -1327,270 +3168,6 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <p>ID del proveedor. Example: <code>1</code></p>
             </div>
                     </form>
-
-                <h1 id="opciones-del-sistema">Opciones del Sistema</h1>
-
-    <p>APIs para obtener enumeraciones y opciones para campos select</p>
-
-                                <h2 id="opciones-del-sistema-GETapi-tax-statuses">Obtener opciones de posición frente al IVA</h2>
-
-<p>
-</p>
-
-<p>Obtiene todas las opciones disponibles para el campo &quot;Posición frente al IVA&quot;.</p>
-
-<span id="example-requests-GETapi-tax-statuses">
-<blockquote>Example request:</blockquote>
-
-
-<div class="bash-example">
-    <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/tax-statuses" \
-    --header "Content-Type: application/json" \
-    --header "Accept: application/json"</code></pre></div>
-
-
-<div class="javascript-example">
-    <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/tax-statuses"
-);
-
-const headers = {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-};
-
-fetch(url, {
-    method: "GET",
-    headers,
-}).then(response =&gt; response.json());</code></pre></div>
-
-</span>
-
-<span id="example-responses-GETapi-tax-statuses">
-            <blockquote>
-            <p>Example response (200, success):</p>
-        </blockquote>
-                <pre>
-
-<code class="language-json" style="max-height: 300px;">{
-    &quot;success&quot;: true,
-    &quot;data&quot;: [
-        {
-            &quot;value&quot;: &quot;1&quot;,
-            &quot;label&quot;: &quot;IVA Responsable Inscripto&quot;
-        },
-        {
-            &quot;value&quot;: &quot;2&quot;,
-            &quot;label&quot;: &quot;IVA Responsable no Inscripto&quot;
-        },
-        {
-            &quot;value&quot;: &quot;3&quot;,
-            &quot;label&quot;: &quot;IVA no Responsable&quot;
-        }
-    ],
-    &quot;message&quot;: &quot;Opciones de posici&oacute;n frente al IVA obtenidas exitosamente&quot;
-}</code>
- </pre>
-    </span>
-<span id="execution-results-GETapi-tax-statuses" hidden>
-    <blockquote>Received response<span
-                id="execution-response-status-GETapi-tax-statuses"></span>:
-    </blockquote>
-    <pre class="json"><code id="execution-response-content-GETapi-tax-statuses"
-      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
-</span>
-<span id="execution-error-GETapi-tax-statuses" hidden>
-    <blockquote>Request failed with error:</blockquote>
-    <pre><code id="execution-error-message-GETapi-tax-statuses">
-
-Tip: Check that you&#039;re properly connected to the network.
-If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
-You can check the Dev Tools console for debugging information.</code></pre>
-</span>
-<form id="form-GETapi-tax-statuses" data-method="GET"
-      data-path="api/tax-statuses"
-      data-authed="0"
-      data-hasfiles="0"
-      data-isarraybody="0"
-      autocomplete="off"
-      onsubmit="event.preventDefault(); executeTryOut('GETapi-tax-statuses', this);">
-    <h3>
-        Request&nbsp;&nbsp;&nbsp;
-                    <button type="button"
-                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-tryout-GETapi-tax-statuses"
-                    onclick="tryItOut('GETapi-tax-statuses');">Try it out ⚡
-            </button>
-            <button type="button"
-                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-canceltryout-GETapi-tax-statuses"
-                    onclick="cancelTryOut('GETapi-tax-statuses');" hidden>Cancel 🛑
-            </button>&nbsp;&nbsp;
-            <button type="submit"
-                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-executetryout-GETapi-tax-statuses"
-                    data-initial-text="Send Request 💥"
-                    data-loading-text="⏱ Sending..."
-                    hidden>Send Request 💥
-            </button>
-            </h3>
-            <p>
-            <small class="badge badge-green">GET</small>
-            <b><code>api/tax-statuses</code></b>
-        </p>
-                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
-                                <div style="padding-left: 28px; clear: unset;">
-                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
-&nbsp;
- &nbsp;
- &nbsp;
-                <input type="text" style="display: none"
-                              name="Content-Type"                data-endpoint="GETapi-tax-statuses"
-               value="application/json"
-               data-component="header">
-    <br>
-<p>Example: <code>application/json</code></p>
-            </div>
-                                <div style="padding-left: 28px; clear: unset;">
-                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
-&nbsp;
- &nbsp;
- &nbsp;
-                <input type="text" style="display: none"
-                              name="Accept"                data-endpoint="GETapi-tax-statuses"
-               value="application/json"
-               data-component="header">
-    <br>
-<p>Example: <code>application/json</code></p>
-            </div>
-                        </form>
-
-                    <h2 id="opciones-del-sistema-GETapi-agreements">Obtener opciones de convenio</h2>
-
-<p>
-</p>
-
-<p>Obtiene todas las opciones disponibles para el campo &quot;Convenio&quot;.</p>
-
-<span id="example-requests-GETapi-agreements">
-<blockquote>Example request:</blockquote>
-
-
-<div class="bash-example">
-    <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/agreements" \
-    --header "Content-Type: application/json" \
-    --header "Accept: application/json"</code></pre></div>
-
-
-<div class="javascript-example">
-    <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/agreements"
-);
-
-const headers = {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-};
-
-fetch(url, {
-    method: "GET",
-    headers,
-}).then(response =&gt; response.json());</code></pre></div>
-
-</span>
-
-<span id="example-responses-GETapi-agreements">
-            <blockquote>
-            <p>Example response (200, success):</p>
-        </blockquote>
-                <pre>
-
-<code class="language-json" style="max-height: 300px;">{
-    &quot;success&quot;: true,
-    &quot;data&quot;: [
-        {
-            &quot;value&quot;: &quot;convenio_multilateral&quot;,
-            &quot;label&quot;: &quot;Convenio Multilateral&quot;
-        }
-    ],
-    &quot;message&quot;: &quot;Opciones de convenio obtenidas exitosamente&quot;
-}</code>
- </pre>
-    </span>
-<span id="execution-results-GETapi-agreements" hidden>
-    <blockquote>Received response<span
-                id="execution-response-status-GETapi-agreements"></span>:
-    </blockquote>
-    <pre class="json"><code id="execution-response-content-GETapi-agreements"
-      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
-</span>
-<span id="execution-error-GETapi-agreements" hidden>
-    <blockquote>Request failed with error:</blockquote>
-    <pre><code id="execution-error-message-GETapi-agreements">
-
-Tip: Check that you&#039;re properly connected to the network.
-If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
-You can check the Dev Tools console for debugging information.</code></pre>
-</span>
-<form id="form-GETapi-agreements" data-method="GET"
-      data-path="api/agreements"
-      data-authed="0"
-      data-hasfiles="0"
-      data-isarraybody="0"
-      autocomplete="off"
-      onsubmit="event.preventDefault(); executeTryOut('GETapi-agreements', this);">
-    <h3>
-        Request&nbsp;&nbsp;&nbsp;
-                    <button type="button"
-                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-tryout-GETapi-agreements"
-                    onclick="tryItOut('GETapi-agreements');">Try it out ⚡
-            </button>
-            <button type="button"
-                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-canceltryout-GETapi-agreements"
-                    onclick="cancelTryOut('GETapi-agreements');" hidden>Cancel 🛑
-            </button>&nbsp;&nbsp;
-            <button type="submit"
-                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-executetryout-GETapi-agreements"
-                    data-initial-text="Send Request 💥"
-                    data-loading-text="⏱ Sending..."
-                    hidden>Send Request 💥
-            </button>
-            </h3>
-            <p>
-            <small class="badge badge-green">GET</small>
-            <b><code>api/agreements</code></b>
-        </p>
-                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
-                                <div style="padding-left: 28px; clear: unset;">
-                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
-&nbsp;
- &nbsp;
- &nbsp;
-                <input type="text" style="display: none"
-                              name="Content-Type"                data-endpoint="GETapi-agreements"
-               value="application/json"
-               data-component="header">
-    <br>
-<p>Example: <code>application/json</code></p>
-            </div>
-                                <div style="padding-left: 28px; clear: unset;">
-                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
-&nbsp;
- &nbsp;
- &nbsp;
-                <input type="text" style="display: none"
-                              name="Accept"                data-endpoint="GETapi-agreements"
-               value="application/json"
-               data-component="header">
-    <br>
-<p>Example: <code>application/json</code></p>
-            </div>
-                        </form>
 
             
 
