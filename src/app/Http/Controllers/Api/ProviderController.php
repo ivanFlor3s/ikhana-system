@@ -221,6 +221,7 @@ class ProviderController extends Controller
      * @urlParam id integer required ID del proveedor. Example: 1
      * @bodyParam business_name string optional Razón social. Example: Proveedor Actualizado S.A.
      * @bodyParam fantasy_name string optional Nombre de fantasía. Example: Proveedor Actualizado
+     * @bodyParam category_id integer optional ID del rubro/categoría (usar GET /api/categories). Example: 2
      * @bodyParam phone_2 string optional Teléfono secundario. Example: +54 11 9999-8888
      * @bodyParam email_2 string optional Email secundario. Example: nuevo@proveedor.com
      * 
@@ -261,6 +262,7 @@ class ProviderController extends Controller
                 'iibb' => 'nullable|string|max:50',
                 'tax_status_id' => 'nullable|exists:tax_statuses,id',
                 'agreement_id' => 'nullable|exists:agreements,id',
+                'category_id' => 'nullable|exists:categories,id',
                 'phone_1' => 'nullable|string|max:50',
                 'phone_2' => 'nullable|string|max:50',
                 'phone_3' => 'nullable|string|max:50',
