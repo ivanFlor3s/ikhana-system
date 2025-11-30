@@ -15,6 +15,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             TaxStatusSeeder::class,
             AgreementSeeder::class,
+            CategorySeeder::class,
         ]);
 
         // User::factory(10)->create();

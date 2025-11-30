@@ -22,6 +22,7 @@ class Provider extends Model
         'iibb',
         'tax_status_id',
         'agreement_id',
+        'category_id',
         'phone_1',
         'phone_2',
         'phone_3',
@@ -67,6 +68,14 @@ class Provider extends Model
     public function agreement()
     {
         return $this->belongsTo(Agreement::class);
+    }
+
+    /**
+     * Relación: Proveedor pertenece a una Category
+     */
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
     }
 }
 
