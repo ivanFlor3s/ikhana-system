@@ -76,6 +76,28 @@
                             </li>
                                                                         </ul>
                             </ul>
+                    <ul id="tocify-header-brokers-management" class="tocify-header">
+                <li class="tocify-item level-1" data-unique="brokers-management">
+                    <a href="#brokers-management">Brokers Management</a>
+                </li>
+                                    <ul id="tocify-subheader-brokers-management" class="tocify-subheader">
+                                                    <li class="tocify-item level-2" data-unique="brokers-management-GETapi-brokers">
+                                <a href="#brokers-management-GETapi-brokers">List all brokers</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="brokers-management-POSTapi-brokers">
+                                <a href="#brokers-management-POSTapi-brokers">Create a new broker</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="brokers-management-GETapi-brokers--id-">
+                                <a href="#brokers-management-GETapi-brokers--id-">Get a specific broker</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="brokers-management-PUTapi-brokers--id-">
+                                <a href="#brokers-management-PUTapi-brokers--id-">Update a broker</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="brokers-management-DELETEapi-brokers--id-">
+                                <a href="#brokers-management-DELETEapi-brokers--id-">Delete a broker</a>
+                            </li>
+                                                                        </ul>
+                            </ul>
                     <ul id="tocify-header-business-categories" class="tocify-header">
                 <li class="tocify-item level-1" data-unique="business-categories">
                     <a href="#business-categories">Business Categories</a>
@@ -372,6 +394,886 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <p>The CUIT/CUIL to validate. Can be with or without hyphens. Example: <code>20-41173228-3</code></p>
         </div>
         </form>
+
+                <h1 id="brokers-management">Brokers Management</h1>
+
+    <p>APIs for managing brokers (corredores/contactos internos)</p>
+
+                                <h2 id="brokers-management-GETapi-brokers">List all brokers</h2>
+
+<p>
+</p>
+
+<p>Get a list of all brokers in the system. Useful for populating select/dropdown fields.</p>
+
+<span id="example-requests-GETapi-brokers">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request GET \
+    --get "http://localhost:8000/api/brokers" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/brokers"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-GETapi-brokers">
+            <blockquote>
+            <p>Example response (200, success):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;success&quot;: true,
+    &quot;data&quot;: [
+        {
+            &quot;id&quot;: 1,
+            &quot;first_name&quot;: &quot;Juan&quot;,
+            &quot;last_name&quot;: &quot;P&eacute;rez&quot;,
+            &quot;full_name&quot;: &quot;Juan P&eacute;rez&quot;,
+            &quot;email&quot;: &quot;juan.perez@example.com&quot;,
+            &quot;phone&quot;: &quot;+54 11 1234-5678&quot;,
+            &quot;created_at&quot;: &quot;2024-11-30T10:00:00.000000Z&quot;,
+            &quot;updated_at&quot;: &quot;2024-11-30T10:00:00.000000Z&quot;,
+            &quot;deleted_at&quot;: null
+        }
+    ],
+    &quot;message&quot;: &quot;Corredores obtenidos exitosamente&quot;
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-GETapi-brokers" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-GETapi-brokers"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-GETapi-brokers"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-GETapi-brokers" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GETapi-brokers">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-GETapi-brokers" data-method="GET"
+      data-path="api/brokers"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('GETapi-brokers', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-GETapi-brokers"
+                    onclick="tryItOut('GETapi-brokers');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-GETapi-brokers"
+                    onclick="cancelTryOut('GETapi-brokers');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-GETapi-brokers"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-green">GET</small>
+            <b><code>api/brokers</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="GETapi-brokers"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="GETapi-brokers"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                        </form>
+
+                    <h2 id="brokers-management-POSTapi-brokers">Create a new broker</h2>
+
+<p>
+</p>
+
+<p>Create and store a new broker in the database.</p>
+
+<span id="example-requests-POSTapi-brokers">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request POST \
+    "http://localhost:8000/api/brokers" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json" \
+    --data "{
+    \"first_name\": \"Juan\",
+    \"last_name\": \"Pérez\",
+    \"email\": \"juan.perez@example.com\",
+    \"phone\": \"+54 11 1234-5678\"
+}"
+</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/brokers"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "first_name": "Juan",
+    "last_name": "Pérez",
+    "email": "juan.perez@example.com",
+    "phone": "+54 11 1234-5678"
+};
+
+fetch(url, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-POSTapi-brokers">
+            <blockquote>
+            <p>Example response (201, success):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;success&quot;: true,
+    &quot;data&quot;: {
+        &quot;id&quot;: 1,
+        &quot;first_name&quot;: &quot;Juan&quot;,
+        &quot;last_name&quot;: &quot;P&eacute;rez&quot;,
+        &quot;full_name&quot;: &quot;Juan P&eacute;rez&quot;,
+        &quot;email&quot;: &quot;juan.perez@example.com&quot;,
+        &quot;phone&quot;: &quot;+54 11 1234-5678&quot;,
+        &quot;created_at&quot;: &quot;2024-11-30T10:00:00.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2024-11-30T10:00:00.000000Z&quot;
+    },
+    &quot;message&quot;: &quot;Corredor creado exitosamente&quot;
+}</code>
+ </pre>
+            <blockquote>
+            <p>Example response (422, validation error):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;success&quot;: false,
+    &quot;message&quot;: &quot;Validation error&quot;,
+    &quot;errors&quot;: {
+        &quot;email&quot;: [
+            &quot;The email has already been taken.&quot;
+        ]
+    }
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-POSTapi-brokers" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTapi-brokers"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTapi-brokers"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-POSTapi-brokers" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTapi-brokers">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-POSTapi-brokers" data-method="POST"
+      data-path="api/brokers"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTapi-brokers', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTapi-brokers"
+                    onclick="tryItOut('POSTapi-brokers');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTapi-brokers"
+                    onclick="cancelTryOut('POSTapi-brokers');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTapi-brokers"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>api/brokers</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="POSTapi-brokers"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="POSTapi-brokers"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>first_name</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="first_name"                data-endpoint="POSTapi-brokers"
+               value="Juan"
+               data-component="body">
+    <br>
+<p>First name. Example: <code>Juan</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>last_name</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="last_name"                data-endpoint="POSTapi-brokers"
+               value="Pérez"
+               data-component="body">
+    <br>
+<p>Last name. Example: <code>Pérez</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>email</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="email"                data-endpoint="POSTapi-brokers"
+               value="juan.perez@example.com"
+               data-component="body">
+    <br>
+<p>Unique email address. Example: <code>juan.perez@example.com</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>phone</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="phone"                data-endpoint="POSTapi-brokers"
+               value="+54 11 1234-5678"
+               data-component="body">
+    <br>
+<p>optional Phone number. Example: <code>+54 11 1234-5678</code></p>
+        </div>
+        </form>
+
+                    <h2 id="brokers-management-GETapi-brokers--id-">Get a specific broker</h2>
+
+<p>
+</p>
+
+<p>Get detailed information about a specific broker by its ID.</p>
+
+<span id="example-requests-GETapi-brokers--id-">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request GET \
+    --get "http://localhost:8000/api/brokers/1" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/brokers/1"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-GETapi-brokers--id-">
+            <blockquote>
+            <p>Example response (200, success):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;success&quot;: true,
+    &quot;data&quot;: {
+        &quot;id&quot;: 1,
+        &quot;first_name&quot;: &quot;Juan&quot;,
+        &quot;last_name&quot;: &quot;P&eacute;rez&quot;,
+        &quot;full_name&quot;: &quot;Juan P&eacute;rez&quot;,
+        &quot;email&quot;: &quot;juan.perez@example.com&quot;,
+        &quot;phone&quot;: &quot;+54 11 1234-5678&quot;,
+        &quot;provider&quot;: {
+            &quot;id&quot;: 1,
+            &quot;business_name&quot;: &quot;Proveedor Demo SA&quot;,
+            &quot;fantasy_name&quot;: &quot;ProvDemo&quot;
+        },
+        &quot;created_at&quot;: &quot;2024-11-30T10:00:00.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2024-11-30T10:00:00.000000Z&quot;
+    },
+    &quot;message&quot;: &quot;Corredor obtenido exitosamente&quot;
+}</code>
+ </pre>
+            <blockquote>
+            <p>Example response (404, not found):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;success&quot;: false,
+    &quot;message&quot;: &quot;Corredor no encontrado&quot;
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-GETapi-brokers--id-" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-GETapi-brokers--id-"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-GETapi-brokers--id-"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-GETapi-brokers--id-" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GETapi-brokers--id-">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-GETapi-brokers--id-" data-method="GET"
+      data-path="api/brokers/{id}"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('GETapi-brokers--id-', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-GETapi-brokers--id-"
+                    onclick="tryItOut('GETapi-brokers--id-');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-GETapi-brokers--id-"
+                    onclick="cancelTryOut('GETapi-brokers--id-');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-GETapi-brokers--id-"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-green">GET</small>
+            <b><code>api/brokers/{id}</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="GETapi-brokers--id-"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="GETapi-brokers--id-"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                        <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>id</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="id"                data-endpoint="GETapi-brokers--id-"
+               value="1"
+               data-component="url">
+    <br>
+<p>Broker ID. Example: <code>1</code></p>
+            </div>
+                    </form>
+
+                    <h2 id="brokers-management-PUTapi-brokers--id-">Update a broker</h2>
+
+<p>
+</p>
+
+<p>Update an existing broker's information. Only send the fields you want to update.</p>
+
+<span id="example-requests-PUTapi-brokers--id-">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request PUT \
+    "http://localhost:8000/api/brokers/1" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json" \
+    --data "{
+    \"first_name\": \"Juan Carlos\",
+    \"last_name\": \"Pérez González\",
+    \"email\": \"juancarlos.perez@example.com\",
+    \"phone\": \"+54 11 9999-8888\"
+}"
+</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/brokers/1"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "first_name": "Juan Carlos",
+    "last_name": "Pérez González",
+    "email": "juancarlos.perez@example.com",
+    "phone": "+54 11 9999-8888"
+};
+
+fetch(url, {
+    method: "PUT",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-PUTapi-brokers--id-">
+            <blockquote>
+            <p>Example response (200, success):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;success&quot;: true,
+    &quot;data&quot;: {
+        &quot;id&quot;: 1,
+        &quot;first_name&quot;: &quot;Juan Carlos&quot;,
+        &quot;last_name&quot;: &quot;P&eacute;rez Gonz&aacute;lez&quot;,
+        &quot;full_name&quot;: &quot;Juan Carlos P&eacute;rez Gonz&aacute;lez&quot;,
+        &quot;email&quot;: &quot;juancarlos.perez@example.com&quot;,
+        &quot;phone&quot;: &quot;+54 11 9999-8888&quot;,
+        &quot;created_at&quot;: &quot;2024-11-30T10:00:00.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2024-11-30T11:00:00.000000Z&quot;
+    },
+    &quot;message&quot;: &quot;Corredor actualizado exitosamente&quot;
+}</code>
+ </pre>
+            <blockquote>
+            <p>Example response (404, not found):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;success&quot;: false,
+    &quot;message&quot;: &quot;Corredor no encontrado&quot;
+}</code>
+ </pre>
+            <blockquote>
+            <p>Example response (422, validation error):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;success&quot;: false,
+    &quot;message&quot;: &quot;Validation error&quot;,
+    &quot;errors&quot;: {
+        &quot;email&quot;: [
+            &quot;The email has already been taken.&quot;
+        ]
+    }
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-PUTapi-brokers--id-" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-PUTapi-brokers--id-"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-PUTapi-brokers--id-"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-PUTapi-brokers--id-" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-PUTapi-brokers--id-">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-PUTapi-brokers--id-" data-method="PUT"
+      data-path="api/brokers/{id}"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('PUTapi-brokers--id-', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-PUTapi-brokers--id-"
+                    onclick="tryItOut('PUTapi-brokers--id-');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-PUTapi-brokers--id-"
+                    onclick="cancelTryOut('PUTapi-brokers--id-');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-PUTapi-brokers--id-"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-darkblue">PUT</small>
+            <b><code>api/brokers/{id}</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="PUTapi-brokers--id-"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="PUTapi-brokers--id-"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                        <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>id</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="id"                data-endpoint="PUTapi-brokers--id-"
+               value="1"
+               data-component="url">
+    <br>
+<p>Broker ID. Example: <code>1</code></p>
+            </div>
+                            <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>first_name</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="first_name"                data-endpoint="PUTapi-brokers--id-"
+               value="Juan Carlos"
+               data-component="body">
+    <br>
+<p>optional First name. Example: <code>Juan Carlos</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>last_name</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="last_name"                data-endpoint="PUTapi-brokers--id-"
+               value="Pérez González"
+               data-component="body">
+    <br>
+<p>optional Last name. Example: <code>Pérez González</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>email</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="email"                data-endpoint="PUTapi-brokers--id-"
+               value="juancarlos.perez@example.com"
+               data-component="body">
+    <br>
+<p>optional Email address. Example: <code>juancarlos.perez@example.com</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>phone</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+<i>optional</i> &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="phone"                data-endpoint="PUTapi-brokers--id-"
+               value="+54 11 9999-8888"
+               data-component="body">
+    <br>
+<p>optional Phone number. Example: <code>+54 11 9999-8888</code></p>
+        </div>
+        </form>
+
+                    <h2 id="brokers-management-DELETEapi-brokers--id-">Delete a broker</h2>
+
+<p>
+</p>
+
+<p>Delete a broker from the system (soft delete). The broker will be marked as deleted but not permanently removed.
+If a provider is using this broker, the relationship will be set to null automatically.</p>
+
+<span id="example-requests-DELETEapi-brokers--id-">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request DELETE \
+    "http://localhost:8000/api/brokers/1" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost:8000/api/brokers/1"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "DELETE",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-DELETEapi-brokers--id-">
+            <blockquote>
+            <p>Example response (200, success):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;success&quot;: true,
+    &quot;message&quot;: &quot;Corredor eliminado exitosamente&quot;
+}</code>
+ </pre>
+            <blockquote>
+            <p>Example response (404, not found):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;success&quot;: false,
+    &quot;message&quot;: &quot;Corredor no encontrado&quot;
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-DELETEapi-brokers--id-" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-DELETEapi-brokers--id-"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-DELETEapi-brokers--id-"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-DELETEapi-brokers--id-" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-DELETEapi-brokers--id-">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-DELETEapi-brokers--id-" data-method="DELETE"
+      data-path="api/brokers/{id}"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('DELETEapi-brokers--id-', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-DELETEapi-brokers--id-"
+                    onclick="tryItOut('DELETEapi-brokers--id-');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-DELETEapi-brokers--id-"
+                    onclick="cancelTryOut('DELETEapi-brokers--id-');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-DELETEapi-brokers--id-"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-red">DELETE</small>
+            <b><code>api/brokers/{id}</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="DELETEapi-brokers--id-"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="DELETEapi-brokers--id-"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                        <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>id</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+ &nbsp;
+ &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="id"                data-endpoint="DELETEapi-brokers--id-"
+               value="1"
+               data-component="url">
+    <br>
+<p>Broker ID. Example: <code>1</code></p>
+            </div>
+                    </form>
 
                 <h1 id="business-categories">Business Categories</h1>
 
@@ -3387,6 +4289,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     \"tax_status_id\": 1,
     \"agreement_id\": 1,
     \"category_id\": 1,
+    \"broker_id\": 1,
     \"phone_1\": \"+54 11 1234-5678\",
     \"phone_2\": \"+54 11 8765-4321\",
     \"email_1\": \"contacto@proveedor.com\",
@@ -3419,6 +4322,7 @@ let body = {
     "tax_status_id": 1,
     "agreement_id": 1,
     "category_id": 1,
+    "broker_id": 1,
     "phone_1": "+54 11 1234-5678",
     "phone_2": "+54 11 8765-4321",
     "email_1": "contacto@proveedor.com",
@@ -3632,6 +4536,18 @@ You can check the Dev Tools console for debugging information.</code></pre>
                data-component="body">
     <br>
 <p>optional ID del rubro/categoría (usar GET /api/categories para obtener opciones). Example: <code>1</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>broker_id</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+<i>optional</i> &nbsp;
+ &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="broker_id"                data-endpoint="POSTapi-providers"
+               value="1"
+               data-component="body">
+    <br>
+<p>optional ID del corredor/contacto interno (usar GET /api/brokers para obtener opciones). Example: <code>1</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>phone_1</code></b>&nbsp;&nbsp;
@@ -3937,6 +4853,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     \"business_name\": \"Proveedor Actualizado S.A.\",
     \"fantasy_name\": \"Proveedor Actualizado\",
     \"category_id\": 2,
+    \"broker_id\": 1,
     \"phone_2\": \"+54 11 9999-8888\",
     \"email_2\": \"nuevo@proveedor.com\"
 }"
@@ -3957,6 +4874,7 @@ let body = {
     "business_name": "Proveedor Actualizado S.A.",
     "fantasy_name": "Proveedor Actualizado",
     "category_id": 2,
+    "broker_id": 1,
     "phone_2": "+54 11 9999-8888",
     "email_2": "nuevo@proveedor.com"
 };
@@ -4133,6 +5051,18 @@ You can check the Dev Tools console for debugging information.</code></pre>
                data-component="body">
     <br>
 <p>optional ID del rubro/categoría (usar GET /api/categories). Example: <code>2</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>broker_id</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+<i>optional</i> &nbsp;
+ &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="broker_id"                data-endpoint="PUTapi-providers--id-"
+               value="1"
+               data-component="body">
+    <br>
+<p>optional ID del corredor (usar GET /api/brokers). Example: <code>1</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>phone_2</code></b>&nbsp;&nbsp;

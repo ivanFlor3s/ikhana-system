@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
             TaxStatusSeeder::class,
             AgreementSeeder::class,
             CategorySeeder::class,
+            BrokerSeeder::class,
         ]);
 
         // User::factory(10)->create();

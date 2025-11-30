@@ -20,6 +20,7 @@ return new class extends Migration
             $table->foreignId('tax_status_id')->nullable()->constrained('tax_statuses')->nullOnDelete();
             $table->foreignId('agreement_id')->nullable()->constrained('agreements')->nullOnDelete();
             $table->foreignId('category_id')->nullable()->constrained('categories')->nullOnDelete();
+            $table->foreignId('broker_id')->nullable()->constrained('brokers')->nullOnDelete();
             $table->string('phone_1')->nullable();
             $table->string('phone_2')->nullable();
             $table->string('phone_3')->nullable();
@@ -30,21 +31,12 @@ return new class extends Migration
             $table->string('email_3')->nullable();
             $table->string('email_4')->nullable();
             $table->string('email_5')->nullable();
-            
-            // Dirección y web
             $table->text('address')->nullable();
             $table->string('website')->nullable();
-            
-            // Contacto
             $table->string('contact_name')->nullable();
-            
-            // Observaciones
             $table->text('observations')->nullable();
-            
-            // Horarios
             $table->time('business_hours_start')->nullable();
             $table->time('business_hours_end')->nullable();
-            
             $table->timestamps();
             $table->softDeletes();
         });

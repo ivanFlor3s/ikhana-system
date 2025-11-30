@@ -80,7 +80,7 @@ class ProviderController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $query = Provider::with(['taxStatus', 'agreement', 'category']);
+        $query = Provider::with(['taxStatus', 'agreement', 'category', 'broker']);
         if ($request->has('search') && $request->search != '') {
             $search = $request->search;
             $query->where(function ($q) use ($search) {
@@ -117,6 +117,7 @@ class ProviderController extends Controller
      * @bodyParam tax_status_id integer optional ID de la posición frente al IVA (usar GET /api/tax-statuses para obtener opciones). Example: 1
      * @bodyParam agreement_id integer optional ID del convenio (usar GET /api/agreements para obtener opciones). Example: 1
      * @bodyParam category_id integer optional ID del rubro/categoría (usar GET /api/categories para obtener opciones). Example: 1
+     * @bodyParam broker_id integer optional ID del corredor/contacto interno (usar GET /api/brokers para obtener opciones). Example: 1
      * @bodyParam phone_1 string optional Teléfono principal. Example: +54 11 1234-5678
      * @bodyParam phone_2 string optional Teléfono secundario. Example: +54 11 8765-4321
      * @bodyParam email_1 string optional Email principal. Example: contacto@proveedor.com
@@ -161,6 +162,7 @@ class ProviderController extends Controller
                 'tax_status_id' => 'nullable|exists:tax_statuses,id',
                 'agreement_id' => 'nullable|exists:agreements,id',
                 'category_id' => 'nullable|exists:categories,id',
+                'broker_id' => 'nullable|exists:brokers,id',
                 'phone_1' => 'nullable|string|max:50',
                 'phone_2' => 'nullable|string|max:50',
                 'phone_3' => 'nullable|string|max:50',
@@ -183,7 +185,7 @@ class ProviderController extends Controller
 
             return response()->json([
                 'success' => true,
-                'data' => $provider->load(['taxStatus', 'agreement', 'category']),
+                'data' => $provider->load(['taxStatus', 'agreement', 'category', 'broker']),
                 'message' => 'Proveedor creado exitosamente'
             ], 201);
 
@@ -241,7 +243,7 @@ class ProviderController extends Controller
     public function show(string $id): JsonResponse
     {
         try {
-            $provider = Provider::with(['taxStatus', 'agreement', 'category'])->findOrFail($id);
+            $provider = Provider::with(['taxStatus', 'agreement', 'category', 'broker'])->findOrFail($id);
 
             return response()->json([
                 'success' => true,
@@ -266,6 +268,7 @@ class ProviderController extends Controller
      * @bodyParam business_name string optional Razón social. Example: Proveedor Actualizado S.A.
      * @bodyParam fantasy_name string optional Nombre de fantasía. Example: Proveedor Actualizado
      * @bodyParam category_id integer optional ID del rubro/categoría (usar GET /api/categories). Example: 2
+     * @bodyParam broker_id integer optional ID del corredor (usar GET /api/brokers). Example: 1
      * @bodyParam phone_2 string optional Teléfono secundario. Example: +54 11 9999-8888
      * @bodyParam email_2 string optional Email secundario. Example: nuevo@proveedor.com
      * 
@@ -307,6 +310,7 @@ class ProviderController extends Controller
                 'tax_status_id' => 'nullable|exists:tax_statuses,id',
                 'agreement_id' => 'nullable|exists:agreements,id',
                 'category_id' => 'nullable|exists:categories,id',
+                'broker_id' => 'nullable|exists:brokers,id',
                 'phone_1' => 'nullable|string|max:50',
                 'phone_2' => 'nullable|string|max:50',
                 'phone_3' => 'nullable|string|max:50',
@@ -329,7 +333,7 @@ class ProviderController extends Controller
 
             return response()->json([
                 'success' => true,
-                'data' => $provider->fresh()->load(['taxStatus', 'agreement', 'category']),
+                'data' => $provider->fresh()->load(['taxStatus', 'agreement', 'category', 'broker']),
                 'message' => 'Proveedor actualizado exitosamente'
             ], 200);
 
