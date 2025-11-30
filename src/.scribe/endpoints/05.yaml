@@ -1,0 +1,86 @@
+name: 'AFIP Integration'
+description: |-
+
+  APIs for integrating with AFIP (Administración Federal de Ingresos Públicos).
+endpoints:
+  -
+    custom: []
+    httpMethods:
+      - POST
+    uri: api/tax-id/validate
+    metadata:
+      custom: []
+      groupName: 'AFIP Integration'
+      groupDescription: |-
+
+        APIs for integrating with AFIP (Administración Federal de Ingresos Públicos).
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Validate Tax ID (CUIT/CUIL)'
+      description: |-
+        Validates if a CUIT/CUIL exists in AFIP's taxpayer registry.
+        This endpoint verifies both the format and existence of the tax ID in AFIP's database.
+      authenticated: false
+      deprecated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      tax_id:
+        custom: []
+        name: tax_id
+        description: 'The CUIT/CUIL to validate. Can be with or without hyphens.'
+        required: true
+        example: 20-41173228-3
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+    cleanBodyParameters:
+      tax_id: 20-41173228-3
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: |-
+          {
+            "tax_id": "20-41173228-3",
+            "exists": true
+          }
+        headers: []
+        description: ''
+      -
+        custom: []
+        status: 200
+        content: |-
+          {
+            "tax_id": "20-99999999-9",
+            "exists": false
+          }
+        headers: []
+        description: ''
+      -
+        custom: []
+        status: 422
+        content: |-
+          {
+            "message": "The tax id field is required.",
+            "errors": {
+              "tax_id": [
+                "The tax id field is required."
+              ]
+            }
+          }
+        headers: []
+        description: ''
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null

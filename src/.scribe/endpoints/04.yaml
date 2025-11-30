@@ -1,25 +1,89 @@
-name: 'AFIP Integration'
+name: 'Gestión de Proveedores'
 description: |-
 
-  APIs for integrating with AFIP (Administración Federal de Ingresos Públicos).
+  APIs para gestionar proveedores (suppliers/vendors)
 endpoints:
   -
     custom: []
     httpMethods:
-      - POST
-    uri: api/tax-id/validate
+      - GET
+    uri: api/providers
     metadata:
       custom: []
-      groupName: 'AFIP Integration'
+      groupName: 'Gestión de Proveedores'
       groupDescription: |-
 
-        APIs for integrating with AFIP (Administración Federal de Ingresos Públicos).
+        APIs para gestionar proveedores (suppliers/vendors)
       subgroup: ''
       subgroupDescription: ''
-      title: 'Validate Tax ID (CUIT/CUIL)'
-      description: |-
-        Validates if a CUIT/CUIL exists in AFIP's taxpayer registry.
-        This endpoint verifies both the format and existence of the tax ID in AFIP's database.
+      title: 'Listar todos los proveedores'
+      description: 'Obtiene una lista de todos los proveedores del sistema.'
+      authenticated: false
+      deprecated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: |-
+          {
+            "success": true,
+            "data": [
+              {
+                "id": 1,
+                "fantasy_name": "Proveedor Demo",
+                "business_name": "Proveedor Demo S.A.",
+                "cuit": "20-12345678-9",
+                "iibb": "901-123456-7",
+                "tax_status": "Responsable Inscripto",
+                "agreement": "Convenio Multilateral",
+                "phone_1": "+54 11 1234-5678",
+                "phone_2": null,
+                "email_1": "contacto@proveedor.com",
+                "address": "Av. Corrientes 1234, CABA",
+                "website": "https://proveedor.com",
+                "contact_name": "Juan Pérez",
+                "observations": "Cliente preferencial",
+                "business_hours_start": "09:00",
+                "business_hours_end": "18:00",
+                "created_at": "2024-11-16T10:00:00.000000Z",
+                "updated_at": "2024-11-16T10:00:00.000000Z",
+                "deleted_at": null
+              }
+            ],
+            "message": "Proveedores obtenidos exitosamente"
+          }
+        headers: []
+        description: success
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - POST
+    uri: api/providers
+    metadata:
+      custom: []
+      groupName: 'Gestión de Proveedores'
+      groupDescription: |-
+
+        APIs para gestionar proveedores (suppliers/vendors)
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Crear un nuevo proveedor'
+      description: 'Crea y almacena un nuevo proveedor en la base de datos.'
       authenticated: false
       deprecated: false
     headers:
@@ -30,19 +94,288 @@ endpoints:
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
-      tax_id:
+      business_name:
         custom: []
-        name: tax_id
-        description: 'The CUIT/CUIL to validate. Can be with or without hyphens.'
+        name: business_name
+        description: 'Razón social del proveedor.'
         required: true
-        example: 20-41173228-3
+        example: 'Proveedor Demo S.A.'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      fantasy_name:
+        custom: []
+        name: fantasy_name
+        description: 'optional Nombre de fantasía.'
+        required: false
+        example: 'Proveedor Demo'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      cuit:
+        custom: []
+        name: cuit
+        description: 'CUIT único (número de identificación tributaria).'
+        required: true
+        example: 20-12345678-9
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      iibb:
+        custom: []
+        name: iibb
+        description: 'optional Ingresos Brutos.'
+        required: false
+        example: 901-123456-7
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      tax_status_id:
+        custom: []
+        name: tax_status_id
+        description: 'optional ID de la posición frente al IVA (usar GET /api/tax-statuses para obtener opciones).'
+        required: false
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      agreement_id:
+        custom: []
+        name: agreement_id
+        description: 'optional ID del convenio (usar GET /api/agreements para obtener opciones).'
+        required: false
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      category_id:
+        custom: []
+        name: category_id
+        description: 'optional ID del rubro/categoría (usar GET /api/categories para obtener opciones).'
+        required: false
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      phone_1:
+        custom: []
+        name: phone_1
+        description: 'optional Teléfono principal.'
+        required: false
+        example: '+54 11 1234-5678'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      phone_2:
+        custom: []
+        name: phone_2
+        description: 'optional Teléfono secundario.'
+        required: false
+        example: '+54 11 8765-4321'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      email_1:
+        custom: []
+        name: email_1
+        description: 'optional Email principal.'
+        required: false
+        example: contacto@proveedor.com
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      email_2:
+        custom: []
+        name: email_2
+        description: 'optional Email secundario.'
+        required: false
+        example: ventas@proveedor.com
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      address:
+        custom: []
+        name: address
+        description: 'optional Dirección física.'
+        required: false
+        example: 'Av. Corrientes 1234, CABA'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      website:
+        custom: []
+        name: website
+        description: 'optional Sitio web.'
+        required: false
+        example: 'https://proveedor.com'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      contact_name:
+        custom: []
+        name: contact_name
+        description: 'optional Nombre de contacto.'
+        required: false
+        example: 'Juan Pérez'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      observations:
+        custom: []
+        name: observations
+        description: 'optional Observaciones adicionales.'
+        required: false
+        example: 'Cliente preferencial'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      business_hours_start:
+        custom: []
+        name: business_hours_start
+        description: 'optional Horario de apertura (HH:MM).'
+        required: false
+        example: '09:00'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      business_hours_end:
+        custom: []
+        name: business_hours_end
+        description: 'optional Horario de cierre (HH:MM).'
+        required: false
+        example: '18:00'
         type: string
         enumValues: []
         exampleWasSpecified: true
         nullable: false
         deprecated: false
     cleanBodyParameters:
-      tax_id: 20-41173228-3
+      business_name: 'Proveedor Demo S.A.'
+      fantasy_name: 'Proveedor Demo'
+      cuit: 20-12345678-9
+      iibb: 901-123456-7
+      tax_status_id: 1
+      agreement_id: 1
+      category_id: 1
+      phone_1: '+54 11 1234-5678'
+      phone_2: '+54 11 8765-4321'
+      email_1: contacto@proveedor.com
+      email_2: ventas@proveedor.com
+      address: 'Av. Corrientes 1234, CABA'
+      website: 'https://proveedor.com'
+      contact_name: 'Juan Pérez'
+      observations: 'Cliente preferencial'
+      business_hours_start: '09:00'
+      business_hours_end: '18:00'
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 201
+        content: |-
+          {
+            "success": true,
+            "data": {
+              "id": 1,
+              "business_name": "Proveedor Demo S.A.",
+              "fantasy_name": "Proveedor Demo",
+              "cuit": "20-12345678-9",
+              "created_at": "2024-11-16T10:00:00.000000Z",
+              "updated_at": "2024-11-16T10:00:00.000000Z"
+            },
+            "message": "Proveedor creado exitosamente"
+          }
+        headers: []
+        description: success
+      -
+        custom: []
+        status: 422
+        content: |-
+          {
+            "success": false,
+            "message": "Error de validación",
+            "errors": {
+              "cuit": ["El campo CUIT es requerido."],
+              "business_name": ["El campo razón social es requerido."]
+            }
+          }
+        headers: []
+        description: 'error de validación'
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - GET
+    uri: 'api/providers/{id}'
+    metadata:
+      custom: []
+      groupName: 'Gestión de Proveedores'
+      groupDescription: |-
+
+        APIs para gestionar proveedores (suppliers/vendors)
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Obtener un proveedor específico'
+      description: 'Obtiene información detallada de un proveedor específico por su ID.'
+      authenticated: false
+      deprecated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      id:
+        custom: []
+        name: id
+        description: 'ID del proveedor.'
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+    cleanUrlParameters:
+      id: 1
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
     fileParameters: []
     responses:
       -
@@ -50,35 +383,238 @@ endpoints:
         status: 200
         content: |-
           {
-            "tax_id": "20-41173228-3",
-            "exists": true
+            "success": true,
+            "data": {
+              "id": 1,
+              "fantasy_name": "Proveedor Demo",
+              "business_name": "Proveedor Demo S.A.",
+              "cuit": "20-12345678-9",
+              "iibb": "901-123456-7",
+              "tax_status": "Responsable Inscripto",
+              "agreement": "Convenio Multilateral",
+              "phone_1": "+54 11 1234-5678",
+              "email_1": "contacto@proveedor.com",
+              "address": "Av. Corrientes 1234, CABA",
+              "website": "https://proveedor.com",
+              "contact_name": "Juan Pérez",
+              "observations": "Cliente preferencial",
+              "business_hours_start": "09:00",
+              "business_hours_end": "18:00",
+              "created_at": "2024-11-16T10:00:00.000000Z",
+              "updated_at": "2024-11-16T10:00:00.000000Z"
+            },
+            "message": "Proveedor obtenido exitosamente"
           }
         headers: []
-        description: ''
+        description: success
+      -
+        custom: []
+        status: 404
+        content: |-
+          {
+            "success": false,
+            "message": "Proveedor no encontrado"
+          }
+        headers: []
+        description: 'no encontrado'
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - PUT
+    uri: 'api/providers/{id}'
+    metadata:
+      custom: []
+      groupName: 'Gestión de Proveedores'
+      groupDescription: |-
+
+        APIs para gestionar proveedores (suppliers/vendors)
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Actualizar un proveedor'
+      description: 'Actualiza la información de un proveedor existente. Solo envía los campos que deseas actualizar.'
+      authenticated: false
+      deprecated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      id:
+        custom: []
+        name: id
+        description: 'ID del proveedor.'
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+    cleanUrlParameters:
+      id: 1
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      business_name:
+        custom: []
+        name: business_name
+        description: 'optional Razón social.'
+        required: false
+        example: 'Proveedor Actualizado S.A.'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      fantasy_name:
+        custom: []
+        name: fantasy_name
+        description: 'optional Nombre de fantasía.'
+        required: false
+        example: 'Proveedor Actualizado'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      phone_2:
+        custom: []
+        name: phone_2
+        description: 'optional Teléfono secundario.'
+        required: false
+        example: '+54 11 9999-8888'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      email_2:
+        custom: []
+        name: email_2
+        description: 'optional Email secundario.'
+        required: false
+        example: nuevo@proveedor.com
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+    cleanBodyParameters:
+      business_name: 'Proveedor Actualizado S.A.'
+      fantasy_name: 'Proveedor Actualizado'
+      phone_2: '+54 11 9999-8888'
+      email_2: nuevo@proveedor.com
+    fileParameters: []
+    responses:
       -
         custom: []
         status: 200
         content: |-
           {
-            "tax_id": "20-99999999-9",
-            "exists": false
+            "success": true,
+            "data": {
+              "id": 1,
+              "fantasy_name": "Proveedor Actualizado",
+              "business_name": "Proveedor Actualizado S.A.",
+              "cuit": "20-12345678-9",
+              "updated_at": "2024-11-16T11:00:00.000000Z"
+            },
+            "message": "Proveedor actualizado exitosamente"
           }
         headers: []
-        description: ''
+        description: success
+      -
+        custom: []
+        status: 404
+        content: |-
+          {
+            "success": false,
+            "message": "Proveedor no encontrado"
+          }
+        headers: []
+        description: 'no encontrado'
       -
         custom: []
         status: 422
         content: |-
           {
-            "message": "The tax id field is required.",
+            "success": false,
+            "message": "Error de validación",
             "errors": {
-              "tax_id": [
-                "The tax id field is required."
-              ]
+              "email_2": ["El email 2 debe ser una dirección de correo válida."]
             }
           }
         headers: []
-        description: ''
+        description: 'error de validación'
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - DELETE
+    uri: 'api/providers/{id}'
+    metadata:
+      custom: []
+      groupName: 'Gestión de Proveedores'
+      groupDescription: |-
+
+        APIs para gestionar proveedores (suppliers/vendors)
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Eliminar un proveedor'
+      description: 'Elimina un proveedor del sistema (soft delete). El proveedor será marcado como eliminado pero no se borrará permanentemente.'
+      authenticated: false
+      deprecated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      id:
+        custom: []
+        name: id
+        description: 'ID del proveedor.'
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+    cleanUrlParameters:
+      id: 1
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: |-
+          {
+            "success": true,
+            "message": "Proveedor eliminado exitosamente"
+          }
+        headers: []
+        description: success
+      -
+        custom: []
+        status: 404
+        content: |-
+          {
+            "success": false,
+            "message": "Proveedor no encontrado"
+          }
+        headers: []
+        description: 'no encontrado'
     responseFields: []
     auth: []
     controller: null
