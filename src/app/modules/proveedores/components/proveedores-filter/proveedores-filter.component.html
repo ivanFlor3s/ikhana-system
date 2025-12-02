@@ -1,13 +1,19 @@
-<form [formGroup]="forma" class="grid grid-cols-6 items-center gap-4" (ngSubmit)="onSubmit()">
+<form [formGroup]="forma" class="flex flex-row gap-4" (ngSubmit)="onSubmit()">
+    <div class=" grid grid-cols-4 items-center gap-4">
+        <app-input class="col-span-4" [hasPrefix]="true" placeholder="Buscar proveedor" formControlName="name"
+            size="md">
+            <ng-container prefix>
+                <span class="text-gray-500 h-full flex items-center">
+                    <mat-icon matPrefix>search</mat-icon>
+                </span>
+            </ng-container>
+        </app-input>
+        <!-- <app-button appearance="secondary">
+            Filtrar
+        </app-button> -->
+    </div>
 
-    <app-input class="col-span-1" [hasPrefix]="true" placeholder="Buscar proveedor" formControlName="name" size="md">
-        <ng-container prefix>
-            <span class="text-gray-500 h-full flex items-center">
-                <mat-icon matPrefix>search</mat-icon>
-            </span>
-        </ng-container>
-    </app-input>
-    <app-button appearance="secondary">
-        Filtrar
-    </app-button>
+    <div class="flex flex-1 flex-col gap-2">
+        <app-chips-selector [chips]="rubros" [multiple]="true" formControlName="rubros" />
+    </div>
 </form>

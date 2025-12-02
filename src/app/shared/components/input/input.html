@@ -1,12 +1,10 @@
-<div class="relative flex-1 min-w-[200px]">
-    @if (hasPrefix) {
-    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<div *ngIf="hasPrefix" class="relative flex items-center">
+    <div class="absolute left-3 pointer-events-none">
         <ng-content select="[prefix]"></ng-content>
     </div>
-    }
-
-    <input type="text" [ngClass]="hasPrefix ? 'pl-10' : 'pl-3'"
-        [class]="inputClasses() + 'block w-full  pr-3 py-2 border border-gray-300 rounded-lg leading-5 bg-white placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition duration-150 ease-in-out'"
-        [placeholder]="placeholder" [disabled]="disabled" [autocomplete]="autocomplete" [value]="value"
-        (onInput)="onInput($event)" (onBlur)="onBlur()">
+    <input [type]="type" [placeholder]="placeholder" [disabled]="disabled" [autocomplete]="autocomplete" [value]="value"
+        [ngClass]="inputClasses()" class="pl-10" (input)="onInput($event)" (blur)="onBlur()" />
 </div>
+
+<input *ngIf="!hasPrefix" [type]="type" [placeholder]="placeholder" [disabled]="disabled" [autocomplete]="autocomplete"
+    [value]="value" [ngClass]="inputClasses()" (input)="onInput($event)" (blur)="onBlur()" />

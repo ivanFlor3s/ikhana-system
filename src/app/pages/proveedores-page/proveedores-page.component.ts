@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { Provider } from '../../models/provider';
 import { MatDialog } from '@angular/material/dialog';
 import { ProviderCreateOrEdit } from '../../modules/proveedores/dialogs/provider-create-or-edit/provider-create-or-edit';
@@ -8,6 +8,8 @@ import { mapProviderFormToDto } from '../../interfaces/mappers/provider-form.map
 import { ProveedoresListComponent } from '../../modules/proveedores/components/proveedores-list/proveedores-list.component';
 import { ProveedoresHeader } from '../../modules/proveedores/components/proveedores-header/proveedores-header';
 import { ProveedoresFilterComponent } from '../../modules/proveedores/components/proveedores-filter/proveedores-filter.component';
+import { RubroService } from '../../services/rubro.service';
+import { NameValue } from '@models/name-value.model';
 
 @Component({
     selector: 'app-proveedores-page',
@@ -15,7 +17,7 @@ import { ProveedoresFilterComponent } from '../../modules/proveedores/components
     templateUrl: './proveedores-page.component.html',
     styleUrl: './proveedores-page.component.css'
 })
-export class ProveedoresPageComponent {
+export class ProveedoresPageComponent implements OnInit {
 
     providers: Provider[] = [
         {
@@ -154,6 +156,24 @@ export class ProveedoresPageComponent {
 
     readonly dialog = inject(MatDialog);
     readonly providerService = inject(ProviderService);
+    readonly rubroService = inject(RubroService);
+
+    rubros = signal<NameValue[]>([]);
+
+    ngOnInit(): void {
+        this.loadRubros();
+    }
+
+    loadRubros(): void {
+        this.rubroService.getAllRubros().subscribe({
+            next: (rubros) => {
+                this.rubros.set(rubros);
+            },
+            error: (error) => {
+                console.error('Error loading rubros:', error);
+            }
+        });
+    }
 
     openProviderDialog() {
         console.log('Open provider dialog');

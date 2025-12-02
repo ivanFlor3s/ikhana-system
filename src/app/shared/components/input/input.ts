@@ -86,6 +86,24 @@ export class InputComponent implements ControlValueAccessor {
     inputClasses(): string {
         const parts: string[] = [];
 
+        // Base styles with light gray background
+        parts.push(
+            'w-full',
+            'font-normal',
+            'bg-neutral-50',
+            'border border-neutral-200',
+            'text-neutral-700',
+            'transition-all duration-200',
+            'focus:outline-none',
+            'placeholder:text-neutral-400',
+            'hover:bg-neutral-100',
+            'hover:border-neutral-300',
+            'focus:bg-white',
+            'focus:border-neutral-400',
+            'focus:ring-1',
+            'focus:ring-neutral-300'
+        );
+
         // SIZE
         if (this.size === 'sm') {
             parts.push('text-sm px-3 py-1.5 rounded-md');
