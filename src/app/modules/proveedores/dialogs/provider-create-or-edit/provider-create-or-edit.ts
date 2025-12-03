@@ -4,6 +4,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatIconModule } from '@angular/material/icon';
 
 import {
   // MAT_DIALOG_DATA,
@@ -15,6 +17,8 @@ import {
 } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
 import { Button } from '../../../../shared/components/button/button';
+import { AfipService } from '../../../../services/afip.service';
+import { cuilAsyncValidator } from '../../../../validators/cuil-validator';
 
 @Component({
   selector: 'app-provider-create-or-edit',
@@ -28,6 +32,8 @@ import { Button } from '../../../../shared/components/button/button';
     MatDialogTitle,
     MatDialogContent,
     MatDialogActions,
+    MatProgressSpinnerModule,
+    MatIconModule,
     Button],
   templateUrl: './provider-create-or-edit.html',
   styleUrl: './provider-create-or-edit.css',
@@ -40,10 +46,15 @@ export class ProviderCreateOrEdit {
 
 
   fb = inject(FormBuilder);
+  afipService = inject(AfipService);
 
   form = this.fb.group({
     name: ['', Validators.required],
-    cuit: ['', Validators.required],
+    cuit: ['', {
+      validators: [Validators.required],
+      asyncValidators: [cuilAsyncValidator(this.afipService)],
+      updateOn: 'blur' // Trigger validation on blur (when user exits the field)
+    }],
     iib: [''],
     address: [''],
     socialReason: [''],
@@ -78,6 +89,10 @@ export class ProviderCreateOrEdit {
   // Helpers para arrays
   get otherPhones(): FormArray<FormControl<string | null>> {
     return this.form.get('otherPhones') as FormArray<FormControl<string | null>>;
+  }
+
+  get cuitControl(): FormControl {
+    return this.form.get('cuit') as FormControl;
   }
 
   get otherEmails(): FormArray<FormControl<string | null>> {

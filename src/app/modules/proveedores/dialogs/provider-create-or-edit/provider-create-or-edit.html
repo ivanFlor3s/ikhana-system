@@ -9,6 +9,13 @@
         <mat-form-field appearance="outline" class="col-span-3">
             <mat-label>CUIT</mat-label>
             <input matInput formControlName="cuit" />
+            <mat-spinner class="mr-3" matSuffix diameter="20" *ngIf="cuitControl.pending"></mat-spinner>
+            <mat-icon matSuffix class="text-green-600! important"
+                *ngIf="cuitControl.valid && !cuitControl.pending">check_circle</mat-icon>
+            <mat-icon matSuffix class="text-red-600"
+                *ngIf="cuitControl.invalid && cuitControl.touched && !cuitControl.pending">error</mat-icon>
+            <mat-error *ngIf="cuitControl.hasError('required')">El CUIT es requerido</mat-error>
+            <mat-error *ngIf="cuitControl.hasError('cuilNotFound')">El CUIT no existe en AFIP</mat-error>
         </mat-form-field>
 
         <mat-form-field appearance="outline" class="col-span-3">
