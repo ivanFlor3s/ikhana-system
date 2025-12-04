@@ -7,8 +7,9 @@ export interface ProviderFormData {
     iib: string;
     address: string;
     socialReason: string;
-    ivaPosition: string;
-    convenio: string;
+    ivaPositionId: number;
+    convenioId: number;
+    categoryId: number;
     website: string;
     phone: string;
     otherPhones: string[];
@@ -23,4 +24,10 @@ export interface ProviderFormData {
         hours: number;
         minutes: number;
     };
+    // Broker data
+    brokerFirstName: string;
+    brokerLastName: string;
+    brokerEmail: string;
+    brokerPhone: string;
 }
+

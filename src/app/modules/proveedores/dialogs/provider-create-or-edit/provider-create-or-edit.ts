@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -16,9 +16,13 @@ import {
   MatDialogTitle,
 } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
-import { Button } from '../../../../shared/components/button/button';
-import { AfipService } from '../../../../services/afip.service';
-import { cuilAsyncValidator } from '../../../../validators/cuil-validator';
+import { Button } from '@shared/components/button/button';
+import { AfipService } from '@services/afip.service';
+import { cuilAsyncValidator } from '@validators/cuil-validator';
+import { AppInitService } from '@services/app-init.service';
+import { ProviderService } from '@services/provider.service';
+import { mapProviderFormToDto } from '@interfaces/mappers/provider-form.mapper';
+import { ProviderFormData } from '@interfaces/form-data-models/provider-form-data.model';
 
 @Component({
   selector: 'app-provider-create-or-edit',
@@ -47,6 +51,11 @@ export class ProviderCreateOrEdit {
 
   fb = inject(FormBuilder);
   afipService = inject(AfipService);
+  appInitService = inject(AppInitService);
+  providerService = inject(ProviderService);
+
+  isSubmitting = signal(false);
+  errorMessage = signal<string | null>(null);
 
   form = this.fb.group({
     name: ['', Validators.required],
@@ -58,8 +67,9 @@ export class ProviderCreateOrEdit {
     iib: [''],
     address: [''],
     socialReason: [''],
-    ivaPosition: ['', Validators.required],
-    convenio: [''],
+    ivaPositionId: [null as number | null, Validators.required],
+    convenioId: [null as number | null, Validators.required],
+    categoryId: [null as number | null, Validators.required],
     website: [''],
 
     phone: ['', Validators.required],
@@ -79,8 +89,26 @@ export class ProviderCreateOrEdit {
       hours: [17, Validators.required],
       minutes: [0, Validators.required]
     }),
+
+    // Broker fields
+    brokerFirstName: ['', Validators.required],
+    brokerLastName: ['', Validators.required],
+    brokerEmail: ['', [Validators.required, Validators.email]],
+    brokerPhone: ['', Validators.required],
   });
 
+  // Getters for reference data
+  get taxStatuses() {
+    return this.appInitService.taxStatuses;
+  }
+
+  get agreements() {
+    return this.appInitService.agreements;
+  }
+
+  get categories() {
+    return this.appInitService.categories;
+  }
 
   onNoClick(): void {
     this.dialogRef.close();
@@ -120,7 +148,23 @@ export class ProviderCreateOrEdit {
 
   submit() {
     if (this.form.valid) {
-      this.dialogRef.close(this.form.value);
+      this.isSubmitting.set(true);
+      this.errorMessage.set(null);
+
+      const formData = this.form.value as ProviderFormData;
+      const dto = mapProviderFormToDto(formData);
+
+      this.providerService.createProvider(dto).subscribe({
+        next: (response) => {
+          this.isSubmitting.set(false);
+          this.dialogRef.close(response.data);
+        },
+        error: (error) => {
+          this.isSubmitting.set(false);
+          this.errorMessage.set(error.error?.message || 'Error al crear el proveedor');
+          console.error('Error creating provider:', error);
+        }
+      });
     } else {
       this.form.markAllAsTouched();
     }

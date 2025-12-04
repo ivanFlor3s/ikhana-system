@@ -19,8 +19,9 @@
         </mat-form-field>
 
         <mat-form-field appearance="outline" class="col-span-3">
-            <mat-label>IIB</mat-label>
+            <mat-label>IIBB</mat-label>
             <input matInput formControlName="iib" />
+            <mat-hint> Ingresos Brutos </mat-hint>
         </mat-form-field>
 
         <mat-form-field appearance="outline" class="col-span-3">
@@ -35,16 +36,32 @@
 
         <mat-form-field appearance="outline" class="col-span-3">
             <mat-label>Posición frente al IVA</mat-label>
-            <mat-select formControlName="ivaPosition">
-                <mat-option value="Responsable Inscripto">Responsable Inscripto</mat-option>
-                <mat-option value="Consumidor Final">Consumidor Final</mat-option>
-                <mat-option value="Monotributo">Monotributo</mat-option>
+            <mat-select formControlName="ivaPositionId">
+                @for (taxStatus of taxStatuses; track taxStatus.value) {
+                <mat-option [value]="taxStatus.value">{{ taxStatus.name }}</mat-option>
+                }
             </mat-select>
+            <mat-error>La posición frente al IVA es requerida</mat-error>
         </mat-form-field>
 
         <mat-form-field appearance="outline" class="col-span-3">
             <mat-label>Convenio</mat-label>
-            <input matInput formControlName="convenio" />
+            <mat-select formControlName="convenioId">
+                @for (agreement of agreements; track agreement.value) {
+                <mat-option [value]="agreement.value">{{ agreement.name }}</mat-option>
+                }
+            </mat-select>
+            <mat-error>El convenio es requerido</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="col-span-3">
+            <mat-label>Categoría</mat-label>
+            <mat-select formControlName="categoryId">
+                @for (category of categories; track category.value) {
+                <mat-option [value]="category.value">{{ category.name }}</mat-option>
+                }
+            </mat-select>
+            <mat-error>La categoría es requerida</mat-error>
         </mat-form-field>
 
         <mat-form-field appearance="outline" class="col-span-3">
@@ -124,6 +141,37 @@
             </div>
         </div>
 
+        <!-- Broker Information -->
+        <div class="col-span-6">
+            <h3 class="text-lg font-semibold mb-3">Información del Corredor</h3>
+        </div>
+
+        <mat-form-field appearance="outline" class="col-span-3">
+            <mat-label>Nombre del Corredor</mat-label>
+            <input matInput formControlName="brokerFirstName" />
+            <mat-error>El nombre del corredor es requerido</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="col-span-3">
+            <mat-label>Apellido del Corredor</mat-label>
+            <input matInput formControlName="brokerLastName" />
+            <mat-error>El apellido del corredor es requerido</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="col-span-3">
+            <mat-label>Email del Corredor</mat-label>
+            <input matInput formControlName="brokerEmail" type="email" />
+            <mat-error *ngIf="form.get('brokerEmail')?.hasError('required')">El email del corredor es
+                requerido</mat-error>
+            <mat-error *ngIf="form.get('brokerEmail')?.hasError('email')">Ingrese un email válido</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="col-span-3">
+            <mat-label>Teléfono del Corredor</mat-label>
+            <input matInput formControlName="brokerPhone" />
+            <mat-error>El teléfono del corredor es requerido</mat-error>
+        </mat-form-field>
+
         <mat-form-field appearance="outline" class="col-span-6">
             <mat-label>Observaciones</mat-label>
             <textarea matInput formControlName="observations"></textarea>
@@ -131,8 +179,18 @@
     </form>
 </mat-dialog-content>
 <mat-dialog-actions>
+    @if (errorMessage()) {
+    <div class="w-full mb-4 p-3 bg-red-100 text-red-700 rounded">
+        {{ errorMessage() }}
+    </div>
+    }
     <div class="flex flex-row justify-end gap-2">
-        <app-button appearance="secondary" (click)="onNoClick()">Cancelar</app-button>
-        <app-button appearance="primary" (click)="submit()">Crear</app-button>
+        <app-button appearance="secondary" (click)="onNoClick()" [disabled]="isSubmitting()">Cancelar</app-button>
+        <app-button appearance="primary" (click)="submit()" [disabled]="isSubmitting()">
+            @if (isSubmitting()) {
+            <mat-spinner diameter="20" class="inline-block mr-2"></mat-spinner>
+            }
+            {{ isSubmitting() ? 'Creando...' : 'Crear' }}
+        </app-button>
     </div>
 </mat-dialog-actions>
