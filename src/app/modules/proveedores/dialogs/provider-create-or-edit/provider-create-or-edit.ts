@@ -21,6 +21,7 @@ import { AfipService } from '@services/afip.service';
 import { cuilAsyncValidator } from '@validators/cuil-validator';
 import { AppInitService } from '@services/app-init.service';
 import { ProviderService } from '@services/provider.service';
+import { NotificationService } from '@services/notification.service';
 import { mapProviderFormToDto } from '@interfaces/mappers/provider-form.mapper';
 import { ProviderFormData } from '@interfaces/form-data-models/provider-form-data.model';
 
@@ -53,6 +54,7 @@ export class ProviderCreateOrEdit {
   afipService = inject(AfipService);
   appInitService = inject(AppInitService);
   providerService = inject(ProviderService);
+  notificationService = inject(NotificationService);
 
   isSubmitting = signal(false);
   errorMessage = signal<string | null>(null);
@@ -157,6 +159,10 @@ export class ProviderCreateOrEdit {
       this.providerService.createProvider(dto).subscribe({
         next: (response) => {
           this.isSubmitting.set(false);
+          this.notificationService.success(
+            'Proveedor creado exitosamente',
+            `El proveedor "${response.data.fantasy_name}" ha sido creado correctamente.`
+          );
           this.dialogRef.close(response.data);
         },
         error: (error) => {
