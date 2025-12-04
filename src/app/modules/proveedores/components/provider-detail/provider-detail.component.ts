@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Provider } from '../../../../models/provider';
+import { Provider } from '../../../../models/provider.model';
 import { ProviderService } from '../../../../services/provider.service';
 
 @Component({
@@ -31,7 +31,7 @@ export class ProviderDetailComponent implements OnInit {
         this.providerService.getProviderById(this.providerId).subscribe({
             next: (response) => {
                 if (response.success) {
-                    // this.provider = response.data;
+                    this.provider = response.data;
                 } else {
                     this.error = response.message || 'Error al cargar el proveedor';
                 }
@@ -43,6 +43,21 @@ export class ProviderDetailComponent implements OnInit {
                 this.isLoading = false;
             }
         });
+    }
+
+    /**
+     * Copies text to clipboard and shows visual feedback
+     */
+    copyToClipboard(text: string): void {
+        navigator.clipboard.writeText(text).then(
+            () => {
+                // Success - could add a toast notification here
+                console.log('Copied to clipboard:', text);
+            },
+            (err) => {
+                console.error('Failed to copy to clipboard:', err);
+            }
+        );
     }
 
     /**

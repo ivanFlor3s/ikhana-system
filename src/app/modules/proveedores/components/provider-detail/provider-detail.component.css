@@ -9,14 +9,64 @@
     animation: spin 1s linear infinite;
 }
 
+/* Detail item styles */
+.detail-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.detail-label {
+    font-size: 0.75rem;
+    line-height: 1rem;
+    font-weight: 500;
+    color: rgb(107 114 128);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    cursor: help;
+}
+
+.detail-value {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    color: rgb(17 24 39);
+    font-weight: 500;
+}
+
+.detail-value-group {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Copy button styles */
+.copy-btn {
+    color: rgb(156 163 175);
+    transition: color 0.2s;
+    flex-shrink: 0;
+}
+
+.copy-btn:hover {
+    color: rgb(37 99 235);
+}
+
+.copy-btn:active {
+    transform: scale(0.95);
+}
+
 /* Smooth transitions for interactive elements */
 a {
     transition: all 0.2s ease-in-out;
 }
 
-/* Responsive grid adjustments */
-@media (max-width: 640px) {
-    .grid-cols-1 {
+/* Card hover effects */
+.bg-white {
+    transition: box-shadow 0.2s ease-in-out;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+    .grid-cols-1.lg\:grid-cols-2 {
         grid-template-columns: 1fr;
     }
 }

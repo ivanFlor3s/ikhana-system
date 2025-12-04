@@ -23,134 +23,274 @@
 
 <!-- Provider details -->
 <div *ngIf="provider && !isLoading" class="space-y-6">
-    <!-- Header -->
-    <div class="border-b border-gray-200 pb-4">
-        <h3 class="text-2xl font-bold text-gray-900">{{ provider.name }}</h3>
-        <p class="text-sm text-gray-500 mt-1">{{ provider.socialReason }}</p>
-    </div>
-
-    <!-- Basic Information -->
-    <div class="space-y-4">
-        <h4 class="text-lg font-semibold text-gray-800 flex items-center">
-            <svg class="w-5 h-5 mr-2 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-            </svg>
-            Información Básica
-        </h4>
-        <div class="grid grid-cols-1 gap-3 bg-gray-50 rounded-lg p-4">
-            <div class="flex justify-between">
-                <span class="text-sm font-medium text-gray-600">CUIT:</span>
-                <span class="text-sm text-gray-900">{{ provider.cuit }}</span>
+    <!-- Enhanced Header -->
+    <div class="bg-linear-to-r from-blue-600 to-blue-700 rounded-xl p-6 text-white shadow-lg">
+        <div class="flex items-start justify-between">
+            <div class="flex-1">
+                <div class="flex items-center gap-3 mb-2">
+                    <span class="text-sm font-medium text-blue-100 uppercase tracking-wide">ID: {{ provider.id }}</span>
+                    <button (click)="copyToClipboard(provider.id.toString())"
+                        class="text-blue-100 hover:text-white transition-colors" [title]="'Copiar ID'">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z">
+                            </path>
+                        </svg>
+                    </button>
+                </div>
+                <h2 class="text-3xl font-bold mb-1">{{ provider.fantasy_name }}</h2>
+                <p class="text-blue-100 text-lg">{{ provider.business_name }}</p>
             </div>
-            <div class="flex justify-between">
-                <span class="text-sm font-medium text-gray-600">IIB:</span>
-                <span class="text-sm text-gray-900">{{ provider.iib }}</span>
-            </div>
-            <div class="flex justify-between">
-                <span class="text-sm font-medium text-gray-600">Posición IVA:</span>
-                <span class="text-sm text-gray-900">{{ provider.ivaPosition }}</span>
-            </div>
-            <div class="flex justify-between">
-                <span class="text-sm font-medium text-gray-600">Convenio:</span>
-                <span class="text-sm" [class.text-green-600]="provider.convenio === 'Sí'"
-                    [class.text-gray-600]="provider.convenio !== 'Sí'">
-                    {{ provider.convenio }}
-                </span>
+            <div class="flex items-center justify-center w-16 h-16 bg-white/10 rounded-full backdrop-blur-sm">
+                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4">
+                    </path>
+                </svg>
             </div>
         </div>
     </div>
 
-    <!-- Contact Information -->
-    <div class="space-y-4">
-        <h4 class="text-lg font-semibold text-gray-800 flex items-center">
-            <svg class="w-5 h-5 mr-2 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
-                </path>
-            </svg>
-            Contacto
-        </h4>
-        <div class="space-y-3 bg-gray-50 rounded-lg p-4">
-            <!-- Address -->
-            <div>
-                <span class="text-sm font-medium text-gray-600 block mb-1">Dirección:</span>
-                <span class="text-sm text-gray-900">{{ provider.address }}</span>
-            </div>
-
-            <!-- Phone -->
-            <div>
-                <span class="text-sm font-medium text-gray-600 block mb-1">Teléfono:</span>
-                <span class="text-sm text-gray-900">{{ provider.phone }}</span>
-                <div *ngIf="provider.otherPhones && provider.otherPhones.length > 0" class="mt-1">
-                    <span class="text-xs text-gray-500" *ngFor="let phone of provider.otherPhones">
-                        {{ phone }}<br>
-                    </span>
-                </div>
-            </div>
-
-            <!-- Email -->
-            <div>
-                <span class="text-sm font-medium text-gray-600 block mb-1">Email:</span>
-                <a [href]="'mailto:' + provider.email" class="text-sm text-blue-600 hover:underline">
-                    {{ provider.email }}
-                </a>
-                <div *ngIf="provider.otherEmails && provider.otherEmails.length > 0" class="mt-1">
-                    <a [href]="'mailto:' + email" class="text-xs text-blue-500 hover:underline block"
-                        *ngFor="let email of provider.otherEmails">
-                        {{ email }}
-                    </a>
-                </div>
-            </div>
-
-            <!-- Website -->
-            <div *ngIf="provider.website">
-                <span class="text-sm font-medium text-gray-600 block mb-1">Sitio Web:</span>
-                <a [href]="provider.website" target="_blank"
-                    class="text-sm text-blue-600 hover:underline flex items-center">
-                    {{ provider.website }}
-                    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <!-- Two-column responsive grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- Left Column -->
+        <div class="space-y-6">
+            <!-- Tax Information -->
+            <div class="bg-white rounded-lg border border-gray-200 p-5 shadow-sm hover:shadow-md transition-shadow">
+                <h3 class="text-sm font-semibold text-gray-900 uppercase tracking-wide mb-4 flex items-center">
+                    <svg class="w-4 h-4 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
+                        </path>
                     </svg>
-                </a>
+                    Información Fiscal
+                </h3>
+                <div class="space-y-3">
+                    <!-- CUIT -->
+                    <div class="detail-item">
+                        <span class="detail-label" [title]="'Código Único de Identificación Tributaria'">CUIT</span>
+                        <div class="detail-value-group">
+                            <span class="detail-value font-mono">{{ provider.cuit }}</span>
+                            <button (click)="copyToClipboard(provider.cuit)" class="copy-btn" [title]="'Copiar CUIT'">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z">
+                                    </path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- IIBB -->
+                    <div class="detail-item">
+                        <span class="detail-label" [title]="'Ingresos Brutos'">IIBB</span>
+                        <div class="detail-value-group">
+                            <span class="detail-value font-mono">{{ provider.iibb }}</span>
+                            <button (click)="copyToClipboard(provider.iibb)" class="copy-btn" [title]="'Copiar IIBB'">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z">
+                                    </path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Tax Status -->
+                    <div class="detail-item">
+                        <span class="detail-label" [title]="'Posición frente al IVA'">Condición IVA</span>
+                        <span class="detail-value">{{ provider.tax_status?.name || 'N/A' }}</span>
+                    </div>
+
+                    <!-- Agreement -->
+                    <div class="detail-item">
+                        <span class="detail-label" [title]="'Convenio Multilateral'">Convenio</span>
+                        <span class="detail-value">{{ provider.agreement?.name || 'N/A' }}</span>
+                    </div>
+
+                    <!-- Category -->
+                    <div class="detail-item" *ngIf="provider.category">
+                        <span class="detail-label" [title]="'Categoría del proveedor'">Categoría</span>
+                        <span class="detail-value">{{ provider.category.name }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contact Information -->
+            <div class="bg-white rounded-lg border border-gray-200 p-5 shadow-sm hover:shadow-md transition-shadow">
+                <h3 class="text-sm font-semibold text-gray-900 uppercase tracking-wide mb-4 flex items-center">
+                    <svg class="w-4 h-4 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
+                        </path>
+                    </svg>
+                    Contacto
+                </h3>
+                <div class="space-y-3">
+                    <!-- Contact Name -->
+                    <div class="detail-item" *ngIf="provider.contact_name">
+                        <span class="detail-label">Persona de Contacto</span>
+                        <span class="detail-value">{{ provider.contact_name }}</span>
+                    </div>
+
+                    <!-- Phone 1 -->
+                    <div class="detail-item">
+                        <span class="detail-label">Teléfono Principal</span>
+                        <div class="detail-value-group">
+                            <a [href]="'tel:' + provider.phone_1"
+                                class="detail-value text-blue-600 hover:text-blue-700">
+                                {{ provider.phone_1 }}
+                            </a>
+                            <button (click)="copyToClipboard(provider.phone_1)" class="copy-btn"
+                                [title]="'Copiar teléfono'">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z">
+                                    </path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Additional Phones -->
+                    <div class="detail-item" *ngIf="provider.phone_2">
+                        <span class="detail-label">Teléfono 2</span>
+                        <a [href]="'tel:' + provider.phone_2" class="detail-value text-blue-600 hover:text-blue-700">
+                            {{ provider.phone_2 }}
+                        </a>
+                    </div>
+                    <div class="detail-item" *ngIf="provider.phone_3">
+                        <span class="detail-label">Teléfono 3</span>
+                        <a [href]="'tel:' + provider.phone_3" class="detail-value text-blue-600 hover:text-blue-700">
+                            {{ provider.phone_3 }}
+                        </a>
+                    </div>
+
+                    <!-- Email 1 -->
+                    <div class="detail-item">
+                        <span class="detail-label">Email Principal</span>
+                        <div class="detail-value-group">
+                            <a [href]="'mailto:' + provider.email_1"
+                                class="detail-value text-blue-600 hover:text-blue-700 truncate">
+                                {{ provider.email_1 }}
+                            </a>
+                            <button (click)="copyToClipboard(provider.email_1)" class="copy-btn"
+                                [title]="'Copiar email'">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z">
+                                    </path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Additional Emails -->
+                    <div class="detail-item" *ngIf="provider.email_2">
+                        <span class="detail-label">Email 2</span>
+                        <a [href]="'mailto:' + provider.email_2"
+                            class="detail-value text-blue-600 hover:text-blue-700 truncate">
+                            {{ provider.email_2 }}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Column -->
+        <div class="space-y-6">
+            <!-- Address & Website -->
+            <div class="bg-white rounded-lg border border-gray-200 p-5 shadow-sm hover:shadow-md transition-shadow">
+                <h3 class="text-sm font-semibold text-gray-900 uppercase tracking-wide mb-4 flex items-center">
+                    <svg class="w-4 h-4 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z">
+                        </path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                    </svg>
+                    Ubicación
+                </h3>
+                <div class="space-y-3">
+                    <!-- Address -->
+                    <div class="detail-item">
+                        <span class="detail-label">Dirección</span>
+                        <div class="detail-value-group">
+                            <span class="detail-value">{{ provider.address }}</span>
+                            <button (click)="copyToClipboard(provider.address)" class="copy-btn"
+                                [title]="'Copiar dirección'">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z">
+                                    </path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Website -->
+                    <div class="detail-item" *ngIf="provider.website">
+                        <span class="detail-label">Sitio Web</span>
+                        <a [href]="provider.website" target="_blank"
+                            class="detail-value text-blue-600 hover:text-blue-700 flex items-center gap-1 truncate">
+                            {{ provider.website }}
+                            <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14">
+                                </path>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Business Hours -->
+            <div class="bg-white rounded-lg border border-gray-200 p-5 shadow-sm hover:shadow-md transition-shadow">
+                <h3 class="text-sm font-semibold text-gray-900 uppercase tracking-wide mb-4 flex items-center">
+                    <svg class="w-4 h-4 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    Horario de Atención
+                </h3>
+                <div class="space-y-3">
+                    <div class="detail-item">
+                        <span class="detail-label">Desde</span>
+                        <span class="detail-value font-mono text-lg">{{ provider.business_hours_start }}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Hasta</span>
+                        <span class="detail-value font-mono text-lg">{{ provider.business_hours_end }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Observations -->
+            <div class="bg-amber-50 border border-amber-200 rounded-lg p-5 shadow-sm" *ngIf="provider.observations">
+                <h3 class="text-sm font-semibold text-amber-900 uppercase tracking-wide mb-3 flex items-center">
+                    <svg class="w-4 h-4 mr-2 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
+                        </path>
+                    </svg>
+                    Observaciones
+                </h3>
+                <p class="text-sm text-gray-700 leading-relaxed">{{ provider.observations }}</p>
             </div>
         </div>
     </div>
 
-    <!-- Business Hours -->
-    <div class="space-y-4">
-        <h4 class="text-lg font-semibold text-gray-800 flex items-center">
-            <svg class="w-5 h-5 mr-2 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-            </svg>
-            Horario de Atención
-        </h4>
-        <div class="bg-gray-50 rounded-lg p-4">
-            <div class="flex items-center justify-between">
-                <span class="text-sm font-medium text-gray-600">Desde:</span>
-                <span class="text-sm text-gray-900 font-mono">{{ formatTime(provider.since) }}</span>
+    <!-- Metadata Footer -->
+    <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs text-gray-600">
+            <div class="detail-item">
+                <span class="detail-label">Creado</span>
+                <span class="detail-value">{{ provider.created_at | date:'dd/MM/yyyy HH:mm' }}</span>
             </div>
-            <div class="flex items-center justify-between mt-2">
-                <span class="text-sm font-medium text-gray-600">Hasta:</span>
-                <span class="text-sm text-gray-900 font-mono">{{ formatTime(provider.to) }}</span>
+            <div class="detail-item">
+                <span class="detail-label">Última Actualización</span>
+                <span class="detail-value">{{ provider.updated_at | date:'dd/MM/yyyy HH:mm' }}</span>
             </div>
-        </div>
-    </div>
-
-    <!-- Observations -->
-    <div *ngIf="provider.observations" class="space-y-4">
-        <h4 class="text-lg font-semibold text-gray-800 flex items-center">
-            <svg class="w-5 h-5 mr-2 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
-                </path>
-            </svg>
-            Observaciones
-        </h4>
-        <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
-            <p class="text-sm text-gray-700">{{ provider.observations }}</p>
         </div>
     </div>
 </div>
