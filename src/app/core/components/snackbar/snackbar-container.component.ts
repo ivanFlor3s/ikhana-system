@@ -8,7 +8,7 @@ import { SnackbarComponent } from './snackbar.component';
   standalone: true,
   imports: [CommonModule, SnackbarComponent],
   template: `
-    <div class="fixed top-5 left-1/2 -translate-x-1/2 z-[9999] flex flex-col gap-3 pointer-events-none">
+    <div class="fixed top-5 left-1/2 -translate-x-1/2 z-9999 flex flex-col gap-3 pointer-events-none">
       @for (notification of notificationService.notifications$ | async; track notification.id) {
         <app-snackbar 
           class="pointer-events-auto"

@@ -25,7 +25,12 @@ export class ProveedoresListComponent {
         },
         {
             id: 'fantasy_name',
-            title: 'Nombre Fantasía',
+            title: 'Nombre',
+        },
+        {
+            id: 'rubro',
+            title: 'Rubro',
+            accessor: (row: Provider) => row.category?.name || '-'
         },
         {
             id: 'business_name',
