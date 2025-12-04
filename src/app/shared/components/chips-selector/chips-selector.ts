@@ -79,10 +79,14 @@ export class ChipsSelectorComponent implements ControlValueAccessor {
     // ControlValueAccessor implementation
     writeValue(value: number[]): void {
         this._value = value || [];
+        // Don't call _onChange here - writeValue is called by the form control
+        // and should not trigger a change event back to the form
     }
 
     registerOnChange(fn: (value: number[]) => void): void {
-        this._onChange = fn;
+        this._onChange = (value: number[]) => {
+            fn(value);
+        };
     }
 
     registerOnTouched(fn: () => void): void {

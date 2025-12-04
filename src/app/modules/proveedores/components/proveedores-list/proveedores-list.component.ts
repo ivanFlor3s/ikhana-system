@@ -3,7 +3,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { TableComponent, ColumnDef, ModernTableCellDirective } from '../../../../shared/components/table/table.component';
 import { CommonModule } from '@angular/common';
-import { Provider } from '../../../../models/provider';
+import { Provider } from '../../../../models/provider.model';
 import { SideDetailService } from '../../../../services/side-detail.service';
 import { ProviderDetailComponent } from '../provider-detail/provider-detail.component';
 
@@ -20,32 +20,32 @@ export class ProveedoresListComponent {
     columns: ColumnDef[] = [
         {
             id: 'id',
-            title: 'Provider ID',
-            width: 'w-24'
+            title: 'ID',
+            width: 'w-20'
         },
         {
-            id: 'name',
-            title: 'Provider Name',
+            id: 'fantasy_name',
+            title: 'Nombre Fantasía',
         },
         {
-            id: 'socialReason',
-            title: 'Razon Social',
+            id: 'business_name',
+            title: 'Razón Social',
         },
         {
             id: 'cuit',
             title: 'CUIT',
         },
         {
-            id: 'email',
+            id: 'email_1',
             title: 'Email',
         },
         {
-            id: 'phone',
-            title: 'Telefono',
+            id: 'phone_1',
+            title: 'Teléfono',
         },
         {
             id: 'address',
-            title: 'Direccion'
+            title: 'Dirección'
         },
         {
             id: 'actions',

@@ -1,13 +1,4 @@
-<app-table [columns]="columns" [data]="providers()" [initialPageSize]="10" [pageSizeOptions]="[5, 10, 20]"
-    [selectableRows]="true" (rowClick)="onProviderClick($event)">
-    <!-- custom renderer para la columna 'status' -->
-    <ng-template modernTableCell="status" let-row let-value="value">
-        <span class="px-2 py-1 text-xs rounded-full" [class.bg-green-600]="value === 'ok'"
-            [class.bg-yellow-600]="value === 'pending'" [class.bg-red-600]="value === 'error'">
-            {{ value }}
-            {{ row | json }}
-        </span>
-    </ng-template>
+<app-table [columns]="columns" [data]="providers()" [selectableRows]="true" (rowClick)="onProviderClick($event)">
 
     <!-- custom renderer para columna 'actions' -->
     <ng-template modernTableCell="actions" let-row>
