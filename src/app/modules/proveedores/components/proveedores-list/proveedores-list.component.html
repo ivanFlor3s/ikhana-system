@@ -1,0 +1,12 @@
+<app-table [columns]="columns" [data]="providers()" [selectableRows]="true" (rowClick)="onProviderClick($event)">
+
+    <!-- custom renderer para columna 'actions' -->
+    <ng-template modernTableCell="actions" let-row>
+        <div class="flex gap-2">
+            <button class="cursor-pointer text-shadow-neutral-500 hover:text-neutral-700 rounded"><span
+                    class="material-icons-outlined">edit</span></button>
+            <button class="cursor-pointer text-shadow-neutral-500 hover:text-neutral-700 rounded"><span
+                    class="material-icons-outlined">delete</span></button>
+        </div>
+    </ng-template>
+</app-table>

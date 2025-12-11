@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { CategoryPageComponent } from '../pages/category-page/category-page.component';
+import { ProveedoresPageComponent } from '../pages/proveedores-page/proveedores-page.component';
 
 export const appRoutes: Routes = [
     {
@@ -9,10 +9,11 @@ export const appRoutes: Routes = [
                 .then(m => m.AppLayoutComponent),
         children: [
             {
-                path: 'categories',
-                component: CategoryPageComponent,
+                path: 'proveedores',
+                component: ProveedoresPageComponent,
 
             }
         ]
     }
 ];
+

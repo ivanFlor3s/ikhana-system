@@ -37,10 +37,13 @@ export class TableComponent {
   @Input() data: any[] = [];
   @Input() pageSizeOptions: number[] = [5, 10, 20];
   @Input() initialPageSize = 10;
+  @Input() selectableRows = false;
 
   // Optional outputs
   @Output() sortChanged = new EventEmitter<{ columnId: string | null; direction: SortDirection }>();
   @Output() pageChanged = new EventEmitter<{ page: number; pageSize: number }>();
+  @Output() rowClick = new EventEmitter<any>();
+  @Output() rowSelect = new EventEmitter<any>();
 
   // Templates provided by consumer via ng-template modernTableCell="colId"
   @ContentChildren(ModernTableCellDirective) templates!: QueryList<ModernTableCellDirective>;
@@ -49,6 +52,7 @@ export class TableComponent {
   page = signal(1);
   pageSize = signal(this.initialPageSize);
   sort = signal<{ columnId: string | null; direction: SortDirection }>({ columnId: null, direction: null });
+  selectedRow = signal<any | null>(null);
 
   // computed values
   private dataSignal = computed(() => this.data ?? []);
@@ -183,5 +187,17 @@ export class TableComponent {
     const tp = this.totalPages();
     if (this.page() > tp) this.page.set(tp);
     this.pageChanged.emit({ page: this.page(), pageSize: this.pageSize() });
+  }
+
+  onRowClick(row: any) {
+    if (this.selectableRows) {
+      this.selectedRow.set(row);
+      this.rowSelect.emit(row);
+    }
+    this.rowClick.emit(row);
+  }
+
+  isRowSelected(row: any): boolean {
+    return this.selectableRows && this.selectedRow() === row;
   }
 }

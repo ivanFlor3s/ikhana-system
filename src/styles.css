@@ -1,26 +1,51 @@
 /* You can add global styles to this file, and also import other style files */
 @import 'tailwindcss';
 
+@theme {
+    --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+    --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+}
 
 html,
 body {
     height: 100%;
 }
 
-*:not(app-table),
-::before,
-::after {
-    border-style: none;
-}
-
-;
 
 body {
     margin: 0;
-    font-family: Roboto, 'Helvetica Neue', sans-serif;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
 }
 
-;
+/* Angular Material Typography Overrides */
+/* Override Material Design 3 typography system tokens to use Inter font */
+html {
+    /* Body Typography */
+    --mat-sys-body-large-font: 'Inter', system-ui, -apple-system, sans-serif;
+    --mat-sys-body-medium-font: 'Inter', system-ui, -apple-system, sans-serif;
+    --mat-sys-body-small-font: 'Inter', system-ui, -apple-system, sans-serif;
+
+    /* Label Typography (used in form fields) */
+    --mat-sys-label-large-font: 'Inter', system-ui, -apple-system, sans-serif;
+    --mat-sys-label-medium-font: 'Inter', system-ui, -apple-system, sans-serif;
+    --mat-sys-label-small-font: 'Inter', system-ui, -apple-system, sans-serif;
+
+    /* Title Typography (used in dialogs, headers) */
+    --mat-sys-title-large-font: 'Inter', system-ui, -apple-system, sans-serif;
+    --mat-sys-title-medium-font: 'Inter', system-ui, -apple-system, sans-serif;
+    --mat-sys-title-small-font: 'Inter', system-ui, -apple-system, sans-serif;
+
+    /* Headline Typography */
+    --mat-sys-headline-large-font: 'Inter', system-ui, -apple-system, sans-serif;
+    --mat-sys-headline-medium-font: 'Inter', system-ui, -apple-system, sans-serif;
+    --mat-sys-headline-small-font: 'Inter', system-ui, -apple-system, sans-serif;
+
+    /* Display Typography */
+    --mat-sys-display-large-font: 'Inter', system-ui, -apple-system, sans-serif;
+    --mat-sys-display-medium-font: 'Inter', system-ui, -apple-system, sans-serif;
+    --mat-sys-display-small-font: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
 /* 
 @source inline('bg-sky-600 text-white');
 @source inline('hover:bg-sky-700');
@@ -61,4 +86,6 @@ body {
     }
 }
 
-;
+.mat-mdc-form-field .mdc-notched-outline__notch {
+    border-right-style: hidden;
+}

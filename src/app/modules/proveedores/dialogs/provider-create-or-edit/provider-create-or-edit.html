@@ -1,0 +1,196 @@
+<h2 mat-dialog-title>Crear Proveedor</h2>
+<mat-dialog-content>
+    <form [formGroup]="form" class="grid grid-cols-6 gap-4 py-4" (ngSubmit)="submit()">
+        <mat-form-field appearance="outline" class="col-span-3">
+            <mat-label>Nombre</mat-label>
+            <input matInput formControlName="name" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="col-span-3">
+            <mat-label>CUIT</mat-label>
+            <input matInput formControlName="cuit" />
+            <mat-spinner class="mr-3" matSuffix diameter="20" *ngIf="cuitControl.pending"></mat-spinner>
+            <mat-icon matSuffix class="text-green-600! important"
+                *ngIf="cuitControl.valid && !cuitControl.pending">check_circle</mat-icon>
+            <mat-icon matSuffix class="text-red-600"
+                *ngIf="cuitControl.invalid && cuitControl.touched && !cuitControl.pending">error</mat-icon>
+            <mat-error *ngIf="cuitControl.hasError('required')">El CUIT es requerido</mat-error>
+            <mat-error *ngIf="cuitControl.hasError('cuilNotFound')">El CUIT no existe en AFIP</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="col-span-3">
+            <mat-label>IIBB</mat-label>
+            <input matInput formControlName="iib" />
+            <mat-hint> Ingresos Brutos </mat-hint>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="col-span-3">
+            <mat-label>Dirección</mat-label>
+            <input matInput formControlName="address" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="col-span-3">
+            <mat-label>Razón Social</mat-label>
+            <input matInput formControlName="socialReason" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="col-span-3">
+            <mat-label>Posición frente al IVA</mat-label>
+            <mat-select formControlName="ivaPositionId">
+                @for (taxStatus of taxStatuses; track taxStatus.value) {
+                <mat-option [value]="taxStatus.value">{{ taxStatus.name }}</mat-option>
+                }
+            </mat-select>
+            <mat-error>La posición frente al IVA es requerida</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="col-span-3">
+            <mat-label>Convenio</mat-label>
+            <mat-select formControlName="convenioId">
+                @for (agreement of agreements; track agreement.value) {
+                <mat-option [value]="agreement.value">{{ agreement.name }}</mat-option>
+                }
+            </mat-select>
+            <mat-error>El convenio es requerido</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="col-span-3">
+            <mat-label>Categoría</mat-label>
+            <mat-select formControlName="categoryId">
+                @for (category of categories; track category.value) {
+                <mat-option [value]="category.value">{{ category.name }}</mat-option>
+                }
+            </mat-select>
+            <mat-error>La categoría es requerida</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="col-span-3">
+            <mat-label>Website</mat-label>
+            <input matInput formControlName="website" />
+        </mat-form-field>
+        <div class="col-span-6">
+            <div class="flex flex-row gap-x-2">
+                <mat-form-field appearance="outline" class="flex-1">
+                    <mat-label>Teléfono principal</mat-label>
+                    <input matInput formControlName="phone" />
+                </mat-form-field>
+                <button type="button" mat-stroked-button color="primary" (click)="addPhone()">Agregar teléfono</button>
+            </div>
+
+            <div class="grid grid-cols-12">
+                @for (ctrl of otherPhones.controls; track $index; let i = $index) {
+                <mat-form-field appearance="outline" class="col-span-11">
+                    <mat-label>Teléfono {{ i + 1 }}</mat-label>
+                    <input matInput [formControl]="ctrl" />
+                </mat-form-field>
+                <button type="button" mat-icon-button color="warn" (click)="removePhone(i)">
+                    <span class="material-icons">delete</span>
+                </button>
+                }
+            </div>
+        </div>
+
+        <div class="col-span-6">
+            <div class="flex flex-row gap-x-2">
+                <mat-form-field appearance="outline" class="flex-1">
+                    <mat-label>Email principal</mat-label>
+                    <input matInput formControlName="email" type="email" />
+                </mat-form-field>
+                <button type="button" mat-stroked-button color="primary" (click)="addEmail()">Agregar email</button>
+            </div>
+            <div class="grid grid-cols-12">
+                @for (ctrl of otherEmails.controls; track $index; let i = $index) {
+                <mat-form-field appearance="outline" class="col-span-11">
+                    <mat-label>Email {{ i + 1 }}</mat-label>
+                    <input matInput [formControl]="ctrl" type="email" />
+                </mat-form-field>
+                <button type="button" mat-icon-button class="col-span-1" color="warn" (click)="removeEmail(i)">
+                    <span class="material-icons">delete</span>
+                </button>
+                }
+            </div>
+        </div>
+
+        <!-- Horarios -->
+        <div class="col-span-6">
+            <h4 class="mb-2">Desde</h4>
+            <div formGroupName="since" class="grid grid-cols-2 gap-3">
+                <mat-form-field appearance="outline">
+                    <mat-label>Horas</mat-label>
+                    <input matInput type="number" formControlName="hours" />
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Minutos</mat-label>
+                    <input matInput type="number" formControlName="minutes" />
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="col-span-6">
+            <h4 class="mb-2">Hasta</h4>
+            <div formGroupName="to" class="grid grid-cols-2 gap-3">
+                <mat-form-field appearance="outline">
+                    <mat-label>Horas</mat-label>
+                    <input matInput type="number" formControlName="hours" />
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Minutos</mat-label>
+                    <input matInput type="number" formControlName="minutes" />
+                </mat-form-field>
+            </div>
+        </div>
+
+        <!-- Broker Information -->
+        <div class="col-span-6">
+            <h3 class="text-lg font-semibold mb-3">Información del Corredor</h3>
+        </div>
+
+        <mat-form-field appearance="outline" class="col-span-3">
+            <mat-label>Nombre del Corredor</mat-label>
+            <input matInput formControlName="brokerFirstName" />
+            <mat-error>El nombre del corredor es requerido</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="col-span-3">
+            <mat-label>Apellido del Corredor</mat-label>
+            <input matInput formControlName="brokerLastName" />
+            <mat-error>El apellido del corredor es requerido</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="col-span-3">
+            <mat-label>Email del Corredor</mat-label>
+            <input matInput formControlName="brokerEmail" type="email" />
+            <mat-error *ngIf="form.get('brokerEmail')?.hasError('required')">El email del corredor es
+                requerido</mat-error>
+            <mat-error *ngIf="form.get('brokerEmail')?.hasError('email')">Ingrese un email válido</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="col-span-3">
+            <mat-label>Teléfono del Corredor</mat-label>
+            <input matInput formControlName="brokerPhone" />
+            <mat-error>El teléfono del corredor es requerido</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="col-span-6">
+            <mat-label>Observaciones</mat-label>
+            <textarea matInput formControlName="observations"></textarea>
+        </mat-form-field>
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+    @if (errorMessage()) {
+    <div class="w-full mb-4 p-3 bg-red-100 text-red-700 rounded">
+        {{ errorMessage() }}
+    </div>
+    }
+    <div class="flex flex-row justify-end gap-2">
+        <app-button appearance="secondary" (click)="onNoClick()" [disabled]="isSubmitting()">Cancelar</app-button>
+        <app-button appearance="primary" (click)="submit()" [disabled]="isSubmitting()">
+            @if (isSubmitting()) {
+            <mat-spinner diameter="20" class="inline-block mr-2"></mat-spinner>
+            }
+            {{ isSubmitting() ? 'Creando...' : 'Crear' }}
+        </app-button>
+    </div>
+</mat-dialog-actions>

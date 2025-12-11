@@ -29,8 +29,6 @@ export class Button {
   /** button type (button | submit | reset) */
   @Input() type: 'button' | 'submit' | 'reset' = 'button';
 
-
-  @HostListener('click', ['$event'])
   onClick(event: Event): void {
     if (this.disabled) {
       event.preventDefault();

@@ -1,0 +1,17 @@
+<form [formGroup]="forma" class="flex flex-col  md:flex-row gap-4">
+    <div class=" grid grid-cols-4 items-center gap-4">
+        <app-input class="col-span-4" [hasPrefix]="true" placeholder="Buscar proveedor" formControlName="name"
+            size="md">
+            <ng-container prefix>
+                <span class="text-gray-500 h-full flex items-center">
+                    <mat-icon matPrefix>search</mat-icon>
+                </span>
+            </ng-container>
+        </app-input>
+
+    </div>
+
+    <div class="flex flex-1 flex-col gap-2">
+        <app-chips-selector [chips]="rubros" [multiple]="true" formControlName="rubros" />
+    </div>
+</form>
