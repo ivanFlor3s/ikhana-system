@@ -1,11 +1,12 @@
 import { Component, Input, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Provider } from '../../../../models/provider.model';
-import { ProviderService } from '../../../../services/provider.service';
+import { MatProgressSpinner } from "@angular/material/progress-spinner";
+import { ProviderService } from '@services/provider.service';
+import { Provider } from '@models/provider.model';
 
 @Component({
     selector: 'app-provider-detail',
-    imports: [CommonModule],
+    imports: [CommonModule, MatProgressSpinner],
     templateUrl: './provider-detail.component.html',
     styleUrl: './provider-detail.component.css'
 })

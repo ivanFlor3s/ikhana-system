@@ -22,8 +22,8 @@
         <div class="divide-y divide-solid divide-neutral-300/50">
             @for (row of displayRows(); track row) {
             <div class="flex items-center px-3 py-2 transition cursor-pointer"
-                [class.hover:bg-gray-200]="!isRowSelected(row)" [class.bg-blue-100]="isRowSelected(row)"
-                [class.hover:bg-blue-200]="isRowSelected(row)" (click)="onRowClick(row)">
+                [class.hover:bg-gray-200]="!isRowSelected(row)" [class.bg-blue-300]="isRowSelected(row)"
+                [class.hover:bg-blue-100]="isRowSelected(row)" (click)="onRowClick(row)">
                 @for (col of columns; track col) {
                 <div class="px-3 py-1 text-sm truncate" [class]="col.width ?? 'flex-1'">
                     @if (hasTemplate(col.id)) {

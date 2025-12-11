@@ -1,19 +1,12 @@
 <!-- Loading state -->
-<div *ngIf="isLoading" class="flex items-center justify-center py-12">
-    <div class="text-center">
-        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
-        <p class="text-gray-600">Cargando detalles del proveedor...</p>
-    </div>
+<div *ngIf="isLoading" class="flex items-center flex-col gap-10 justify-center py-12 w-full h-full">
+    <mat-spinner color="primary" diameter="50"></mat-spinner>
+    <p class="text-gray-600">Cargando detalles del proveedor...</p>
 </div>
 
 <!-- Error state -->
 <div *ngIf="error && !isLoading" class="bg-red-50 border border-red-200 rounded-lg p-4">
     <div class="flex items-start">
-        <svg class="w-5 h-5 text-red-500 mt-0.5 mr-3" fill="currentColor" viewBox="0 0 20 20">
-            <path fill-rule="evenodd"
-                d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
-                clip-rule="evenodd"></path>
-        </svg>
         <div>
             <h3 class="text-sm font-medium text-red-800">Error</h3>
             <p class="text-sm text-red-700 mt-1">{{ error }}</p>
@@ -22,7 +15,7 @@
 </div>
 
 <!-- Provider details -->
-<div *ngIf="provider && !isLoading" class="space-y-6">
+<div *ngIf="provider && !isLoading" class="space-y-6 overflow-y-auto h-full">
     <!-- Enhanced Header -->
     <div class="bg-linear-to-r from-blue-600 to-blue-700 rounded-xl p-6 text-white shadow-lg">
         <div class="flex items-start justify-between">
@@ -268,11 +261,9 @@
             <!-- Observations -->
             <div class="bg-amber-50 border border-amber-200 rounded-lg p-5 shadow-sm" *ngIf="provider.observations">
                 <h3 class="text-sm font-semibold text-amber-900 uppercase tracking-wide mb-3 flex items-center">
-                    <svg class="w-4 h-4 mr-2 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
-                        </path>
-                    </svg>
+                    <span class="material-symbols-outlined text-amber-600 text-[16px]! mr-2">
+                        docs
+                    </span>
                     Observaciones
                 </h3>
                 <p class="text-sm text-gray-700 leading-relaxed">{{ provider.observations }}</p>
@@ -280,17 +271,4 @@
         </div>
     </div>
 
-    <!-- Metadata Footer -->
-    <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs text-gray-600">
-            <div class="detail-item">
-                <span class="detail-label">Creado</span>
-                <span class="detail-value">{{ provider.created_at | date:'dd/MM/yyyy HH:mm' }}</span>
-            </div>
-            <div class="detail-item">
-                <span class="detail-label">Última Actualización</span>
-                <span class="detail-value">{{ provider.updated_at | date:'dd/MM/yyyy HH:mm' }}</span>
-            </div>
-        </div>
-    </div>
 </div>
