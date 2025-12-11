@@ -3,13 +3,14 @@ import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InputComponent } from '@shared/components/input/input';
 import { MatIcon } from "@angular/material/icon";
 import { ChipsSelectorComponent } from '@shared/components/chips-selector/chips-selector';
+import { CustomSelectComponent } from '@shared/components/custom-select/custom-select';
 import { NameValue } from '@models/name-value.model';
 import { Subject, debounceTime, distinctUntilChanged, takeUntil } from 'rxjs';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-proveedores-filter',
-  imports: [ReactiveFormsModule, FormsModule, InputComponent, MatIcon, ChipsSelectorComponent, CommonModule],
+  imports: [ReactiveFormsModule, FormsModule, InputComponent, MatIcon, CustomSelectComponent, CommonModule],
   templateUrl: './proveedores-filter.component.html',
 })
 export class ProveedoresFilterComponent implements OnInit, OnDestroy {

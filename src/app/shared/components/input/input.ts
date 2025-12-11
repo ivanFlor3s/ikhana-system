@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
-type Size = 'sm' | 'md' | 'lg';
+export type Size = 'sm' | 'md' | 'lg';
 
 @Component({
     selector: 'app-input',
