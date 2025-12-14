@@ -6,6 +6,9 @@ import { CommonModule } from '@angular/common';
 import { Provider } from '../../../../models/provider.model';
 import { SideDetailService } from '../../../../services/side-detail.service';
 import { ProviderDetailComponent } from '../provider-detail/provider-detail.component';
+import { MatDialog } from '@angular/material/dialog';
+import { ProviderCreateOrEdit } from '../../dialogs/provider-create-or-edit/provider-create-or-edit';
+
 
 @Component({
     selector: 'app-proveedores-list',
@@ -15,6 +18,7 @@ import { ProviderDetailComponent } from '../provider-detail/provider-detail.comp
 })
 export class ProveedoresListComponent {
     private sideDetailService = inject(SideDetailService);
+    private dialog = inject(MatDialog);
 
     providers = input<Provider[]>([]);
     columns: ColumnDef[] = [
@@ -61,5 +65,19 @@ export class ProveedoresListComponent {
 
     onProviderClick(provider: Provider) {
         this.sideDetailService.open(ProviderDetailComponent, { providerId: provider.id });
+    }
+
+    onEditClick(provider: Provider) {
+        const dialogRef = this.dialog.open(ProviderCreateOrEdit, {
+            width: '800px',
+            data: { providerId: provider.id }
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+            if (result) {
+                // Provider was updated, you might want to refresh the list here
+                console.log('Provider updated:', result);
+            }
+        });
     }
 }

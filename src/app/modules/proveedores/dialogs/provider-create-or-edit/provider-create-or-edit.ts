@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, OnInit, signal } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -8,7 +8,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatIconModule } from '@angular/material/icon';
 
 import {
-  // MAT_DIALOG_DATA,
+  MAT_DIALOG_DATA,
   MatDialogActions,
   MatDialogClose,
   MatDialogContent,
@@ -24,6 +24,11 @@ import { ProviderService } from '@services/provider.service';
 import { NotificationService } from '@services/notification.service';
 import { mapProviderFormToDto } from '@interfaces/mappers/provider-form.mapper';
 import { ProviderFormData } from '@interfaces/form-data-models/provider-form-data.model';
+import { Provider } from '@models/provider.model';
+
+interface DialogData {
+  providerId?: number;
+}
 
 @Component({
   selector: 'app-provider-create-or-edit',
@@ -44,10 +49,10 @@ import { ProviderFormData } from '@interfaces/form-data-models/provider-form-dat
   styleUrl: './provider-create-or-edit.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProviderCreateOrEdit {
+export class ProviderCreateOrEdit implements OnInit {
 
   readonly dialogRef = inject(MatDialogRef<ProviderCreateOrEdit>);
-  // readonly data = inject<DialogData>(MAT_DIALOG_DATA);
+  readonly data = inject<DialogData>(MAT_DIALOG_DATA, { optional: true });
 
 
   fb = inject(FormBuilder);
@@ -57,7 +62,9 @@ export class ProviderCreateOrEdit {
   notificationService = inject(NotificationService);
 
   isSubmitting = signal(false);
+  isLoading = signal(false);
   errorMessage = signal<string | null>(null);
+  isEditMode = computed(() => !!this.data?.providerId);
 
   form = this.fb.group({
     name: ['', Validators.required],
@@ -112,6 +119,72 @@ export class ProviderCreateOrEdit {
     return this.appInitService.categories;
   }
 
+  ngOnInit(): void {
+    if (this.isEditMode() && this.data?.providerId) {
+      this.isLoading.set(true);
+      this.providerService.getProviderById(this.data.providerId).subscribe({
+        next: (response) => {
+          this.isLoading.set(false);
+          this.populateForm(response.data);
+        },
+        error: (error) => {
+          this.isLoading.set(false);
+          this.errorMessage.set('Error al cargar los datos del proveedor');
+          console.error('Error fetching provider:', error);
+        }
+      });
+    }
+  }
+
+  populateForm(provider: Provider): void {
+    // Parse business hours
+    const parseTime = (timeStr: string) => {
+      const [hours, minutes] = timeStr.split(':').map(Number);
+      return { hours, minutes };
+    };
+
+    const since = parseTime(provider.business_hours_start);
+    const to = parseTime(provider.business_hours_end);
+
+    // Collect additional phones and emails
+    const otherPhones = [provider.phone_2, provider.phone_3, provider.phone_4, provider.phone_5]
+      .filter(phone => phone !== null && phone !== '');
+    const otherEmails = [provider.email_2, provider.email_3, provider.email_4, provider.email_5]
+      .filter(email => email !== null && email !== '');
+
+    // Populate form
+    this.form.patchValue({
+      name: provider.fantasy_name,
+      cuit: provider.cuit,
+      iib: provider.iibb,
+      address: provider.address,
+      socialReason: provider.business_name,
+      ivaPositionId: provider.tax_status_id,
+      convenioId: provider.agreement_id,
+      categoryId: provider.category_id,
+      website: provider.website,
+      phone: provider.phone_1,
+      email: provider.email_1,
+      observations: provider.observations,
+      since,
+      to,
+      brokerFirstName: '',
+      brokerLastName: '',
+      brokerEmail: '',
+      brokerPhone: '',
+    });
+
+    // Add additional phones
+    otherPhones.forEach(phone => {
+      this.otherPhones.push(this.fb.control(phone, Validators.required));
+    });
+
+    // Add additional emails
+    otherEmails.forEach(email => {
+      this.otherEmails.push(this.fb.control(email, [Validators.required, Validators.email]));
+    });
+  }
+
   onNoClick(): void {
     this.dialogRef.close();
   }
@@ -156,21 +229,32 @@ export class ProviderCreateOrEdit {
       const formData = this.form.value as ProviderFormData;
       const dto = mapProviderFormToDto(formData);
 
-      this.providerService.createProvider(dto).subscribe({
-        next: (response) => {
-          this.isSubmitting.set(false);
-          this.notificationService.success(
-            'Proveedor creado exitosamente',
-            `El proveedor "${response.data.fantasy_name}" ha sido creado correctamente.`
-          );
-          this.dialogRef.close(response.data);
-        },
-        error: (error) => {
-          this.isSubmitting.set(false);
-          this.errorMessage.set(error.error?.message || 'Error al crear el proveedor');
-          console.error('Error creating provider:', error);
-        }
-      });
+      if (this.isEditMode() && this.data?.providerId) {
+        // Edit mode - for now just show success message without API call
+        this.isSubmitting.set(false);
+        this.notificationService.success(
+          'Proveedor actualizado',
+          `El proveedor "${formData.name}" será actualizado cuando el endpoint esté listo.`
+        );
+        this.dialogRef.close({ updated: true, providerId: this.data.providerId });
+      } else {
+        // Create mode
+        this.providerService.createProvider(dto).subscribe({
+          next: (response) => {
+            this.isSubmitting.set(false);
+            this.notificationService.success(
+              'Proveedor creado exitosamente',
+              `El proveedor "${response.data.fantasy_name}" ha sido creado correctamente.`
+            );
+            this.dialogRef.close(response.data);
+          },
+          error: (error) => {
+            this.isSubmitting.set(false);
+            this.errorMessage.set(error.error?.message || 'Error al crear el proveedor');
+            console.error('Error creating provider:', error);
+          }
+        });
+      }
     } else {
       this.form.markAllAsTouched();
     }

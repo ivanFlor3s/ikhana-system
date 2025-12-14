@@ -1,5 +1,13 @@
-<h2 mat-dialog-title>Crear Proveedor</h2>
+<h2 mat-dialog-title>{{ isEditMode() ? 'Editar Proveedor' : 'Crear Proveedor' }}</h2>
 <mat-dialog-content>
+    <!-- Loading spinner while fetching provider data -->
+    @if (isLoading()) {
+    <div class="flex items-center justify-center py-20">
+        <mat-spinner diameter="50"></mat-spinner>
+    </div>
+    }
+
+    @if (!isLoading()) {
     <form [formGroup]="form" class="grid grid-cols-6 gap-4 py-4" (ngSubmit)="submit()">
         <mat-form-field appearance="outline" class="col-span-3">
             <mat-label>Nombre</mat-label>
@@ -177,6 +185,7 @@
             <textarea matInput formControlName="observations"></textarea>
         </mat-form-field>
     </form>
+    }
 </mat-dialog-content>
 <mat-dialog-actions>
     @if (errorMessage()) {
@@ -190,7 +199,8 @@
             @if (isSubmitting()) {
             <mat-spinner diameter="20" class="inline-block mr-2"></mat-spinner>
             }
-            {{ isSubmitting() ? 'Creando...' : 'Crear' }}
+            {{ isSubmitting() ? (isEditMode() ? 'Actualizando...' : 'Creando...') : (isEditMode() ? 'Actualizar' :
+            'Crear') }}
         </app-button>
     </div>
 </mat-dialog-actions>

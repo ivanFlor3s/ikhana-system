@@ -1,3 +1,15 @@
+export interface Broker {
+  id: number;
+  first_name: string;
+  last_name: string;
+  email: string;
+  phone: string;
+  created_at: string;
+  updated_at: string;
+  deleted_at: string | null;
+  full_name: string;
+}
+
 export interface Provider {
   id: number;
   fantasy_name: string;
@@ -57,6 +69,6 @@ export interface Provider {
     updated_at: string;
     deleted_at: string | null;
   };
-  broker?: any | null;
+  broker?: Broker | null;
 }
 
