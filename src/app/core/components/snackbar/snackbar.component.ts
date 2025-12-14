@@ -2,12 +2,13 @@ import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from 
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Notification } from '../../models/notification.model';
 
 @Component({
     selector: 'app-snackbar',
     standalone: true,
-    imports: [CommonModule, MatIconModule, MatButtonModule],
+    imports: [CommonModule, MatIconModule, MatButtonModule, MatProgressSpinnerModule],
     templateUrl: './snackbar.component.html',
     styleUrl: './snackbar.component.css',
     changeDetection: ChangeDetectionStrategy.OnPush,

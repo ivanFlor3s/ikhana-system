@@ -24,6 +24,7 @@ export class NotificationService {
             icon: config.icon || this.getDefaultIcon(config.type),
             duration: config.duration !== undefined ? config.duration : this.defaultDuration,
             dismissible: config.dismissible !== undefined ? config.dismissible : true,
+            loading: config.loading || false,
         };
 
         const currentNotifications = this.notificationsSubject.value;
@@ -37,6 +38,24 @@ export class NotificationService {
         }
 
         return notification.id;
+    }
+
+    /**
+     * Update an existing notification
+     */
+    update(id: string, updates: Partial<NotificationConfig>): void {
+        const currentNotifications = this.notificationsSubject.value;
+        const updatedNotifications = currentNotifications.map(n => {
+            if (n.id === id) {
+                return {
+                    ...n,
+                    ...updates,
+                    icon: updates.icon || n.icon,
+                };
+            }
+            return n;
+        });
+        this.notificationsSubject.next(updatedNotifications);
     }
 
     /**

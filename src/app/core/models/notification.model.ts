@@ -8,6 +8,7 @@ export interface NotificationConfig {
     icon?: string;
     duration?: number; // milliseconds, 0 for no auto-dismiss
     dismissible?: boolean;
+    loading?: boolean; // Show spinner instead of icon
 }
 
 export interface Notification extends Required<NotificationConfig> {
