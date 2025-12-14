@@ -138,4 +138,9 @@ export class ProveedoresPageComponent implements OnInit {
             }
         });
     }
+
+    onProviderDeleted(): void {
+        // Reload the providers list after successful deletion
+        this.loadProviders();
+    }
 }
