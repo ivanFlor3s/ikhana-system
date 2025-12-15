@@ -1,1 +1,15 @@
-<p>rubros-header works!</p>
+<app-page-header title="Rubros">
+    <ng-container icon>
+        <div class="bg-amber-500 text-white w-15  flex items-center justify-center ">
+            <lucide-angular [img]="TagsIcon"></lucide-angular>
+        </div>
+    </ng-container>
+    <ng-container actions>
+        <app-button appearance="primary" variant="solid" size="md">
+            <span class="inline-flex items-center gap-1 text-xs md:text-sm md:gap-2">
+                <span class="material-icons">add</span>
+                <span class="hidden md:block">Crear Rubro</span>
+            </span>
+        </app-button>
+    </ng-container>
+</app-page-header>
