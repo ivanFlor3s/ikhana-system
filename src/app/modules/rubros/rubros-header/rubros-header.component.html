@@ -5,7 +5,7 @@
         </div>
     </ng-container>
     <ng-container actions>
-        <app-button appearance="primary" variant="solid" size="md">
+        <app-button appearance="primary" variant="solid" size="md" (click)="createClicked.emit()">
             <span class="inline-flex items-center gap-1 text-xs md:text-sm md:gap-2">
                 <span class="material-icons">add</span>
                 <span class="hidden md:block">Crear Rubro</span>
