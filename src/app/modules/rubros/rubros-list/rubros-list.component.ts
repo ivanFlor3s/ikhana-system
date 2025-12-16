@@ -9,6 +9,8 @@ import { RubroService } from '../../../services/rubro.service';
 import { ConfirmDialogComponent } from '@shared/components/confirm-dialog/confirm-dialog.component';
 import { NotificationService } from '../../../services/notification.service';
 import { RubroDetailComponent } from '../components/rubro-detail/rubro-detail.component';
+import { take } from 'rxjs/operators';
+import { RubroCreateOrEditComponent } from '../dialogs/rubro-create-or-edit/rubro-create-or-edit.component';
 
 @Component({
   selector: 'app-rubros-list',
@@ -50,6 +52,11 @@ export class RubrosListComponent {
     this.sideDetailService.open(RubroDetailComponent, { rubroId: rubro.id });
   }
 
+  onEditRubro(rubro: Rubro, event: Event) {
+    event.stopPropagation();
+    this.dialog.open(RubroCreateOrEditComponent, { data: { rubro, mode: 'edit' }, width: '450px', disableClose: true });
+  }
+
   onDeleteRubro(rubro: Rubro, event: Event) {
     event.stopPropagation();
 
@@ -64,7 +71,7 @@ export class RubrosListComponent {
       width: '450px'
     });
 
-    dialogRef.afterClosed().subscribe(confirmed => {
+    dialogRef.afterClosed().pipe(take(1)).subscribe(confirmed => {
       if (confirmed) {
         // Show loading snackbar
         const notificationId = this.notificationService.show({

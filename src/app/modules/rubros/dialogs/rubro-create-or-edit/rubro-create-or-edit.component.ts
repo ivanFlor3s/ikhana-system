@@ -13,12 +13,13 @@ import {
 } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
 import { Button } from '@shared/components/button/button';
-import { RubroService } from '../../../../services/rubro.service';
-import { NotificationService } from '../../../../services/notification.service';
-import { CreateRubroDto } from '../../../../interfaces/dtos/create-rubro.dto';
+import { RubroService } from '@services/rubro.service';
+import { NotificationService } from '@services/notification.service';
+import { CreateRubroDto } from '@interfaces/dtos/create-rubro.dto';
+import { Rubro } from '@models/rubro';
 
 interface DialogData {
-  rubroId?: number;
+  rubro?: Rubro
   mode: 'create' | 'edit';
 }
 
@@ -58,7 +59,7 @@ export class RubroCreateOrEditComponent implements OnInit {
   });
 
   get isEditMode(): boolean {
-    return this.data?.mode === 'edit' && !!this.data?.rubroId;
+    return this.data?.mode === 'edit' && !!this.data?.rubro?.id;
   }
 
   get dialogTitle(): string {
@@ -66,8 +67,8 @@ export class RubroCreateOrEditComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.isEditMode && this.data?.rubroId) {
-      this.loadRubro(this.data.rubroId);
+    if (this.isEditMode && this.data?.rubro?.id) {
+      this.loadRubro(this.data.rubro.id);
     }
   }
 
@@ -105,8 +106,8 @@ export class RubroCreateOrEditComponent implements OnInit {
         description: this.form.value.description || undefined
       };
 
-      const operation = this.isEditMode && this.data?.rubroId
-        ? this.rubroService.updateRubro(this.data.rubroId, dto)
+      const operation = this.isEditMode && this.data?.rubro?.id
+        ? this.rubroService.updateRubro(this.data.rubro.id, dto)
         : this.rubroService.createRubro(dto);
 
       operation.subscribe({
