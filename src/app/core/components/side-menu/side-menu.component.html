@@ -6,7 +6,7 @@
             <img [src]="appLogo()" alt="Logo" class="app-logo" />
             } @else {
             <div class="app-icon">
-                <mat-icon>apps</mat-icon>
+                <lucide-angular [img]="MenuIcon"></lucide-angular>
             </div>
             }
             @if (!collapsed()) {
@@ -17,7 +17,7 @@
 
     <!-- Toggle button at the edge -->
     <button class="toggle-btn-edge" (click)="toggleSidebar()" type="button">
-        <mat-icon>{{ collapsed() ? 'chevron_right' : 'chevron_left' }}</mat-icon>
+        <lucide-angular [img]="collapsed() ? ChevronRightIcon : ChevronLeftIcon"></lucide-angular>
     </button>
 
     <!-- Navigation -->
@@ -29,7 +29,7 @@
             <!-- Regular link item -->
             <a [routerLink]="item.route" routerLinkActive="active" class="menu-item"
                 [title]="collapsed() ? item.label : ''">
-                <mat-icon class="menu-icon">{{ item.icon }}</mat-icon>
+                <lucide-angular class="menu-icon" [img]="item.icon"></lucide-angular>
                 @if (!collapsed()) {
                 <span class="menu-label">{{ item.label }}</span>
                 @if (item.badge) {
@@ -43,7 +43,7 @@
             <!-- Expandable item or item without route -->
             <button class="menu-item" [class.expanded]="isExpanded(item)" (click)="toggleMenuItem(item)" type="button"
                 [title]="collapsed() ? item.label : ''">
-                <mat-icon class="menu-icon">{{ item.icon }}</mat-icon>
+                <lucide-angular class="menu-icon" [img]="item.icon"></lucide-angular>
                 @if (!collapsed()) {
                 <span class="menu-label">{{ item.label }}</span>
                 @if (item.badge) {
@@ -52,9 +52,8 @@
                 </span>
                 }
                 @if (hasChildren(item)) {
-                <mat-icon class="expand-icon">
-                    {{ isExpanded(item) ? 'expand_less' : 'expand_more' }}
-                </mat-icon>
+                <lucide-angular class="expand-icon" [img]="isExpanded(item) ? ChevronUpIcon : ChevronDownIcon">
+                </lucide-angular>
                 }
                 }
             </button>

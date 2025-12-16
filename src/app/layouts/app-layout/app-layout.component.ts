@@ -3,6 +3,16 @@ import { RouterOutlet } from '@angular/router';
 import { SideDetailComponent } from '../../components/side-detail/side-detail.component';
 import { SideMenuComponent } from '../../core/components/side-menu/side-menu.component';
 import { MenuItem } from '../../core/models/menu-item.interface';
+import {
+  LayoutDashboard,
+  Package,
+  Users,
+  Store,
+  TrendingUp,
+  Megaphone,
+  Truck,
+  Tags
+} from 'lucide-angular';
 
 @Component({
   selector: 'app-app-layout',
@@ -14,44 +24,49 @@ export class AppLayoutComponent {
   menuItems: MenuItem[] = [
     {
       label: 'Dashboard',
-      icon: 'dashboard',
+      icon: LayoutDashboard,
       route: '/app/dashboard'
     },
     {
       label: 'Product',
-      icon: 'inventory_2',
+      icon: Package,
       children: [
-        { label: 'Overview', icon: '', route: '/app/product/overview' },
-        { label: 'Drafts', icon: '', route: '/app/product/drafts', badge: { value: 3, color: 'accent' } },
-        { label: 'Released', icon: '', route: '/app/product/released' },
-        { label: 'Comments', icon: '', route: '/app/product/comments' },
-        { label: 'Scheduled', icon: '', route: '/app/product/scheduled', badge: { value: 8, color: 'success' } }
+        { label: 'Overview', icon: Package, route: '/app/product/overview' },
+        { label: 'Drafts', icon: Package, route: '/app/product/drafts', badge: { value: 3, color: 'accent' } },
+        { label: 'Released', icon: Package, route: '/app/product/released' },
+        { label: 'Comments', icon: Package, route: '/app/product/comments' },
+        { label: 'Scheduled', icon: Package, route: '/app/product/scheduled', badge: { value: 8, color: 'success' } }
       ]
     },
     {
       label: 'Customers',
-      icon: 'people',
+      icon: Users,
       route: '/app/customers'
     },
     {
       label: 'Shop',
-      icon: 'store',
+      icon: Store,
       route: '/app/shop'
     },
     {
       label: 'Income',
-      icon: 'trending_up',
+      icon: TrendingUp,
       route: '/app/income'
     },
     {
       label: 'Promote',
-      icon: 'campaign',
+      icon: Megaphone,
       route: '/app/promote'
     },
     {
       label: 'Proveedores',
-      icon: 'local_shipping',
+      icon: Truck,
       route: '/app/proveedores'
+    },
+    {
+      label: 'Rubros',
+      icon: Tags,
+      route: '/app/rubros'
     }
   ];
 }
