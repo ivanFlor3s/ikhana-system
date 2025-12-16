@@ -6,8 +6,10 @@
             <button class="cursor-pointer text-shadow-neutral-500 hover:text-neutral-700 rounded"
                 (click)="onEditClick(row); $event.stopPropagation()"><span
                     class="material-icons-outlined">edit</span></button>
-            <button class="cursor-pointer text-shadow-neutral-500 hover:text-neutral-700 rounded"><span
-                    class="material-icons-outlined">delete</span></button>
+            <button (click)="onDeleteProvider(row, $event)"
+                class="cursor-pointer text-shadow-neutral-500 hover:text-red-600 rounded transition-colors">
+                <span class="material-icons-outlined">delete</span>
+            </button>
         </div>
     </ng-template>
 </app-table>

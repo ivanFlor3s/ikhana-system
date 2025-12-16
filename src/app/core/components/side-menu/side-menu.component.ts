@@ -1,17 +1,24 @@
 import { Component, input, model, output, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { MatIconModule } from '@angular/material/icon';
+import { LucideAngularModule, ChevronLeft, ChevronRight, ChevronDown, ChevronUp, Menu } from 'lucide-angular';
 import { MenuItem } from '../../models/menu-item.interface';
 
 @Component({
     selector: 'app-side-menu',
     standalone: true,
-    imports: [CommonModule, RouterModule, MatIconModule],
+    imports: [CommonModule, RouterModule, LucideAngularModule],
     templateUrl: './side-menu.component.html',
     styleUrl: './side-menu.component.css'
 })
 export class SideMenuComponent {
+    // Lucide icons
+    readonly ChevronLeftIcon = ChevronLeft;
+    readonly ChevronRightIcon = ChevronRight;
+    readonly ChevronDownIcon = ChevronDown;
+    readonly ChevronUpIcon = ChevronUp;
+    readonly MenuIcon = Menu;
+
     // Signal inputs
     menuItems = input.required<MenuItem[]>();
     appTitle = input<string>('Kikhana App');

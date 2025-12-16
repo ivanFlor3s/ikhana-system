@@ -1,6 +1,8 @@
+import { LucideIconData } from 'lucide-angular';
+
 export interface MenuItem {
     label: string;
-    icon: string; // Material icon name (e.g., 'dashboard', 'local_shipping')
+    icon: LucideIconData; // Lucide icon component (e.g., Package, Home, Users)
     route?: string;
     badge?: MenuBadge;
     children?: MenuItem[];
