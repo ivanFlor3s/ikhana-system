@@ -42,7 +42,7 @@ export class ProviderService {
     return this.http.get<{ success: boolean, data: Provider, message: string }>(`${this.apiUrl}/${id}`);
   }
 
-  updateProvider(id: number, provider: Partial<Omit<Provider, 'id' | 'created_at' | 'updated_at' | 'deleted_at'>>): Observable<{ success: boolean, data: Provider, message: string }> {
+  updateProvider(id: number, provider: CreateProviderDto): Observable<{ success: boolean, data: Provider, message: string }> {
     return this.http.put<{ success: boolean, data: Provider, message: string }>(`${this.apiUrl}/${id}`, provider);
   }
 

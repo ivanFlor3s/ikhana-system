@@ -15,4 +15,16 @@ export class BrokerService {
     createBroker(broker: CreateBrokerDto): Observable<{ success: boolean, data: Broker, message: string }> {
         return this.http.post<{ success: boolean, data: Broker, message: string }>(this.apiUrl, broker);
     }
+
+    getBrokerById(id: number): Observable<{ success: boolean, data: Broker, message: string }> {
+        return this.http.get<{ success: boolean, data: Broker, message: string }>(`${this.apiUrl}/${id}`);
+    }
+
+    updateBroker(id: number, broker: CreateBrokerDto): Observable<{ success: boolean, data: Broker, message: string }> {
+        return this.http.put<{ success: boolean, data: Broker, message: string }>(`${this.apiUrl}/${id}`, broker);
+    }
+
+    deleteBroker(id: number): Observable<{ success: boolean, message: string }> {
+        return this.http.delete<{ success: boolean, message: string }>(`${this.apiUrl}/${id}`);
+    }
 }

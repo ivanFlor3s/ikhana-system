@@ -155,16 +155,32 @@
                 class="w-full flex items-center justify-between p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors"
                 (click)="toggleBrokerForm()">
                 <div class="flex items-center gap-2">
-                    <mat-icon class="transition-transform duration-300" [class.rotate-90]="isBrokerFormExpanded()">
-                        chevron_right
-                    </mat-icon>
+                    <lucide-angular class="transition-transform duration-300"
+                        [img]="isBrokerFormExpanded() ? ChevronDownIcon : ChevronRightIcon"></lucide-angular>
                     <h3 class="text-lg font-semibold">Información del Corredor</h3>
                 </div>
-                <span class="text-sm text-gray-500">{{ isBrokerFormExpanded() ? 'Ocultar' : 'Mostrar' }}</span>
+                <div class="flex items-center gap-2">
+                    @if (isEditMode() && existingBrokerId() && isBrokerFormExpanded()) {
+                    <lucide-angular (click)="removeBroker(); $event.stopPropagation()" class="cursor-pointer"
+                        [img]="TrashIcon"></lucide-angular>
+
+                    }
+                    <span class="text-sm text-gray-500">{{ isBrokerFormExpanded() ? 'Ocultar' : 'Mostrar' }}</span>
+                </div>
             </button>
             <p class="text-sm text-gray-600 mt-2 px-3">
+                @if (isEditMode()) {
+                @if (existingBrokerId() && isBrokerFormExpanded()) {
+                Modifique los datos del corredor existente o elimínelo.
+                } @else if (isBrokerFormExpanded()) {
+                Complete los datos para crear un nuevo corredor para este proveedor.
+                } @else {
+                Opcional: Expanda esta sección para agregar un corredor a este proveedor.
+                }
+                } @else {
                 {{ isBrokerFormExpanded() ? 'Complete los datos del corredor para crearlo junto con el proveedor.' :
                 'Opcional: Expanda esta sección si desea crear un nuevo corredor.' }}
+                }
             </p>
         </div>
 
@@ -196,7 +212,7 @@
         </mat-form-field>
         }
 
-        <mat-form-field appearance="outline" class="col-span-6">
+        <mat-form-field appearance="outline" class="col-span-6 mt-4">
             <mat-label>Observaciones</mat-label>
             <textarea matInput formControlName="observations"></textarea>
         </mat-form-field>

@@ -25,12 +25,13 @@ import { BrokerService } from '@services/broker.service';
 import { NotificationService } from '@services/notification.service';
 import { mapProviderFormToDto } from '@interfaces/mappers/provider-form.mapper';
 import { ProviderFormData } from '@interfaces/form-data-models/provider-form-data.model';
-import { Provider } from '@models/provider.model';
+import { Provider, Broker } from '@models/provider.model';
 import { CreateBrokerDto } from '@interfaces/dtos/create-broker.dto';
 import { switchMap, catchError } from 'rxjs/operators';
-import { of, throwError } from 'rxjs';
-
+import { of, throwError, forkJoin } from 'rxjs';
+import { Trash2, LucideAngularModule, ChevronDown, ChevronRight } from 'lucide-angular';
 interface DialogData {
+
   providerId?: number;
 }
 
@@ -48,7 +49,7 @@ interface DialogData {
     MatDialogActions,
     MatProgressSpinnerModule,
     MatIconModule,
-    Button],
+    Button, LucideAngularModule],
   templateUrl: './provider-create-or-edit.html',
   styleUrl: './provider-create-or-edit.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -57,6 +58,9 @@ export class ProviderCreateOrEdit implements OnInit {
 
   readonly dialogRef = inject(MatDialogRef<ProviderCreateOrEdit>);
   readonly data = inject<DialogData>(MAT_DIALOG_DATA, { optional: true });
+  readonly TrashIcon = Trash2;
+  readonly ChevronDownIcon = ChevronDown;
+  readonly ChevronRightIcon = ChevronRight;
 
 
   fb = inject(FormBuilder);
@@ -72,6 +76,9 @@ export class ProviderCreateOrEdit implements OnInit {
   errorMessage = signal<string | null>(null);
   isEditMode = computed(() => !!this.data?.providerId);
   isBrokerFormExpanded = signal(false);
+  existingBrokerId = signal<number | null>(null);
+  brokerToDelete = signal(false);
+  originalProviderData = signal<ProviderFormData | null>(null);
 
   form = this.fb.group({
     name: ['', Validators.required],
@@ -131,8 +138,26 @@ export class ProviderCreateOrEdit implements OnInit {
       this.isLoading.set(true);
       this.providerService.getProviderById(this.data.providerId).subscribe({
         next: (response) => {
-          this.isLoading.set(false);
           this.populateForm(response.data);
+          // If provider has a broker, fetch broker details
+          if (response.data.broker_id) {
+            this.existingBrokerId.set(response.data.broker_id);
+            this.brokerService.getBrokerById(response.data.broker_id).subscribe({
+              next: (brokerResponse) => {
+                this.populateBrokerForm(brokerResponse.data);
+                this.isBrokerFormExpanded.set(true);
+                this.updateBrokerFieldValidators();
+                this.isLoading.set(false);
+              },
+              error: (error) => {
+                this.isLoading.set(false);
+                console.error('Error fetching broker:', error);
+                // Continue without broker data
+              }
+            });
+          } else {
+            this.isLoading.set(false);
+          }
         },
         error: (error) => {
           this.isLoading.set(false);
@@ -175,10 +200,6 @@ export class ProviderCreateOrEdit implements OnInit {
       observations: provider.observations,
       since,
       to,
-      brokerFirstName: '',
-      brokerLastName: '',
-      brokerEmail: '',
-      brokerPhone: '',
     });
 
     // Add additional phones
@@ -189,6 +210,69 @@ export class ProviderCreateOrEdit implements OnInit {
     // Add additional emails
     otherEmails.forEach(email => {
       this.otherEmails.push(this.fb.control(email, [Validators.required, Validators.email]));
+    });
+
+    // Store original provider data for change detection
+    this.originalProviderData.set({
+      name: provider.fantasy_name,
+      cuit: provider.cuit,
+      iib: provider.iibb,
+      address: provider.address,
+      socialReason: provider.business_name,
+      ivaPositionId: provider.tax_status_id,
+      convenioId: provider.agreement_id,
+      categoryId: provider.category_id,
+      website: provider.website,
+      phone: provider.phone_1,
+      email: provider.email_1,
+      observations: provider.observations,
+      since,
+      to,
+      otherPhones: otherPhones as string[],
+      otherEmails: otherEmails as string[],
+      brokerFirstName: '',
+      brokerLastName: '',
+      brokerEmail: '',
+      brokerPhone: '',
+    });
+  }
+
+  hasProviderChanges(currentData: ProviderFormData): boolean {
+    const original = this.originalProviderData();
+    if (!original) return true; // If no original data, consider it changed
+
+    // Compare provider fields (excluding broker fields)
+    const providerFieldsChanged =
+      original.name !== currentData.name ||
+      original.cuit !== currentData.cuit ||
+      original.iib !== currentData.iib ||
+      original.address !== currentData.address ||
+      original.socialReason !== currentData.socialReason ||
+      original.ivaPositionId !== currentData.ivaPositionId ||
+      original.convenioId !== currentData.convenioId ||
+      original.categoryId !== currentData.categoryId ||
+      original.website !== currentData.website ||
+      original.phone !== currentData.phone ||
+      original.email !== currentData.email ||
+      original.observations !== currentData.observations ||
+      original.since?.hours !== currentData.since?.hours ||
+      original.since?.minutes !== currentData.since?.minutes ||
+      original.to?.hours !== currentData.to?.hours ||
+      original.to?.minutes !== currentData.to?.minutes;
+
+    // Compare arrays
+    const otherPhonesChanged = JSON.stringify(original.otherPhones) !== JSON.stringify(currentData.otherPhones);
+    const otherEmailsChanged = JSON.stringify(original.otherEmails) !== JSON.stringify(currentData.otherEmails);
+
+    return providerFieldsChanged || otherPhonesChanged || otherEmailsChanged;
+  }
+
+  populateBrokerForm(broker: Broker): void {
+    this.form.patchValue({
+      brokerFirstName: broker.first_name,
+      brokerLastName: broker.last_name,
+      brokerEmail: broker.email,
+      brokerPhone: broker.phone,
     });
   }
 
@@ -233,6 +317,22 @@ export class ProviderCreateOrEdit implements OnInit {
     this.updateBrokerFieldValidators();
   }
 
+  removeBroker() {
+    if (this.existingBrokerId()) {
+      this.brokerToDelete.set(true);
+      this.existingBrokerId.set(null);
+    }
+    this.isBrokerFormExpanded.set(false);
+    // Clear broker form fields
+    this.form.patchValue({
+      brokerFirstName: '',
+      brokerLastName: '',
+      brokerEmail: '',
+      brokerPhone: '',
+    });
+    this.updateBrokerFieldValidators();
+  }
+
   updateBrokerFieldValidators() {
     const brokerFields = ['brokerFirstName', 'brokerLastName', 'brokerEmail', 'brokerPhone'];
 
@@ -262,13 +362,8 @@ export class ProviderCreateOrEdit implements OnInit {
       const formData = this.form.value as ProviderFormData;
 
       if (this.isEditMode() && this.data?.providerId) {
-        // Edit mode - for now just show success message without API call
-        this.isSubmitting.set(false);
-        this.notificationService.success(
-          'Proveedor actualizado',
-          `El proveedor "${formData.name}" será actualizado cuando el endpoint esté listo.`
-        );
-        this.dialogRef.close({ updated: true, providerId: this.data.providerId });
+        // Edit mode - handle broker operations
+        this.handleEditMode(formData);
       } else {
         // Create mode - check if we need to create broker first
         if (this.isBrokerFormExpanded()) {
@@ -280,6 +375,156 @@ export class ProviderCreateOrEdit implements OnInit {
     } else {
       this.form.markAllAsTouched();
     }
+  }
+
+  handleEditMode(formData: ProviderFormData) {
+    const providerId = this.data!.providerId!;
+
+    // Scenario 1: Broker marked for deletion
+    if (this.brokerToDelete()) {
+      const brokerId = this.existingBrokerId();
+      if (brokerId) {
+        this.brokerService.deleteBroker(brokerId).pipe(
+          switchMap(() => this.updateProviderObservable(providerId, formData, null))
+        ).subscribe({
+          next: (response) => {
+            this.isSubmitting.set(false);
+            this.notificationService.success(
+              'Proveedor actualizado',
+              `El proveedor "${response.data.fantasy_name}" ha sido actualizado y el corredor eliminado.`
+            );
+            this.dialogRef.close(response.data);
+          },
+          error: (error) => {
+            this.isSubmitting.set(false);
+            this.errorMessage.set(error.error?.message || 'Error al actualizar el proveedor');
+            console.error('Error updating provider:', error);
+          }
+        });
+      } else {
+        // Just update provider without broker
+        this.updateProvider(providerId, formData, null);
+      }
+    }
+    // Scenario 2: Broker form expanded with data
+    else if (this.isBrokerFormExpanded() && formData.brokerFirstName) {
+      const brokerDto: CreateBrokerDto = {
+        first_name: formData.brokerFirstName!,
+        last_name: formData.brokerLastName!,
+        email: formData.brokerEmail!,
+        phone: formData.brokerPhone!,
+      };
+
+      // If existing broker, update it
+      if (this.existingBrokerId()) {
+        this.isCreatingBroker.set(true);
+        this.brokerService.updateBroker(this.existingBrokerId()!, brokerDto).pipe(
+          switchMap((brokerResponse) => {
+            this.isCreatingBroker.set(false);
+            // Only update provider if provider data changed
+            if (this.hasProviderChanges(formData)) {
+              return this.updateProviderObservable(providerId, formData, brokerResponse.data.id);
+            } else {
+              // Return a mock response with the broker data
+              return of({ success: true, data: { ...this.originalProviderData(), broker_id: brokerResponse.data.id } as any, message: 'Broker updated' });
+            }
+          }),
+          catchError((error) => {
+            this.isCreatingBroker.set(false);
+            this.isSubmitting.set(false);
+            this.errorMessage.set(error.error?.message || 'Error al actualizar el corredor');
+            console.error('Error updating broker:', error);
+            return throwError(() => error);
+          })
+        ).subscribe({
+          next: (response) => {
+            this.isSubmitting.set(false);
+            const message = this.hasProviderChanges(formData)
+              ? 'Proveedor y corredor actualizados'
+              : 'Corredor actualizado';
+            const description = this.hasProviderChanges(formData)
+              ? `El proveedor "${response.data.fantasy_name || formData.name}" y su corredor han sido actualizados correctamente.`
+              : `El corredor ha sido actualizado correctamente.`;
+            this.notificationService.success(message, description);
+            this.dialogRef.close(response.data);
+          },
+          error: (error) => {
+            this.isSubmitting.set(false);
+            this.errorMessage.set(error.error?.message || 'Error al actualizar');
+            console.error('Error updating:', error);
+          }
+        });
+      }
+      // If no existing broker, create new one
+      else {
+        this.isCreatingBroker.set(true);
+        this.brokerService.createBroker(brokerDto).pipe(
+          switchMap((brokerResponse) => {
+            this.isCreatingBroker.set(false);
+            return this.updateProviderObservable(providerId, formData, brokerResponse.data.id);
+          }),
+          catchError((error) => {
+            this.isCreatingBroker.set(false);
+            this.isSubmitting.set(false);
+            this.errorMessage.set(error.error?.message || 'Error al crear el corredor');
+            console.error('Error creating broker:', error);
+            return throwError(() => error);
+          })
+        ).subscribe({
+          next: (response) => {
+            this.isSubmitting.set(false);
+            this.notificationService.success(
+              'Proveedor actualizado y corredor creado',
+              `El proveedor "${response.data.fantasy_name}" ha sido actualizado y el corredor creado correctamente.`
+            );
+            this.dialogRef.close(response.data);
+          },
+          error: (error) => {
+            this.isSubmitting.set(false);
+            this.errorMessage.set(error.error?.message || 'Error al actualizar el proveedor');
+            console.error('Error updating provider:', error);
+          }
+        });
+      }
+    }
+    // Scenario 3: No broker changes, check if provider changed
+    else {
+      if (this.hasProviderChanges(formData)) {
+        this.updateProvider(providerId, formData, this.existingBrokerId());
+      } else {
+        // No changes at all, just close dialog
+        this.isSubmitting.set(false);
+        this.notificationService.success(
+          'Sin cambios',
+          'No se realizaron cambios en el proveedor.'
+        );
+        this.dialogRef.close();
+      }
+    }
+  }
+
+  updateProvider(providerId: number, formData: ProviderFormData, brokerId: number | null) {
+    this.updateProviderObservable(providerId, formData, brokerId).subscribe({
+      next: (response) => {
+        this.isSubmitting.set(false);
+        this.notificationService.success(
+          'Proveedor actualizado',
+          `El proveedor "${response.data.fantasy_name}" ha sido actualizado correctamente.`
+        );
+        this.dialogRef.close(response.data);
+      },
+      error: (error) => {
+        this.isSubmitting.set(false);
+        this.errorMessage.set(error.error?.message || 'Error al actualizar el proveedor');
+        console.error('Error updating provider:', error);
+      }
+    });
+  }
+
+  updateProviderObservable(providerId: number, formData: ProviderFormData, brokerId: number | null) {
+    const dto = mapProviderFormToDto(formData);
+    dto.broker_id = brokerId;
+    return this.providerService.updateProvider(providerId, dto);
   }
 
   createBrokerAndProvider(formData: ProviderFormData) {
