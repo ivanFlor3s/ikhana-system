@@ -149,11 +149,26 @@
             </div>
         </div>
 
-        <!-- Broker Information -->
+        <!-- Broker Information - Expandable Section -->
         <div class="col-span-6">
-            <h3 class="text-lg font-semibold mb-3">Información del Corredor</h3>
+            <button type="button"
+                class="w-full flex items-center justify-between p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors"
+                (click)="toggleBrokerForm()">
+                <div class="flex items-center gap-2">
+                    <mat-icon class="transition-transform duration-300" [class.rotate-90]="isBrokerFormExpanded()">
+                        chevron_right
+                    </mat-icon>
+                    <h3 class="text-lg font-semibold">Información del Corredor</h3>
+                </div>
+                <span class="text-sm text-gray-500">{{ isBrokerFormExpanded() ? 'Ocultar' : 'Mostrar' }}</span>
+            </button>
+            <p class="text-sm text-gray-600 mt-2 px-3">
+                {{ isBrokerFormExpanded() ? 'Complete los datos del corredor para crearlo junto con el proveedor.' :
+                'Opcional: Expanda esta sección si desea crear un nuevo corredor.' }}
+            </p>
         </div>
 
+        @if (isBrokerFormExpanded()) {
         <mat-form-field appearance="outline" class="col-span-3">
             <mat-label>Nombre del Corredor</mat-label>
             <input matInput formControlName="brokerFirstName" />
@@ -179,6 +194,7 @@
             <input matInput formControlName="brokerPhone" />
             <mat-error>El teléfono del corredor es requerido</mat-error>
         </mat-form-field>
+        }
 
         <mat-form-field appearance="outline" class="col-span-6">
             <mat-label>Observaciones</mat-label>
@@ -199,8 +215,15 @@
             @if (isSubmitting()) {
             <mat-spinner diameter="20" class="inline-block mr-2"></mat-spinner>
             }
-            {{ isSubmitting() ? (isEditMode() ? 'Actualizando...' : 'Creando...') : (isEditMode() ? 'Actualizar' :
-            'Crear') }}
+            @if (isSubmitting()) {
+            @if (isCreatingBroker()) {
+            Creando corredor...
+            } @else {
+            {{ isEditMode() ? 'Actualizando...' : 'Creando proveedor...' }}
+            }
+            } @else {
+            {{ isEditMode() ? 'Actualizar' : 'Crear' }}
+            }
         </app-button>
     </div>
 </mat-dialog-actions>

@@ -21,10 +21,14 @@ import { AfipService } from '@services/afip.service';
 import { cuilAsyncValidator } from '@validators/cuil-validator';
 import { AppInitService } from '@services/app-init.service';
 import { ProviderService } from '@services/provider.service';
+import { BrokerService } from '@services/broker.service';
 import { NotificationService } from '@services/notification.service';
 import { mapProviderFormToDto } from '@interfaces/mappers/provider-form.mapper';
 import { ProviderFormData } from '@interfaces/form-data-models/provider-form-data.model';
 import { Provider } from '@models/provider.model';
+import { CreateBrokerDto } from '@interfaces/dtos/create-broker.dto';
+import { switchMap, catchError } from 'rxjs/operators';
+import { of, throwError } from 'rxjs';
 
 interface DialogData {
   providerId?: number;
@@ -59,12 +63,15 @@ export class ProviderCreateOrEdit implements OnInit {
   afipService = inject(AfipService);
   appInitService = inject(AppInitService);
   providerService = inject(ProviderService);
+  brokerService = inject(BrokerService);
   notificationService = inject(NotificationService);
 
   isSubmitting = signal(false);
+  isCreatingBroker = signal(false);
   isLoading = signal(false);
   errorMessage = signal<string | null>(null);
   isEditMode = computed(() => !!this.data?.providerId);
+  isBrokerFormExpanded = signal(false);
 
   form = this.fb.group({
     name: ['', Validators.required],
@@ -99,11 +106,11 @@ export class ProviderCreateOrEdit implements OnInit {
       minutes: [0, Validators.required]
     }),
 
-    // Broker fields
-    brokerFirstName: ['', Validators.required],
-    brokerLastName: ['', Validators.required],
-    brokerEmail: ['', [Validators.required, Validators.email]],
-    brokerPhone: ['', Validators.required],
+    // Broker fields (initially not required)
+    brokerFirstName: [''],
+    brokerLastName: [''],
+    brokerEmail: [''],
+    brokerPhone: [''],
   });
 
   // Getters for reference data
@@ -221,13 +228,38 @@ export class ProviderCreateOrEdit implements OnInit {
     this.otherEmails.removeAt(i);
   }
 
+  toggleBrokerForm() {
+    this.isBrokerFormExpanded.update(expanded => !expanded);
+    this.updateBrokerFieldValidators();
+  }
+
+  updateBrokerFieldValidators() {
+    const brokerFields = ['brokerFirstName', 'brokerLastName', 'brokerEmail', 'brokerPhone'];
+
+    if (this.isBrokerFormExpanded()) {
+      // Add validators when expanded
+      this.form.get('brokerFirstName')?.setValidators([Validators.required]);
+      this.form.get('brokerLastName')?.setValidators([Validators.required]);
+      this.form.get('brokerEmail')?.setValidators([Validators.required, Validators.email]);
+      this.form.get('brokerPhone')?.setValidators([Validators.required]);
+    } else {
+      // Remove validators when collapsed
+      brokerFields.forEach(field => {
+        this.form.get(field)?.clearValidators();
+        this.form.get(field)?.setValue('');
+      });
+    }
+
+    // Update validity
+    brokerFields.forEach(field => this.form.get(field)?.updateValueAndValidity());
+  }
+
   submit() {
     if (this.form.valid) {
       this.isSubmitting.set(true);
       this.errorMessage.set(null);
 
       const formData = this.form.value as ProviderFormData;
-      const dto = mapProviderFormToDto(formData);
 
       if (this.isEditMode() && this.data?.providerId) {
         // Edit mode - for now just show success message without API call
@@ -238,26 +270,83 @@ export class ProviderCreateOrEdit implements OnInit {
         );
         this.dialogRef.close({ updated: true, providerId: this.data.providerId });
       } else {
-        // Create mode
-        this.providerService.createProvider(dto).subscribe({
-          next: (response) => {
-            this.isSubmitting.set(false);
-            this.notificationService.success(
-              'Proveedor creado exitosamente',
-              `El proveedor "${response.data.fantasy_name}" ha sido creado correctamente.`
-            );
-            this.dialogRef.close(response.data);
-          },
-          error: (error) => {
-            this.isSubmitting.set(false);
-            this.errorMessage.set(error.error?.message || 'Error al crear el proveedor');
-            console.error('Error creating provider:', error);
-          }
-        });
+        // Create mode - check if we need to create broker first
+        if (this.isBrokerFormExpanded()) {
+          this.createBrokerAndProvider(formData);
+        } else {
+          this.createProvider(formData, null);
+        }
       }
     } else {
       this.form.markAllAsTouched();
     }
+  }
+
+  createBrokerAndProvider(formData: ProviderFormData) {
+    this.isCreatingBroker.set(true);
+
+    const brokerDto: CreateBrokerDto = {
+      first_name: formData.brokerFirstName!,
+      last_name: formData.brokerLastName!,
+      email: formData.brokerEmail!,
+      phone: formData.brokerPhone!,
+    };
+
+    this.brokerService.createBroker(brokerDto).pipe(
+      switchMap((brokerResponse) => {
+        this.isCreatingBroker.set(false);
+        // Now create provider with broker_id
+        return this.createProviderObservable(formData, brokerResponse.data.id);
+      }),
+      catchError((error) => {
+        this.isCreatingBroker.set(false);
+        this.isSubmitting.set(false);
+        this.errorMessage.set(error.error?.message || 'Error al crear el corredor');
+        console.error('Error creating broker:', error);
+        return throwError(() => error);
+      })
+    ).subscribe({
+      next: (response) => {
+        this.isSubmitting.set(false);
+        this.notificationService.success(
+          'Proveedor y corredor creados exitosamente',
+          `El proveedor "${response.data.fantasy_name}" y su corredor han sido creados correctamente.`
+        );
+        this.dialogRef.close(response.data);
+      },
+      error: (error) => {
+        this.isSubmitting.set(false);
+        this.errorMessage.set(error.error?.message || 'Error al crear el proveedor');
+        console.error('Error creating provider:', error);
+      }
+    });
+  }
+
+  createProvider(formData: ProviderFormData, brokerId: number | null) {
+    this.createProviderObservable(formData, brokerId).subscribe({
+      next: (response) => {
+        this.isSubmitting.set(false);
+        this.notificationService.success(
+          'Proveedor creado exitosamente',
+          `El proveedor "${response.data.fantasy_name}" ha sido creado correctamente.`
+        );
+        this.dialogRef.close(response.data);
+      },
+      error: (error) => {
+        this.isSubmitting.set(false);
+        this.errorMessage.set(error.error?.message || 'Error al crear el proveedor');
+        console.error('Error creating provider:', error);
+      }
+    });
+  }
+
+  createProviderObservable(formData: ProviderFormData, brokerId: number | null) {
+    const dto = mapProviderFormToDto(formData);
+    // Add broker_id if provided
+    if (brokerId !== null) {
+      dto.broker_id = brokerId;
+    }
+    return this.providerService.createProvider(dto);
   }
 
 }
