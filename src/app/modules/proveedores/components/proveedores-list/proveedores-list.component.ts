@@ -2,14 +2,15 @@ import { Component, input, inject, output } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
-import { TableComponent, ColumnDef, ModernTableCellDirective } from '../../../../shared/components/table/table.component';
+import { TableComponent, ColumnDef, ModernTableCellDirective } from '@shared/components/table/table.component';
 import { CommonModule } from '@angular/common';
-import { Provider } from '../../../../models/provider.model';
-import { SideDetailService } from '../../../../services/side-detail.service';
+import { Provider } from '@models/provider.model';
+import { SideDetailService } from '@services/side-detail.service';
 import { ProviderDetailComponent } from '../provider-detail/provider-detail.component';
-import { ProviderService } from '../../../../services/provider.service';
-import { ConfirmDialogComponent } from '../../../../shared/components/confirm-dialog/confirm-dialog.component';
-import { NotificationService } from '../../../../services/notification.service';
+import { ProviderService } from '@services/provider.service';
+import { ConfirmDialogComponent } from '@shared/components/confirm-dialog/confirm-dialog.component';
+import { NotificationService } from '@services/notification.service';
+import { ProviderCreateOrEdit } from '@modules/proveedores/dialogs/provider-create-or-edit/provider-create-or-edit';
 
 @Component({
     selector: 'app-proveedores-list',
@@ -69,6 +70,20 @@ export class ProveedoresListComponent {
 
     onProviderClick(provider: Provider) {
         this.sideDetailService.open(ProviderDetailComponent, { providerId: provider.id });
+    }
+
+    onEditClick(provider: Provider) {
+        const dialogRef = this.dialog.open(ProviderCreateOrEdit, {
+            width: '800px',
+            data: { providerId: provider.id }
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+            if (result) {
+                // Provider was updated, you might want to refresh the list here
+                console.log('Provider updated:', result);
+            }
+        });
     }
 
     onDeleteProvider(provider: Provider, event: Event) {

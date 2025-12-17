@@ -1,5 +1,13 @@
-<h2 mat-dialog-title>Crear Proveedor</h2>
+<h2 mat-dialog-title>{{ isEditMode() ? 'Editar Proveedor' : 'Crear Proveedor' }}</h2>
 <mat-dialog-content>
+    <!-- Loading spinner while fetching provider data -->
+    @if (isLoading()) {
+    <div class="flex items-center justify-center py-20">
+        <mat-spinner diameter="50"></mat-spinner>
+    </div>
+    }
+
+    @if (!isLoading()) {
     <form [formGroup]="form" class="grid grid-cols-6 gap-4 py-4" (ngSubmit)="submit()">
         <mat-form-field appearance="outline" class="col-span-3">
             <mat-label>Nombre</mat-label>
@@ -141,11 +149,42 @@
             </div>
         </div>
 
-        <!-- Broker Information -->
+        <!-- Broker Information - Expandable Section -->
         <div class="col-span-6">
-            <h3 class="text-lg font-semibold mb-3">Información del Corredor</h3>
+            <button type="button"
+                class="w-full flex items-center justify-between p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors"
+                (click)="toggleBrokerForm()">
+                <div class="flex items-center gap-2">
+                    <lucide-angular class="transition-transform duration-300"
+                        [img]="isBrokerFormExpanded() ? ChevronDownIcon : ChevronRightIcon"></lucide-angular>
+                    <h3 class="text-lg font-semibold">Información del Corredor</h3>
+                </div>
+                <div class="flex items-center gap-2">
+                    @if (isEditMode() && existingBrokerId() && isBrokerFormExpanded()) {
+                    <lucide-angular (click)="removeBroker(); $event.stopPropagation()" class="cursor-pointer"
+                        [img]="TrashIcon"></lucide-angular>
+
+                    }
+                    <span class="text-sm text-gray-500">{{ isBrokerFormExpanded() ? 'Ocultar' : 'Mostrar' }}</span>
+                </div>
+            </button>
+            <p class="text-sm text-gray-600 mt-2 px-3">
+                @if (isEditMode()) {
+                @if (existingBrokerId() && isBrokerFormExpanded()) {
+                Modifique los datos del corredor existente o elimínelo.
+                } @else if (isBrokerFormExpanded()) {
+                Complete los datos para crear un nuevo corredor para este proveedor.
+                } @else {
+                Opcional: Expanda esta sección para agregar un corredor a este proveedor.
+                }
+                } @else {
+                {{ isBrokerFormExpanded() ? 'Complete los datos del corredor para crearlo junto con el proveedor.' :
+                'Opcional: Expanda esta sección si desea crear un nuevo corredor.' }}
+                }
+            </p>
         </div>
 
+        @if (isBrokerFormExpanded()) {
         <mat-form-field appearance="outline" class="col-span-3">
             <mat-label>Nombre del Corredor</mat-label>
             <input matInput formControlName="brokerFirstName" />
@@ -171,12 +210,14 @@
             <input matInput formControlName="brokerPhone" />
             <mat-error>El teléfono del corredor es requerido</mat-error>
         </mat-form-field>
+        }
 
-        <mat-form-field appearance="outline" class="col-span-6">
+        <mat-form-field appearance="outline" class="col-span-6 mt-4">
             <mat-label>Observaciones</mat-label>
             <textarea matInput formControlName="observations"></textarea>
         </mat-form-field>
     </form>
+    }
 </mat-dialog-content>
 <mat-dialog-actions>
     @if (errorMessage()) {
@@ -190,7 +231,15 @@
             @if (isSubmitting()) {
             <mat-spinner diameter="20" class="inline-block mr-2"></mat-spinner>
             }
-            {{ isSubmitting() ? 'Creando...' : 'Crear' }}
+            @if (isSubmitting()) {
+            @if (isCreatingBroker()) {
+            Creando corredor...
+            } @else {
+            {{ isEditMode() ? 'Actualizando...' : 'Creando proveedor...' }}
+            }
+            } @else {
+            {{ isEditMode() ? 'Actualizar' : 'Crear' }}
+            }
         </app-button>
     </div>
 </mat-dialog-actions>
