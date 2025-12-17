@@ -3,10 +3,19 @@ import { CommonModule } from '@angular/common';
 import { MatProgressSpinner } from "@angular/material/progress-spinner";
 import { ProviderService } from '@services/provider.service';
 import { Provider } from '@models/provider.model';
+import {
+    LucideAngularModule,
+    FileText,
+    Mail,
+    MapPin,
+    Clock,
+    Building2,
+    User
+} from 'lucide-angular';
 
 @Component({
     selector: 'app-provider-detail',
-    imports: [CommonModule, MatProgressSpinner],
+    imports: [CommonModule, MatProgressSpinner, LucideAngularModule],
     templateUrl: './provider-detail.component.html',
     styleUrl: './provider-detail.component.css'
 })
@@ -18,6 +27,14 @@ export class ProviderDetailComponent implements OnInit {
     provider: Provider | null = null;
     isLoading = true;
     error: string | null = null;
+
+    // Lucide icons
+    readonly FileTextIcon = FileText;
+    readonly MailIcon = Mail;
+    readonly MapPinIcon = MapPin;
+    readonly ClockIcon = Clock;
+    readonly Building2Icon = Building2;
+    readonly UserIcon = User;
 
     ngOnInit(): void {
         if (this.providerId) {
