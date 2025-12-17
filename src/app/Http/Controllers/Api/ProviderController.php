@@ -265,20 +265,44 @@ class ProviderController extends Controller
      * Actualiza la información de un proveedor existente. Solo envía los campos que deseas actualizar.
      * 
      * @urlParam id integer required ID del proveedor. Example: 1
-     * @bodyParam business_name string optional Razón social. Example: Proveedor Actualizado S.A.
+     * @bodyParam business_name string optional Razón social del proveedor. Example: Proveedor Actualizado S.A.
      * @bodyParam fantasy_name string optional Nombre de fantasía. Example: Proveedor Actualizado
-     * @bodyParam category_id integer optional ID del rubro/categoría (usar GET /api/categories). Example: 2
-     * @bodyParam broker_id integer optional ID del corredor (usar GET /api/brokers). Example: 1
-     * @bodyParam phone_2 string optional Teléfono secundario. Example: +54 11 9999-8888
-     * @bodyParam email_2 string optional Email secundario. Example: nuevo@proveedor.com
+     * @bodyParam cuit string optional CUIT único (número de identificación tributaria). Example: 20-12345678-9
+     * @bodyParam iibb string optional Ingresos Brutos. Example: 901-123456-7
+     * @bodyParam tax_status_id integer optional ID de la posición frente al IVA (usar GET /api/tax-statuses para obtener opciones). Example: 1
+     * @bodyParam agreement_id integer optional ID del convenio (usar GET /api/agreements para obtener opciones). Example: 1
+     * @bodyParam category_id integer optional ID del rubro/categoría (usar GET /api/categories para obtener opciones). Example: 2
+     * @bodyParam broker_id integer optional ID del corredor/contacto interno (usar GET /api/brokers para obtener opciones). Example: 1
+     * @bodyParam phone_1 string optional Teléfono principal. Example: +54 11 1234-5678
+     * @bodyParam phone_2 string optional Teléfono secundario. Example: +54 11 8765-4321
+     * @bodyParam phone_3 string optional Teléfono adicional 3. Example: +54 11 1111-2222
+     * @bodyParam phone_4 string optional Teléfono adicional 4. Example: +54 11 3333-4444
+     * @bodyParam phone_5 string optional Teléfono adicional 5. Example: +54 11 5555-6666
+     * @bodyParam email_1 string optional Email principal. Example: contacto@proveedor.com
+     * @bodyParam email_2 string optional Email secundario. Example: ventas@proveedor.com
+     * @bodyParam email_3 string optional Email adicional 3. Example: admin@proveedor.com
+     * @bodyParam email_4 string optional Email adicional 4. Example: soporte@proveedor.com
+     * @bodyParam email_5 string optional Email adicional 5. Example: facturacion@proveedor.com
+     * @bodyParam address string optional Dirección física. Example: Av. Corrientes 1234, CABA
+     * @bodyParam website string optional Sitio web. Example: https://proveedor.com
+     * @bodyParam contact_name string optional Nombre de contacto. Example: Juan Pérez
+     * @bodyParam observations string optional Observaciones adicionales. Example: Cliente preferencial
+     * @bodyParam business_hours_start string optional Horario de apertura (HH:MM). Example: 09:00
+     * @bodyParam business_hours_end string optional Horario de cierre (HH:MM). Example: 18:00
      * 
      * @response 200 scenario="success" {
      *   "success": true,
      *   "data": {
      *     "id": 1,
-     *     "fantasy_name": "Proveedor Actualizado",
      *     "business_name": "Proveedor Actualizado S.A.",
+     *     "fantasy_name": "Proveedor Actualizado",
      *     "cuit": "20-12345678-9",
+     *     "iibb": "901-123456-7",
+     *     "tax_status_id": 1,
+     *     "agreement_id": 1,
+     *     "category_id": 2,
+     *     "broker_id": 1,
+     *     "created_at": "2024-11-16T10:00:00.000000Z",
      *     "updated_at": "2024-11-16T11:00:00.000000Z"
      *   },
      *   "message": "Proveedor actualizado exitosamente"
@@ -293,6 +317,7 @@ class ProviderController extends Controller
      *   "success": false,
      *   "message": "Error de validación",
      *   "errors": {
+     *     "cuit": ["El CUIT ya está registrado."],
      *     "email_2": ["El email 2 debe ser una dirección de correo válida."]
      *   }
      * }

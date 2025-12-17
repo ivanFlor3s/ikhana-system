@@ -13,6 +13,11 @@ class DatabaseSeeder extends Seeder
     {
         // Seeders de datos maestros
         $this->call([
+                // Primero roles y usuarios
+            RoleSeeder::class,
+            UserSeeder::class,
+
+                // Luego datos del sistema
             TaxStatusSeeder::class,
             AgreementSeeder::class,
             CategorySeeder::class,
