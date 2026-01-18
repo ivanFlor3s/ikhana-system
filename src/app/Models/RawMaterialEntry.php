@@ -27,7 +27,7 @@ class RawMaterialEntry extends Model
 
     protected $casts = [
         'entry_date' => 'date',
-        'quantity_kg' => 'decimal:3',
+        'quantity_kg' => 'float',
     ];
 
     public function type()

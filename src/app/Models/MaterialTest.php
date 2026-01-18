@@ -27,8 +27,8 @@ class MaterialTest extends Model
 
     protected $casts = [
         'test_date' => 'date',
-        'resistance_ohm_km' => 'decimal:2',
-        'elongation_pct' => 'decimal:2',
+        'resistance_ohm_km' => 'float',
+        'elongation_pct' => 'float',
         'check_winding' => 'boolean',
         'check_cleanliness' => 'boolean',
         'check_packaging' => 'boolean',

@@ -245,4 +245,74 @@ class RawMaterialEntryController extends Controller
             ], 500);
         }
     }
+    /**
+     * Ver Detalles de Entrada (Protocolo de Ensayo)
+     * 
+     * Obtiene todos los detalles de una entrada, incluyendo datos del proveedor, características,
+     * valores de norma IRAM asociados y los resultados del ensayo realizado.
+     * Ideal para generar el "Protocolo de Ensayo".
+     * 
+     * @urlParam id integer required ID de la entrada. Example: 1
+     * 
+     * @response 200 {
+     *   "success": true,
+     *   "data": {
+     *     "id": 1,
+     *     "remito": "1-1764",
+     *     "batch": "1764",
+     *     "entry_date": "2025-03-28",
+     *     "quantity_kg": 1010.700,
+     *     "status": "approved",
+     *     "type": {
+     *       "id": 1,
+     *       "name": "Cobre"
+     *     },
+     *     "provider": {
+     *       "id": 5,
+     *       "business_name": "RIO BATEL TRAFILACION COBRE"
+     *     },
+     *     "characteristic": {
+     *       "id": 2,
+     *       "name": "Diámetro",
+     *       "description": "0.38 mm",
+     *       "decimal_value": 0.38,
+     *       "unit": "mm",
+     *       "iram_copper_max_resistance": {
+     *         "max_resistance_ohm_km": 155.20
+     *       }
+     *     },
+     *     "test": {
+     *       "id": 10,
+     *       "test_date": "2025-03-28",
+     *       "conducted_by": "Juan Perez",
+     *       "result": "OK",
+     *       "resistance_ohm_km": 155.20,
+     *       "check_winding": true,
+     *       "check_cleanliness": true,
+     *       "check_packaging": true,
+     *       "check_identification": true
+     *     }
+     *   },
+     *   "message": "Detalles de entrada obtenidos exitosamente"
+     * }
+     */
+    public function show(string $id): JsonResponse
+    {
+        $entry = RawMaterialEntry::with([
+            'type',
+            'provider',
+            'characteristic.iramCopperMaxResistance', // Para mostrar valores a cumplir (IRAM)
+            'test'
+        ])->findOrFail($id);
+
+        if ($entry->characteristic) {
+            $entry->characteristic->append('description');
+        }
+
+        return response()->json([
+            'success' => true,
+            'data' => $entry,
+            'message' => 'Detalles de entrada obtenidos exitosamente'
+        ], 200);
+    }
 }
