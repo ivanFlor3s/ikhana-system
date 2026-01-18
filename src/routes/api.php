@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\BrokerController;
 use App\Http\Controllers\Api\AuditLogController;
 use App\Http\Controllers\Api\RawMaterialController;
+use App\Http\Controllers\Api\RawMaterialEntryController;
 
 
 Route::post('login', [AuthController::class, 'login']);
@@ -73,6 +74,11 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/types', [RawMaterialController::class, 'indexTypes']);
         Route::get('/types/{type_id}/characteristics', [RawMaterialController::class, 'indexCharacteristics']);
         Route::post('/validate-resistance', [RawMaterialController::class, 'validateResistance']);
+    });
+
+    // Entradas de Materia Prima
+    Route::prefix('raw-material-entries')->group(function () {
+        Route::get('/', [RawMaterialEntryController::class, 'index']);
     });
 });
 
