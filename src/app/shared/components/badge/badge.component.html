@@ -1,0 +1,18 @@
+<span class="inline-flex items-center gap-1 font-semibold text-center whitespace-nowrap transition-all duration-200"
+  [ngClass]="{
+    'bg-green-500': variant === 'success',
+    'bg-red-500': variant === 'error',
+    'bg-orange-500': variant === 'warning',
+    'bg-blue-500': variant === 'info',
+    'bg-gray-500': variant === 'neutral',
+    'px-2 py-1 text-xs': size === 'sm',
+    'px-3 py-1.5 text-sm': size === 'md',
+    'px-4 py-2 text-base': size === 'lg',
+    'rounded-full': rounded,
+    'rounded-md': !rounded
+  }">
+  @if (icon) {
+  <span class="inline-flex items-center text-white">{{ icon }}</span>
+  }
+  <span class="inline-flex items-center text-white">{{ label }}</span>
+</span>

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, input, Output } from '@angular/core';
 import { Button } from '@shared/components/button/button';
 import { PageHeaderComponent } from "@shared/components/page-header/page-header.component";
 import { Spool, LucideAngularModule } from "lucide-angular";
@@ -12,6 +12,7 @@ import { Spool, LucideAngularModule } from "lucide-angular";
 export class MpCobreHeaderComponent {
 
   readonly SpoolIcon = Spool;
+  showNuevoIngreso = input<boolean>(true);
 
   @Output() onNuevoIngreso = new EventEmitter<void>();
 }
