@@ -6,7 +6,7 @@
             <button class="flex items-center gap-2 text-xs uppercase font-medium select-none px-3 py-2"
                 [class]="col.width ?? 'flex-1'" (click)="onHeaderClick(col)"
                 [attr.data-sortable]="col.sortable ? true : null" role="button">
-                <span class="truncate">{{ col.title }}</span>
+                <span class="wrap-break-word leading-tight text-left ">{{ col.title }}</span>
 
                 @if (col.sortable) {
                 <span class="material-icons text-sm opacity-80">
