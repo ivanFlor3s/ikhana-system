@@ -1,15 +1,13 @@
 export interface IngresoCobre {
     fecha: Date;
     remito: string;
-    provider: string;
-    weight: string;
-    diameter: number;
+    pesoKg: number;
+    diametroAnteriorMm: number;
     lote: string;
-    validations: {
-        embalaje: boolean;
-        superficialAspect: boolean;
-        recocido: boolean;
-    }
+    identificacionEmbalaje: string;
+    aspectoSuperficialLibreDefectos: string;
+    resistenciaOhmsKm: number;
+    recocidoPercent: number;
     resultado: string;
-    dateOfTest: Date;
+    fechaEnsayo: Date;
 }
