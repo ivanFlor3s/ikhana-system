@@ -1,7 +1,8 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { MpCobreHeaderComponent } from "@modules/materias-primas/cobre/components/mp-cobre-header/mp-cobre-header.component";
 import { ingresosCobre } from 'app/mocks/ingresos-cobre';
 import { MpStockCobreListComponent } from "@modules/materias-primas/cobre/components/mp-stock-cobre-list/mp-stock-cobre-list.component";
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-materias-primas-cobre-page',
@@ -11,7 +12,11 @@ import { MpStockCobreListComponent } from "@modules/materias-primas/cobre/compon
 })
 export class MateriasPrimasCobrePageComponent {
   data = signal(ingresosCobre);
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
 
-
+  onNuevoIngreso() {
+    this.router.navigate(['ingreso'], { relativeTo: this.route });
+  }
 
 }

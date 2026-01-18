@@ -3,6 +3,7 @@ import { ProveedoresPageComponent } from '../pages/proveedores-page/proveedores-
 import { RubrosPageComponent } from 'app/pages/rubros-page/rubros-page.component';
 import { MateriasPrimasPageComponent } from 'app/pages/materias-primas-page/materias-primas-page.component';
 import { MateriasPrimasCobrePageComponent } from 'app/pages/materias-primas-cobre-page/materias-primas-cobre-page.component';
+import { MpCobreIngresoPageComponent } from 'app/pages/materias-primas-cobre-page/mp-cobre-ingreso-page/mp-cobre-ingreso-page.component';
 
 export const appRoutes: Routes = [
     {
@@ -28,6 +29,10 @@ export const appRoutes: Routes = [
                     {
                         path: 'cobre',
                         component: MateriasPrimasCobrePageComponent
+                    },
+                    {
+                        path: 'cobre/ingreso',
+                        component: MpCobreIngresoPageComponent
                     }
                 ]
             }
