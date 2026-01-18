@@ -79,6 +79,7 @@ Route::middleware('auth:sanctum')->group(function () {
     // Entradas de Materia Prima
     Route::prefix('raw-material-entries')->group(function () {
         Route::get('/', [RawMaterialEntryController::class, 'index']);
+        Route::post('/', [RawMaterialEntryController::class, 'store']);
     });
 });
 
