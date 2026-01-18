@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import { MateriasPrimasHeader } from '../../modules/materias-primas/components/materias-primas-header/materias-primas-header';
-import { MateriasPrimasListComponent } from '../../modules/materias-primas/components/materias-primas-list/materias-primas-list.component';
+import { RouterOutlet } from "@angular/router";
 
 @Component({
   selector: 'app-materias-primas-page',
   imports: [
     MateriasPrimasHeader,
-    MateriasPrimasListComponent
+    RouterOutlet
   ],
   templateUrl: './materias-primas-page.component.html',
   styleUrl: './materias-primas-page.component.css'
