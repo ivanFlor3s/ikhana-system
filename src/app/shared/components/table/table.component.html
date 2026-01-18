@@ -29,6 +29,43 @@
                     @if (hasTemplate(col.id)) {
                     <ng-container
                         *ngTemplateOutlet="getTemplate(col.id); context: { $implicit: row, value: getValue(row, col) }"></ng-container>
+                    } @else if (col.pipe) {
+                    <!-- Dynamic pipe rendering -->
+                    @switch (col.pipe.name) {
+                    @case ('date') {
+                    <span class="text-sm text-neutral-700 truncate">{{ getValue(row, col) | date: (col.pipe.args?.[0] ??
+                        'short') }}</span>
+                    }
+                    @case ('number') {
+                    <span class="text-sm text-neutral-700 truncate">{{ getValue(row, col) | number: (col.pipe.args?.[0]
+                        ?? '1.0-0') }}</span>
+                    }
+                    @case ('decimal') {
+                    <span class="text-sm text-neutral-700 truncate">{{ getValue(row, col) | number: (col.pipe.args?.[0]
+                        ?? '1.2-2') }}</span>
+                    }
+                    @case ('currency') {
+                    <span class="text-sm text-neutral-700 truncate">{{ getValue(row, col) | currency:
+                        (col.pipe.args?.[0] ?? 'USD') : (col.pipe.args?.[1] ?? 'symbol') : (col.pipe.args?.[2] ??
+                        '1.2-2') }}</span>
+                    }
+                    @case ('percent') {
+                    <span class="text-sm text-neutral-700 truncate">{{ getValue(row, col) | percent: (col.pipe.args?.[0]
+                        ?? '1.0-2') }}</span>
+                    }
+                    @case ('uppercase') {
+                    <span class="text-sm text-neutral-700 truncate">{{ getValue(row, col) | uppercase }}</span>
+                    }
+                    @case ('lowercase') {
+                    <span class="text-sm text-neutral-700 truncate">{{ getValue(row, col) | lowercase }}</span>
+                    }
+                    @case ('titlecase') {
+                    <span class="text-sm text-neutral-700 truncate">{{ getValue(row, col) | titlecase }}</span>
+                    }
+                    @default {
+                    <span class="text-sm text-neutral-700 truncate">{{ getValue(row, col) }}</span>
+                    }
+                    }
                     } @else {
                     <span class="text-sm text-neutral-700 truncate">{{ getValue(row, col) }}</span>
                     }

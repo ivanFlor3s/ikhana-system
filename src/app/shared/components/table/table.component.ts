@@ -12,6 +12,10 @@ export interface ColumnDef {
   // accessor can be a property path like 'user.name' or a function (row) => value
   accessor?: string | ((row: any) => any);
   width?: string; // optional tailwind width classes (e.g. 'w-1/4')
+  // formatter function to transform the value before display
+  formatter?: (value: any, row: any) => any;
+  // pipe configuration for template rendering (e.g., { name: 'date', args: ['dd/MM/yyyy'] })
+  pipe?: { name: string; args?: any[] };
 }
 
 @Directive({
@@ -123,11 +127,22 @@ export class TableComponent {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   getValue(row: any, col: ColumnDef) {
     const accessor = col.accessor;
-    if (typeof accessor === 'function') return accessor(row);
-    if (typeof accessor === 'string' && accessor.length) {
-      return accessor.split('.').reduce((acc: any, part: string) => acc?.[part], row) ?? '';
+    let value: any;
+
+    if (typeof accessor === 'function') {
+      value = accessor(row);
+    } else if (typeof accessor === 'string' && accessor.length) {
+      value = accessor.split('.').reduce((acc: any, part: string) => acc?.[part], row) ?? '';
+    } else {
+      value = row[col.id] ?? '';
     }
-    return row[col.id] ?? '';
+
+    // Apply formatter if defined
+    if (col.formatter) {
+      value = col.formatter(value, row);
+    }
+
+    return value;
   }
 
   // template template helpers
