@@ -82,4 +82,74 @@ class RawMaterialController extends Controller
             'message' => 'Características obtenidas exitosamente'
         ], 200);
     }
+
+    /**
+     * Validar Resistencia vs Norma IRAM
+     * 
+     * Valida si un valor de resistencia medido cumple con la norma IRAM para una característica específica (ej: diámetro).
+     * 
+     * @bodyParam raw_material_characteristic_id integer required ID de la característica. Example: 1
+     * @bodyParam resistance_ohm_km number required Valor medido en Ohm/km. Example: 180.5
+     * 
+     * @response 200 {
+     *   "success": true,
+     *   "data": {
+     *     "valid": true,
+     *     "max_allowed": 184.60,
+     *     "measured": 180.5,
+     *     "has_rule": true
+     *   },
+     *   "message": "Valor dentro de la norma"
+     * }
+     * 
+     * @response 200 scenario="invalid" {
+     *   "success": true,
+     *   "data": {
+     *     "valid": false,
+     *     "max_allowed": 184.60,
+     *     "measured": 190.0,
+     *     "has_rule": true
+     *   },
+     *   "message": "Valor excede el máximo permitido por norma IRAM"
+     * }
+     */
+    public function validateResistance(Request $request): JsonResponse
+    {
+        $validated = $request->validate([
+            'raw_material_characteristic_id' => 'required|exists:raw_material_characteristics,id',
+            'resistance_ohm_km' => 'required|numeric|min:0',
+        ]);
+
+        $characteristic = \App\Models\RawMaterialCharacteristic::with('iramCopperMaxResistance')
+            ->findOrFail($validated['raw_material_characteristic_id']);
+
+        $rule = $characteristic->iramCopperMaxResistance;
+
+        // Si no hay regla IRAM, asumimos que no aplica validación (o es siempre válido)
+        if (!$rule) {
+            return response()->json([
+                'success' => true,
+                'data' => [
+                    'valid' => true,
+                    'max_allowed' => null,
+                    'measured' => $validated['resistance_ohm_km'],
+                    'has_rule' => false
+                ],
+                'message' => 'No hay regla IRAM asociada a esta característica'
+            ]);
+        }
+
+        $isValid = $validated['resistance_ohm_km'] <= $rule->max_resistance_ohm_km;
+
+        return response()->json([
+            'success' => true,
+            'data' => [
+                'valid' => $isValid,
+                'max_allowed' => (float) $rule->max_resistance_ohm_km,
+                'measured' => (float) $validated['resistance_ohm_km'],
+                'has_rule' => true
+            ],
+            'message' => $isValid ? 'Valor dentro de la norma' : 'Valor excede el máximo permitido por norma IRAM'
+        ]);
+    }
 }

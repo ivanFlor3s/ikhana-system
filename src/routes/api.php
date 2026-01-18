@@ -72,6 +72,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('raw-materials')->group(function () {
         Route::get('/types', [RawMaterialController::class, 'indexTypes']);
         Route::get('/types/{type_id}/characteristics', [RawMaterialController::class, 'indexCharacteristics']);
+        Route::post('/validate-resistance', [RawMaterialController::class, 'validateResistance']);
     });
 });
 
