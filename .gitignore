@@ -26,3 +26,5 @@ yarn-error.log
 /src/.scribe/
 # Keep Postman collection in root for easy access
 !/Ikhana_API.postman_collection.json
+src/bootstrap/cache/packages.php
+src/bootstrap/cache/services.php

@@ -315,4 +315,37 @@ class RawMaterialEntryController extends Controller
             'message' => 'Detalles de entrada obtenidos exitosamente'
         ], 200);
     }
+
+    /**
+     * Descargar Etiqueta de Ingreso (PDF)
+     * 
+     * Genera una etiqueta en formato PDF para imprimir y pegar en la bobina/lote.
+     * Incluye código de barras, datos del ingreso y resultados del ensayo.
+     * 
+     * @urlParam id integer required ID de la entrada. Example: 1
+     * 
+     * @response 200 Binary PDF Content
+     */
+    public function downloadLabel(string $id)
+    {
+        $entry = RawMaterialEntry::with(['type', 'provider', 'characteristic', 'test'])->findOrFail($id);
+
+        // Generar Barcode (Usamos batch o remito, usamos batch para seguimiento interno)
+        $generator = new \Picqer\Barcode\BarcodeGeneratorPNG();
+        // Usamos CODE_128 y batch como dato
+        $barcodeData = $generator->getBarcode($entry->batch, $generator::TYPE_CODE_128);
+        $barcodeBase64 = base64_encode($barcodeData);
+
+        // Configuración de PDF (Tamaño personalizado aprox 15cm x 7cm para etiqueta)
+        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('pdfs.label', [
+            'entry' => $entry,
+            'barcode' => $barcodeBase64
+        ]);
+
+        // 150mm x 80mm
+        $customPaper = [0, 0, 425.20, 226.77];
+        $pdf->setPaper($customPaper, 'landscape');
+
+        return $pdf->download("Etiqueta_Entrada_{$entry->entry_number}.pdf");
+    }
 }

@@ -81,6 +81,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/', [RawMaterialEntryController::class, 'index']);
         Route::post('/', [RawMaterialEntryController::class, 'store']);
         Route::get('/{id}', [RawMaterialEntryController::class, 'show']);
+        Route::get('/{id}/label', [RawMaterialEntryController::class, 'downloadLabel']);
     });
 });
 
