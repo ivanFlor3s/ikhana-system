@@ -18,7 +18,9 @@ class AuthController extends Controller
     /**
      * Login de usuario
      * 
-     * Autentica un usuario y crea una sesión.
+     * Autentica un usuario y devuelve un token de acceso para la API.
+     * 
+     * @unauthenticated
      * 
      * @bodyParam email string required Email del usuario. Example: admin@ikhana.com
      * @bodyParam password string required Contraseña del usuario. Example: admin123
@@ -26,14 +28,17 @@ class AuthController extends Controller
      * @response 200 scenario="success" {
      *   "success": true,
      *   "data": {
-     *     "id": 1,
-     *     "name": "Administrador",
-     *     "email": "admin@ikhana.com",
-     *     "role": {
+     *     "user": {
      *       "id": 1,
-     *       "name": "Admin",
-     *       "description": "Administrador del sistema"
-     *     }
+     *       "name": "Administrador",
+     *       "email": "admin@ikhana.com",
+     *       "role": {
+     *         "id": 1,
+     *         "name": "Admin",
+     *         "description": "Administrador del sistema"
+     *       }
+     *     },
+     *     "token": "1|abcdef123456..."
      *   },
      *   "message": "Login exitoso"
      * }
@@ -67,14 +72,17 @@ class AuthController extends Controller
                 ], 401);
             }
 
-            $request->session()->regenerate();
-
             $user = Auth::user();
             $user->load('role');
 
+            $token = $user->createToken('auth_token')->plainTextToken;
+
             return response()->json([
                 'success' => true,
-                'data' => $user,
+                'data' => [
+                    'user' => $user,
+                    'token' => $token
+                ],
                 'message' => 'Login exitoso'
             ], 200);
 
@@ -107,9 +115,11 @@ class AuthController extends Controller
      */
     public function logout(Request $request): JsonResponse
     {
-        Auth::logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
+        // Revocar el token actual
+        $request->user()->currentAccessToken()->delete();
+
+        // Opcional: Revocar todos los tokens del usuario
+        // $request->user()->tokens()->delete();
 
         return response()->json([
             'success' => true,
