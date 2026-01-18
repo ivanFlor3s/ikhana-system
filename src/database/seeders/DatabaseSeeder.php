@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
             AgreementSeeder::class,
             CategorySeeder::class,
             BrokerSeeder::class,
+            RawMaterialSeeder::class,
         ]);
 
         // User::factory(10)->create();
