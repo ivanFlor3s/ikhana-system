@@ -67,6 +67,8 @@ return new class extends Migration {
             $table->decimal('quantity_kg', 12, 3)->nullable(); // Peso en KG
             $table->integer('coils_count')->nullable(); // Cantidad de bobinas
 
+            $table->string('status', 20)->default('pending'); // pending, approved, rejected, conditioned
+
             $table->text('observations')->nullable();
 
             $table->timestamps();

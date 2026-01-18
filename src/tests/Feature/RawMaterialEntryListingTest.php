@@ -111,4 +111,63 @@ class RawMaterialEntryListingTest extends TestCase
             ->assertJsonCount(1, 'data.data') // Should return exactly 1 result
             ->assertJsonPath('data.data.0.id', $targetEntry->id);
     }
+
+    public function test_can_filter_by_characteristic()
+    {
+        // 1. Setup Data
+        $copper = RawMaterialType::create(['name' => 'Cobre']);
+
+        // Characteristic A: 0.35mm
+        $diameter035 = RawMaterialCharacteristic::create([
+            'raw_material_type_id' => $copper->id,
+            'name' => 'Diámetro',
+            'decimal_value' => 0.35,
+            'unit' => 'mm'
+        ]);
+
+        // Characteristic B: 0.50mm
+        $diameter050 = RawMaterialCharacteristic::create([
+            'raw_material_type_id' => $copper->id,
+            'name' => 'Diámetro',
+            'decimal_value' => 0.50,
+            'unit' => 'mm'
+        ]);
+
+        $provider = Provider::factory()->create();
+
+        // Entry with 0.35mm (Target)
+        $targetEntry = RawMaterialEntry::create([
+            'raw_material_type_id' => $copper->id,
+            'provider_id' => $provider->id,
+            'raw_material_characteristic_id' => $diameter035->id,
+            'entry_number' => 10,
+            'remito' => 'R-035',
+            'entry_date' => '2024-05-15',
+            'quantity_kg' => 100,
+            'coils_count' => 5
+        ]);
+
+        // Entry with 0.50mm (Should be filtered out)
+        RawMaterialEntry::create([
+            'raw_material_type_id' => $copper->id,
+            'provider_id' => $provider->id,
+            'raw_material_characteristic_id' => $diameter050->id,
+            'entry_number' => 11,
+            'remito' => 'R-050',
+            'entry_date' => '2024-05-15',
+            'quantity_kg' => 100,
+            'coils_count' => 5
+        ]);
+
+        // 2. Execute Request filtering by 0.35mm
+        $response = $this->getJson('/api/raw-material-entries?' . http_build_query([
+            'raw_material_characteristic_id' => $diameter035->id,
+        ]));
+
+        // 3. Assertions
+        $response->assertStatus(200)
+            ->assertJsonCount(1, 'data.data')
+            ->assertJsonPath('data.data.0.id', $targetEntry->id)
+            ->assertJsonPath('data.data.0.characteristic.decimal_value', 0.35); // Check value matches
+    }
 }

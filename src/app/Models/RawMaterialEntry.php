@@ -21,6 +21,7 @@ class RawMaterialEntry extends Model
         'entry_date',
         'quantity_kg',
         'coils_count',
+        'status',
         'observations'
     ];
 

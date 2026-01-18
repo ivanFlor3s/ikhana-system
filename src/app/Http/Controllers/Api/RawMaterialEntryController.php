@@ -23,6 +23,7 @@ class RawMaterialEntryController extends Controller
      * @queryParam per_page integer Items por página (default: 15). Example: 20
      * @queryParam search string Buscar por número de remito, lote o nombre del proveedor. Example: 123456
      * @queryParam raw_material_type_id integer Filtrar por tipo de material. Example: 1
+     * @queryParam raw_material_characteristic_id integer Filtrar por característica específica (ej: Diámetro 0.35mm). Example: 2
      * @queryParam date_from date Filtrar desde esta fecha de ingreso (YYYY-MM-DD). Example: 2024-01-01
      * @queryParam date_to date Filtrar hasta esta fecha de ingreso (YYYY-MM-DD). Example: 2024-12-31
      * 
@@ -61,7 +62,8 @@ class RawMaterialEntryController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $query = RawMaterialEntry::with(['type', 'provider', 'characteristic']);
+        // Eager load 'test' para mostrar los resultados del ensayo en el listado
+        $query = RawMaterialEntry::with(['type', 'provider', 'characteristic', 'test']);
 
         // Filtro de búsqueda general
         if ($request->filled('search')) {
@@ -79,6 +81,11 @@ class RawMaterialEntryController extends Controller
         // Filtro por Tipo de Material
         if ($request->filled('raw_material_type_id')) {
             $query->where('raw_material_type_id', $request->raw_material_type_id);
+        }
+
+        // Filtro por Característica (Diámetro, etc.)
+        if ($request->filled('raw_material_characteristic_id')) {
+            $query->where('raw_material_characteristic_id', $request->raw_material_characteristic_id);
         }
 
         // Filtro por Rango de Fechas (entry_date)
