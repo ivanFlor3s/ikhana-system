@@ -10,6 +10,7 @@
 /src/.env.production
 /src/.phpunit.result.cache
 /src/composer.lock
+/src/bootstrap/cache/*.php
 Homestead.json
 Homestead.yaml
 auth.json
