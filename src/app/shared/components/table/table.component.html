@@ -20,8 +20,10 @@
 
         <!-- Body -->
          @if (displayRows().length === 0) {
-           <!-- https://www.svgrepo.com/show/323655/wire-coil.svg -->
-            <img class="size-64 m-auto opacity-5 grayscale pointer-events-none" alt="Wire Coil" src="/wire-coil.svg">
+            <div class="flex flex-col items-center justify-center py-30">
+              <h1 class="text-black text-3xl">La lista está vacía</h1>
+              <h2 class="text-gray-500">A medida que se agreguen items, van a ser exhibidos aquí</h2>
+            </div>
          }
          @else {
           <div class="divide-y divide-solid divide-neutral-300/50">
