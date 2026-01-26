@@ -43,6 +43,9 @@
       "@services/*": [
         "app/services/*"
       ],
+      "@guards/*": [
+        "app/guards/*"
+      ],
     }
   },
   "angularCompilerOptions": {

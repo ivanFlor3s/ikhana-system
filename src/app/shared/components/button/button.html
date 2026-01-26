@@ -1,4 +1,5 @@
-<button (click)="onClick($event)"
+<!-- una sola clase condicional con template -->
+<button [class]="isBlock ? 'block w-full' : ''" (click)="onClick($event)"
     class="inline-flex  items-center justify-center gap-1 font-medium transition-all duration-150 focus:outline-none focus:ring-0 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
     [attr.aria-disabled]="disabled" [disabled]="disabled" [type]="type" [ngClass]="classes()"
     [class.under-pressure]="isBeingClicked()">
