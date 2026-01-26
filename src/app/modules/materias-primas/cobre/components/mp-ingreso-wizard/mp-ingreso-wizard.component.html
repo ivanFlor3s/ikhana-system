@@ -1,7 +1,7 @@
 <mat-stepper [linear]="isLinear" #stepper class="copper-wizard">
     <!-- Step 1: Basic Information -->
     <mat-step [stepControl]="basicInfoFormGroup">
-        <form [formGroup]="basicInfoFormGroup">
+        <form class="p-4" [formGroup]="basicInfoFormGroup">
             <ng-template matStepLabel>Información Básica</ng-template>
 
             <div class="form-grid">
@@ -21,15 +21,23 @@
 
                 <mat-form-field appearance="outline">
                     <mat-label>Proveedor</mat-label>
-                    <input matInput formControlName="proveedor" placeholder="Nombre del proveedor" required>
+                    <mat-select formControlName="proveedor" [disabled]="loadingProviders()" required>
+                        <mat-option *ngFor="let provider of providers()" [value]="provider.value">
+                            {{ provider.name }}
+                        </mat-option>
+                    </mat-select>
+                    @if (loadingProviders()) {
+                    <mat-spinner matSuffix diameter="20"></mat-spinner>
+                    }
                     <mat-error>El proveedor es requerido</mat-error>
                 </mat-form-field>
 
                 <mat-form-field appearance="outline">
-                    <mat-label>Material</mat-label>
-                    <input matInput formControlName="materiaCobre" required>
-                    <mat-error>El material es requerido</mat-error>
+                    <mat-label>Cantidad Bobinas</mat-label>
+                    <input matInput formControlName="cantidadBobinas" placeholder="Ej: 10" required>
+                    <mat-error>Campo requerido</mat-error>
                 </mat-form-field>
+
 
                 <mat-form-field appearance="outline">
                     <mat-label>Peso (kg)</mat-label>
@@ -58,7 +66,7 @@
 
     <!-- Step 2: Measurements -->
     <mat-step [stepControl]="measurementsFormGroup">
-        <form [formGroup]="measurementsFormGroup">
+        <form class="p-4" [formGroup]="measurementsFormGroup">
             <ng-template matStepLabel>Mediciones</ng-template>
 
             <div class="form-grid">
@@ -100,7 +108,7 @@
 
     <!-- Step 3: IRAM Validation Tests -->
     <mat-step [stepControl]="validationFormGroup">
-        <form [formGroup]="validationFormGroup">
+        <form class="p-4" [formGroup]="validationFormGroup">
             <ng-template matStepLabel>Validación IRAM 2011</ng-template>
 
             <div class="validation-section">

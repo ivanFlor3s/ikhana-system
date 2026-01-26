@@ -1,11 +1,11 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
+import { MatNativeDateModule, MatOption } from '@angular/material/core';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
@@ -13,6 +13,10 @@ import { MatChipsModule } from '@angular/material/chips';
 import { CommonModule } from '@angular/common';
 import { IngresoCobre } from '@interfaces/mocks/cobre-ingreso-interface';
 import { BadgeComponent } from '@shared/components/badge/badge.component';
+import { ProviderService } from '@services/provider.service';
+import { NameValue } from '@models/name-value.model';
+import { map, take } from 'rxjs';
+import { MatProgressSpinner } from "@angular/material/progress-spinner";
 
 @Component({
   selector: 'app-mp-ingreso-wizard',
@@ -30,23 +34,31 @@ import { BadgeComponent } from '@shared/components/badge/badge.component';
     MatCardModule,
     MatIconModule,
     MatChipsModule,
-    BadgeComponent
+    BadgeComponent,
+    MatOption,
+    MatProgressSpinner
   ],
   templateUrl: './mp-ingreso-wizard.component.html',
   styleUrl: './mp-ingreso-wizard.component.css'
 })
 export class MpIngresoWizardComponent {
   private _formBuilder = inject(FormBuilder);
+  private _providerService = inject(ProviderService);
 
   // Linear stepper - must complete each step
   isLinear = true;
+
+  providers = signal<NameValue[]>([]);
+  loadingProviders = signal(false);
+
+
 
   // Step 1: Basic Information
   basicInfoFormGroup = this._formBuilder.group({
     fecha: [new Date(), Validators.required],
     remito: ['', Validators.required],
-    proveedor: ['', Validators.required],
-    materiaCobre: ['Cobre', Validators.required],
+    proveedor: [null, Validators.required],
+    cantidadBobinas: [null, [Validators.required, Validators.min(0.01)]],
     pesoKg: [null, [Validators.required, Validators.min(0.01)]],
     lote: ['', Validators.required],
     identificacionEmbalaje: ['', Validators.required],
@@ -69,6 +81,10 @@ export class MpIngresoWizardComponent {
     realizadoPor: ['', Validators.required],
     controladoPor: ['', Validators.required],
   });
+
+  constructor() {
+    this.loadProviders();
+  }
 
   /**
    * Check if diameter measurement exists
@@ -105,6 +121,27 @@ export class MpIngresoWizardComponent {
       resultado: this.getResultado(),
       fechaEnsayo: new Date(),
     } as Partial<IngresoCobre>;
+  }
+
+  loadProviders(): void {
+    this.loadingProviders.set(true);
+    this._providerService.getProviders()
+      .pipe(
+        map((providers) => providers.data.data
+          .map((provider) => ({ name: provider.fantasy_name, value: provider.id }))
+          .sort((a, b) => a.name.localeCompare(b.name))
+        ),
+        take(1)
+      )
+      .subscribe({
+        next: (providers) => {
+          this.providers.set(providers);
+          this.loadingProviders.set(false);
+        },
+        error: () => {
+          this.loadingProviders.set(false);
+        }
+      });
   }
 
   /**
