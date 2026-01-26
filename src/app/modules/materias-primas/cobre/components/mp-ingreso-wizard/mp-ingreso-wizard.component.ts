@@ -51,6 +51,8 @@ export class MpIngresoWizardComponent {
   providers = signal<NameValue[]>([]);
   loadingProviders = signal(false);
 
+  minDate = new Date();
+
 
 
   // Step 1: Basic Information
