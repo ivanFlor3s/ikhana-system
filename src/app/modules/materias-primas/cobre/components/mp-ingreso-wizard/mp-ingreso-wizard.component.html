@@ -21,10 +21,11 @@
 
                 <mat-form-field appearance="outline">
                     <mat-label>Proveedor</mat-label>
-                    <mat-select formControlName="proveedor" [disabled]="loadingProviders()" required>
+                    <mat-select formControlName="proveedor" required>
                         <mat-option *ngFor="let provider of providers()" [value]="provider.value">
                             {{ provider.name }}
                         </mat-option>
+
                     </mat-select>
                     @if (loadingProviders()) {
                     <mat-spinner matSuffix diameter="20"></mat-spinner>

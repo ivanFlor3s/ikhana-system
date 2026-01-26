@@ -16,7 +16,7 @@ import { BadgeComponent } from '@shared/components/badge/badge.component';
 import { ProviderService } from '@services/provider.service';
 import { NameValue } from '@models/name-value.model';
 import { map, take } from 'rxjs';
-import { MatProgressSpinner } from "@angular/material/progress-spinner";
+import { MatSelectModule } from '@angular/material/select';
 
 @Component({
   selector: 'app-mp-ingreso-wizard',
@@ -34,9 +34,9 @@ import { MatProgressSpinner } from "@angular/material/progress-spinner";
     MatCardModule,
     MatIconModule,
     MatChipsModule,
+    MatSelectModule,
     BadgeComponent,
     MatOption,
-    MatProgressSpinner
   ],
   templateUrl: './mp-ingreso-wizard.component.html',
   styleUrl: './mp-ingreso-wizard.component.css'
