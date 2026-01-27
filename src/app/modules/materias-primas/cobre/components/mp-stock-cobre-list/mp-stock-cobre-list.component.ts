@@ -50,11 +50,6 @@ export class MpStockCobreListComponent {
       pipe: { name: 'number', args: ['1.2-2'] }
     },
     {
-      id: 'recocidoPercent',
-      title: 'Recocido %',
-      pipe: { name: 'number', args: ['1.2-2'] }
-    },
-    {
       id: 'resultado',
       title: 'Resultado'
     },

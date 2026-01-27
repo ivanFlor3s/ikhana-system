@@ -15,7 +15,6 @@ export const ingresosCobre: IngresoCobre[] = [
         diametroMedidoMm: 0.50,
         resistenciaOhmsKm: 87.70,
         estiramientoPercent: 21.5,
-        recocidoPercent: 88.30,
 
         // IRAM Validation Tests
         aspectoSuperficialLibreDefectos: true,
@@ -43,7 +42,6 @@ export const ingresosCobre: IngresoCobre[] = [
         diametroMedidoMm: 0.50,
         resistenciaOhmsKm: 88.30,
         estiramientoPercent: 22.0,
-        recocidoPercent: 90.30,
 
         // IRAM Validation Tests
         aspectoSuperficialLibreDefectos: true,
@@ -71,7 +69,6 @@ export const ingresosCobre: IngresoCobre[] = [
         diametroMedidoMm: 0.60,
         resistenciaOhmsKm: 90.30,
         estiramientoPercent: 20.8,
-        recocidoPercent: 88.70,
 
         // IRAM Validation Tests
         aspectoSuperficialLibreDefectos: true,
@@ -99,7 +96,6 @@ export const ingresosCobre: IngresoCobre[] = [
         diametroMedidoMm: 0.50,
         resistenciaOhmsKm: 88.70,
         estiramientoPercent: 21.2,
-        recocidoPercent: 90.38,
 
         // IRAM Validation Tests
         aspectoSuperficialLibreDefectos: true,
@@ -127,7 +123,6 @@ export const ingresosCobre: IngresoCobre[] = [
         diametroMedidoMm: 0.50,
         resistenciaOhmsKm: 90.38,
         estiramientoPercent: 21.8,
-        recocidoPercent: 90.44,
 
         // IRAM Validation Tests
         aspectoSuperficialLibreDefectos: true,
@@ -155,7 +150,6 @@ export const ingresosCobre: IngresoCobre[] = [
         diametroMedidoMm: 0.50,
         resistenciaOhmsKm: 90.44,
         estiramientoPercent: 21.0,
-        recocidoPercent: 90.44,
 
         // IRAM Validation Tests
         aspectoSuperficialLibreDefectos: true,
@@ -183,7 +177,6 @@ export const ingresosCobre: IngresoCobre[] = [
         diametroMedidoMm: 0.50,
         resistenciaOhmsKm: 90.44,
         estiramientoPercent: 21.5,
-        recocidoPercent: 90.44,
 
         // IRAM Validation Tests
         aspectoSuperficialLibreDefectos: true,

@@ -73,18 +73,49 @@
             <ng-template matStepLabel>Mediciones</ng-template>
 
             <div class="form-grid">
+                @if (loadingCharacteristics()) {
+                <mat-spinner diameter="40"></mat-spinner>
+                <p>Cargando diámetros disponibles...</p>
+                }
+                @else {
                 <mat-form-field appearance="outline">
-                    <mat-label>Diámetro Medido (mm)</mat-label>
-                    <input matInput type="number" step="0.01" formControlName="diametroMedidoMm" placeholder="Ej: 0.38"
-                        required>
+                    <mat-label>Diámetro (mm)</mat-label>
+                    <mat-select formControlName="diametroMedidoMm" required>
+                        <mat-option *ngFor="let characteristic of characteristics()" [value]="characteristic.id">
+                            {{ characteristic.decimal_value }} {{ characteristic.unit }}
+                        </mat-option>
+                    </mat-select>
                     <mat-error>El diámetro medido es requerido</mat-error>
                 </mat-form-field>
+                }
 
                 <mat-form-field appearance="outline">
-                    <mat-label>Resistencia Química (Ω/km)</mat-label>
+                    <mat-label>Resistencia (Ω/km)</mat-label>
                     <input matInput type="number" step="0.1" formControlName="resistenciaOhmsKm" placeholder="Ej: 135.2"
                         required>
+                    @if (measurementsFormGroup.get('resistenciaOhmsKm')?.pending) {
+                    <mat-spinner matSuffix diameter="20"></mat-spinner>
+                    }
+                    @if (measurementsFormGroup.get('resistenciaOhmsKm')?.hasError('required')) {
                     <mat-error>La resistencia es requerida</mat-error>
+                    }
+                    @if (measurementsFormGroup.get('resistenciaOhmsKm')?.hasError('resistanceExceedsLimit')) {
+                    <mat-error>
+                        El valor medido ({{
+                        measurementsFormGroup.get('resistenciaOhmsKm')?.errors?.['resistanceExceedsLimit']?.measured }}
+                        Ω/km)
+                        excede el máximo permitido ({{
+                        measurementsFormGroup.get('resistenciaOhmsKm')?.errors?.['resistanceExceedsLimit']?.maxAllowed
+                        }} Ω/km)
+                    </mat-error>
+                    }
+                    @if (measurementsFormGroup.get('resistenciaOhmsKm')?.hasError('resistanceValidationError')) {
+                    <mat-error>
+                        {{
+                        measurementsFormGroup.get('resistenciaOhmsKm')?.errors?.['resistanceValidationError']?.message
+                        }}
+                    </mat-error>
+                    }
                 </mat-form-field>
 
                 <mat-form-field appearance="outline">
@@ -92,13 +123,6 @@
                     <input matInput type="number" step="0.1" formControlName="estiramientoPercent" placeholder="Ej: 21"
                         required>
                     <mat-error>El estiramiento es requerido (0-100%)</mat-error>
-                </mat-form-field>
-
-                <mat-form-field appearance="outline">
-                    <mat-label>Recocido (%)</mat-label>
-                    <input matInput type="number" step="0.1" formControlName="recocidoPercent" placeholder="Ej: 88.3"
-                        required>
-                    <mat-error>El recocido es requerido (0-100%)</mat-error>
                 </mat-form-field>
             </div>
 
@@ -237,7 +261,8 @@
                     <div class="summary-grid">
                         <div class="summary-item">
                             <span class="label">Diámetro Medido:</span>
-                            <span class="value">{{ measurementsFormGroup.get('diametroMedidoMm')?.value }} mm</span>
+                            <span class="value">{{ getSelectedCharacteristic()?.decimal_value }} {{
+                                getSelectedCharacteristic()?.unit }}</span>
                         </div>
                         <div class="summary-item">
                             <span class="label">Resistencia Química:</span>
@@ -249,7 +274,7 @@
                         </div>
                         <div class="summary-item">
                             <span class="label">Recocido:</span>
-                            <span class="value">{{ measurementsFormGroup.get('recocidoPercent')?.value }} %</span>
+                            <span class="value"></span>
                         </div>
                     </div>
                 </mat-card-content>

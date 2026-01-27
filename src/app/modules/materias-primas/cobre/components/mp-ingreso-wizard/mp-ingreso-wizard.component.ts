@@ -6,6 +6,7 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule, MatOption } from '@angular/material/core';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
@@ -14,9 +15,11 @@ import { CommonModule } from '@angular/common';
 import { IngresoCobre } from '@interfaces/mocks/cobre-ingreso-interface';
 import { BadgeComponent } from '@shared/components/badge/badge.component';
 import { ProviderService } from '@services/provider.service';
+import { RawMaterialService, RawMaterialCharacteristic } from '@services/raw-material.service';
 import { NameValue } from '@models/name-value.model';
 import { map, take } from 'rxjs';
 import { MatSelectModule } from '@angular/material/select';
+import { resistanceValidator } from '@core/validators/resistance.validator';
 
 @Component({
   selector: 'app-mp-ingreso-wizard',
@@ -35,6 +38,7 @@ import { MatSelectModule } from '@angular/material/select';
     MatIconModule,
     MatChipsModule,
     MatSelectModule,
+    MatProgressSpinnerModule,
     BadgeComponent,
     MatOption,
   ],
@@ -44,6 +48,7 @@ import { MatSelectModule } from '@angular/material/select';
 export class MpIngresoWizardComponent {
   private _formBuilder = inject(FormBuilder);
   private _providerService = inject(ProviderService);
+  private _rawMaterialService = inject(RawMaterialService);
 
   // Linear stepper - must complete each step
   isLinear = true;
@@ -51,9 +56,13 @@ export class MpIngresoWizardComponent {
   providers = signal<NameValue[]>([]);
   loadingProviders = signal(false);
 
+  characteristics = signal<RawMaterialCharacteristic[]>([]);
+  loadingCharacteristics = signal(false);
+
   minDate = new Date();
 
-
+  // Copper type ID from API
+  readonly COPPER_TYPE_ID = 1;
 
   // Step 1: Basic Information
   basicInfoFormGroup = this._formBuilder.group({
@@ -67,11 +76,11 @@ export class MpIngresoWizardComponent {
   });
 
   // Step 2: Measurements
+  // Note: diametroMedidoMm now stores the characteristic ID, not just the diameter value
   measurementsFormGroup = this._formBuilder.group({
-    diametroMedidoMm: [null, [Validators.required, Validators.min(0)]],
+    diametroMedidoMm: [null, [Validators.required]],
     resistenciaOhmsKm: [null, [Validators.required, Validators.min(0)]],
-    estiramientoPercent: [null, [Validators.required, Validators.min(0), Validators.max(100)]],
-    recocidoPercent: [null, [Validators.required, Validators.min(0), Validators.max(100)]],
+    estiramientoPercent: [21, [Validators.required, Validators.min(0), Validators.max(100)]],
   });
 
   // Step 3: IRAM Validation Tests
@@ -86,6 +95,23 @@ export class MpIngresoWizardComponent {
 
   constructor() {
     this.loadProviders();
+    this.loadCharacteristics();
+    this.setupDiameterChangeListener();
+  }
+
+  /**
+   * Setup listener for diameter changes to update resistance validator
+   */
+  private setupDiameterChangeListener(): void {
+    this.measurementsFormGroup.get('diametroMedidoMm')?.valueChanges.subscribe(characteristicId => {
+      if (characteristicId) {
+        // Update the async validator with the selected characteristic ID
+        this.measurementsFormGroup.get('resistenciaOhmsKm')?.setAsyncValidators(
+          [resistanceValidator(this._rawMaterialService, characteristicId)]
+        );
+        this.measurementsFormGroup.get('resistenciaOhmsKm')?.updateValueAndValidity();
+      }
+    });
   }
 
   /**
@@ -93,7 +119,16 @@ export class MpIngresoWizardComponent {
    */
   isDiametroValid(): boolean {
     const medido = this.measurementsFormGroup.get('diametroMedidoMm')?.value;
-    return medido !== null && medido !== undefined && medido > 0;
+    return medido !== null && medido !== undefined;
+  }
+
+  /**
+   * Get the selected characteristic object
+   */
+  getSelectedCharacteristic(): RawMaterialCharacteristic | undefined {
+    const characteristicId = this.measurementsFormGroup.get('diametroMedidoMm')?.value;
+    if (!characteristicId) return undefined;
+    return this.characteristics().find(c => c.id === Number(characteristicId));
   }
 
   /**
@@ -147,6 +182,24 @@ export class MpIngresoWizardComponent {
   }
 
   /**
+   * Load characteristics for copper material type
+   */
+  loadCharacteristics(): void {
+    this.loadingCharacteristics.set(true);
+    this._rawMaterialService.getCharacteristicsByType(this.COPPER_TYPE_ID)
+      .pipe(take(1))
+      .subscribe({
+        next: (response) => {
+          this.characteristics.set(response.data);
+          this.loadingCharacteristics.set(false);
+        },
+        error: () => {
+          this.loadingCharacteristics.set(false);
+        }
+      });
+  }
+
+  /**
    * Submit the copper ingreso
    */
   onSubmit(): void {
@@ -165,10 +218,9 @@ export class MpIngresoWizardComponent {
         identificacionEmbalaje: this.basicInfoFormGroup.get('identificacionEmbalaje')?.value!,
 
         // Measurements
-        diametroMedidoMm: this.measurementsFormGroup.get('diametroMedidoMm')?.value!,
+        diametroMedidoMm: this.getSelectedCharacteristic()?.decimal_value!,
         resistenciaOhmsKm: this.measurementsFormGroup.get('resistenciaOhmsKm')?.value!,
         estiramientoPercent: this.measurementsFormGroup.get('estiramientoPercent')?.value!,
-        recocidoPercent: this.measurementsFormGroup.get('recocidoPercent')?.value!,
 
         // IRAM Validation
         aspectoSuperficialLibreDefectos: this.validationFormGroup.get('aspectoSuperficialLibreDefectos')?.value!,

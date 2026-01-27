@@ -12,7 +12,6 @@ export interface IngresoCobre {
     diametroMedidoMm: number;
     resistenciaOhmsKm: number;
     estiramientoPercent: number;
-    recocidoPercent: number;
 
     // IRAM Validation Tests (S/N)
     aspectoSuperficialLibreDefectos: boolean; // S = true, N = false
