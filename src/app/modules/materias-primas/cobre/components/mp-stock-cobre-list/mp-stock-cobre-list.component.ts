@@ -37,8 +37,8 @@ export class MpStockCobreListComponent {
       title: 'Lote'
     },
     {
-      id: 'identificacionEmbalaje',
-      title: 'Identificación Embalaje'
+      id: 'identificacionLote',
+      title: 'Lote ID'
     },
     {
       id: 'aspectoSuperficialLibreDefectos',

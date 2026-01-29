@@ -1,5 +1,5 @@
 import { Component, inject, signal } from '@angular/core';
-import { FormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, Validators, FormsModule, ReactiveFormsModule, AsyncValidatorFn } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatStepperModule } from '@angular/material/stepper';
@@ -72,7 +72,7 @@ export class MpIngresoWizardComponent {
     cantidadBobinas: [null, [Validators.required, Validators.min(0.01)]],
     pesoKg: [null, [Validators.required, Validators.min(0.01)]],
     lote: ['', Validators.required],
-    identificacionEmbalaje: ['', Validators.required],
+    identificacionLote: ['', Validators.required],
   });
 
   // Step 2: Measurements
@@ -81,6 +81,7 @@ export class MpIngresoWizardComponent {
     diametroMedidoMm: [null, [Validators.required]],
     resistenciaOhmsKm: [null, [Validators.required, Validators.min(0)]],
     estiramientoPercent: [21, [Validators.required, Validators.min(0), Validators.max(100)]],
+    observacion: [''],
   });
 
   // Step 3: IRAM Validation Tests
@@ -89,8 +90,7 @@ export class MpIngresoWizardComponent {
     limpieza: [true, Validators.required],
     acondicionado: [true, Validators.required],
     rectificacion: [true, Validators.required],
-    realizadoPor: ['', Validators.required],
-    controladoPor: ['', Validators.required],
+    fechaEnsayo: [new Date(), Validators.required],
   });
 
   constructor() {
@@ -99,18 +99,44 @@ export class MpIngresoWizardComponent {
     this.setupDiameterChangeListener();
   }
 
+  get resistanceValidator(): AsyncValidatorFn {
+    return resistanceValidator(this._rawMaterialService, this.measurementsFormGroup?.get('diametroMedidoMm')?.value || 0);
+  }
+
   /**
    * Setup listener for diameter changes to update resistance validator
+   * Also setup listeners for resistance and observation to handle conditional validation
    */
   private setupDiameterChangeListener(): void {
     this.measurementsFormGroup.get('diametroMedidoMm')?.valueChanges.subscribe(characteristicId => {
       if (characteristicId) {
         // Update the async validator with the selected characteristic ID
         this.measurementsFormGroup.get('resistenciaOhmsKm')?.setAsyncValidators(
-          [resistanceValidator(this._rawMaterialService, characteristicId)]
+          [this.resistanceValidator]
         );
         this.measurementsFormGroup.get('resistenciaOhmsKm')?.updateValueAndValidity();
       }
+    });
+
+    // Listen to resistance field changes to update observation field requirement
+    this.measurementsFormGroup.get('resistenciaOhmsKm')?.valueChanges.subscribe((value: number | null) => {
+      const resistanceControl = this.measurementsFormGroup.get('resistenciaOhmsKm');
+      if (resistanceControl?.hasError('resistanceExceedsLimit')) {
+        this.measurementsFormGroup.get('observacion')?.setValidators([Validators.required]);
+        this.measurementsFormGroup.get('observacion')?.updateValueAndValidity();
+      }
+    });
+
+    // Listen to observation field changes to revalidate the form
+    this.measurementsFormGroup.get('observacion')?.valueChanges.subscribe((value: string | null) => {
+      const resistanceControl = this.measurementsFormGroup.get('resistenciaOhmsKm');
+      const needToRestoreValidation = value != null && value.trim().length == 0 && !resistanceControl?.hasAsyncValidator(this.resistanceValidator)
+      if (needToRestoreValidation) {
+        resistanceControl?.setAsyncValidators([this.resistanceValidator]);
+      } else {
+        resistanceControl?.clearAsyncValidators();
+      }
+      resistanceControl?.updateValueAndValidity();
     });
   }
 
@@ -215,7 +241,7 @@ export class MpIngresoWizardComponent {
         materiaCobre: this.basicInfoFormGroup.get('materiaCobre')?.value!,
         pesoKg: this.basicInfoFormGroup.get('pesoKg')?.value!,
         lote: this.basicInfoFormGroup.get('lote')?.value!,
-        identificacionEmbalaje: this.basicInfoFormGroup.get('identificacionEmbalaje')?.value!,
+        identificacionLote: this.basicInfoFormGroup.get('identificacionLote')?.value!,
 
         // Measurements
         diametroMedidoMm: this.getSelectedCharacteristic()?.decimal_value!,
@@ -231,8 +257,6 @@ export class MpIngresoWizardComponent {
         // Results
         resultado: this.getResultado(),
         fechaEnsayo: new Date(),
-        realizadoPor: this.validationFormGroup.get('realizadoPor')?.value!,
-        controladoPor: this.validationFormGroup.get('controladoPor')?.value!,
       };
 
       console.log('Copper Ingreso Created:', ingresoData);

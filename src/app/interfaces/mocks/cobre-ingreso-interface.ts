@@ -6,7 +6,7 @@ export interface IngresoCobre {
     materiaCobre: string;
     pesoKg: number;
     lote: string;
-    identificacionEmbalaje: string;
+    identificacionLote: string;
 
     // Measurements
     diametroMedidoMm: number;
@@ -22,6 +22,4 @@ export interface IngresoCobre {
     // Test Results
     resultado: string; // "CUMPLE" or "NO CUMPLE"
     fechaEnsayo: Date;
-    realizadoPor: string;
-    controladoPor: string;
 }

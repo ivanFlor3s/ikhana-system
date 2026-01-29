@@ -55,9 +55,9 @@
                 </mat-form-field>
 
                 <mat-form-field appearance="outline" class="full-width">
-                    <mat-label>Identificación de Embalaje</mat-label>
-                    <input matInput formControlName="identificacionEmbalaje" placeholder="ID del embalaje" required>
-                    <mat-error>La identificación de embalaje es requerida</mat-error>
+                    <mat-label>Identificación de Lote</mat-label>
+                    <input matInput formControlName="identificacionLote" placeholder="ID del Lote" required>
+                    <mat-error>La identificación de lote es requerida</mat-error>
                 </mat-form-field>
             </div>
 
@@ -101,12 +101,9 @@
                     }
                     @if (measurementsFormGroup.get('resistenciaOhmsKm')?.hasError('resistanceExceedsLimit')) {
                     <mat-error>
-                        El valor medido ({{
-                        measurementsFormGroup.get('resistenciaOhmsKm')?.errors?.['resistanceExceedsLimit']?.measured }}
-                        Ω/km)
-                        excede el máximo permitido ({{
+                        Excede el máximo permitido: {{
                         measurementsFormGroup.get('resistenciaOhmsKm')?.errors?.['resistanceExceedsLimit']?.maxAllowed
-                        }} Ω/km)
+                        }}
                     </mat-error>
                     }
                     @if (measurementsFormGroup.get('resistenciaOhmsKm')?.hasError('resistanceValidationError')) {
@@ -124,7 +121,17 @@
                         required>
                     <mat-error>El estiramiento es requerido (0-100%)</mat-error>
                 </mat-form-field>
+
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Observación</mat-label>
+                    <input matInput formControlName="observacion"
+                        placeholder="Ingrese una justificación para el valor fuera de rango">
+                    <mat-error *ngIf="measurementsFormGroup.get('observacion')?.hasError('required')">La observación es
+                        requerida</mat-error>
+
+                </mat-form-field>
             </div>
+
 
             <div class="step-actions">
                 <button mat-button matStepperPrevious>Atrás</button>
@@ -140,55 +147,49 @@
 
             <div class="validation-section">
                 <h3 class="section-title">Ensayos de Validación</h3>
-                <p class="section-description">Seleccione S (Sí) o N (No) para cada ensayo</p>
 
                 <div class="validation-tests">
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Fecha de Ensayo</mat-label>
+                        <input matInput [matDatepicker]="pickerTest" [min]="minDate" formControlName="fechaEnsayo"
+                            required>
+                        <mat-datepicker-toggle matSuffix [for]="pickerTest"></mat-datepicker-toggle>
+                        <mat-datepicker #pickerTest></mat-datepicker>
+                        <mat-error>La fecha de ensayo es requerida</mat-error>
+                    </mat-form-field>
+
                     <div class="test-item">
                         <label>Aspecto Superficial Libre de Defectos</label>
                         <mat-radio-group formControlName="aspectoSuperficialLibreDefectos" required>
-                            <mat-radio-button [value]="true">S</mat-radio-button>
-                            <mat-radio-button [value]="false">N</mat-radio-button>
+                            <mat-radio-button [value]="true">Si</mat-radio-button>
+                            <mat-radio-button [value]="false">No</mat-radio-button>
                         </mat-radio-group>
                     </div>
 
                     <div class="test-item">
                         <label>Limpieza</label>
                         <mat-radio-group formControlName="limpieza" required>
-                            <mat-radio-button [value]="true">S</mat-radio-button>
-                            <mat-radio-button [value]="false">N</mat-radio-button>
+                            <mat-radio-button [value]="true">Si</mat-radio-button>
+                            <mat-radio-button [value]="false">No</mat-radio-button>
                         </mat-radio-group>
                     </div>
 
                     <div class="test-item">
                         <label>Acondicionado</label>
                         <mat-radio-group formControlName="acondicionado" required>
-                            <mat-radio-button [value]="true">S</mat-radio-button>
-                            <mat-radio-button [value]="false">N</mat-radio-button>
+                            <mat-radio-button [value]="true">Si</mat-radio-button>
+                            <mat-radio-button [value]="false">No</mat-radio-button>
                         </mat-radio-group>
                     </div>
 
                     <div class="test-item">
                         <label>Rectificación</label>
                         <mat-radio-group formControlName="rectificacion" required>
-                            <mat-radio-button [value]="true">S</mat-radio-button>
-                            <mat-radio-button [value]="false">N</mat-radio-button>
+                            <mat-radio-button [value]="true">Si</mat-radio-button>
+                            <mat-radio-button [value]="false">No</mat-radio-button>
                         </mat-radio-group>
                     </div>
-                </div>
-
-                <h3 class="section-title">Información del Ensayo</h3>
-                <div class="form-grid">
-                    <mat-form-field appearance="outline">
-                        <mat-label>Realizado por</mat-label>
-                        <input matInput formControlName="realizadoPor" placeholder="Nombre del técnico" required>
-                        <mat-error>Campo requerido</mat-error>
-                    </mat-form-field>
-
-                    <mat-form-field appearance="outline">
-                        <mat-label>Controlado por</mat-label>
-                        <input matInput formControlName="controladoPor" placeholder="Nombre del supervisor" required>
-                        <mat-error>Campo requerido</mat-error>
-                    </mat-form-field>
                 </div>
             </div>
 
@@ -205,14 +206,6 @@
 
         <div class="summary-container">
             <h2 class="summary-title">Resumen del Ingreso de Cobre</h2>
-
-            <!-- Overall Result -->
-            <div class="result-banner" [class.success]="getResultado() === 'CUMPLE'"
-                [class.error]="getResultado() === 'NO CUMPLE'">
-                <mat-icon>{{ getResultado() === 'CUMPLE' ? 'check_circle' : 'cancel' }}</mat-icon>
-                <span>{{ getResultado() }}</span>
-            </div>
-
             <!-- Basic Information -->
             <mat-card class="summary-card">
                 <mat-card-header>
@@ -233,10 +226,6 @@
                             <span class="value">{{ basicInfoFormGroup.get('proveedor')?.value }}</span>
                         </div>
                         <div class="summary-item">
-                            <span class="label">Material:</span>
-                            <span class="value">{{ basicInfoFormGroup.get('materiaCobre')?.value }}</span>
-                        </div>
-                        <div class="summary-item">
                             <span class="label">Peso:</span>
                             <span class="value">{{ basicInfoFormGroup.get('pesoKg')?.value }} kg</span>
                         </div>
@@ -244,9 +233,9 @@
                             <span class="label">Lote:</span>
                             <span class="value">{{ basicInfoFormGroup.get('lote')?.value }}</span>
                         </div>
-                        <div class="summary-item full-width">
-                            <span class="label">Embalaje:</span>
-                            <span class="value">{{ basicInfoFormGroup.get('identificacionEmbalaje')?.value }}</span>
+                        <div class="summary-item">
+                            <span class="label">Identificación Lote:</span>
+                            <span class="value">{{ basicInfoFormGroup.get('identificacionLote')?.value }}</span>
                         </div>
                     </div>
                 </mat-card-content>
@@ -272,10 +261,7 @@
                             <span class="label">Estiramiento:</span>
                             <span class="value">{{ measurementsFormGroup.get('estiramientoPercent')?.value }} %</span>
                         </div>
-                        <div class="summary-item">
-                            <span class="label">Recocido:</span>
-                            <span class="value"></span>
-                        </div>
+
                     </div>
                 </mat-card-content>
             </mat-card>
@@ -287,7 +273,16 @@
                 </mat-card-header>
                 <mat-card-content>
                     <div class="validation-results">
+
                         <div class="validation-result-item">
+                            <span class="label">Fecha de Ensayo:</span>
+                            <span class="value">{{ validationFormGroup.get('fechaEnsayo')?.value | date:'dd/MM/yyyy'
+                                }}</span>
+                        </div>
+                        <div class="validation-result-item"></div>
+                        <div class="validation-result-item"></div>
+                        <div class="validation-result-item">
+
                             <span class="label">Aspecto Superficial:</span>
                             <app-badge
                                 [label]="validationFormGroup.get('aspectoSuperficialLibreDefectos')?.value ? 'SI' : 'NO'"
@@ -297,40 +292,27 @@
                         </div>
                         <div class="validation-result-item">
                             <span class="label">Limpieza:</span>
-                            <app-badge [label]="validationFormGroup.get('limpieza')?.value ? 'S' : 'N'"
+                            <app-badge [label]="validationFormGroup.get('limpieza')?.value ? 'SI' : 'NO'"
                                 [variant]="validationFormGroup.get('limpieza')?.value ? 'success' : 'error'" size="sm">
                             </app-badge>
                         </div>
                         <div class="validation-result-item">
                             <span class="label">Acondicionado:</span>
-                            <app-badge [label]="validationFormGroup.get('acondicionado')?.value ? 'S' : 'N'"
+                            <app-badge [label]="validationFormGroup.get('acondicionado')?.value ? 'SI' : 'NO'"
                                 [variant]="validationFormGroup.get('acondicionado')?.value ? 'success' : 'error'"
                                 size="sm">
                             </app-badge>
                         </div>
                         <div class="validation-result-item">
                             <span class="label">Rectificación:</span>
-                            <app-badge [label]="validationFormGroup.get('rectificacion')?.value ? 'S' : 'N'"
+                            <app-badge [label]="validationFormGroup.get('rectificacion')?.value ? 'SI' : 'NO'"
                                 [variant]="validationFormGroup.get('rectificacion')?.value ? 'success' : 'error'"
                                 size="sm">
                             </app-badge>
                         </div>
                     </div>
 
-                    <div class="summary-grid" style="margin-top: 1rem;">
-                        <div class="summary-item">
-                            <span class="label">Realizado por:</span>
-                            <span class="value">{{ validationFormGroup.get('realizadoPor')?.value }}</span>
-                        </div>
-                        <div class="summary-item">
-                            <span class="label">Controlado por:</span>
-                            <span class="value">{{ validationFormGroup.get('controladoPor')?.value }}</span>
-                        </div>
-                        <div class="summary-item">
-                            <span class="label">Fecha de Ensayo:</span>
-                            <span class="value">{{ getSummaryData().fechaEnsayo | date:'dd/MM/yyyy' }}</span>
-                        </div>
-                    </div>
+
                 </mat-card-content>
             </mat-card>
         </div>
