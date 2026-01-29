@@ -315,6 +315,42 @@
 
                 </mat-card-content>
             </mat-card>
+
+            <!-- Return Bobinas Section -->
+            <mat-card class="summary-card">
+                <mat-card-header>
+                    <mat-card-title>Devolución de Bobinas</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <form [formGroup]="returnBobinasFormGroup">
+                        <div class="flex justify-between">
+                            <mat-checkbox formControlName="returnToProvider">
+                                ¿Desea devolver bobinas al proveedor?
+                            </mat-checkbox>
+
+                            @if (returnBobinasFormGroup.get('returnToProvider')?.value) {
+                            <mat-form-field appearance="outline" class="quantity-field">
+                                <mat-label>Cantidad de Bobinas a Devolver</mat-label>
+                                <input matInput type="number" formControlName="cantidadBobinasDevolver"
+                                    placeholder="Ej: 2" min="1">
+                                @if (returnBobinasFormGroup.get('cantidadBobinasDevolver')?.hasError('required')) {
+                                <mat-error>La cantidad es requerida</mat-error>
+                                }
+                                @if (returnBobinasFormGroup.get('cantidadBobinasDevolver')?.hasError('min')) {
+                                <mat-error>Debe devolver al menos 1 bobina</mat-error>
+                                }
+                                @if (returnBobinasFormGroup.get('cantidadBobinasDevolver')?.hasError('max')) {
+                                <mat-error>No puede devolver más de {{ basicInfoFormGroup.get('cantidadBobinas')?.value
+                                    }} bobinas</mat-error>
+                                }
+                                <mat-hint>Total de bobinas recibidas: {{
+                                    basicInfoFormGroup.get('cantidadBobinas')?.value }}</mat-hint>
+                            </mat-form-field>
+                            }
+                        </div>
+                    </form>
+                </mat-card-content>
+            </mat-card>
         </div>
 
         <div class="step-actions">

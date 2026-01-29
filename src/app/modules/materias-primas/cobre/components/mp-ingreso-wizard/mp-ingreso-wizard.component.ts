@@ -11,6 +11,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { CommonModule } from '@angular/common';
 import { IngresoCobre } from '@interfaces/mocks/cobre-ingreso-interface';
 import { BadgeComponent } from '@shared/components/badge/badge.component';
@@ -37,6 +38,7 @@ import { resistanceValidator } from '@core/validators/resistance.validator';
     MatCardModule,
     MatIconModule,
     MatChipsModule,
+    MatCheckboxModule,
     MatSelectModule,
     MatProgressSpinnerModule,
     BadgeComponent,
@@ -93,10 +95,43 @@ export class MpIngresoWizardComponent {
     fechaEnsayo: [new Date(), Validators.required],
   });
 
+  // Step 4: Return Bobinas (Summary step)
+  returnBobinasFormGroup = this._formBuilder.group({
+    returnToProvider: [false],
+    cantidadBobinasDevolver: [null],
+  });
+
   constructor() {
     this.loadProviders();
     this.loadCharacteristics();
     this.setupDiameterChangeListener();
+    this.setupReturnBobinasListener();
+  }
+
+  /**
+   * Setup listener for return to provider checkbox
+   * When checked, make quantity field required
+   */
+  private setupReturnBobinasListener(): void {
+    this.returnBobinasFormGroup.get('returnToProvider')?.valueChanges.subscribe(returnToProvider => {
+      const cantidadControl = this.returnBobinasFormGroup.get('cantidadBobinasDevolver');
+
+      if (returnToProvider) {
+        // Make quantity required and validate it's greater than 0 and not more than total bobinas
+        const totalBobinas = this.basicInfoFormGroup.get('cantidadBobinas')?.value || 0;
+        cantidadControl?.setValidators([
+          Validators.required,
+          Validators.min(1),
+          Validators.max(totalBobinas)
+        ]);
+      } else {
+        // Clear validators and value when unchecked
+        cantidadControl?.clearValidators();
+        cantidadControl?.setValue(null);
+      }
+
+      cantidadControl?.updateValueAndValidity();
+    });
   }
 
   get resistanceValidator(): AsyncValidatorFn {
@@ -231,7 +266,8 @@ export class MpIngresoWizardComponent {
   onSubmit(): void {
     if (this.basicInfoFormGroup.valid &&
       this.measurementsFormGroup.valid &&
-      this.validationFormGroup.valid) {
+      this.validationFormGroup.valid &&
+      this.returnBobinasFormGroup.valid) {
 
       const ingresoData: IngresoCobre = {
         // Basic Information
