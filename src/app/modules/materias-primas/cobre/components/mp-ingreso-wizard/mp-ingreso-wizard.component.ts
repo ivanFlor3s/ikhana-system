@@ -12,7 +12,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { IngresoCobre } from '@interfaces/mocks/cobre-ingreso-interface';
 import { BadgeComponent } from '@shared/components/badge/badge.component';
 import { ProviderService } from '@services/provider.service';
@@ -21,6 +21,9 @@ import { NameValue } from '@models/name-value.model';
 import { map, take } from 'rxjs';
 import { MatSelectModule } from '@angular/material/select';
 import { resistanceValidator } from '@core/validators/resistance.validator';
+import { CreateEntryRequest } from '@interfaces/dtos/create-entry.dto';
+import { NotificationService } from '@services/notification.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-mp-ingreso-wizard',
@@ -44,6 +47,7 @@ import { resistanceValidator } from '@core/validators/resistance.validator';
     BadgeComponent,
     MatOption,
   ],
+  providers: [DatePipe],
   templateUrl: './mp-ingreso-wizard.component.html',
   styleUrl: './mp-ingreso-wizard.component.css'
 })
@@ -51,6 +55,10 @@ export class MpIngresoWizardComponent {
   private _formBuilder = inject(FormBuilder);
   private _providerService = inject(ProviderService);
   private _rawMaterialService = inject(RawMaterialService);
+  private _datePipe = inject(DatePipe);
+  private _notificationService = inject(NotificationService);
+  private _router = inject(Router);
+
 
   // Linear stepper - must complete each step
   isLinear = true;
@@ -70,7 +78,7 @@ export class MpIngresoWizardComponent {
   basicInfoFormGroup = this._formBuilder.group({
     fecha: [new Date(), Validators.required],
     remito: ['', Validators.required],
-    proveedor: [null, Validators.required],
+    proveedor: [null as number | null, Validators.required],
     cantidadBobinas: [null, [Validators.required, Validators.min(0.01)]],
     pesoKg: [null, [Validators.required, Validators.min(0.01)]],
     lote: ['', Validators.required],
@@ -101,6 +109,7 @@ export class MpIngresoWizardComponent {
     cantidadBobinasDevolver: [null],
   });
 
+
   constructor() {
     this.loadProviders();
     this.loadCharacteristics();
@@ -117,15 +126,11 @@ export class MpIngresoWizardComponent {
       const cantidadControl = this.returnBobinasFormGroup.get('cantidadBobinasDevolver');
 
       if (returnToProvider) {
-        // Make quantity required and validate it's greater than 0 and not more than total bobinas
-        const totalBobinas = this.basicInfoFormGroup.get('cantidadBobinas')?.value || 0;
         cantidadControl?.setValidators([
           Validators.required,
           Validators.min(1),
-          Validators.max(totalBobinas)
         ]);
       } else {
-        // Clear validators and value when unchecked
         cantidadControl?.clearValidators();
         cantidadControl?.setValue(null);
       }
@@ -269,35 +274,48 @@ export class MpIngresoWizardComponent {
       this.validationFormGroup.valid &&
       this.returnBobinasFormGroup.valid) {
 
-      const ingresoData: IngresoCobre = {
-        // Basic Information
-        fecha: this.basicInfoFormGroup.get('fecha')?.value!,
-        remito: this.basicInfoFormGroup.get('remito')?.value!,
-        proveedor: this.basicInfoFormGroup.get('proveedor')?.value!,
-        materiaCobre: this.basicInfoFormGroup.get('materiaCobre')?.value!,
-        pesoKg: this.basicInfoFormGroup.get('pesoKg')?.value!,
-        lote: this.basicInfoFormGroup.get('lote')?.value!,
-        identificacionLote: this.basicInfoFormGroup.get('identificacionLote')?.value!,
-
-        // Measurements
-        diametroMedidoMm: this.getSelectedCharacteristic()?.decimal_value!,
-        resistenciaOhmsKm: this.measurementsFormGroup.get('resistenciaOhmsKm')?.value!,
-        estiramientoPercent: this.measurementsFormGroup.get('estiramientoPercent')?.value!,
-
-        // IRAM Validation
-        aspectoSuperficialLibreDefectos: this.validationFormGroup.get('aspectoSuperficialLibreDefectos')?.value!,
-        limpieza: this.validationFormGroup.get('limpieza')?.value!,
-        acondicionado: this.validationFormGroup.get('acondicionado')?.value!,
-        rectificacion: this.validationFormGroup.get('rectificacion')?.value!,
-
-        // Results
-        resultado: this.getResultado(),
-        fechaEnsayo: new Date(),
-      };
-
-      console.log('Copper Ingreso Created:', ingresoData);
       // TODO: Call service to save data
       // this.cobreService.createIngreso(ingresoData).subscribe(...)
+      const dto: CreateEntryRequest = this.buildIngresoDto();
+      this.publish(dto);
     }
+  }
+
+  private buildIngresoDto(): CreateEntryRequest {
+    const dateEntry = this.basicInfoFormGroup.get('fecha')?.value!
+    const dateEntryString = this._datePipe.transform(dateEntry, 'yyyy-MM-dd')!;
+    return {
+      raw_material_type_id: this.COPPER_TYPE_ID,
+      provider_id: this.basicInfoFormGroup.get('proveedor')?.value! as number,
+      raw_material_characteristic_id: this.measurementsFormGroup.get('diametroMedidoMm')?.value!,
+      entry_date: dateEntryString,
+      remito: this.basicInfoFormGroup.get('remito')?.value!,
+      batch: this.basicInfoFormGroup.get('lote')?.value!,
+      quantity_kg: this.basicInfoFormGroup.get('pesoKg')?.value!,
+      coils_count: this.basicInfoFormGroup.get('cantidadBobinas')?.value!,
+      observations: this.measurementsFormGroup.get('observacion')?.value!,
+      test: {
+        resistance_ohm_km: this.measurementsFormGroup.get('resistenciaOhmsKm')?.value!,
+        check_winding: this.validationFormGroup.get('aspectoSuperficialLibreDefectos')?.value!,
+        check_cleanliness: this.validationFormGroup.get('limpieza')?.value!,
+        check_packaging: this.validationFormGroup.get('acondicionado')?.value!,
+        check_identification: this.validationFormGroup.get('rectificacion')?.value!,
+        conducted_by: 'El pato Lucas ',
+      },
+    };
+  }
+
+  private publish(dto: CreateEntryRequest): void {
+    this._rawMaterialService.createEntry(dto)
+      .pipe(take(1))
+      .subscribe({
+        next: (response) => {
+          this._notificationService.success('Ingreso creado exitosamente');
+          this._router.navigate(['/materias-primas/cobre']);
+        },
+        error: (error) => {
+          this._notificationService.error('Error al crear ingreso');
+        }
+      });
   }
 }

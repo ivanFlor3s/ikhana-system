@@ -2,6 +2,8 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
+import { CreateEntryRequest } from '@interfaces/dtos/create-entry.dto';
+import { CreateEntryResponse } from '@interfaces/dtos/response/create-entry.response.dto';
 
 export interface ValidateResistanceRequest {
     raw_material_characteristic_id: number;
@@ -38,6 +40,7 @@ export interface CharacteristicsResponse {
 })
 export class RawMaterialService {
     private apiUrl = `${environment.apiUrl}/raw-materials`;
+    private apiEntriesUrl = `${environment.apiUrl}/raw-material-entries`;
     private http = inject(HttpClient);
 
     /**
@@ -60,6 +63,18 @@ export class RawMaterialService {
     getCharacteristicsByType(typeId: number): Observable<CharacteristicsResponse> {
         return this.http.get<CharacteristicsResponse>(
             `${this.apiUrl}/types/${typeId}/characteristics`
+        );
+    }
+
+    /**
+     * Creates a new entry for a raw material
+     * @param request - Contains the entry data
+     * @returns Observable with the created entry response
+     */
+    createEntry(request: CreateEntryRequest): Observable<CreateEntryResponse> {
+        return this.http.post<CreateEntryResponse>(
+            `${this.apiEntriesUrl}`,
+            request
         );
     }
 }
