@@ -1,5 +1,5 @@
-import { Component, input } from '@angular/core';
-import { IngresoCobre } from '@interfaces/mocks/cobre-ingreso-interface';
+import { Component, input, SimpleChanges } from '@angular/core';
+import { RawMaterialEntry } from '@interfaces/dtos/response/raw-material-entries.response';
 import { ColumnDef, TableComponent } from '@shared/components/table/table.component';
 
 @Component({
@@ -10,53 +10,64 @@ import { ColumnDef, TableComponent } from '@shared/components/table/table.compon
 })
 export class MpStockCobreListComponent {
 
-  data = input.required<IngresoCobre[]>();
+  data = input.required<RawMaterialEntry[]>();
+
+  ngOnInit(): void {
+    console.log(this.data());
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log(changes);
+  }
 
   columns: ColumnDef[] = [
     {
-      id: 'fecha',
+      id: 'entry_date',
       title: 'Fecha',
       pipe: { name: 'date', args: ['dd/MM/yy'] }
+    },
+    {
+      id: 'entry_number',
+      title: 'N° Entrada'
     },
     {
       id: 'remito',
       title: 'Remito'
     },
     {
-      id: 'pesoKg',
+      id: 'provider.business_name',
+      title: 'Proveedor'
+    },
+    {
+      id: 'quantity_kg',
       title: 'Peso (kg)',
-      pipe: { name: 'number', args: ['1.2-2'] }
+      pipe: { name: 'number', args: ['1.0-0'] }
     },
     {
-      id: 'diametroAnteriorMm',
-      title: 'Diámetro anterior (mm)',
-      pipe: { name: 'number', args: ['1.2-2'] }
+      id: 'coils_count',
+      title: 'Bobinas',
+      pipe: { name: 'number', args: ['1.0-0'] }
     },
     {
-      id: 'lote',
+      id: 'characteristic.description',
+      title: 'Diámetro'
+    },
+    {
+      id: 'batch',
       title: 'Lote'
     },
     {
-      id: 'identificacionLote',
-      title: 'Lote ID'
-    },
-    {
-      id: 'aspectoSuperficialLibreDefectos',
-      title: 'Aspecto Superficial Libre de Defectos'
-    },
-    {
-      id: 'resistenciaOhmsKm',
-      title: 'Resistencia (ohms/km)',
+      id: 'test.resistance_ohm_km',
+      title: 'Resistencia (Ω/km)',
       pipe: { name: 'number', args: ['1.2-2'] }
     },
     {
-      id: 'resultado',
+      id: 'test.result',
       title: 'Resultado'
     },
     {
-      id: 'fechaEnsayo',
-      title: 'Fecha Ensayo',
-      pipe: { name: 'date', args: ['dd/MM/yy'] }
+      id: 'status',
+      title: 'Estado'
     },
   ]
 

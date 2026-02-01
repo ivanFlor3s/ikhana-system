@@ -1,9 +1,10 @@
 import { Injectable, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { CreateEntryRequest } from '@interfaces/dtos/create-entry.dto';
 import { CreateEntryResponse } from '@interfaces/dtos/response/create-entry.response.dto';
+import { RawMaterialEntriesResponse } from '@interfaces/dtos/response/raw-material-entries.response';
 
 export interface ValidateResistanceRequest {
     raw_material_characteristic_id: number;
@@ -75,6 +76,52 @@ export class RawMaterialService {
         return this.http.post<CreateEntryResponse>(
             `${this.apiEntriesUrl}`,
             request
+        );
+    }
+
+    /**
+     * Gets a paginated list of raw material entries with filtering options
+     * @param options - Query parameters for pagination and filtering
+     * @returns Observable with paginated entries response
+     */
+    getRawMaterialEntries(options?: {
+        page?: number;
+        per_page?: number;
+        search?: string;
+        raw_material_type_id?: number;
+        raw_material_characteristic_id?: number;
+        date_from?: string;
+        date_to?: string;
+    }): Observable<RawMaterialEntriesResponse> {
+        let params = new HttpParams();
+
+        if (options) {
+            if (options.page !== undefined) {
+                params = params.set('page', options.page.toString());
+            }
+            if (options.per_page !== undefined) {
+                params = params.set('per_page', options.per_page.toString());
+            }
+            if (options.search) {
+                params = params.set('search', options.search);
+            }
+            if (options.raw_material_type_id !== undefined) {
+                params = params.set('raw_material_type_id', options.raw_material_type_id.toString());
+            }
+            if (options.raw_material_characteristic_id !== undefined) {
+                params = params.set('raw_material_characteristic_id', options.raw_material_characteristic_id.toString());
+            }
+            if (options.date_from) {
+                params = params.set('date_from', options.date_from);
+            }
+            if (options.date_to) {
+                params = params.set('date_to', options.date_to);
+            }
+        }
+
+        return this.http.get<RawMaterialEntriesResponse>(
+            `${this.apiEntriesUrl}`,
+            { params }
         );
     }
 }
