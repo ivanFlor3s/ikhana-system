@@ -300,6 +300,7 @@ export class MpIngresoWizardComponent {
         check_cleanliness: this.validationFormGroup.get('limpieza')?.value!,
         check_packaging: this.validationFormGroup.get('acondicionado')?.value!,
         check_identification: this.validationFormGroup.get('rectificacion')?.value!,
+        //TODO: Obtener el usuario logueado??
         conducted_by: 'El pato Lucas ',
       },
     };
