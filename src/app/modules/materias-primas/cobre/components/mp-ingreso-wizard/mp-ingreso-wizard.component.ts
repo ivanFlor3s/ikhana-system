@@ -312,7 +312,7 @@ export class MpIngresoWizardComponent {
       .subscribe({
         next: (response) => {
           this._notificationService.success('Ingreso creado exitosamente');
-          this._router.navigate(['/materias-primas/cobre']);
+          this._router.navigate(['app', 'materias-primas', 'cobre']);
         },
         error: (error) => {
           this._notificationService.error('Error al crear ingreso');
