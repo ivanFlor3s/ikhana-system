@@ -27,7 +27,7 @@ export class MpStockCobreListComponent {
       pipe: { name: 'date', args: ['dd/MM/yy'] }
     },
     {
-      id: 'entry_number',
+      id: 'batch',
       title: 'N° Entrada'
     },
     {
@@ -35,7 +35,10 @@ export class MpStockCobreListComponent {
       title: 'Remito'
     },
     {
-      id: 'provider.business_name',
+      id: 'provider',
+      formatter(value, row) {
+        return row.provider.business_name;
+      },
       title: 'Proveedor'
     },
     {
@@ -49,7 +52,10 @@ export class MpStockCobreListComponent {
       pipe: { name: 'number', args: ['1.0-0'] }
     },
     {
-      id: 'characteristic.description',
+      id: 'characteristic',
+      formatter(value, row) {
+        return row.characteristic.description;
+      },
       title: 'Diámetro'
     },
     {
@@ -59,11 +65,17 @@ export class MpStockCobreListComponent {
     {
       id: 'test.resistance_ohm_km',
       title: 'Resistencia (Ω/km)',
+      formatter(value, row) {
+        return row.test.resistance_ohm_km;
+      },
       pipe: { name: 'number', args: ['1.2-2'] }
     },
     {
       id: 'test.result',
-      title: 'Resultado'
+      title: 'Resultado',
+      formatter(value, row) {
+        return row.test.result;
+      },
     },
     {
       id: 'status',
