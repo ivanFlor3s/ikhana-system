@@ -157,6 +157,35 @@ export class TableComponent {
     return template;
   }
 
+  // Generate grid-template-columns CSS based on column widths
+  getGridTemplateColumns(): string {
+    return this.columns.map(col => {
+      if (col.width) {
+        // Convert Tailwind width classes to grid values
+        // e.g., 'w-1/4' -> '1fr', 'w-48' -> '12rem', etc.
+        if (col.width.includes('w-')) {
+          // Handle fractional widths like w-1/4, w-1/2, etc.
+          if (col.width.includes('/')) {
+            const fraction = col.width.match(/w-(\d+)\/(\d+)/);
+            if (fraction) {
+              return `${fraction[1]}fr`;
+            }
+          }
+          // Handle fixed widths like w-48, w-64, etc.
+          const fixedWidth = col.width.match(/w-(\d+)/);
+          if (fixedWidth) {
+            const remValue = parseInt(fixedWidth[1]) * 0.25; // Tailwind uses 0.25rem per unit
+            return `${remValue}rem`;
+          }
+        }
+        // If it's a custom width value, use it directly
+        return col.width;
+      }
+      // Default to 1fr for equal distribution
+      return '1fr';
+    }).join(' ');
+  }
+
   // trackBy for @for
   rowTrackBy = (index: number, item: any) => item?.id ?? index;
 
