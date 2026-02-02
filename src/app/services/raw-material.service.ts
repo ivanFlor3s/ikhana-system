@@ -124,4 +124,16 @@ export class RawMaterialService {
             { params }
         );
     }
+
+    /**
+     * Downloads a PDF label for a raw material entry
+     * @param entryId - The entry ID
+     * @returns Observable with blob response
+     */
+    downloadEntryLabel(entryId: number): Observable<Blob> {
+        return this.http.get(
+            `${this.apiEntriesUrl}/${entryId}/label`,
+            { responseType: 'blob' }
+        );
+    }
 }

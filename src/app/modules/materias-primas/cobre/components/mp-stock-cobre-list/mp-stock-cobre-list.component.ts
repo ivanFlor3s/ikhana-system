@@ -1,14 +1,19 @@
-import { Component, input, SimpleChanges } from '@angular/core';
+import { Component, input, SimpleChanges, inject } from '@angular/core';
 import { RawMaterialEntry } from '@interfaces/dtos/response/raw-material-entries.response';
-import { ColumnDef, TableComponent } from '@shared/components/table/table.component';
+import { ColumnDef, TableComponent, ModernTableCellDirective } from '@shared/components/table/table.component';
+import { RawMaterialService } from '@services/raw-material.service';
+import { NotificationService } from '@services/notification.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-mp-stock-cobre-list',
-  imports: [TableComponent],
+  imports: [TableComponent, ModernTableCellDirective, CommonModule],
   templateUrl: './mp-stock-cobre-list.component.html',
   styleUrl: './mp-stock-cobre-list.component.css'
 })
 export class MpStockCobreListComponent {
+  private rawMaterialService = inject(RawMaterialService);
+  private notificationService = inject(NotificationService);
 
   data = input.required<RawMaterialEntry[]>();
 
@@ -81,6 +86,58 @@ export class MpStockCobreListComponent {
       id: 'status',
       title: 'Estado'
     },
+    {
+      id: 'actions',
+      title: '',
+      width: 'w-16'
+    }
   ]
+
+  onDownloadLabel(entry: RawMaterialEntry, event: Event) {
+    // Stop event propagation to prevent row click
+    event.stopPropagation();
+
+    const notificationId = this.notificationService.show({
+      type: 'info',
+      title: 'Descargando etiqueta...',
+      description: 'Por favor espere',
+      loading: true,
+      dismissible: false,
+      duration: 0
+    });
+
+    this.rawMaterialService.downloadEntryLabel(entry.id).subscribe({
+      next: (blob) => {
+        // Dismiss loading notification
+        this.notificationService.dismiss(notificationId);
+
+        // Create a blob URL and trigger download
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `etiqueta-ingreso-${entry.batch || entry.id}.pdf`;
+        link.click();
+        window.URL.revokeObjectURL(url);
+
+        // Show success notification
+        this.notificationService.success(
+          'Etiqueta descargada',
+          'El PDF se ha descargado correctamente',
+          3000
+        );
+      },
+      error: (error) => {
+        // Dismiss loading notification
+        this.notificationService.dismiss(notificationId);
+
+        // Show error notification
+        this.notificationService.error(
+          'Error al descargar',
+          error.error?.message || 'No se pudo descargar la etiqueta',
+          5000
+        );
+      }
+    });
+  }
 
 }
