@@ -1,7 +1,7 @@
 <form [formGroup]="forma" class="flex flex-col md:flex-row gap-4">
-    <div class="grid grid-cols-1 md:grid-cols-3 items-center gap-4 flex-1">
+    <div class="grid grid-cols-1 md:grid-cols-6 items-center gap-4 flex-1">
         <!-- Search Input -->
-        <app-input class="col-span-1" [hasPrefix]="true" placeholder="Buscar por remito, lote o proveedor"
+        <app-input class="col-span-1 md:col-span-1" [hasPrefix]="true" placeholder="Buscar por remito, lote o proveedor"
             formControlName="search" size="md">
             <ng-container prefix>
                 <span class="text-gray-500 h-full flex items-center">
@@ -11,11 +11,11 @@
         </app-input>
 
         <!-- Characteristic Filter -->
-        <app-custom-select class="col-span-1" [options]="characteristics" size="sm" [multiple]="false"
+        <app-custom-select class="col-span-1 md:col-span-1" [options]="characteristics" size="sm" [multiple]="false"
             placeholder="Filtrar por diámetro" formControlName="characteristic_id" />
 
         <!-- Date Range Picker -->
-        <mat-form-field class="col-span-1" appearance="outline">
+        <mat-form-field class="col-span-1 md:col-start-6" appearance="outline">
             <mat-label>Rango de fechas</mat-label>
             <mat-date-range-input [formGroup]="forma.controls.dateRange" [rangePicker]="picker">
                 <input matStartDate formControlName="start" placeholder="Fecha desde">
