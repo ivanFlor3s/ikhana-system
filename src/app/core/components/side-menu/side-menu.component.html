@@ -64,6 +64,7 @@
             <div class="sub-menu">
                 @for (child of item.children; track child.label) {
                 <a [routerLink]="child.route" routerLinkActive="active" class="sub-menu-item">
+                    <lucide-angular class="menu-icon" [img]="child.icon"></lucide-angular>
                     <span class="sub-menu-label">{{ child.label }}</span>
                     @if (child.badge) {
                     <span class="menu-badge" [attr.data-color]="child.badge.color">

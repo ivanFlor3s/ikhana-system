@@ -1,0 +1,38 @@
+<form [formGroup]="forma" class="flex flex-col md:flex-row gap-4">
+    <div class="grid grid-cols-1 md:grid-cols-6 items-center gap-4 flex-1">
+        <!-- Search Input -->
+        <app-input class="col-span-1 md:col-span-1" [hasPrefix]="true" placeholder="Buscar por remito, lote o proveedor"
+            formControlName="search" size="md">
+            <ng-container prefix>
+                <span class="text-gray-500 h-full flex items-center">
+                    <mat-icon matPrefix>search</mat-icon>
+                </span>
+            </ng-container>
+        </app-input>
+
+        <!-- Characteristic Filter -->
+        <app-custom-select class="col-span-1 md:col-span-1" [options]="characteristics" size="sm" [multiple]="false"
+            placeholder="Filtrar por diámetro" formControlName="characteristic_id" />
+
+        <!-- Date Range Picker -->
+        <mat-form-field class="col-span-1 md:col-start-6" appearance="outline">
+            <mat-label>Rango de fechas</mat-label>
+            <mat-date-range-input [formGroup]="forma.controls.dateRange" [rangePicker]="picker">
+                <input matStartDate formControlName="start" placeholder="Fecha desde">
+                <input matEndDate formControlName="end" placeholder="Fecha hasta">
+            </mat-date-range-input>
+            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-date-range-picker #picker></mat-date-range-picker>
+        </mat-form-field>
+    </div>
+
+    <!-- Clear Filters Button -->
+    @if (forma.value.search || forma.value.characteristic_id || forma.value.dateRange?.start ||
+    forma.value.dateRange?.end) {
+    <button type="button" (click)="clearFilters()"
+        class="px-4 py-2 text-sm text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded-lg transition-colors flex items-center gap-2">
+        <mat-icon>clear</mat-icon>
+        <span>Limpiar</span>
+    </button>
+    }
+</form>

@@ -1,0 +1,17 @@
+<app-page-header title="Materias Primas - Cobre">
+    <ng-container icon>
+        <div class="bg-amber-500 text-white w-15  flex items-center justify-center ">
+            <lucide-angular [img]="SpoolIcon"></lucide-angular>
+        </div>
+    </ng-container>
+    @if (showNuevoIngreso()) {
+    <ng-container actions>
+        <app-button appearance="primary" variant="solid" size="md" (click)="onNuevoIngreso.emit()">
+            <span class="inline-flex items-center gap-1 text-xs md:text-sm md:gap-2">
+                <span class="material-icons">add</span>
+                <span class="hidden md:block">Nuevo Ingreso</span>
+            </span>
+        </app-button>
+    </ng-container>
+    }
+</app-page-header>

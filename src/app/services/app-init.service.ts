@@ -20,6 +20,7 @@ export class AppInitService {
     private _taxStatuses: NameValue<number>[] = [];
     private _agreements: NameValue<number>[] = [];
     private _categories: NameValue<number>[] = [];
+    private _rawMaterialCharacteristics: NameValue<number>[] = [];
 
     get taxStatuses(): NameValue<number>[] {
         return this._taxStatuses;
@@ -31,6 +32,10 @@ export class AppInitService {
 
     get categories(): NameValue<number>[] {
         return this._categories;
+    }
+
+    get rawMaterialCharacteristics(): NameValue<number>[] {
+        return this._rawMaterialCharacteristics;
     }
 
     /**
@@ -52,6 +57,9 @@ export class AppInitService {
                 ),
                 categories: this.http.get<{ success: boolean, data: Category[], message: string }>(
                     `${this.apiUrl}/categories`
+                ),
+                rawMaterialCharacteristics: this.http.get<{ success: boolean, data: any[], message: string }>(
+                    `${this.apiUrl}/raw-materials/types/1/characteristics`
                 )
             }).pipe(
                 tap(response => {
@@ -68,6 +76,11 @@ export class AppInitService {
 
                     this._categories = response.categories.data.map(item => ({
                         name: item.name,
+                        value: item.id
+                    }));
+
+                    this._rawMaterialCharacteristics = response.rawMaterialCharacteristics.data.map(item => ({
+                        name: item.description,
                         value: item.id
                     }));
                 }),

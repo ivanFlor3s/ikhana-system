@@ -1,0 +1,11 @@
+<app-table [data]="data()" [columns]="columns">
+    <!-- Custom renderer for 'actions' column -->
+    <ng-template modernTableCell="actions" let-row>
+        <div class="flex gap-2">
+            <button class="cursor-pointer text-neutral-500 hover:text-neutral-700 rounded transition-colors"
+                (click)="onDownloadLabel(row, $event)" title="Descargar etiqueta PDF">
+                <span class="material-icons-outlined">download</span>
+            </button>
+        </div>
+    </ng-template>
+</app-table>

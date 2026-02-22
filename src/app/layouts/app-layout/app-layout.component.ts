@@ -11,7 +11,9 @@ import {
   TrendingUp,
   Megaphone,
   Truck,
-  Tags
+  Tags,
+  Sprout,
+  Spool
 } from 'lucide-angular';
 
 @Component({
@@ -67,6 +69,14 @@ export class AppLayoutComponent {
       label: 'Rubros',
       icon: Tags,
       route: '/app/rubros'
+    },
+    {
+      label: 'Materias Primas',
+      icon: Sprout,
+      route: '/app/materias-primas',
+      children: [
+        { label: 'Cobre', icon: Spool, route: '/app/materias-primas/cobre' },
+      ]
     }
   ];
 }
