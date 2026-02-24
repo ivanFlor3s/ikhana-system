@@ -28,6 +28,11 @@ class RawMaterialCharacteristic extends Model
         return $this->hasOne(IramCopperMaxResistance::class);
     }
 
+    public function getDecimalValueAttribute($value)
+    {
+        return $value !== null ? number_format((float) $value, 2, '.', '') : null;
+    }
+
     /**
      * Get a descriptive value (e.g., "0.35 mm" or "Rojo")
      */
