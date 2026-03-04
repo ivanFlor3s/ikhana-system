@@ -16,7 +16,13 @@ use App\Http\Controllers\Api\RawMaterialEntryController;
 
 Route::post('login', [AuthController::class, 'login']);
 Route::post('logout', [AuthController::class, 'logout']);
-
+Route::get('welcome', function () {
+    return response()->json([
+        'status' => 'success',
+        'message' => '¡API conectada correctamente!',
+        'timestamp' => now()
+    ]);
+});
 Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('me', [AuthController::class, 'me']);
