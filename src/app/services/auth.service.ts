@@ -1,9 +1,10 @@
 import { HttpClient } from "@angular/common/http";
-import { Injectable, inject } from "@angular/core";
+import { Injectable, computed, inject, signal } from "@angular/core";
+import { AppUser } from "@core/models/app-user.model";
 import { environment } from "@environments/environment";
 import { LoginDto } from "@interfaces/dtos/login.dto";
 import { LoginResponseDto } from "@interfaces/dtos/response/login.response.dto";
-import { tap } from "rxjs";
+import { take, tap } from "rxjs";
 
 
 @Injectable({
@@ -12,13 +13,24 @@ import { tap } from "rxjs";
 export class AuthService {
 
     private http = inject(HttpClient);
-    private apiUrl = `${environment.apiUrl}/login`;
+    private apiUrl = `${environment.apiUrl}`;
+
+    private appUser = signal<AppUser | null>(null);
+
+    public name = computed(() => this.appUser() ? this.appUser()!.name : '');
+    public role = computed(() => this.appUser() ? this.appUser()!.role : '');
 
     login(credentials: LoginDto) {
-        return this.http.post<LoginResponseDto>(this.apiUrl, credentials).pipe(
+        return this.http.post<LoginResponseDto>(`${this.apiUrl}/login`, credentials).pipe(
             tap(response => {
                 if (response.success) {
                     localStorage.setItem('token', response.data.token);
+                    this.appUser.set({
+                        id: response.data.user.id,
+                        name: response.data.user.name,
+                        email: response.data.user.email,
+                        role: response.data.user.role.name,
+                    });
                 }
             })
         );
@@ -41,7 +53,17 @@ export class AuthService {
     /**
      * Logout user by removing token from localStorage
      */
-    logout(): void {
-        localStorage.removeItem('token');
+    logout() {
+        return this.http.post(`${this.apiUrl}/logout`, {}).pipe(take(1)).pipe(
+            tap({
+                error: () => {
+                    console.log('Logout failed');
+                },
+                complete: () => {
+                    localStorage.removeItem('token');
+                    this.appUser.set(null);
+                }
+            })
+        );
     }
 }

@@ -11,7 +11,7 @@
     </div>
 </div>
 }
-<app-button size="sm" variant="outlined" appearance="secondary" [isBlock]="true">
+<app-button size="sm" variant="outlined" (click)="logout()" appearance="secondary" [isBlock]="true">
     <lucide-angular [size]="14" [img]="LogOutIcon" matTooltip="Cerrar sesión"></lucide-angular>
     @if (!collapsed()) {
     <span class="text-xs">Cerrar sesión</span>
