@@ -1,0 +1,19 @@
+@if (!collapsed()) {
+<div class="flex items-center gap-4 p-2">
+    <div>
+        <div class="bg-sky-200 rounded-full p-2 h-10 w-10">
+            <lucide-angular [img]="UserIcon"></lucide-angular>
+        </div>
+    </div>
+    <div>
+        <div class="text-sm font-medium">{{ name() }}</div>
+        <div class="text-xs text-gray-500">{{ role() }}</div>
+    </div>
+</div>
+}
+<app-button size="sm" variant="outlined" (click)="logout()" appearance="secondary" [isBlock]="true">
+    <lucide-angular [size]="14" [img]="LogOutIcon" matTooltip="Cerrar sesión"></lucide-angular>
+    @if (!collapsed()) {
+    <span class="text-xs">Cerrar sesión</span>
+    }
+</app-button>

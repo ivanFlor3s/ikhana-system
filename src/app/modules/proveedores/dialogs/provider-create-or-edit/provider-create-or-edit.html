@@ -63,13 +63,13 @@
         </mat-form-field>
 
         <mat-form-field appearance="outline" class="col-span-3">
-            <mat-label>Categoría</mat-label>
+            <mat-label>Materia Prima</mat-label>
             <mat-select formControlName="categoryId">
                 @for (category of categories; track category.value) {
                 <mat-option [value]="category.value">{{ category.name }}</mat-option>
                 }
             </mat-select>
-            <mat-error>La categoría es requerida</mat-error>
+            <mat-error>La materia prima es requerida</mat-error>
         </mat-form-field>
 
         <mat-form-field appearance="outline" class="col-span-3">
