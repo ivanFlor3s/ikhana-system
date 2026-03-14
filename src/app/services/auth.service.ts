@@ -66,4 +66,10 @@ export class AuthService {
             })
         );
     }
+
+    /**
+     * Check if the current user has the Administracion role
+     */
+    isAdmin = computed(() => this.role() === 'Administracion');
+
 }
