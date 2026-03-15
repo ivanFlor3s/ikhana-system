@@ -18,8 +18,12 @@ class RoleSeeder extends Seeder
                 'description' => 'Administrador del sistema con acceso completo',
             ],
             [
-                'name' => 'Empleado',
-                'description' => 'Empleado con permisos de creación y edición',
+                'name' => 'Operador',
+                'description' => 'Usuario con permisos de creación y edición justos para cumplir sus tareas',
+            ],
+            [
+                'name' => 'Administracion',
+                'description' => 'Usuario con permisos de creación y edición, mas involucrado en operactiones de administracion',
             ],
             [
                 'name' => 'Consultor',
