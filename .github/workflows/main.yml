@@ -23,7 +23,8 @@ jobs:
 
       - name: Compilar Angular para producción
         run: npm run build --configuration=production
-
+      - name: Debug - Ver archivos compilados
+        run: ls -R dist/
       - name: Desplegar al VPS vía SCP
         uses: appleboy/scp-action@master
         with:
