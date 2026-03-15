@@ -31,7 +31,7 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          source: "dist/nombre-de-tu-app/browser/*" # Ajusta la ruta exacta de tu dist
+          source: "dist/kikhana-web/browser/*" # Ajusta la ruta exacta de tu dist
           target: "/var/www/kikhana/frontend/"
           strip_components: 3 # Esto quita las carpetas "dist/nombre/browser" y deja solo los archivos
 
