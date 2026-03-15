@@ -1,11 +1,12 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable, computed, inject, signal } from "@angular/core";
-import { AppUser } from "@core/models/app-user.model";
+import { AppRole, AppUser } from "@core/models/app-user.model";
 import { environment } from "@environments/environment";
 import { LoginDto } from "@interfaces/dtos/login.dto";
 import { LoginResponseDto } from "@interfaces/dtos/response/login.response.dto";
 import { take, tap } from "rxjs";
 
+const APP_USER_KEY = 'app-user';
 
 @Injectable({
     providedIn: 'root'
@@ -17,8 +18,8 @@ export class AuthService {
 
     private appUser = signal<AppUser | null>(null);
 
-    public name = computed(() => this.appUser() ? this.appUser()!.name : '');
-    public role = computed(() => this.appUser() ? this.appUser()!.role : '');
+    public name = computed(() => this.appUser() ? this.appUser()?.name : JSON.parse(localStorage.getItem(APP_USER_KEY) || '{}').name);
+    public role = computed(() => this.appUser() ? this.appUser()?.role : JSON.parse(localStorage.getItem(APP_USER_KEY) || '{}').role);
 
     login(credentials: LoginDto) {
         return this.http.post<LoginResponseDto>(`${this.apiUrl}/login`, credentials).pipe(
@@ -29,8 +30,9 @@ export class AuthService {
                         id: response.data.user.id,
                         name: response.data.user.name,
                         email: response.data.user.email,
-                        role: response.data.user.role.name,
+                        role: response.data.user.role.name as AppRole,
                     });
+                    localStorage.setItem(APP_USER_KEY, JSON.stringify(this.appUser()));
                 }
             })
         );
