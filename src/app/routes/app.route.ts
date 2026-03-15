@@ -1,9 +1,4 @@
 import { Routes } from '@angular/router';
-import { ProveedoresPageComponent } from '../pages/proveedores-page/proveedores-page.component';
-import { RubrosPageComponent } from 'app/pages/rubros-page/rubros-page.component';
-import { MateriasPrimasPageComponent } from 'app/pages/materias-primas-page/materias-primas-page.component';
-import { MateriasPrimasCobrePageComponent } from 'app/pages/materias-primas-cobre-page/materias-primas-cobre-page.component';
-import { MpCobreIngresoPageComponent } from 'app/pages/materias-primas-cobre-page/mp-cobre-ingreso-page/mp-cobre-ingreso-page.component';
 import { authGuard } from '@guards/auth.guard';
 
 export const appRoutes: Routes = [
@@ -17,25 +12,33 @@ export const appRoutes: Routes = [
         children: [
             {
                 path: 'proveedores',
-                component: ProveedoresPageComponent,
-
-
+                loadComponent: () =>
+                    import('../pages/proveedores-page/proveedores-page.component')
+                        .then(m => m.ProveedoresPageComponent),
             },
             {
                 path: 'rubros',
-                component: RubrosPageComponent,
+                loadComponent: () =>
+                    import('app/pages/rubros-page/rubros-page.component')
+                        .then(m => m.RubrosPageComponent),
             },
             {
                 path: 'materias-primas',
-                component: MateriasPrimasPageComponent,
+                loadComponent: () =>
+                    import('app/pages/materias-primas-page/materias-primas-page.component')
+                        .then(m => m.MateriasPrimasPageComponent),
                 children: [
                     {
                         path: 'cobre',
-                        component: MateriasPrimasCobrePageComponent
+                        loadComponent: () =>
+                            import('app/pages/materias-primas-cobre-page/materias-primas-cobre-page.component')
+                                .then(m => m.MateriasPrimasCobrePageComponent),
                     },
                     {
                         path: 'cobre/ingreso',
-                        component: MpCobreIngresoPageComponent
+                        loadComponent: () =>
+                            import('app/pages/materias-primas-cobre-page/mp-cobre-ingreso-page/mp-cobre-ingreso-page.component')
+                                .then(m => m.MpCobreIngresoPageComponent),
                     }
                 ]
             }

@@ -23,6 +23,7 @@ import { AppInitService } from '@services/app-init.service';
 import { ProviderService } from '@services/provider.service';
 import { BrokerService } from '@services/broker.service';
 import { NotificationService } from '@services/notification.service';
+import { AuthService } from '@services/auth.service';
 import { mapProviderFormToDto } from '@interfaces/mappers/provider-form.mapper';
 import { ProviderFormData } from '@interfaces/form-data-models/provider-form-data.model';
 import { Provider, Broker } from '@models/provider.model';
@@ -69,12 +70,14 @@ export class ProviderCreateOrEdit implements OnInit {
   providerService = inject(ProviderService);
   brokerService = inject(BrokerService);
   notificationService = inject(NotificationService);
+  authService = inject(AuthService);
 
   isSubmitting = signal(false);
   isCreatingBroker = signal(false);
   isLoading = signal(false);
   errorMessage = signal<string | null>(null);
   isEditMode = computed(() => !!this.data?.providerId);
+  isAdmin = signal(this.authService.isAdmin());
   isBrokerFormExpanded = signal(false);
   existingBrokerId = signal<number | null>(null);
   brokerToDelete = signal(false);
@@ -134,6 +137,17 @@ export class ProviderCreateOrEdit implements OnInit {
   }
 
   ngOnInit(): void {
+    // Remove validators from admin-only fields for non-admin users
+    if (!this.isAdmin()) {
+      this.form.get('cuit')?.clearValidators();
+      this.form.get('cuit')?.clearAsyncValidators();
+      this.form.get('cuit')?.updateValueAndValidity();
+      this.form.get('ivaPositionId')?.clearValidators();
+      this.form.get('ivaPositionId')?.updateValueAndValidity();
+      this.form.get('convenioId')?.clearValidators();
+      this.form.get('convenioId')?.updateValueAndValidity();
+    }
+
     if (this.isEditMode() && this.data?.providerId) {
       this.isLoading.set(true);
       this.providerService.getProviderById(this.data.providerId).subscribe({
