@@ -110,9 +110,9 @@ class ProviderController extends Controller
      * 
      * Crea y almacena un nuevo proveedor en la base de datos.
      * 
-     * @bodyParam business_name string required Razón social del proveedor. Example: Proveedor Demo S.A.
+     * @bodyParam business_name string optional Razón social del proveedor. Example: Proveedor Demo S.A.
      * @bodyParam fantasy_name string optional Nombre de fantasía. Example: Proveedor Demo
-     * @bodyParam cuit string required CUIT único (número de identificación tributaria). Example: 20-12345678-9
+     * @bodyParam cuit string optional CUIT único (número de identificación tributaria). Example: 20-12345678-9
      * @bodyParam iibb string optional Ingresos Brutos. Example: 901-123456-7
      * @bodyParam tax_status_id integer optional ID de la posición frente al IVA (usar GET /api/tax-statuses para obtener opciones). Example: 1
      * @bodyParam agreement_id integer optional ID del convenio (usar GET /api/agreements para obtener opciones). Example: 1
@@ -155,9 +155,9 @@ class ProviderController extends Controller
     {
         try {
             $validated = $request->validate([
-                'business_name' => 'required|string|max:255',
+                'business_name' => 'nullable|string|max:255',
                 'fantasy_name' => 'nullable|string|max:255',
-                'cuit' => 'required|string|max:20|unique:providers,cuit',
+                'cuit' => 'nullable|string|max:20|unique:providers,cuit',
                 'iibb' => 'nullable|string|max:50',
                 'tax_status_id' => 'nullable|exists:tax_statuses,id',
                 'agreement_id' => 'nullable|exists:agreements,id',

@@ -14,45 +14,21 @@ class CategorySeeder extends Seeder
     {
         $categories = [
             [
-                'name' => 'Construcción',
-                'description' => 'Materiales y servicios de construcción, arquitectura y obra',
+                'name' => 'Cobre',
+                'description' => 'Filamento de cobre',
             ],
             [
-                'name' => 'Tecnología',
-                'description' => 'Equipos informáticos, software y servicios tecnológicos',
+                'name' => 'Cuerda',
+                'description' => 'Filamentos de cobre ya tejidos',
             ],
             [
-                'name' => 'Alimentación',
-                'description' => 'Productos alimenticios, bebidas y servicios de catering',
+                'name' => 'PVC',
+                'description' => 'Policlorulo de vinilo',
             ],
             [
-                'name' => 'Textil e Indumentaria',
-                'description' => 'Ropa, calzado, telas y accesorios',
-            ],
-            [
-                'name' => 'Transporte y Logística',
-                'description' => 'Servicios de transporte, envíos y logística',
-            ],
-            [
-                'name' => 'Servicios Profesionales',
-                'description' => 'Servicios de consultoría, contabilidad, legales y otros profesionales',
-            ],
-            [
-                'name' => 'Limpieza y Mantenimiento',
-                'description' => 'Productos y servicios de limpieza y mantenimiento',
-            ],
-            [
-                'name' => 'Papelería y Librería',
-                'description' => 'Artículos de oficina, papelería y librería',
-            ],
-            [
-                'name' => 'Muebles y Decoración',
-                'description' => 'Muebles, artículos de decoración y equipamiento',
-            ],
-            [
-                'name' => 'Salud y Medicina',
-                'description' => 'Productos médicos, farmacéuticos y servicios de salud',
-            ],
+                'name' => 'Insumos',
+                'description' => 'Insumos varios',
+            ]
         ];
 
         foreach ($categories as $category) {
@@ -60,4 +36,3 @@ class CategorySeeder extends Seeder
         }
     }
 }
-
