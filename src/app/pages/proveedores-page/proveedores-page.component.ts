@@ -114,25 +114,11 @@ export class ProveedoresPageComponent implements OnInit {
             width: '800px',
         });
 
-        dialogRef.afterClosed().subscribe((result: ProviderFormData) => {
+        dialogRef.afterClosed().subscribe((result) => {
             if (result) {
-                console.log('Form data received:', result);
-
-                // Map form data to API DTO
-                const createDto = mapProviderFormToDto(result);
-                console.log('Mapped DTO:', createDto);
-
-                // Call the service to create the provider
-                this.providerService.createProvider(createDto).subscribe({
-                    next: (response) => {
-                        console.log('Provider created successfully:', response);
-                        // Reload providers list
-                        this.loadProviders();
-                    },
-                    error: (error) => {
-                        console.error('Error creating provider:', error);
-                    }
-                });
+                console.log('Provider dialog closed after success:', result);
+                // Reload providers list since the modal handled the API call
+                this.loadProviders();
             } else {
                 console.log('Dialog was closed without submitting');
             }
