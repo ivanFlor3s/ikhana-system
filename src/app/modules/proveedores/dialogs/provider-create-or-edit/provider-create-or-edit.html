@@ -48,7 +48,7 @@
         <mat-form-field appearance="outline" class="col-span-3">
             <mat-label>Posición frente al IVA</mat-label>
             <mat-select formControlName="ivaPositionId">
-                @for (taxStatus of taxStatuses; track taxStatus.value) {
+                @for (taxStatus of taxStatuses(); track taxStatus.value) {
                 <mat-option [value]="taxStatus.value">{{ taxStatus.name }}</mat-option>
                 }
             </mat-select>
@@ -58,7 +58,7 @@
         <mat-form-field appearance="outline" class="col-span-3">
             <mat-label>Convenio</mat-label>
             <mat-select formControlName="convenioId">
-                @for (agreement of agreements; track agreement.value) {
+                @for (agreement of agreements(); track agreement.value) {
                 <mat-option [value]="agreement.value">{{ agreement.name }}</mat-option>
                 }
             </mat-select>
@@ -69,7 +69,7 @@
         <mat-form-field appearance="outline" class="col-span-3">
             <mat-label>Materia Prima</mat-label>
             <mat-select formControlName="categoryId">
-                @for (category of categories; track category.value) {
+                @for (category of categories(); track category.value) {
                 <mat-option [value]="category.value">{{ category.name }}</mat-option>
                 }
             </mat-select>

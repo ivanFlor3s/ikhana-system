@@ -7,7 +7,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatNativeDateModule } from '@angular/material/core';
 import { CustomSelectComponent } from '@shared/components/custom-select/custom-select';
-import { NameValue } from '@models/name-value.model';
 import { Subject, debounceTime } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { AppInitService } from '@services/app-init.service';
@@ -43,7 +42,7 @@ export class MpCobreFilterComponent implements OnInit, OnDestroy {
 
   @Output() filterChange = new EventEmitter<RawMaterialFilterOptions>();
 
-  characteristics: NameValue<number>[] = [];
+  characteristics = this._appInitService.rawMaterialCharacteristics;
 
   forma = this._fb.group({
     search: [""],
@@ -55,9 +54,6 @@ export class MpCobreFilterComponent implements OnInit, OnDestroy {
   });
 
   ngOnInit(): void {
-    // Get characteristics from app-init service
-    this.characteristics = this._appInitService.rawMaterialCharacteristics;
-
     // Listen to form changes with debounce
     this.forma.valueChanges.pipe(debounceTime(400)).subscribe((v) => {
       this.emitFilterChange(v);

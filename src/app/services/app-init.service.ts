@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { forkJoin, take, tap } from 'rxjs';
 import { environment } from '../../environments/environment';
@@ -17,25 +17,111 @@ export class AppInitService {
 
     private apiUrl = environment.apiUrl;
 
-    private _taxStatuses: NameValue<number>[] = [];
-    private _agreements: NameValue<number>[] = [];
-    private _categories: NameValue<number>[] = [];
-    private _rawMaterialCharacteristics: NameValue<number>[] = [];
+    private _taxStatuses = signal<NameValue<number>[]>([]);
+    private _agreements = signal<NameValue<number>[]>([]);
+    private _categories = signal<NameValue<number>[]>([]);
+    private _rawMaterialCharacteristics = signal<NameValue<number>[]>([]);
 
-    get taxStatuses(): NameValue<number>[] {
-        return this._taxStatuses;
+    private _taxStatusesReadonly = this._taxStatuses.asReadonly();
+    private _agreementsReadonly = this._agreements.asReadonly();
+    private _categoriesReadonly = this._categories.asReadonly();
+    private _rawMaterialCharacteristicsReadonly = this._rawMaterialCharacteristics.asReadonly();
+
+    private _loadingTaxStatuses = false;
+    private _loadingAgreements = false;
+    private _loadingCategories = false;
+    private _loadingRawMaterialChars = false;
+
+    get taxStatuses() {
+        if (this._taxStatuses().length === 0 && this.authService.isAuthenticated() && !this._loadingTaxStatuses) {
+            this.fetchTaxStatuses();
+        }
+        return this._taxStatusesReadonly;
     }
 
-    get agreements(): NameValue<number>[] {
-        return this._agreements;
+    get agreements() {
+        if (this._agreements().length === 0 && this.authService.isAuthenticated() && !this._loadingAgreements) {
+            this.fetchAgreements();
+        }
+        return this._agreementsReadonly;
     }
 
-    get categories(): NameValue<number>[] {
-        return this._categories;
+    get categories() {
+        if (this._categories().length === 0 && this.authService.isAuthenticated() && !this._loadingCategories) {
+            this.fetchCategories();
+        }
+        return this._categoriesReadonly;
     }
 
-    get rawMaterialCharacteristics(): NameValue<number>[] {
-        return this._rawMaterialCharacteristics;
+    get rawMaterialCharacteristics() {
+        if (this._rawMaterialCharacteristics().length === 0 && this.authService.isAuthenticated() && !this._loadingRawMaterialChars) {
+            this.fetchRawMaterialCharacteristics();
+        }
+        return this._rawMaterialCharacteristicsReadonly;
+    }
+
+    private fetchTaxStatuses() {
+        this._loadingTaxStatuses = true;
+        this.http.get<{ success: boolean, data: TaxStatus[], message: string }>(`${this.apiUrl}/tax-statuses?is_active=1`)
+            .pipe(take(1))
+            .subscribe({
+                next: (response) => {
+                    this._taxStatuses.set(response.data.map(item => ({ name: item.name, value: item.id })));
+                    this._loadingTaxStatuses = false;
+                },
+                error: (error) => {
+                    console.error('Error fetching tax statuses:', error);
+                    this._loadingTaxStatuses = false;
+                }
+            });
+    }
+
+    private fetchAgreements() {
+        this._loadingAgreements = true;
+        this.http.get<{ success: boolean, data: Agreement[], message: string }>(`${this.apiUrl}/agreements?is_active=1`)
+            .pipe(take(1))
+            .subscribe({
+                next: (response) => {
+                    this._agreements.set(response.data.map(item => ({ name: item.name, value: item.id })));
+                    this._loadingAgreements = false;
+                },
+                error: (error) => {
+                    console.error('Error fetching agreements:', error);
+                    this._loadingAgreements = false;
+                }
+            });
+    }
+
+    private fetchCategories() {
+        this._loadingCategories = true;
+        this.http.get<{ success: boolean, data: Category[], message: string }>(`${this.apiUrl}/categories`)
+            .pipe(take(1))
+            .subscribe({
+                next: (response) => {
+                    this._categories.set(response.data.map(item => ({ name: item.name, value: item.id })));
+                    this._loadingCategories = false;
+                },
+                error: (error) => {
+                    console.error('Error fetching categories:', error);
+                    this._loadingCategories = false;
+                }
+            });
+    }
+
+    private fetchRawMaterialCharacteristics() {
+        this._loadingRawMaterialChars = true;
+        this.http.get<{ success: boolean, data: any[], message: string }>(`${this.apiUrl}/raw-materials/types/1/characteristics`)
+            .pipe(take(1))
+            .subscribe({
+                next: (response) => {
+                    this._rawMaterialCharacteristics.set(response.data.map(item => ({ name: item.description, value: item.id })));
+                    this._loadingRawMaterialChars = false;
+                },
+                error: (error) => {
+                    console.error('Error fetching raw material characteristics:', error);
+                    this._loadingRawMaterialChars = false;
+                }
+            });
     }
 
     /**
@@ -63,26 +149,26 @@ export class AppInitService {
                 )
             }).pipe(
                 tap(response => {
-                    // Map API responses to NameValue format
-                    this._taxStatuses = response.taxStatuses.data.map(item => ({
+                    // Map API responses to NameValue format and update signals
+                    this._taxStatuses.set(response.taxStatuses.data.map(item => ({
                         name: item.name,
                         value: item.id
-                    }));
+                    })));
 
-                    this._agreements = response.agreements.data.map(item => ({
+                    this._agreements.set(response.agreements.data.map(item => ({
                         name: item.name,
                         value: item.id
-                    }));
+                    })));
 
-                    this._categories = response.categories.data.map(item => ({
+                    this._categories.set(response.categories.data.map(item => ({
                         name: item.name,
                         value: item.id
-                    }));
+                    })));
 
-                    this._rawMaterialCharacteristics = response.rawMaterialCharacteristics.data.map(item => ({
+                    this._rawMaterialCharacteristics.set(response.rawMaterialCharacteristics.data.map(item => ({
                         name: item.description,
                         value: item.id
-                    }));
+                    })));
                 }),
                 take(1)
             ).subscribe({

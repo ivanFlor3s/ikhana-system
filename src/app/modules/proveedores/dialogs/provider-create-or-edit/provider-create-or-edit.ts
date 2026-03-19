@@ -123,7 +123,7 @@ export class ProviderCreateOrEdit implements OnInit {
     brokerPhone: [''],
   });
 
-  // Getters for reference data
+  // Signal-based getters for reference data
   get taxStatuses() {
     return this.appInitService.taxStatuses;
   }

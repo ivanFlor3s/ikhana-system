@@ -3,8 +3,6 @@ import { Provider } from '../../models/provider.model';
 import { MatDialog } from '@angular/material/dialog';
 import { ProviderCreateOrEdit } from '../../modules/proveedores/dialogs/provider-create-or-edit/provider-create-or-edit';
 import { ProviderService } from '../../services/provider.service';
-import { ProviderFormData } from '../../interfaces/form-data-models/provider-form-data.model';
-import { mapProviderFormToDto } from '../../interfaces/mappers/provider-form.mapper';
 import { ProveedoresListComponent } from '../../modules/proveedores/components/proveedores-list/proveedores-list.component';
 import { ProveedoresHeader } from '../../modules/proveedores/components/proveedores-header/proveedores-header';
 import { ProveedoresFilterComponent } from '../../modules/proveedores/components/proveedores-filter/proveedores-filter.component';
@@ -13,6 +11,7 @@ import { NameValue } from '@models/name-value.model';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { ProviderFilters } from '../../interfaces/pagination.interface';
+import { AppInitService } from '@services/app-init.service';
 
 @Component({
     selector: 'app-proveedores-page',
@@ -31,6 +30,8 @@ export class ProveedoresPageComponent implements OnInit {
     readonly providerService = inject(ProviderService);
     readonly rubroService = inject(RubroService);
 
+    private appInitService = inject(AppInitService);
+
     // State signals
     providers = signal<Provider[]>([]);
     rubros = signal<NameValue[]>([]);
@@ -47,21 +48,14 @@ export class ProveedoresPageComponent implements OnInit {
         per_page: 15
     });
 
+    get categories() {
+        return this.appInitService.categories;
+    }
+
     ngOnInit(): void {
-        this.loadRubros();
         this.loadProviders();
     }
 
-    loadRubros(): void {
-        this.rubroService.getAllRubros().subscribe({
-            next: (rubros) => {
-                this.rubros.set(rubros);
-            },
-            error: (error) => {
-                console.error('Error loading rubros:', error);
-            }
-        });
-    }
 
     loadProviders(): void {
         this.isLoading.set(true);
