@@ -11,7 +11,7 @@
         </app-input>
 
         <!-- Characteristic Filter -->
-        <app-custom-select class="col-span-1 md:col-span-1" [options]="characteristics" size="sm" [multiple]="false"
+        <app-custom-select class="col-span-1 md:col-span-1" [options]="characteristics()" size="sm" [multiple]="false"
             placeholder="Filtrar por diámetro" formControlName="characteristic_id" />
 
         <!-- Date Range Picker -->
