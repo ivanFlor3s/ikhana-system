@@ -1,7 +1,7 @@
 <app-proveedores-header class="mb-10" (createClicked)="openProviderDialog()"></app-proveedores-header>
 
 <div class="flex flex-col gap-4 p-4">
-    <app-proveedores-filter [rubros]="rubros()" (filterChange)="onFilterChange($event)">
+    <app-proveedores-filter [rubros]="categories()" (filterChange)="onFilterChange($event)">
     </app-proveedores-filter>
 
     @if (isLoading()) {

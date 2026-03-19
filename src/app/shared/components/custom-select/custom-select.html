@@ -23,6 +23,7 @@
     <div
         class="dropdown-panel absolute z-50 w-full mt-2 bg-white border border-neutral-200 rounded-lg shadow-lg overflow-hidden">
         <!-- Search Input -->
+        @if (searchEnabled) {
         <div class="search-container p-3 border-b border-neutral-200">
             <div class="flex items-center gap-2 px-3 py-2 bg-neutral-50 rounded-md">
                 <mat-icon class="text-neutral-400 text-sm">search</mat-icon>
@@ -31,7 +32,7 @@
                     (click)="$event.stopPropagation()" />
             </div>
         </div>
-
+        }
         <!-- Options List -->
         <div class="options-list max-h-60 overflow-y-auto">
             @if (filteredOptions.length === 0) {

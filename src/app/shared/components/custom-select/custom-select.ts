@@ -27,6 +27,7 @@ export class CustomSelectComponent implements ControlValueAccessor {
     @Input() multiple = false;
     @Input() placeholder = 'Seleccionar...';
     @Input() size: Size = 'md';
+    @Input() searchEnabled = false;
 
     isOpen = false;
     searchTerm = '';
