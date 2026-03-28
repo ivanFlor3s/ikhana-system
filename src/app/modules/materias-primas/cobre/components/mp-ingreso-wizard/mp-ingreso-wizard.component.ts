@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, effect, inject, signal } from '@angular/core';
 import { FormBuilder, Validators, FormsModule, ReactiveFormsModule, AsyncValidatorFn } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -24,6 +24,7 @@ import { resistanceValidator } from '@core/validators/resistance.validator';
 import { CreateEntryRequest } from '@interfaces/dtos/create-entry.dto';
 import { NotificationService } from '@services/notification.service';
 import { Router } from '@angular/router';
+import { AppInitService } from '@services/app-init.service';
 
 @Component({
   selector: 'app-mp-ingreso-wizard',
@@ -59,6 +60,7 @@ export class MpIngresoWizardComponent {
   private _notificationService = inject(NotificationService);
   private _router = inject(Router);
 
+  private appInitService = inject(AppInitService)
 
   // Linear stepper - must complete each step
   isLinear = true;
@@ -111,7 +113,11 @@ export class MpIngresoWizardComponent {
 
 
   constructor() {
-    this.loadProviders();
+    effect(() => {
+      if (this.appInitService.categories().length > 0) {
+        this.loadProviders(this.appInitService.categories());
+      }
+    })
     this.loadCharacteristics();
     this.setupDiameterChangeListener();
     this.setupReturnBobinasListener();
@@ -226,9 +232,14 @@ export class MpIngresoWizardComponent {
     } as Partial<IngresoCobre>;
   }
 
-  loadProviders(): void {
+
+
+  loadProviders(categories: NameValue<number>[]): void {
+
+    const categoryId = categories.find(c => c.name === 'Cobre')?.value;
+
     this.loadingProviders.set(true);
-    this._providerService.getProviders()
+    this._providerService.getProviders({ category_id: categoryId })
       .pipe(
         map((providers) => providers.data.data
           .map((provider) => ({ name: provider.fantasy_name, value: provider.id }))
