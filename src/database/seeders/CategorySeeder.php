@@ -26,8 +26,8 @@ class CategorySeeder extends Seeder
                 'description' => 'Policlorulo de vinilo',
             ],
             [
-                'name' => 'Insumos',
-                'description' => 'Insumos varios',
+                'name' => 'Master',
+                'description' => 'Master',
             ]
         ];
 
