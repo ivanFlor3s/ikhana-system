@@ -80,6 +80,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/types', [RawMaterialController::class, 'indexTypes']);
         Route::get('/types/{type_id}/characteristics', [RawMaterialController::class, 'indexCharacteristics']);
         Route::post('/validate-resistance', [RawMaterialController::class, 'validateResistance']);
+        Route::get('/diameters-with-iram-ohm-resistance', [RawMaterialController::class, 'getAllDiameterAndIramOhmResistance']);
     });
 
     // Entradas de Materia Prima
