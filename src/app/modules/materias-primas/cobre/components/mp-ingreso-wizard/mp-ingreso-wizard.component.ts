@@ -25,6 +25,7 @@ import { CreateEntryRequest } from '@interfaces/dtos/create-entry.dto';
 import { NotificationService } from '@services/notification.service';
 import { Router } from '@angular/router';
 import { AppInitService } from '@services/app-init.service';
+import { DiameterIramOhmMaxValue } from '@models/diameters-iram-max-values';
 
 @Component({
   selector: 'app-mp-ingreso-wizard',
@@ -67,6 +68,9 @@ export class MpIngresoWizardComponent {
 
   providers = signal<NameValue[]>([]);
   loadingProviders = signal(false);
+
+  diametersWithResistance = signal<DiameterIramOhmMaxValue[]>([]);
+  loadingDiametersWithResistance = signal(false);
 
   characteristics = signal<RawMaterialCharacteristic[]>([]);
   loadingCharacteristics = signal(false);
@@ -121,6 +125,7 @@ export class MpIngresoWizardComponent {
     this.loadCharacteristics();
     this.setupDiameterChangeListener();
     this.setupReturnBobinasListener();
+    this.loadDiametersWithMaxResistance();
   }
 
   /**
@@ -232,7 +237,20 @@ export class MpIngresoWizardComponent {
     } as Partial<IngresoCobre>;
   }
 
-
+  loadDiametersWithMaxResistance(): void {
+    this._rawMaterialService.getCobreDiametersWithIramMaxResistance()
+      .pipe(take(1))
+      .subscribe({
+        next: (diametersWithResistance) => {
+          this.diametersWithResistance.set(diametersWithResistance);
+          this.loadingDiametersWithResistance.set(false);
+        },
+        error: (error) => {
+          console.error('Error loading diameters with resistance:', error);
+          this.loadingDiametersWithResistance.set(false);
+        }
+      });
+  }
 
   loadProviders(categories: NameValue<number>[]): void {
 

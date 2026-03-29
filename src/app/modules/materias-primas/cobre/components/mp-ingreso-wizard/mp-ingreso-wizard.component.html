@@ -72,65 +72,94 @@
         <form class="p-4" [formGroup]="measurementsFormGroup">
             <ng-template matStepLabel>Mediciones</ng-template>
 
-            <div class="form-grid">
-                @if (loadingCharacteristics()) {
-                <mat-spinner diameter="40"></mat-spinner>
-                <p>Cargando diámetros disponibles...</p>
-                }
-                @else {
-                <mat-form-field appearance="outline">
-                    <mat-label>Diámetro (mm)</mat-label>
-                    <mat-select formControlName="diametroMedidoMm" required>
-                        <mat-option *ngFor="let characteristic of characteristics()" [value]="characteristic.id">
-                            {{ characteristic.decimal_value }} {{ characteristic.unit }}
-                        </mat-option>
-                    </mat-select>
-                    <mat-error>El diámetro medido es requerido</mat-error>
-                </mat-form-field>
-                }
+            <div class="flex flex-col md:flex-row gap-3 w-full">
+                <div class="form-grid flex-1">
 
-                <mat-form-field appearance="outline">
-                    <mat-label>Resistencia (Ω/km)</mat-label>
-                    <input matInput type="number" step="0.1" formControlName="resistenciaOhmsKm" placeholder="Ej: 135.2"
-                        required>
-                    @if (measurementsFormGroup.get('resistenciaOhmsKm')?.pending) {
-                    <mat-spinner matSuffix diameter="20"></mat-spinner>
+                    @if (loadingCharacteristics()) {
+                    <mat-spinner diameter="40"></mat-spinner>
+                    <p>Cargando diámetros disponibles...</p>
                     }
-                    @if (measurementsFormGroup.get('resistenciaOhmsKm')?.hasError('required')) {
-                    <mat-error>La resistencia es requerida</mat-error>
+                    @else {
+                    <mat-form-field appearance="outline">
+                        <mat-label>Diámetro (mm)</mat-label>
+                        <mat-select formControlName="diametroMedidoMm" required>
+                            <mat-option *ngFor="let characteristic of characteristics()" [value]="characteristic.id">
+                                {{ characteristic.decimal_value }} {{ characteristic.unit }}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error>El diámetro medido es requerido</mat-error>
+                    </mat-form-field>
                     }
-                    @if (measurementsFormGroup.get('resistenciaOhmsKm')?.hasError('resistanceExceedsLimit')) {
-                    <mat-error>
-                        Excede el máximo permitido: {{
-                        measurementsFormGroup.get('resistenciaOhmsKm')?.errors?.['resistanceExceedsLimit']?.maxAllowed
-                        }}
-                    </mat-error>
-                    }
-                    @if (measurementsFormGroup.get('resistenciaOhmsKm')?.hasError('resistanceValidationError')) {
-                    <mat-error>
-                        {{
-                        measurementsFormGroup.get('resistenciaOhmsKm')?.errors?.['resistanceValidationError']?.message
-                        }}
-                    </mat-error>
-                    }
-                </mat-form-field>
 
-                <mat-form-field appearance="outline">
-                    <mat-label>Estiramiento (%)</mat-label>
-                    <input matInput type="number" step="0.1" formControlName="estiramientoPercent" placeholder="Ej: 21"
-                        required>
-                    <mat-error>El estiramiento es requerido (0-100%)</mat-error>
-                </mat-form-field>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Resistencia (Ω/km)</mat-label>
+                        <input matInput type="number" step="0.1" formControlName="resistenciaOhmsKm"
+                            placeholder="Ej: 135.2" required>
+                        @if (measurementsFormGroup.get('resistenciaOhmsKm')?.pending) {
+                        <mat-spinner matSuffix diameter="20"></mat-spinner>
+                        }
+                        @if (measurementsFormGroup.get('resistenciaOhmsKm')?.hasError('required')) {
+                        <mat-error>La resistencia es requerida</mat-error>
+                        }
+                        @if (measurementsFormGroup.get('resistenciaOhmsKm')?.hasError('resistanceExceedsLimit')) {
+                        <mat-error>
+                            Excede el máximo permitido: {{
+                            measurementsFormGroup.get('resistenciaOhmsKm')?.errors?.['resistanceExceedsLimit']?.maxAllowed
+                            }}
+                        </mat-error>
+                        }
+                        @if (measurementsFormGroup.get('resistenciaOhmsKm')?.hasError('resistanceValidationError')) {
+                        <mat-error>
+                            {{
+                            measurementsFormGroup.get('resistenciaOhmsKm')?.errors?.['resistanceValidationError']?.message
+                            }}
+                        </mat-error>
+                        }
+                    </mat-form-field>
 
-                <mat-form-field appearance="outline" class="full-width">
-                    <mat-label>Observación</mat-label>
-                    <input matInput formControlName="observacion"
-                        placeholder="Ingrese una justificación para el valor fuera de rango">
-                    <mat-error *ngIf="measurementsFormGroup.get('observacion')?.hasError('required')">La observación es
-                        requerida</mat-error>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Estiramiento (%)</mat-label>
+                        <input matInput type="number" step="0.1" formControlName="estiramientoPercent"
+                            placeholder="Ej: 21" required>
+                        <mat-error>El estiramiento es requerido (0-100%)</mat-error>
+                    </mat-form-field>
 
-                </mat-form-field>
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Observación</mat-label>
+                        <input matInput formControlName="observacion"
+                            placeholder="Ingrese una justificación para el valor fuera de rango">
+                        <mat-error *ngIf="measurementsFormGroup.get('observacion')?.hasError('required')">La observación
+                            es
+                            requerida</mat-error>
+
+                    </mat-form-field>
+                </div>
+
+                <div class="full-width text-neutral-500 text-xs">
+                    @if (loadingDiametersWithResistance()) {
+                    <mat-spinner diameter="40"></mat-spinner>
+                    } @else {
+                    <table class="table-fixed ">
+                        <thead>
+                            <tr class="text-left">
+                                <th class="px-2">Diámetro <br> mm</th>
+                                <th class="px-2">Resistencia Máxima <br> Ω/km</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (diameter of diametersWithResistance(); track diameter.diameter) {
+                            <tr>
+                                <td class="px-2">{{ diameter.diameter }}</td>
+                                <td class="px-2">{{ diameter.iramOhmMaxValue }}</td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+
+                    }
+                </div>
             </div>
+
 
 
             <div class="step-actions">

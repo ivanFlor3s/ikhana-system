@@ -1,10 +1,12 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { CreateEntryRequest } from '@interfaces/dtos/create-entry.dto';
 import { CreateEntryResponse } from '@interfaces/dtos/response/create-entry.response.dto';
 import { RawMaterialEntriesResponse } from '@interfaces/dtos/response/raw-material-entries.response';
+import { DiametersWithResistanceResponse } from '@interfaces/dtos/response/diameters_with_resistance.response';
+import { DiameterIramOhmMaxValue } from '@models/diameters-iram-max-values';
 
 export interface ValidateResistanceRequest {
     raw_material_characteristic_id: number;
@@ -134,6 +136,16 @@ export class RawMaterialService {
         return this.http.get(
             `${this.apiEntriesUrl}/${entryId}/label`,
             { responseType: 'blob' }
+        );
+    }
+
+    getCobreDiametersWithIramMaxResistance(): Observable<DiameterIramOhmMaxValue[]> {
+        return this.http.get<DiametersWithResistanceResponse>(
+            `${this.apiUrl}/diameters-with-iram-ohm-resistance`
+        ).pipe(map(res => res.data.map(d => ({
+            diameter: d.decimal_value,
+            iramOhmMaxValue: d.iram_copper_ohm_max_resistance
+        })))
         );
     }
 }
