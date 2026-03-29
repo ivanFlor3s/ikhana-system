@@ -152,4 +152,39 @@ class RawMaterialController extends Controller
             'message' => $isValid ? 'Valor dentro de la norma' : 'Valor excede el máximo permitido por norma IRAM'
         ]);
     }
+
+    /**
+     * Obtiene todos los diámetros con su resistencia IRAM
+     * 
+     * @response 200 {
+     *   "success": true,
+     *   "data": [
+     *     {
+     *       "name": "Diámetro",
+     *       "description": "0.30 mm",
+     *       "decimal_value": "0,30",
+     *       "iram_copper_ohm_max_resistance": "184,60"
+     *     }
+     *   ],
+     *   "message": "Diámetros y resistencia IRAM obtenidos exitosamente"
+     * }
+     */
+    public function getAllDiameterAndIramOhmResistance(): JsonResponse
+    {
+        $diameters = \App\Models\RawMaterialCharacteristic::where('name', 'Diámetro')->get();
+
+        $diametersWithOhmResistance = $diameters->map(fn($diameter) => [
+            'name' => $diameter->name,
+            'description' => $diameter->description,
+            'decimal_value' => number_format($diameter->decimal_value, 2, ',', '.'),
+            'iram_copper_ohm_max_resistance' => number_format($diameter->iramCopperMaxResistance->max_resistance_ohm_km, 2, ',', '.'),
+        ]);
+
+
+        return response()->json([
+            'success' => true,
+            'data' => $diametersWithOhmResistance,
+            'message' => 'Diámetros y resistencia IRAM obtenidos exitosamente'
+        ]);
+    }
 }
