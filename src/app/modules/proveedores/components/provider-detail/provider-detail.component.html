@@ -33,6 +33,8 @@
                 </div>
                 <h2 class="text-3xl font-bold mb-1">{{ provider.fantasy_name }}</h2>
                 <p class="text-blue-100 text-lg">{{ provider.business_name }}</p>
+                <!-- Category -->
+                <p class="text-blue-100 text-lg">{{ provider.category?.name }}</p>
             </div>
             <div class="flex items-center justify-center w-16 h-16 bg-white/10 rounded-full backdrop-blur-sm">
                 <lucide-angular [img]="Building2Icon" class="w-8 h-8 text-white"></lucide-angular>
@@ -52,6 +54,7 @@
                 </h3>
                 <div class="space-y-3">
                     <!-- CUIT -->
+                    @if (provider.cuit) {
                     <div class="detail-item">
                         <span class="detail-label" [title]="'Código Único de Identificación Tributaria'">CUIT</span>
                         <div class="detail-value-group">
@@ -65,8 +68,10 @@
                             </button>
                         </div>
                     </div>
+                    }
 
                     <!-- IIBB -->
+                    @if (provider.iibb) {
                     <div class="detail-item">
                         <span class="detail-label" [title]="'Ingresos Brutos'">IIBB</span>
                         <div class="detail-value-group">
@@ -80,6 +85,7 @@
                             </button>
                         </div>
                     </div>
+                    }
 
                     <!-- Tax Status -->
                     <div class="detail-item">
@@ -92,14 +98,9 @@
                         <span class="detail-label" [title]="'Convenio Multilateral'">Convenio</span>
                         <span class="detail-value">{{ provider.agreement?.name || 'N/A' }}</span>
                     </div>
-
-                    <!-- Category -->
-                    <div class="detail-item" *ngIf="provider.category">
-                        <span class="detail-label" [title]="'Categoría del proveedor'">Categoría</span>
-                        <span class="detail-value">{{ provider.category.name }}</span>
-                    </div>
                 </div>
             </div>
+
 
             <!-- Contact Information -->
             <div class="bg-white rounded-lg border border-gray-200 p-5 shadow-sm hover:shadow-md transition-shadow">
@@ -115,8 +116,10 @@
                     </div>
 
                     <!-- Phone 1 -->
+                    @if (provider.phone_1) {
                     <div class="detail-item">
                         <span class="detail-label">Teléfono Principal</span>
+
                         <div class="detail-value-group">
                             <a [href]="'tel:' + provider.phone_1"
                                 class="detail-value text-blue-600 hover:text-blue-700">
@@ -132,6 +135,7 @@
                             </button>
                         </div>
                     </div>
+                    }
 
                     <!-- Additional Phones -->
                     <div class="detail-item" *ngIf="provider.phone_2">
@@ -148,6 +152,7 @@
                     </div>
 
                     <!-- Email 1 -->
+                    @if (provider.email_1) {
                     <div class="detail-item">
                         <span class="detail-label">Email Principal</span>
                         <div class="detail-value-group">
@@ -165,6 +170,7 @@
                             </button>
                         </div>
                     </div>
+                    }
 
                     <!-- Additional Emails -->
                     <div class="detail-item" *ngIf="provider.email_2">
@@ -284,6 +290,7 @@
             </div>
 
             <!-- Business Hours -->
+            @if (provider.business_hours_start && provider.business_hours_end) {
             <div class="bg-white rounded-lg border border-gray-200 p-5 shadow-sm hover:shadow-md transition-shadow">
                 <h3 class="text-sm font-semibold text-gray-900 uppercase tracking-wide mb-4 flex items-center">
                     <lucide-angular [img]="ClockIcon" class="w-4 h-4 mr-2 text-blue-600"></lucide-angular>
@@ -300,11 +307,12 @@
                     </div>
                 </div>
             </div>
+            }
 
             <!-- Observations -->
             <div class="bg-amber-50 border border-amber-200 rounded-lg p-5 shadow-sm" *ngIf="provider.observations">
                 <h3 class="text-sm font-semibold text-amber-900 uppercase tracking-wide mb-3 flex items-center">
-                    <span class="material-symbols-outlined text-amber-600 text-[16px]! mr-2">
+                    <span class="material-symbols-outlined text-amber-600 text-[16px]!">
                         docs
                     </span>
                     Observaciones
