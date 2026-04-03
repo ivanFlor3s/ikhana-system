@@ -98,10 +98,10 @@ export class ProviderCreateOrEdit implements OnInit {
     categoryId: [null as number | null, Validators.required],
     website: [''],
 
-    phone: ['', Validators.required],
+    phone: [''],
     otherPhones: this.fb.array<string>([]),
 
-    email: ['', [Validators.required, Validators.email]],
+    email: [''],
     otherEmails: this.fb.array<string>([]),
 
     observations: [''],
