@@ -303,6 +303,10 @@ export class ProviderCreateOrEdit implements OnInit {
     return this.form.get('cuit') as FormControl;
   }
 
+  get nameControl(): FormControl {
+    return this.form.get('name') as FormControl;
+  }
+
   get otherEmails(): FormArray<FormControl<string | null>> {
     return this.form.get('otherEmails') as FormArray<FormControl<string | null>>;
   }
