@@ -10,6 +10,12 @@ export interface Broker {
   full_name: string;
 }
 
+export interface ProviderInEntry {
+  id: number;
+  fantasy_name: string;
+  business_name: string;
+}
+
 export interface Provider {
   id: number;
   fantasy_name: string;
