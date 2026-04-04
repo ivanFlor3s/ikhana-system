@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\RawMaterialEntryResource;
 use App\Models\RawMaterialEntry;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -60,7 +61,7 @@ class RawMaterialEntryController extends Controller
      *   "message": "Entradas obtenidas exitosamente"
      * }
      */
-    public function index(Request $request): JsonResponse
+    public function index(Request $request)
     {
         // Eager load 'test' para mostrar los resultados del ensayo en el listado
         $query = RawMaterialEntry::with(['type', 'provider', 'characteristic', 'test']);
@@ -104,19 +105,11 @@ class RawMaterialEntryController extends Controller
 
         $entries = $query->paginate($perPage);
 
-        // Agregar descripción computada a la característica en cada resultado para facilitar el front
-        $entries->getCollection()->transform(function ($entry) {
-            if ($entry->characteristic) {
-                $entry->characteristic->append('description');
-            }
-            return $entry;
-        });
-
-        return response()->json([
-            'success' => true,
-            'data' => $entries,
-            'message' => 'Entradas obtenidas exitosamente'
-        ], 200);
+        return RawMaterialEntryResource::collection($entries)
+            ->additional([
+                'success' => true,
+                'message' => 'Entradas obtenidas exitosamente',
+            ]);
     }
     /**
      * Crear Entrada de Materia Prima
@@ -231,11 +224,13 @@ class RawMaterialEntryController extends Controller
                     'result' => $finalResult,
                 ]);
 
-                return response()->json([
-                    'success' => true,
-                    'data' => $entry->load(['type', 'provider', 'characteristic', 'test']),
-                    'message' => 'Entrada y ensayo registrados exitosamente'
-                ], 201);
+                return (new RawMaterialEntryResource($entry->load(['type', 'provider', 'characteristic', 'test'])))
+                    ->additional([
+                        'success' => true,
+                        'message' => 'Entrada y ensayo registrados exitosamente',
+                    ])
+                    ->response()
+                    ->setStatusCode(201);
             });
 
         } catch (\Exception $e) {
@@ -296,7 +291,7 @@ class RawMaterialEntryController extends Controller
      *   "message": "Detalles de entrada obtenidos exitosamente"
      * }
      */
-    public function show(string $id): JsonResponse
+    public function show(string $id)
     {
         $entry = RawMaterialEntry::with([
             'type',
@@ -305,15 +300,11 @@ class RawMaterialEntryController extends Controller
             'test'
         ])->findOrFail($id);
 
-        if ($entry->characteristic) {
-            $entry->characteristic->append('description');
-        }
-
-        return response()->json([
-            'success' => true,
-            'data' => $entry,
-            'message' => 'Detalles de entrada obtenidos exitosamente'
-        ], 200);
+        return (new RawMaterialEntryResource($entry))
+            ->additional([
+                'success' => true,
+                'message' => 'Detalles de entrada obtenidos exitosamente',
+            ]);
     }
 
     /**
