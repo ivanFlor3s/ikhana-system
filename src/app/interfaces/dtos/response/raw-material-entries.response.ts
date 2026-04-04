@@ -120,29 +120,15 @@
 }
  */
 
-import { Provider } from "@models/provider.model";
+import { ProviderInEntry } from "@models/provider.model";
 
 export interface RawMaterialEntriesResponse {
     success: boolean;
-    data: {
-        current_page: number;
-        data: RawMaterialEntry[];
-        first_page_url: string;
-        from: number;
-        last_page: number;
-        last_page_url: string;
-        links: Link[];
-        next_page_url: string | null;
-        path: string;
-        per_page: number;
-        prev_page_url: string | null;
-        to: number;
-        total: number;
-    };
+    data: RawMaterialCobreEntry[];
     message: string;
 }
 
-export interface RawMaterialEntry {
+export interface RawMaterialCobreEntry {
     id: number;
     raw_material_type_id: number;
     provider_id: number;
@@ -155,11 +141,8 @@ export interface RawMaterialEntry {
     coils_count: number;
     status: string;
     observations: string | null;
-    created_at: string;
-    updated_at: string;
-    deleted_at: string | null;
     type: Type;
-    provider: Provider;
+    provider: ProviderInEntry;
     characteristic: Characteristic;
     test: Test;
 }
@@ -167,22 +150,14 @@ export interface RawMaterialEntry {
 export interface Type {
     id: number;
     name: string;
-    created_at: string;
-    updated_at: string;
-    deleted_at: string | null;
 }
 
 
 export interface Characteristic {
     id: number;
-    raw_material_type_id: number;
     name: string;
     decimal_value: string;
-    text_value: string | null;
     unit: string;
-    created_at: string;
-    updated_at: string;
-    deleted_at: string | null;
     description: string;
 }
 
@@ -199,9 +174,6 @@ export interface Test {
     result: string;
     conducted_by: string;
     approved_by: string | null;
-    created_at: string;
-    updated_at: string;
-    deleted_at: string | null;
 }
 
 export interface Link {
