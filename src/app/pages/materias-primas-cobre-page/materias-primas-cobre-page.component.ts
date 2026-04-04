@@ -3,7 +3,7 @@ import { MpCobreHeaderComponent } from "@modules/materias-primas/cobre/component
 import { MpStockCobreListComponent } from "@modules/materias-primas/cobre/components/mp-stock-cobre-list/mp-stock-cobre-list.component";
 import { MpCobreFilterComponent, RawMaterialFilterOptions } from "@modules/materias-primas/cobre/components/mp-cobre-filter/mp-cobre-filter.component";
 import { ActivatedRoute, Router } from '@angular/router';
-import { RawMaterialEntry } from '@interfaces/dtos/response/raw-material-entries.response';
+import { RawMaterialCobreEntry } from '@interfaces/dtos/response/raw-material-entries.response';
 import { RawMaterialService } from '@services/raw-material.service';
 import { MatProgressSpinner } from "@angular/material/progress-spinner";
 
@@ -18,7 +18,7 @@ export class MateriasPrimasCobrePageComponent {
   private route = inject(ActivatedRoute);
   private rawMaterialService = inject(RawMaterialService);
 
-  data = signal<RawMaterialEntry[]>([]);
+  data = signal<RawMaterialCobreEntry[]>([]);
   isLoading = signal<boolean>(false);
   currentFilters: RawMaterialFilterOptions = {};
 
@@ -37,7 +37,7 @@ export class MateriasPrimasCobrePageComponent {
 
     this.rawMaterialService.getRawMaterialEntries(queryParams).subscribe({
       next: (response) => {
-        this.data.set(response.data.data);
+        this.data.set(response.data);
         this.isLoading.set(false);
       },
       error: (error) => {

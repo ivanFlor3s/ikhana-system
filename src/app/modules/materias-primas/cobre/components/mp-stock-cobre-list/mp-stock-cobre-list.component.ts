@@ -1,5 +1,5 @@
 import { Component, input, SimpleChanges, inject } from '@angular/core';
-import { RawMaterialEntry } from '@interfaces/dtos/response/raw-material-entries.response';
+import { RawMaterialCobreEntry } from '@interfaces/dtos/response/raw-material-entries.response';
 import { ColumnDef, TableComponent, ModernTableCellDirective } from '@shared/components/table/table.component';
 import { RawMaterialService } from '@services/raw-material.service';
 import { NotificationService } from '@services/notification.service';
@@ -15,17 +15,9 @@ export class MpStockCobreListComponent {
   private rawMaterialService = inject(RawMaterialService);
   private notificationService = inject(NotificationService);
 
-  data = input.required<RawMaterialEntry[]>();
+  data = input.required<RawMaterialCobreEntry[]>();
 
-  ngOnInit(): void {
-    console.log(this.data());
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log(changes);
-  }
-
-  columns: ColumnDef[] = [
+  columns: ColumnDef<RawMaterialCobreEntry>[] = [
     {
       id: 'entry_date',
       title: 'Fecha',
@@ -42,7 +34,7 @@ export class MpStockCobreListComponent {
     {
       id: 'provider',
       formatter(value, row) {
-        return row.provider.business_name;
+        return row.provider.fantasy_name;
       },
       title: 'Proveedor'
     },
@@ -93,7 +85,7 @@ export class MpStockCobreListComponent {
     }
   ]
 
-  onDownloadLabel(entry: RawMaterialEntry, event: Event) {
+  onDownloadLabel(entry: RawMaterialCobreEntry, event: Event) {
     // Stop event propagation to prevent row click
     event.stopPropagation();
 
