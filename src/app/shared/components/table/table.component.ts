@@ -5,15 +5,15 @@ import { Component, Input, Output, EventEmitter, Directive, TemplateRef, Content
 
 export type SortDirection = 'asc' | 'desc' | null;
 
-export interface ColumnDef {
+export interface ColumnDef<T = any> {
   id: string;
   title: string;
   sortable?: boolean;
   // accessor can be a property path like 'user.name' or a function (row) => value
-  accessor?: string | ((row: any) => any);
+  accessor?: string | ((row: T) => any);
   width?: string; // optional tailwind width classes (e.g. 'w-1/4')
   // formatter function to transform the value before display
-  formatter?: (value: any, row: any) => any;
+  formatter?: (value: any, row: T) => any;
   // pipe configuration for template rendering (e.g., { name: 'date', args: ['dd/MM/yyyy'] })
   pipe?: { name: string; args?: any[] };
 }
