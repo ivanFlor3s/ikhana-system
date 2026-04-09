@@ -139,6 +139,14 @@ export class RawMaterialService {
         );
     }
 
+
+    downloadTestReport(entryId: number): Observable<Blob> {
+        return this.http.get(
+            `${this.apiEntriesUrl}/${entryId}/test-report`,
+            { responseType: 'blob' }
+        );
+    }
+
     getCobreDiametersWithIramMaxResistance(): Observable<DiameterIramOhmMaxValue[]> {
         return this.http.get<DiametersWithResistanceResponse>(
             `${this.apiUrl}/diameters-with-iram-ohm-resistance`
