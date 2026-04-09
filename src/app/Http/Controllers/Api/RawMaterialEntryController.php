@@ -339,4 +339,26 @@ class RawMaterialEntryController extends Controller
 
         return $pdf->download("Etiqueta_Entrada_{$entry->entry_number}.pdf");
     }
+
+    /**
+     * Descargar Reporte de Ingreso (PDF)
+     * 
+     * Genera un reporte PDF con los datos de un ingreso de materia prima.
+     * 
+     * @urlParam id integer required ID de la entrada. Example: 1
+     * 
+     * @response 200 Binary PDF Content
+     */
+    public function downloadTestReport(string $id)
+    {
+        $entry = RawMaterialEntry::with(['type', 'provider', 'characteristic.iramCopperMaxResistance', 'test'])->findOrFail($id);
+
+        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('pdfs.report', [
+            'entry' => $entry,
+        ]);
+
+        $pdf->setPaper('a4', 'portrait');
+
+        return $pdf->download("Reporte_Ingreso_{$entry->entry_number}.pdf");
+    }
 }
