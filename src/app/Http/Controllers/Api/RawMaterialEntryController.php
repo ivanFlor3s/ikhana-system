@@ -159,6 +159,7 @@ class RawMaterialEntryController extends Controller
             'batch' => 'required|string|max:50',
             'quantity_kg' => 'required|numeric|min:0',
             'coils_count' => 'required|integer|min:1',
+            'returned_coils_count' => 'nullable|integer|min:0',
             'observations' => 'nullable|string',
 
             // Datos del Ensayo (Obligatorios)
@@ -223,6 +224,28 @@ class RawMaterialEntryController extends Controller
                     'conducted_by' => $validated['test']['conducted_by'],
                     'result' => $finalResult,
                 ]);
+
+                // 4. Actualizar Inventario y Registrar Movimiento de Bobinas
+                $coilsReceived = $validated['coils_count'];
+                $coilsReturned = $validated['returned_coils_count'] ?? 0;
+
+                if ($coilsReceived > 0 || $coilsReturned > 0) {
+                    $inventory = \App\Models\ProviderInventory::firstOrCreate(
+                        ['provider_id' => $validated['provider_id']],
+                        ['coils_count' => 0]
+                    );
+
+                    $inventory->coils_count += $coilsReceived;
+                    $inventory->coils_count -= $coilsReturned;
+                    $inventory->save();
+
+                    \App\Models\ProviderCoilMovement::create([
+                        'provider_id' => $validated['provider_id'],
+                        'raw_material_entry_id' => $entry->id,
+                        'coils_received' => $coilsReceived,
+                        'coils_returned' => $coilsReturned,
+                    ]);
+                }
 
                 return (new RawMaterialEntryResource($entry->load(['type', 'provider', 'characteristic', 'test'])))
                     ->additional([
