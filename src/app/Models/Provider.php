@@ -87,5 +87,21 @@ class Provider extends Model
     {
         return $this->belongsTo(Broker::class);
     }
+
+    /**
+     * Relación: Proveedor tiene un Inventario (para bobinas, etc.)
+     */
+    public function inventory()
+    {
+        return $this->hasOne(ProviderInventory::class);
+    }
+
+    /**
+     * Relación: Proveedor tiene muchos movimientos de bobinas
+     */
+    public function coilMovements()
+    {
+        return $this->hasMany(ProviderCoilMovement::class);
+    }
 }
 
