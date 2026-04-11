@@ -18,7 +18,7 @@ import { BadgeComponent } from '@shared/components/badge/badge.component';
 import { ProviderService } from '@services/provider.service';
 import { RawMaterialService, RawMaterialCharacteristic } from '@services/raw-material.service';
 import { NameValue } from '@models/name-value.model';
-import { map, take } from 'rxjs';
+import { map, Subject, take, takeUntil } from 'rxjs';
 import { MatSelectModule } from '@angular/material/select';
 import { resistanceValidator } from '@core/validators/resistance.validator';
 import { CreateEntryRequest } from '@interfaces/dtos/create-entry.dto';
@@ -26,6 +26,10 @@ import { NotificationService } from '@services/notification.service';
 import { Router } from '@angular/router';
 import { AppInitService } from '@services/app-init.service';
 import { DiameterIramOhmMaxValue } from '@models/diameters-iram-max-values';
+import { ProviderInventory } from '@interfaces/dtos/response/provider-inventory.response';
+import { ProviderInventoryService } from '@services/provider-inventory.service';
+import { toSignal } from '@angular/core/rxjs-interop';
+
 
 @Component({
   selector: 'app-mp-ingreso-wizard',
@@ -60,6 +64,7 @@ export class MpIngresoWizardComponent {
   private _datePipe = inject(DatePipe);
   private _notificationService = inject(NotificationService);
   private _router = inject(Router);
+  private _providerInventoryService = inject(ProviderInventoryService);
 
   private appInitService = inject(AppInitService)
 
@@ -74,6 +79,10 @@ export class MpIngresoWizardComponent {
 
   characteristics = signal<RawMaterialCharacteristic[]>([]);
   loadingCharacteristics = signal(false);
+
+  providerInventoryLoading = signal(false);
+  providerInventory = signal<ProviderInventory | null>(null);
+
 
   minDate = new Date();
 
@@ -115,8 +124,12 @@ export class MpIngresoWizardComponent {
     cantidadBobinasDevolver: [null],
   });
 
+  isReturningCoils = toSignal(this.returnBobinasFormGroup.get('returnToProvider')!.valueChanges);
+
+  destroy$: Subject<void>;
 
   constructor() {
+    this.destroy$ = new Subject<void>();
     effect(() => {
       if (this.appInitService.categories().length > 0) {
         this.loadProviders(this.appInitService.categories());
@@ -126,6 +139,31 @@ export class MpIngresoWizardComponent {
     this.setupDiameterChangeListener();
     this.setupReturnBobinasListener();
     this.loadDiametersWithMaxResistance();
+
+    this.createListenerProvider();
+
+    effect(() => {
+      if (this.providerInventory() && this.isReturningCoils()) {
+        this.returnBobinasFormGroup.get('cantidadBobinasDevolver')?.setValidators([Validators.required, Validators.min(1), Validators.max(this.providerInventory()!.coils_count)]);
+      }
+      else {
+        this.returnBobinasFormGroup.get('cantidadBobinasDevolver')?.clearValidators();
+        this.returnBobinasFormGroup.get('cantidadBobinasDevolver')?.setValue(null);
+      }
+      this.returnBobinasFormGroup.get('cantidadBobinasDevolver')?.updateValueAndValidity();
+    })
+
+  }
+
+  createListenerProvider() {
+    this.basicInfoFormGroup.get('proveedor')?.valueChanges
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(providerId => {
+        console.log('[MpIngresoWizardComponent] providerId', providerId)
+        if (providerId) {
+          this.loadProviderInventory(providerId);
+        }
+      });
   }
 
   /**
@@ -276,6 +314,21 @@ export class MpIngresoWizardComponent {
       });
   }
 
+  loadProviderInventory(provider_id: number): void {
+    this.providerInventoryLoading.set(true);
+    this._providerInventoryService.getProviderInventory(provider_id)
+      .pipe(take(1))
+      .subscribe({
+        next: (response) => {
+          this.providerInventory.set(response.data);
+          this.providerInventoryLoading.set(false);
+        },
+        error: () => {
+          this.providerInventoryLoading.set(false);
+        }
+      });
+  }
+
   /**
    * Load characteristics for copper material type
    */
@@ -322,6 +375,7 @@ export class MpIngresoWizardComponent {
       batch: this.basicInfoFormGroup.get('lote')?.value!,
       quantity_kg: this.basicInfoFormGroup.get('pesoKg')?.value!,
       coils_count: this.basicInfoFormGroup.get('cantidadBobinas')?.value!,
+      returned_coils_count: this.returnBobinasFormGroup.get('cantidadBobinasDevueltas')?.value!,
       observations: this.measurementsFormGroup.get('observacion')?.value!,
       test: {
         resistance_ohm_km: this.measurementsFormGroup.get('resistenciaOhmsKm')?.value!,
