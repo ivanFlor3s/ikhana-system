@@ -376,6 +376,11 @@
                                 @if (returnBobinasFormGroup.get('cantidadBobinasDevolver')?.hasError('min')) {
                                 <mat-error>Debe devolver al menos 1 bobina</mat-error>
                                 }
+                                @if (returnBobinasFormGroup.get('cantidadBobinasDevolver')?.hasError('max')) {
+                                <mat-error>No puede devolver más bobinas de las que tiene: {{
+                                    providerInventory()!.coils_count
+                                    }}</mat-error>
+                                }
                             </mat-form-field>
                             }
                         </div>

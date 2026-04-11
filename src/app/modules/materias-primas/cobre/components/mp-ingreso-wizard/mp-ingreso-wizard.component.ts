@@ -28,6 +28,8 @@ import { AppInitService } from '@services/app-init.service';
 import { DiameterIramOhmMaxValue } from '@models/diameters-iram-max-values';
 import { ProviderInventory } from '@interfaces/dtos/response/provider-inventory.response';
 import { ProviderInventoryService } from '@services/provider-inventory.service';
+import { toSignal } from '@angular/core/rxjs-interop';
+
 
 @Component({
   selector: 'app-mp-ingreso-wizard',
@@ -122,6 +124,8 @@ export class MpIngresoWizardComponent {
     cantidadBobinasDevolver: [null],
   });
 
+  isReturningCoils = toSignal(this.returnBobinasFormGroup.get('returnToProvider')!.valueChanges);
+
   destroy$: Subject<void>;
 
   constructor() {
@@ -137,6 +141,18 @@ export class MpIngresoWizardComponent {
     this.loadDiametersWithMaxResistance();
 
     this.createListenerProvider();
+
+    effect(() => {
+      if (this.providerInventory() && this.isReturningCoils()) {
+        this.returnBobinasFormGroup.get('cantidadBobinasDevolver')?.setValidators([Validators.required, Validators.min(1), Validators.max(this.providerInventory()!.coils_count)]);
+      }
+      else {
+        this.returnBobinasFormGroup.get('cantidadBobinasDevolver')?.clearValidators();
+        this.returnBobinasFormGroup.get('cantidadBobinasDevolver')?.setValue(null);
+      }
+      this.returnBobinasFormGroup.get('cantidadBobinasDevolver')?.updateValueAndValidity();
+    })
+
   }
 
   createListenerProvider() {
