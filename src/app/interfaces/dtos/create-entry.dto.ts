@@ -7,6 +7,7 @@ export interface CreateEntryRequest {
     batch: string;
     quantity_kg: number;
     coils_count: number;
+    returned_coils_count: number;
     observations: string;
     test: {
         resistance_ohm_km: number;
