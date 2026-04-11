@@ -65,6 +65,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/{id}', [ProviderController::class, 'show']);
         Route::put('/{id}', [ProviderController::class, 'update']);
         Route::delete('/{id}', [ProviderController::class, 'destroy']);
+        Route::get('/{id}/inventory', [\App\Http\Controllers\Api\ProviderInventoryController::class, 'show']);
     });
 
     Route::post('tax-id/validate', [TaxIdValidationController::class, 'validate']);
