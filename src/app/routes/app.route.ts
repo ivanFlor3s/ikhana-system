@@ -12,9 +12,18 @@ export const appRoutes: Routes = [
         children: [
             {
                 path: 'proveedores',
-                loadComponent: () =>
-                    import('../pages/proveedores-page/proveedores-page.component')
-                        .then(m => m.ProveedoresPageComponent),
+                loadComponent: () => import('../pages/proveedores-root/proveedores-root.component').then(m => m.ProveedoresRootComponent),
+                children: [
+                    {
+                        path: '',
+                        loadComponent: () => import('../pages/proveedores-page/proveedores-page.component').then(m => m.ProveedoresPageComponent)
+                    },
+                    {
+                        path: 'bobinas',
+                        loadComponent: () => import('../pages/bobinas-page/bobinas-page.component').then(m => m.BobinasPageComponent)
+                    }
+
+                ]
             },
             {
                 path: 'rubros',
@@ -41,6 +50,9 @@ export const appRoutes: Routes = [
                                 .then(m => m.MpCobreIngresoPageComponent),
                     }
                 ]
+            },
+            {
+                path: 'bobinas'
             }
         ]
     }
