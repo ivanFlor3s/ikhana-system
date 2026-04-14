@@ -12,6 +12,7 @@ use App\Http\Controllers\Api\BrokerController;
 use App\Http\Controllers\Api\AuditLogController;
 use App\Http\Controllers\Api\RawMaterialController;
 use App\Http\Controllers\Api\RawMaterialEntryController;
+use App\Http\Controllers\Api\ProviderCoilController;
 
 
 Route::post('login', [AuthController::class, 'login']);
@@ -60,12 +61,16 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
     Route::prefix('providers')->group(function () {
+        // Static routes first (before {id} wildcard)
+        Route::get('/coil-summary', [ProviderCoilController::class, 'index']);
+
         Route::get('/', [ProviderController::class, 'index']);
         Route::post('/', [ProviderController::class, 'store']);
         Route::get('/{id}', [ProviderController::class, 'show']);
         Route::put('/{id}', [ProviderController::class, 'update']);
         Route::delete('/{id}', [ProviderController::class, 'destroy']);
         Route::get('/{id}/inventory', [\App\Http\Controllers\Api\ProviderInventoryController::class, 'show']);
+        Route::get('/{id}/coil-movements', [ProviderCoilController::class, 'movements']);
     });
 
     Route::post('tax-id/validate', [TaxIdValidationController::class, 'validate']);
