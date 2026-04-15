@@ -5,4 +5,15 @@
         </div>
     </ng-container>
 </app-page-header>
-<h1>hola</h1>
+
+<div class="flex flex-col gap-4 p-4">
+    <app-bobinas-filter (filterChange)="onFilterChange($event)"></app-bobinas-filter>
+
+    @if (isLoading()) {
+    <div class="flex justify-center items-center py-20">
+        <mat-spinner></mat-spinner>
+    </div>
+    } @else {
+    <app-bobinas-list [coils]="coils()" (sortChanged)="onSortChanged($event)"></app-bobinas-list>
+    }
+</div>
