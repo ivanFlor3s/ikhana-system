@@ -30,32 +30,6 @@ export class AppLayoutComponent {
       route: '/app/dashboard'
     },
     {
-      label: 'Product',
-      icon: Package,
-      children: [
-        { label: 'Overview', icon: Package, route: '/app/product/overview' },
-        { label: 'Drafts', icon: Package, route: '/app/product/drafts', badge: { value: 3, color: 'accent' } },
-        { label: 'Released', icon: Package, route: '/app/product/released' },
-        { label: 'Comments', icon: Package, route: '/app/product/comments' },
-        { label: 'Scheduled', icon: Package, route: '/app/product/scheduled', badge: { value: 8, color: 'success' } }
-      ]
-    },
-    {
-      label: 'Customers',
-      icon: Users,
-      route: '/app/customers'
-    },
-    {
-      label: 'Shop',
-      icon: Store,
-      route: '/app/shop'
-    },
-    {
-      label: 'Income',
-      icon: TrendingUp,
-      route: '/app/income'
-    },
-    {
       label: 'Promote',
       icon: Megaphone,
       route: '/app/promote'
@@ -63,7 +37,12 @@ export class AppLayoutComponent {
     {
       label: 'Proveedores',
       icon: Truck,
-      route: '/app/proveedores'
+      //TODO: Fix allow click on parent if have route
+      route: '/app/proveedores',
+      children: [
+        { label: 'Bobinas', icon: Spool, route: '/app/proveedores/bobinas' },
+        { label: 'Movimiento Bobinas', icon: Truck, route: '/app/proveedores/movimiento-bobinas' }
+      ]
     },
     {
       label: 'Rubros',

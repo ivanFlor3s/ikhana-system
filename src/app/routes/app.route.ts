@@ -51,9 +51,7 @@ export const appRoutes: Routes = [
                     }
                 ]
             },
-            {
-                path: 'bobinas'
-            }
+
         ]
     }
 ];
