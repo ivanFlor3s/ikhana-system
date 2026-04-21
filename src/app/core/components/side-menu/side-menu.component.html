@@ -39,6 +39,28 @@
                 }
                 }
             </a>
+            } @else if (item.route && hasChildren(item)) {
+            <!-- Expandable item with a route -->
+            <div routerLinkActive="active" class="menu-item split-item" [class.expanded]="isExpanded(item)">
+                <a [routerLink]="item.route" class="menu-item-link"
+                    [title]="collapsed() ? item.label : ''">
+                    <lucide-angular class="menu-icon" [img]="item.icon"></lucide-angular>
+                    @if (!collapsed()) {
+                    <span class="menu-label">{{ item.label }}</span>
+                    @if (item.badge) {
+                    <span class="menu-badge" [attr.data-color]="item.badge.color">
+                        {{ item.badge.value }}
+                    </span>
+                    }
+                    }
+                </a>
+                @if (!collapsed()) {
+                <button class="menu-item-expand" (click)="toggleMenuItem(item)" type="button" aria-label="Expand menu">
+                    <lucide-angular class="expand-icon" [img]="isExpanded(item) ? ChevronUpIcon : ChevronDownIcon">
+                    </lucide-angular>
+                </button>
+                }
+            </div>
             } @else {
             <!-- Expandable item or item without route -->
             <button class="menu-item" [class.expanded]="isExpanded(item)" (click)="toggleMenuItem(item)" type="button"
