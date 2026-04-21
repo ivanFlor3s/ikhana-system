@@ -19,6 +19,10 @@ export const appRoutes: Routes = [
                         loadComponent: () => import('../pages/proveedores-page/proveedores-page.component').then(m => m.ProveedoresPageComponent)
                     },
                     {
+                        path: ':providerId/movimientos-bobinas',
+                        loadComponent: () => import('../pages/movimientos-page/movimientos-page.component').then(m => m.MovimientosPageComponent)
+                    },
+                    {
                         path: 'bobinas',
                         loadComponent: () => import('../pages/bobinas-page/bobinas-page.component').then(m => m.BobinasPageComponent)
                     }

@@ -1,10 +1,13 @@
-import { Component, input, output } from '@angular/core';
-import { TableComponent, ColumnDef, SortDirection } from '@shared/components/table/table.component';
+import { Component, inject, input, output } from '@angular/core';
+import { TableComponent, ColumnDef, SortDirection, ModernTableCellDirective } from '@shared/components/table/table.component';
 import { CoilsSummaryItemDto } from '@interfaces/dtos/response/coils-summary-item.dto';
+import { ArrowRightLeft, LucideAngularModule } from "lucide-angular";
+import { Router } from '@angular/router';
+import { MatTooltip } from "@angular/material/tooltip";
 
 @Component({
   selector: 'app-bobinas-list',
-  imports: [TableComponent],
+  imports: [TableComponent, LucideAngularModule, ModernTableCellDirective, MatTooltip],
   templateUrl: './bobinas-list.component.html',
   styleUrl: './bobinas-list.component.css'
 })
@@ -12,6 +15,7 @@ export class BobinasListComponent {
   coils = input<CoilsSummaryItemDto[]>([]);
 
   sortChanged = output<{ columnId: string | null; direction: SortDirection }>();
+  readonly ArrowRightLeft = ArrowRightLeft;
 
   columns: ColumnDef<CoilsSummaryItemDto>[] = [
     {
@@ -38,9 +42,22 @@ export class BobinasListComponent {
       pipe: { name: 'date', args: ['dd/MM/yyyy HH:mm'] },
       formatter: (value: string | null) => value ?? '-',
     },
+    {
+      id: 'actions',
+      title: '',
+      width: 'w-24'
+    }
   ];
+
+  private router = inject(Router);
 
   onSortChanged(event: { columnId: string | null; direction: SortDirection }): void {
     this.sortChanged.emit(event);
+  }
+
+  goToMovements(coil: CoilsSummaryItemDto): void {
+    this.router.navigate(['app', 'proveedores', coil.provider_id, 'movimientos-bobinas'], {
+      state: { providerName: coil.provider_name }
+    });
   }
 }

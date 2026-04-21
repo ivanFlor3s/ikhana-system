@@ -1,2 +1,8 @@
 <app-table [columns]="columns" [data]="coils()" (sortChanged)="onSortChanged($event)">
+    <ng-template modernTableCell="actions" let-row>
+        <button class="cursor-pointer text-shadow-neutral-500 hover:text-neutral-700 rounded"
+            (click)="goToMovements(row)">
+            <lucide-angular [img]="ArrowRightLeft" size="14" matTooltip="Ir a movimientos"></lucide-angular>
+        </button>
+    </ng-template>
 </app-table>

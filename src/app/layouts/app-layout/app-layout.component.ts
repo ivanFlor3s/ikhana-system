@@ -41,7 +41,6 @@ export class AppLayoutComponent {
       route: '/app/proveedores',
       children: [
         { label: 'Bobinas', icon: Spool, route: '/app/proveedores/bobinas' },
-        { label: 'Movimiento Bobinas', icon: Truck, route: '/app/proveedores/movimiento-bobinas' }
       ]
     },
     {
