@@ -51,7 +51,6 @@ export class AppLayoutComponent {
     {
       label: 'Materias Primas',
       icon: Sprout,
-      route: '/app/materias-primas',
       children: [
         { label: 'Cobre', icon: Spool, route: '/app/materias-primas/cobre' },
       ]
