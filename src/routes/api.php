@@ -91,6 +91,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Entradas de Materia Prima
     Route::prefix('raw-material-entries')->group(function () {
+        Route::get('/last-batch', [RawMaterialEntryController::class, 'lastBatch']);
         Route::get('/', [RawMaterialEntryController::class, 'index']);
         Route::post('/', [RawMaterialEntryController::class, 'store']);
         Route::get('/{id}', [RawMaterialEntryController::class, 'show']);
