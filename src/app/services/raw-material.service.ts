@@ -7,6 +7,7 @@ import { CreateEntryResponse } from '@interfaces/dtos/response/create-entry.resp
 import { RawMaterialEntriesResponse } from '@interfaces/dtos/response/raw-material-entries.response';
 import { DiametersWithResistanceResponse } from '@interfaces/dtos/response/diameters_with_resistance.response';
 import { DiameterIramOhmMaxValue } from '@models/diameters-iram-max-values';
+import { ApiResponse } from '@interfaces/pagination.interface';
 
 export interface ValidateResistanceRequest {
     raw_material_characteristic_id: number;
@@ -79,6 +80,10 @@ export class RawMaterialService {
             `${this.apiEntriesUrl}`,
             request
         );
+    }
+
+    getLastBatch(): Observable<number> {
+        return this.http.get<ApiResponse<{ last_batch: string }>>(`${this.apiEntriesUrl}/last-batch`).pipe(map(res => Number(res.data.last_batch)));
     }
 
     /**
