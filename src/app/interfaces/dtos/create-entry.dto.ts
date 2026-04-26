@@ -4,7 +4,6 @@ export interface CreateEntryRequest {
     raw_material_characteristic_id: number;
     entry_date: string;
     remito: string;
-    batch: string;
     quantity_kg: number;
     coils_count: number;
     returned_coils_count: number;
