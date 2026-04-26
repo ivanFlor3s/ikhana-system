@@ -372,7 +372,6 @@ export class MpIngresoWizardComponent {
       raw_material_characteristic_id: this.measurementsFormGroup.get('diametroMedidoMm')?.value!,
       entry_date: dateEntryString,
       remito: this.basicInfoFormGroup.get('remito')?.value!,
-      batch: this.basicInfoFormGroup.get('lote')?.value!,
       quantity_kg: this.basicInfoFormGroup.get('pesoKg')?.value!,
       coils_count: this.basicInfoFormGroup.get('cantidadBobinas')?.value!,
       returned_coils_count: this.returnBobinasFormGroup.get('cantidadBobinasDevueltas')?.value!,
