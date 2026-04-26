@@ -71,7 +71,7 @@ class RawMaterialEntryController extends Controller
             $search = $request->search;
             $query->where(function ($q) use ($search) {
                 $q->where('remito', 'like', "%{$search}%")
-                    ->orWhere('batch', 'like', "%{$search}%")
+                    ->orWhere('batch', is_numeric($search) ? '=' : '<>', $search)
                     ->orWhereHas('provider', function ($qProvider) use ($search) {
                         $qProvider->where('business_name', 'like', "%{$search}%")
                             ->orWhere('fantasy_name', 'like', "%{$search}%");
@@ -121,7 +121,6 @@ class RawMaterialEntryController extends Controller
      * @bodyParam raw_material_characteristic_id integer required ID de la característica (ej: diámetro). Example: 3
      * @bodyParam entry_date date required Fecha de ingreso/remito. Example: 2024-09-04
      * @bodyParam remito string required Número de remito. Example: R-12345
-     * @bodyParam batch string required Número de lote. Example: L-9876
      * @bodyParam quantity_kg number required Peso en Kg. Example: 1050.5
      * @bodyParam coils_count integer required Cantidad de bobinas. Example: 10
      * @bodyParam observations string optional Observaciones generales. Example: Todo en orden
@@ -156,7 +155,6 @@ class RawMaterialEntryController extends Controller
             'raw_material_characteristic_id' => 'required|exists:raw_material_characteristics,id',
             'entry_date' => 'required|date',
             'remito' => 'required|string|max:50',
-            'batch' => 'required|string|max:50',
             'quantity_kg' => 'required|numeric|min:0',
             'coils_count' => 'required|integer|min:1',
             'returned_coils_count' => 'nullable|integer|min:0',
@@ -199,14 +197,17 @@ class RawMaterialEntryController extends Controller
                 // Definir estado de la entrada basado en el ensayo
                 $entryStatus = $finalResult === 'OK' ? 'approved' : 'rejected';
 
-                // 2. Crear Entrada
+                // 2. Auto-incrementar número de lote
+                $nextBatch = (RawMaterialEntry::max('batch') ?? 0) + 1;
+
+                // 3. Crear Entrada
                 $entry = RawMaterialEntry::create([
                     'raw_material_type_id' => $validated['raw_material_type_id'],
                     'provider_id' => $validated['provider_id'],
                     'raw_material_characteristic_id' => $validated['raw_material_characteristic_id'],
                     'entry_date' => $validated['entry_date'],
                     'remito' => $validated['remito'],
-                    'batch' => $validated['batch'],
+                    'batch' => $nextBatch,
                     'quantity_kg' => $validated['quantity_kg'],
                     'coils_count' => $validated['coils_count'],
                     'observations' => $validated['observations'] ?? null,
@@ -383,5 +384,32 @@ class RawMaterialEntryController extends Controller
         $pdf->setPaper('a4', 'portrait');
 
         return $pdf->download("Reporte_Ingreso_{$entry->entry_number}.pdf");
+    }
+
+    /**
+     * Obtener último número de lote
+     * 
+     * Devuelve el último (mayor) número de lote registrado.
+     * Útil para auto-incrementar el campo batch en el frontend.
+     * 
+     * @response 200 {
+     *   "success": true,
+     *   "data": {
+     *     "last_batch": 42
+     *   },
+     *   "message": "Último lote obtenido exitosamente"
+     * }
+     */
+    public function lastBatch(): JsonResponse
+    {
+        $lastBatch = RawMaterialEntry::max('batch') ?? 0;
+
+        return response()->json([
+            'success' => true,
+            'data' => [
+                'last_batch' => (int) $lastBatch,
+            ],
+            'message' => 'Último lote obtenido exitosamente',
+        ]);
     }
 }
