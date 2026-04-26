@@ -28,7 +28,7 @@ import { AppInitService } from '@services/app-init.service';
 import { DiameterIramOhmMaxValue } from '@models/diameters-iram-max-values';
 import { ProviderInventory } from '@interfaces/dtos/response/provider-inventory.response';
 import { ProviderInventoryService } from '@services/provider-inventory.service';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 
 
 @Component({
@@ -83,6 +83,8 @@ export class MpIngresoWizardComponent {
   providerInventoryLoading = signal(false);
   providerInventory = signal<ProviderInventory | null>(null);
 
+  lastBatch = signal('');
+
 
   minDate = new Date();
 
@@ -93,11 +95,9 @@ export class MpIngresoWizardComponent {
   basicInfoFormGroup = this._formBuilder.group({
     fecha: [new Date(), Validators.required],
     remito: ['', Validators.required],
-    proveedor: [null as number | null, Validators.required],
+    proveedor: [null as NameValue<number> | null, Validators.required],
     cantidadBobinas: [null, [Validators.required, Validators.min(0.01)]],
     pesoKg: [null, [Validators.required, Validators.min(0.01)]],
-    lote: ['', Validators.required],
-    identificacionLote: ['', Validators.required],
   });
 
   // Step 2: Measurements
@@ -141,6 +141,7 @@ export class MpIngresoWizardComponent {
     this.loadDiametersWithMaxResistance();
 
     this.createListenerProvider();
+    this.getLastBatch();
 
     effect(() => {
       if (this.providerInventory() && this.isReturningCoils()) {
@@ -155,13 +156,26 @@ export class MpIngresoWizardComponent {
 
   }
 
+  getLastBatch() {
+    this._rawMaterialService.getLastBatch()
+      .pipe(take(1), takeUntilDestroyed())
+      .subscribe({
+        next: (response) => {
+          this.lastBatch.set(response.toString());
+        },
+        error: () => {
+          this.lastBatch.set('');
+        }
+      });
+  }
+
   createListenerProvider() {
     this.basicInfoFormGroup.get('proveedor')?.valueChanges
       .pipe(takeUntil(this.destroy$))
       .subscribe(providerId => {
         console.log('[MpIngresoWizardComponent] providerId', providerId)
         if (providerId) {
-          this.loadProviderInventory(providerId);
+          this.loadProviderInventory(providerId.value);
         }
       });
   }
@@ -368,7 +382,7 @@ export class MpIngresoWizardComponent {
     const dateEntryString = this._datePipe.transform(dateEntry, 'yyyy-MM-dd')!;
     return {
       raw_material_type_id: this.COPPER_TYPE_ID,
-      provider_id: this.basicInfoFormGroup.get('proveedor')?.value! as number,
+      provider_id: this.basicInfoFormGroup.get('proveedor')?.value?.value! as number,
       raw_material_characteristic_id: this.measurementsFormGroup.get('diametroMedidoMm')?.value!,
       entry_date: dateEntryString,
       remito: this.basicInfoFormGroup.get('remito')?.value!,
