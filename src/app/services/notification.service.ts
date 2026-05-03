@@ -1,6 +1,8 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Notification, NotificationConfig, NotificationType } from '../core/models/notification.model';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmDialogComponent } from '../shared/components/confirm-dialog/confirm-dialog.component';
 
 @Injectable({
     providedIn: 'root'
@@ -8,6 +10,7 @@ import { Notification, NotificationConfig, NotificationType } from '../core/mode
 export class NotificationService {
     private notificationsSubject = new BehaviorSubject<Notification[]>([]);
     public notifications$: Observable<Notification[]> = this.notificationsSubject.asObservable();
+    private dialog = inject(MatDialog);
 
     private defaultDuration = 5000; // 5 seconds
     private notificationCounter = 0;
@@ -120,6 +123,19 @@ export class NotificationService {
      */
     clearAll(): void {
         this.notificationsSubject.next([]);
+    }
+
+    /**
+     * Ask for confirmation using a dialog
+     */
+    confirm(title: string, message: string, confirmText?: string, cancelText?: string): Observable<boolean> {
+        const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+            data: { title, message, confirmText, cancelText },
+            width: '400px',
+            disableClose: true
+        });
+
+        return dialogRef.afterClosed();
     }
 
     /**

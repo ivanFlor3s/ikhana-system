@@ -52,6 +52,12 @@ export const appRoutes: Routes = [
                         loadComponent: () =>
                             import('app/pages/materias-primas-cobre-page/mp-cobre-ingreso-page/mp-cobre-ingreso-page.component')
                                 .then(m => m.MpCobreIngresoPageComponent),
+                    },
+                    {
+                        path: 'cobre/detalle/:id',
+                        loadComponent: () =>
+                            import('app/pages/materias-primas-cobre-page/mp-cobre-detalle-page/mp-cobre-detalle-page.component')
+                                .then(m => m.MpCobreDetallePageComponent),
                     }
                 ]
             },

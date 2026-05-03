@@ -1,0 +1,29 @@
+<div class="print-area">
+<app-page-header [title]="'Detalle Ingreso de Cobre' + (lote() ? ' - Lote ' + lote() : '')"
+    description="Resumen de la entrada de materia prima de cobre">
+    <div actions class="flex gap-2 no-print">
+        <button mat-button (click)="goBack()">
+            <span class="flex flex-row items-center">
+                <lucide-angular [img]="arrowLeftIcon" size="20" class="mr-2"></lucide-angular>
+                Volver
+            </span>
+        </button>
+        <button mat-flat-button color="primary" (click)="onPrint()">
+            <span class="flex flex-row items-center">
+                <lucide-angular [img]="printerIcon" size="20" class="mr-2"></lucide-angular>
+                Imprimir
+            </span>
+        </button>
+    </div>
+</app-page-header>
+
+<div class="p-6">
+    @if (loading()) {
+    <div class="flex justify-center items-center h-64">
+        <mat-spinner diameter="50"></mat-spinner>
+    </div>
+    } @else if (summaryData()) {
+    <app-mp-cobre-summary [data]="summaryData()!"></app-mp-cobre-summary>
+    }
+</div>
+</div>
