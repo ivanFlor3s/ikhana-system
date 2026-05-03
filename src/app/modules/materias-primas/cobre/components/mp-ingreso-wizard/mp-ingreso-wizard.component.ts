@@ -408,11 +408,53 @@ export class MpIngresoWizardComponent {
       .subscribe({
         next: (response) => {
           this._notificationService.success('Ingreso creado exitosamente');
-          this._router.navigate(['app', 'materias-primas', 'cobre']);
+          this.confirmGetLabel(response.data.id);
+
         },
         error: (error) => {
           this._notificationService.error('Error al crear ingreso');
         }
       });
   }
+
+  private confirmGetLabel(createdEntryId: number) {
+    return this._notificationService.confirm(
+      '¿Desea descargar la etiqueta?',
+      'La etiqueta se ha creado exitosamente'
+    )
+      .pipe(take(1))
+      .subscribe({
+        next: (result) => {
+          if (result) {
+            this._rawMaterialService.downloadEntryLabel(createdEntryId).subscribe({
+              next: (blob) => {
+                const url = window.URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = `etiqueta-ingreso-${createdEntryId}.pdf`;
+                link.click();
+                window.URL.revokeObjectURL(url);
+
+                this._notificationService.success(
+                  'Etiqueta descargada',
+                  'El PDF se ha descargado correctamente',
+                  3000
+                );
+              },
+              error: (error) => {
+                this._notificationService.error(
+                  'Error al descargar',
+                  error.error?.message || 'No se pudo descargar la etiqueta',
+                  5000
+                );
+              }
+            });
+          }
+        },
+        complete: () => {
+          this._router.navigate(['app', 'materias-primas', 'cobre']);
+        }
+      });
+  }
 }
+
