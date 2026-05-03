@@ -4,7 +4,7 @@ import { ColumnDef, TableComponent, ModernTableCellDirective } from '@shared/com
 import { RawMaterialService } from '@services/raw-material.service';
 import { NotificationService } from '@services/notification.service';
 import { CommonModule } from '@angular/common';
-import { FlaskConical, LucideAngularModule, Send } from 'lucide-angular';
+import { FlaskConical, LucideAngularModule, Send, Tag } from 'lucide-angular';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
@@ -20,7 +20,7 @@ export class MpStockCobreListComponent {
   data = input.required<RawMaterialCobreEntry[]>();
 
   readonly flaskConicalIcon = FlaskConical;
-  readonly sendIcon = Send;
+  readonly tagIcon = Tag;
   columns: ColumnDef<RawMaterialCobreEntry>[] = [
     {
       id: 'entry_date',
