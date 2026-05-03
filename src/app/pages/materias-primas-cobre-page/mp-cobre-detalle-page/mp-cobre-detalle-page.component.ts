@@ -8,7 +8,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { PageHeaderComponent } from '@shared/components/page-header/page-header.component';
-import { ArrowLeft } from 'lucide-angular';
+import { ArrowLeft, Printer } from 'lucide-angular';
 import { LucideAngularModule } from 'lucide-angular';
 
 @Component({
@@ -33,8 +33,10 @@ export class MpCobreDetallePageComponent implements OnInit {
 
   loading = signal(true);
   summaryData = signal<CobreSummaryData | null>(null);
+  lote = signal<string>('');
 
   readonly arrowLeftIcon = ArrowLeft;
+  readonly printerIcon = Printer;
 
   ngOnInit() {
     const idParam = this.route.snapshot.paramMap.get('id');
@@ -50,6 +52,7 @@ export class MpCobreDetallePageComponent implements OnInit {
     this.rawMaterialService.getEntryById(id).subscribe({
       next: (response) => {
         const entry = response.data;
+        this.lote.set(entry.batch);
         this.summaryData.set({
           fecha: entry.entry_date,
           remito: entry.remito,
@@ -76,5 +79,9 @@ export class MpCobreDetallePageComponent implements OnInit {
 
   goBack() {
     this.router.navigate(['/app/materias-primas/cobre']);
+  }
+
+  onPrint() {
+    window.print();
   }
 }

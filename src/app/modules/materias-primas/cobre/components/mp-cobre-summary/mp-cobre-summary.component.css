@@ -79,3 +79,36 @@
 ::ng-deep mat-card-content {
     padding: 16px !important;
 }
+
+@media print {
+    .summary-grid {
+        padding: 4px 0;
+        gap: 8px;
+    }
+    .summary-item {
+        gap: 2px;
+    }
+    .validation-results {
+        padding: 4px 0;
+        gap: 8px;
+        grid-template-columns: repeat(4, 1fr) !important;
+    }
+    .validation-result-item {
+        padding: 6px 8px;
+        background-color: transparent;
+        border: 1px solid #e2e8f0;
+    }
+    ::ng-deep mat-card-header {
+        padding: 8px 16px;
+    }
+    ::ng-deep mat-card-content {
+        padding: 8px 16px !important;
+    }
+    .flex.flex-col.gap-y-4 {
+        gap: 8px;
+    }
+    /* Hide the empty placeholders in print to save space if needed */
+    .validation-result-item:empty {
+        display: none !important;
+    }
+}
