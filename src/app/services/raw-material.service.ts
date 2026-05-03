@@ -4,7 +4,7 @@ import { map, Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { CreateEntryRequest } from '@interfaces/dtos/create-entry.dto';
 import { CreateEntryResponse } from '@interfaces/dtos/response/create-entry.response.dto';
-import { RawMaterialEntriesResponse } from '@interfaces/dtos/response/raw-material-entries.response';
+import { RawMaterialEntriesResponse, RawMaterialCobreEntry } from '@interfaces/dtos/response/raw-material-entries.response';
 import { DiametersWithResistanceResponse } from '@interfaces/dtos/response/diameters_with_resistance.response';
 import { DiameterIramOhmMaxValue } from '@models/diameters-iram-max-values';
 import { ApiResponse } from '@interfaces/pagination.interface';
@@ -130,6 +130,15 @@ export class RawMaterialService {
             `${this.apiEntriesUrl}`,
             { params }
         );
+    }
+
+    /**
+     * Gets a single raw material entry by its ID
+     * @param id - The entry ID
+     * @returns Observable with the entry response
+     */
+    getEntryById(id: number): Observable<ApiResponse<RawMaterialCobreEntry>> {
+        return this.http.get<ApiResponse<RawMaterialCobreEntry>>(`${this.apiEntriesUrl}/${id}`);
     }
 
     /**

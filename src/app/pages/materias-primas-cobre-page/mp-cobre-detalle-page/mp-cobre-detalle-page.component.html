@@ -1,0 +1,18 @@
+<app-page-header title="Detalle Ingreso de Cobre" description="Resumen de la entrada de materia prima de cobre">
+    <div actions>
+        <button mat-button (click)="goBack()">
+            <lucide-angular [img]="arrowLeftIcon" size="20" class="mr-2"></lucide-angular>
+            Volver
+        </button>
+    </div>
+</app-page-header>
+
+<div class="p-6">
+    @if (loading()) {
+        <div class="flex justify-center items-center h-64">
+            <mat-spinner diameter="50"></mat-spinner>
+        </div>
+    } @else if (summaryData()) {
+        <app-mp-cobre-summary [data]="summaryData()!"></app-mp-cobre-summary>
+    }
+</div>

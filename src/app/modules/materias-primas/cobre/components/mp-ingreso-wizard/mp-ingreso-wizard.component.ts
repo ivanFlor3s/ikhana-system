@@ -15,6 +15,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { CommonModule, DatePipe } from '@angular/common';
 import { IngresoCobre } from '@interfaces/mocks/cobre-ingreso-interface';
 import { BadgeComponent } from '@shared/components/badge/badge.component';
+import { MpCobreSummaryComponent, CobreSummaryData } from '../mp-cobre-summary/mp-cobre-summary.component';
 import { ProviderService } from '@services/provider.service';
 import { RawMaterialService, RawMaterialCharacteristic } from '@services/raw-material.service';
 import { NameValue } from '@models/name-value.model';
@@ -52,6 +53,7 @@ import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
     MatProgressSpinnerModule,
     BadgeComponent,
     MatOption,
+    MpCobreSummaryComponent,
   ],
   providers: [DatePipe],
   templateUrl: './mp-ingreso-wizard.component.html',
@@ -276,9 +278,6 @@ export class MpIngresoWizardComponent {
     return 'NO CUMPLE';
   }
 
-  /**
-   * Get summary data for final step
-   */
   getSummaryData(): Partial<IngresoCobre> {
     return {
       ...this.basicInfoFormGroup.value,
@@ -287,6 +286,23 @@ export class MpIngresoWizardComponent {
       resultado: this.getResultado(),
       fechaEnsayo: new Date(),
     } as Partial<IngresoCobre>;
+  }
+
+  get summaryData(): CobreSummaryData {
+    return {
+      fecha: this.basicInfoFormGroup.get('fecha')?.value?.toISOString() || '',
+      remito: this.basicInfoFormGroup.get('remito')?.value || '',
+      proveedorName: this.basicInfoFormGroup.get('proveedor')?.value?.name || '',
+      pesoKg: this.basicInfoFormGroup.get('pesoKg')?.value || 0,
+      diametroMedido: `${this.getSelectedCharacteristic()?.decimal_value || ''} ${this.getSelectedCharacteristic()?.unit || ''}`,
+      resistenciaOhmsKm: this.measurementsFormGroup.get('resistenciaOhmsKm')?.value || 0,
+      estiramientoPercent: this.measurementsFormGroup.get('estiramientoPercent')?.value || 0,
+      fechaEnsayo: this.validationFormGroup.get('fechaEnsayo')?.value?.toISOString() || '',
+      aspectoSuperficial: this.validationFormGroup.get('aspectoSuperficialLibreDefectos')?.value || false,
+      limpieza: this.validationFormGroup.get('limpieza')?.value || false,
+      acondicionado: this.validationFormGroup.get('acondicionado')?.value || false,
+      rectificacion: this.validationFormGroup.get('rectificacion')?.value || false,
+    };
   }
 
   loadDiametersWithMaxResistance(): void {

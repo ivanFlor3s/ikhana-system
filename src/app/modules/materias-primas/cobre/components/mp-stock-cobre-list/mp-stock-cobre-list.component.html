@@ -2,6 +2,8 @@
     <!-- Custom renderer for 'actions' column -->
     <ng-template modernTableCell="actions" let-row>
         <div class="flex gap-2 items-center">
+            <lucide-angular matTooltip="Ver detalle" (click)="onDetail(row, $event)" [img]="eyeIcon" size="16">
+            </lucide-angular>
             <lucide-angular matTooltip="Imprimir ticket entrada" (click)="onDownloadLabel(row, $event)" [img]="tagIcon"
                 size="16">
             </lucide-angular>
