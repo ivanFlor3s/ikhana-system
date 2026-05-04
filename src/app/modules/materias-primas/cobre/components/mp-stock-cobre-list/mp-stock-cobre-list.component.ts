@@ -88,7 +88,7 @@ export class MpStockCobreListComponent {
     {
       id: 'actions',
       title: '',
-      width: 'w-16'
+      width: 'w-24'
     }
   ]
 
