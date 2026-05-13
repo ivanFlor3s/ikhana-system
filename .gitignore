@@ -1,0 +1,60 @@
+# Dependencies
+node_modules/
+vendor/
+
+# Environment files
+.env
+.env.backup
+.env.production
+
+# Build output
+/dist
+/tmp
+/out-tsc
+/bazel-out
+/src/public/build
+/src/public/hot
+/src/public/storage
+/src/storage/*.key
+
+# IDEs and editors
+.fleet/
+.idea/
+.vscode/
+.history/
+*.sublime-workspace
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+
+# Compiled/Cached files
+.phpunit.cache/
+.phpunit.result.cache
+/bootstrap/cache/*.php
+/.angular/cache/
+.sass-cache/
+
+# Logs
+npm-debug.log
+yarn-error.log
+
+# Generated docs
+/src/public/vendor/scribe/
+/src/resources/views/scribe/
+/src/.scribe/
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Misc
+Homestead.json
+Homestead.yaml
+auth.json
+connect.lock
+/coverage
+/libpeerconnection.log
+testem.log
+/typings
