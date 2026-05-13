@@ -1,0 +1,10 @@
+<div *ngIf="hasPrefix" class="relative flex items-center">
+    <div class="absolute left-3 pointer-events-none">
+        <ng-content select="[prefix]"></ng-content>
+    </div>
+    <input [type]="type" [placeholder]="placeholder" [disabled]="disabled" [autocomplete]="autocomplete" [value]="value"
+        [ngClass]="inputClasses()" class="pl-10" (input)="onInput($event)" (blur)="onBlur()" />
+</div>
+
+<input *ngIf="!hasPrefix" [type]="type" [placeholder]="placeholder" [disabled]="disabled" [autocomplete]="autocomplete"
+    [value]="value" [ngClass]="inputClasses()" (input)="onInput($event)" (blur)="onBlur()" />

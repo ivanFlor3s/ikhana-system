@@ -1,0 +1,256 @@
+<h2 mat-dialog-title>{{ isEditMode() ? 'Editar Proveedor' : 'Crear Proveedor' }}</h2>
+<mat-dialog-content>
+    <!-- Loading spinner while fetching provider data -->
+    @if (isLoading()) {
+    <div class="flex items-center justify-center py-20">
+        <mat-spinner diameter="50"></mat-spinner>
+    </div>
+    }
+
+    @if (!isLoading()) {
+    <form [formGroup]="form" class="grid grid-cols-6 gap-4 py-4" (ngSubmit)="submit()">
+        <mat-form-field appearance="outline" class="col-span-3">
+            <mat-label>Nombre</mat-label>
+            <input matInput formControlName="name" />
+            <mat-error *ngIf="nameControl.hasError('required')">El nombre es requerido</mat-error>
+        </mat-form-field>
+
+        @if (isAdmin()) {
+        <mat-form-field appearance="outline" class="col-span-3">
+            <mat-label>CUIT</mat-label>
+            <input matInput formControlName="cuit" />
+            <mat-spinner class="mr-3" matSuffix diameter="20" *ngIf="cuitControl.pending"></mat-spinner>
+            <mat-icon matSuffix class="text-green-600! important"
+                *ngIf="cuitControl.valid && !cuitControl.pending">check_circle</mat-icon>
+            <mat-icon matSuffix class="text-red-600"
+                *ngIf="cuitControl.invalid && cuitControl.touched && !cuitControl.pending">error</mat-icon>
+            <mat-error *ngIf="cuitControl.hasError('required')">El CUIT es requerido</mat-error>
+            <mat-error *ngIf="cuitControl.hasError('cuilNotFound')">El CUIT no existe en AFIP</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="col-span-3">
+            <mat-label>IIBB</mat-label>
+            <input matInput formControlName="iib" />
+            <mat-hint> Ingresos Brutos </mat-hint>
+        </mat-form-field>
+        }
+
+        <mat-form-field appearance="outline" class="col-span-3">
+            <mat-label>Dirección</mat-label>
+            <input matInput formControlName="address" />
+        </mat-form-field>
+
+        @if (isAdmin()) {
+        <mat-form-field appearance="outline" class="col-span-3">
+            <mat-label>Razón Social</mat-label>
+            <input matInput formControlName="socialReason" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="col-span-3">
+            <mat-label>Posición frente al IVA</mat-label>
+            <mat-select formControlName="ivaPositionId">
+                @for (taxStatus of taxStatuses(); track taxStatus.value) {
+                <mat-option [value]="taxStatus.value">{{ taxStatus.name }}</mat-option>
+                }
+            </mat-select>
+            <mat-error>La posición frente al IVA es requerida</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="col-span-3">
+            <mat-label>Convenio</mat-label>
+            <mat-select formControlName="convenioId">
+                @for (agreement of agreements(); track agreement.value) {
+                <mat-option [value]="agreement.value">{{ agreement.name }}</mat-option>
+                }
+            </mat-select>
+            <mat-error>El convenio es requerido</mat-error>
+        </mat-form-field>
+        }
+
+        <mat-form-field appearance="outline" class="col-span-3">
+            <mat-label>Materia Prima</mat-label>
+            <mat-select formControlName="categoryId">
+                @for (category of categories(); track category.value) {
+                <mat-option [value]="category.value">{{ category.name }}</mat-option>
+                }
+            </mat-select>
+            <mat-error>La materia prima es requerida</mat-error>
+        </mat-form-field>
+
+        @if (isAdmin()) {
+        <mat-form-field appearance="outline" class="col-span-3">
+            <mat-label>Website</mat-label>
+            <input matInput formControlName="website" />
+        </mat-form-field>
+        }
+        <div class="col-span-6">
+            <div class="flex flex-row gap-x-2">
+                <mat-form-field appearance="outline" class="flex-1">
+                    <mat-label>Teléfono principal</mat-label>
+                    <input matInput formControlName="phone" />
+                </mat-form-field>
+                <button type="button" mat-stroked-button color="primary" (click)="addPhone()">Agregar teléfono</button>
+            </div>
+
+            <div class="grid grid-cols-12">
+                @for (ctrl of otherPhones.controls; track $index; let i = $index) {
+                <mat-form-field appearance="outline" class="col-span-11">
+                    <mat-label>Teléfono {{ i + 1 }}</mat-label>
+                    <input matInput [formControl]="ctrl" />
+                </mat-form-field>
+                <button type="button" mat-icon-button color="warn" (click)="removePhone(i)">
+                    <span class="material-icons">delete</span>
+                </button>
+                }
+            </div>
+        </div>
+
+        <div class="col-span-6">
+            <div class="flex flex-row gap-x-2">
+                <mat-form-field appearance="outline" class="flex-1">
+                    <mat-label>Email principal</mat-label>
+                    <input matInput formControlName="email" type="email" />
+                </mat-form-field>
+                <button type="button" mat-stroked-button color="primary" (click)="addEmail()">Agregar email</button>
+            </div>
+            <div class="grid grid-cols-12">
+                @for (ctrl of otherEmails.controls; track $index; let i = $index) {
+                <mat-form-field appearance="outline" class="col-span-11">
+                    <mat-label>Email {{ i + 1 }}</mat-label>
+                    <input matInput [formControl]="ctrl" type="email" />
+                </mat-form-field>
+                <button type="button" mat-icon-button class="col-span-1" color="warn" (click)="removeEmail(i)">
+                    <span class="material-icons">delete</span>
+                </button>
+                }
+            </div>
+        </div>
+
+        <!-- Horarios (admin only) -->
+        @if (isAdmin()) {
+        <div class="col-span-6">
+            <h4 class="mb-2">Desde</h4>
+            <div formGroupName="since" class="grid grid-cols-2 gap-3">
+                <mat-form-field appearance="outline">
+                    <mat-label>Horas</mat-label>
+                    <input matInput type="number" formControlName="hours" />
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Minutos</mat-label>
+                    <input matInput type="number" formControlName="minutes" />
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="col-span-6">
+            <h4 class="mb-2">Hasta</h4>
+            <div formGroupName="to" class="grid grid-cols-2 gap-3">
+                <mat-form-field appearance="outline">
+                    <mat-label>Horas</mat-label>
+                    <input matInput type="number" formControlName="hours" />
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Minutos</mat-label>
+                    <input matInput type="number" formControlName="minutes" />
+                </mat-form-field>
+            </div>
+        </div>
+        }
+
+        <!-- Broker Information - Expandable Section -->
+        <div class="col-span-6">
+            <button type="button"
+                class="w-full flex items-center justify-between p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors"
+                (click)="toggleBrokerForm()">
+                <div class="flex items-center gap-2">
+                    <lucide-angular class="transition-transform duration-300"
+                        [img]="isBrokerFormExpanded() ? ChevronDownIcon : ChevronRightIcon"></lucide-angular>
+                    <h3 class="text-lg font-semibold">Información del Corredor</h3>
+                </div>
+                <div class="flex items-center gap-2">
+                    @if (isEditMode() && existingBrokerId() && isBrokerFormExpanded()) {
+                    <lucide-angular (click)="removeBroker(); $event.stopPropagation()" class="cursor-pointer"
+                        [img]="TrashIcon"></lucide-angular>
+
+                    }
+                    <span class="text-sm text-gray-500">{{ isBrokerFormExpanded() ? 'Ocultar' : 'Mostrar' }}</span>
+                </div>
+            </button>
+            <p class="text-sm text-gray-600 mt-2 px-3">
+                @if (isEditMode()) {
+                @if (existingBrokerId() && isBrokerFormExpanded()) {
+                Modifique los datos del corredor existente o elimínelo.
+                } @else if (isBrokerFormExpanded()) {
+                Complete los datos para crear un nuevo corredor para este proveedor.
+                } @else {
+                Opcional: Expanda esta sección para agregar un corredor a este proveedor.
+                }
+                } @else {
+                {{ isBrokerFormExpanded() ? 'Complete los datos del corredor para crearlo junto con el proveedor.' :
+                'Opcional: Expanda esta sección si desea crear un nuevo corredor.' }}
+                }
+            </p>
+        </div>
+
+        @if (isBrokerFormExpanded()) {
+        <mat-form-field appearance="outline" class="col-span-3">
+            <mat-label>Nombre del Corredor</mat-label>
+            <input matInput formControlName="brokerFirstName" />
+            <mat-error>El nombre del corredor es requerido</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="col-span-3">
+            <mat-label>Apellido del Corredor</mat-label>
+            <input matInput formControlName="brokerLastName" />
+            <mat-error>El apellido del corredor es requerido</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="col-span-3">
+            <mat-label>Email del Corredor</mat-label>
+            <input matInput formControlName="brokerEmail" type="email" />
+            <mat-error *ngIf="form.get('brokerEmail')?.hasError('required')">El email del corredor es
+                requerido</mat-error>
+            <mat-error *ngIf="form.get('brokerEmail')?.hasError('email')">Ingrese un email válido</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="col-span-3">
+            <mat-label>Teléfono del Corredor</mat-label>
+            <input matInput formControlName="brokerPhone" />
+            <mat-error>El teléfono del corredor es requerido</mat-error>
+        </mat-form-field>
+        }
+
+        @if (isAdmin()) {
+        <mat-form-field appearance="outline" class="col-span-6 mt-4">
+            <mat-label>Observaciones</mat-label>
+            <textarea matInput formControlName="observations"></textarea>
+        </mat-form-field>
+        }
+    </form>
+    }
+</mat-dialog-content>
+<mat-dialog-actions>
+    @if (errorMessage()) {
+    <div class="w-full mb-4 p-3 bg-red-100 text-red-700 rounded">
+        {{ errorMessage() }}
+    </div>
+    }
+    <div class="flex flex-row justify-end gap-2">
+        <app-button appearance="secondary" (click)="onNoClick()" [disabled]="isSubmitting()">Cancelar</app-button>
+        <app-button appearance="primary" (click)="submit()" [disabled]="isSubmitting()">
+            @if (isSubmitting()) {
+            <mat-spinner diameter="20" class="inline-block mr-2"></mat-spinner>
+            }
+            @if (isSubmitting()) {
+            @if (isCreatingBroker()) {
+            Creando corredor...
+            } @else {
+            {{ isEditMode() ? 'Actualizando...' : 'Creando proveedor...' }}
+            }
+            } @else {
+            {{ isEditMode() ? 'Actualizar' : 'Crear' }}
+            }
+        </app-button>
+    </div>
+</mat-dialog-actions>

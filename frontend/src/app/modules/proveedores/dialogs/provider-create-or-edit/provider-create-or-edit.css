@@ -1,0 +1,11 @@
+:host {
+    display: block;
+}
+
+.cdk-overlay-pane.mat-mdc-dialog-panel {
+    max-width: 1560px !important;
+}
+
+.rotate-90 {
+    transform: rotate(90deg);
+}

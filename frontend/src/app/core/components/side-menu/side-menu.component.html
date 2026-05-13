@@ -1,0 +1,108 @@
+<aside class="side-menu" [class.collapsed]="collapsed()">
+    <!-- Header -->
+    <div class="menu-header">
+        <div class="logo-section">
+            @if (appLogo()) {
+            <img [src]="appLogo()" alt="Logo" class="app-logo" />
+            } @else {
+            <div class="app-icon">
+                <lucide-angular [img]="MenuIcon"></lucide-angular>
+            </div>
+            }
+            @if (!collapsed()) {
+            <h1 class="app-title">{{ appTitle() }}</h1>
+            }
+        </div>
+    </div>
+
+    <!-- Toggle button at the edge -->
+    <button class="toggle-btn-edge" (click)="toggleSidebar()" type="button">
+        <lucide-angular [img]="collapsed() ? ChevronRightIcon : ChevronLeftIcon"></lucide-angular>
+    </button>
+
+    <!-- Navigation -->
+    <nav class="menu-nav">
+        @for (item of menuItems(); track item.label) {
+        <div class="menu-item-wrapper">
+            <!-- Main menu item -->
+            @if (item.route && !hasChildren(item)) {
+            <!-- Regular link item -->
+            <a [routerLink]="item.route" routerLinkActive="active" class="menu-item"
+                [title]="collapsed() ? item.label : ''">
+                <lucide-angular class="menu-icon" [img]="item.icon"></lucide-angular>
+                @if (!collapsed()) {
+                <span class="menu-label">{{ item.label }}</span>
+                @if (item.badge) {
+                <span class="menu-badge" [attr.data-color]="item.badge.color">
+                    {{ item.badge.value }}
+                </span>
+                }
+                }
+            </a>
+            } @else if (item.route && hasChildren(item)) {
+            <!-- Expandable item with a route -->
+            <div routerLinkActive="active" class="menu-item split-item" [class.expanded]="isExpanded(item)">
+                <a [routerLink]="item.route" class="menu-item-link"
+                    [title]="collapsed() ? item.label : ''">
+                    <lucide-angular class="menu-icon" [img]="item.icon"></lucide-angular>
+                    @if (!collapsed()) {
+                    <span class="menu-label">{{ item.label }}</span>
+                    @if (item.badge) {
+                    <span class="menu-badge" [attr.data-color]="item.badge.color">
+                        {{ item.badge.value }}
+                    </span>
+                    }
+                    }
+                </a>
+                @if (!collapsed()) {
+                <button class="menu-item-expand" (click)="toggleMenuItem(item)" type="button" aria-label="Expand menu">
+                    <lucide-angular class="expand-icon" [img]="isExpanded(item) ? ChevronUpIcon : ChevronDownIcon">
+                    </lucide-angular>
+                </button>
+                }
+            </div>
+            } @else {
+            <!-- Expandable item or item without route -->
+            <button class="menu-item" [class.expanded]="isExpanded(item)" (click)="toggleMenuItem(item)" type="button"
+                [title]="collapsed() ? item.label : ''">
+                <lucide-angular class="menu-icon" [img]="item.icon"></lucide-angular>
+                @if (!collapsed()) {
+                <span class="menu-label">{{ item.label }}</span>
+                @if (item.badge) {
+                <span class="menu-badge" [attr.data-color]="item.badge.color">
+                    {{ item.badge.value }}
+                </span>
+                }
+                @if (hasChildren(item)) {
+                <lucide-angular class="expand-icon" [img]="isExpanded(item) ? ChevronUpIcon : ChevronDownIcon">
+                </lucide-angular>
+                }
+                }
+            </button>
+            }
+
+            <!-- Sub-menu items -->
+            @if (hasChildren(item) && isExpanded(item) && !collapsed()) {
+            <div class="sub-menu">
+                @for (child of item.children; track child.label) {
+                <a [routerLink]="child.route" routerLinkActive="active" class="sub-menu-item">
+                    <lucide-angular class="menu-icon" [img]="child.icon"></lucide-angular>
+                    <span class="sub-menu-label">{{ child.label }}</span>
+                    @if (child.badge) {
+                    <span class="menu-badge" [attr.data-color]="child.badge.color">
+                        {{ child.badge.value }}
+                    </span>
+                    }
+                </a>
+                }
+            </div>
+            }
+        </div>
+        }
+
+    </nav>
+    <div class="border-t border-gray-200"></div>
+    <div class="p-2 mb-2 bg-neutral-50">
+        <app-user-detail [name]="name()" [collapsed]="collapsed()" [role]="role()"></app-user-detail>
+    </div>
+</aside>

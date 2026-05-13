@@ -1,0 +1,98 @@
+<div class="flex flex-col gap-y-4">
+    <!-- Basic Information -->
+    <mat-card class="summary-card">
+        <mat-card-header>
+            <mat-card-title>Básica</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <div class="summary-grid">
+                <div class="summary-item">
+                    <span class="label">Fecha:</span>
+                    <span class="value">{{ data().fecha | date:'dd/MM/yyyy' }}</span>
+                </div>
+                <div class="summary-item">
+                    <span class="label">Remito:</span>
+                    <span class="value">{{ data().remito }}</span>
+                </div>
+                <div class="summary-item">
+                    <span class="label">Proveedor:</span>
+                    <span class="value">{{ data().proveedorName }}</span>
+                </div>
+                <div class="summary-item">
+                    <span class="label">Peso:</span>
+                    <span class="value">{{ data().pesoKg }} kg</span>
+                </div>
+            </div>
+        </mat-card-content>
+    </mat-card>
+
+    <!-- Measurements -->
+    <mat-card class="summary-card">
+        <mat-card-header>
+            <mat-card-title>Mediciones</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <div class="summary-grid">
+                <div class="summary-item">
+                    <span class="label">Diámetro Medido:</span>
+                    <span class="value">{{ data().diametroMedido }}</span>
+                </div>
+                <div class="summary-item">
+                    <span class="label">Resistencia Química:</span>
+                    <span class="value">{{ data().resistenciaOhmsKm }} Ω/km</span>
+                </div>
+                <div class="summary-item">
+                    <span class="label">Estiramiento:</span>
+                    <span class="value">{{ data().estiramientoPercent }} %</span>
+                </div>
+            </div>
+        </mat-card-content>
+    </mat-card>
+
+    <!-- IRAM Validation Results -->
+    <mat-card class="summary-card">
+        <mat-card-header>
+            <mat-card-title>Resultados Validación IRAM 2011</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <div class="validation-results">
+                <div class="validation-result-item">
+                    <span class="label">Fecha de Ensayo:</span>
+                    <span class="value">{{ data().fechaEnsayo | date:'dd/MM/yyyy' }}</span>
+                </div>
+                <div class="validation-result-item"></div>
+                <div class="validation-result-item"></div>
+                
+                <div class="validation-result-item">
+                    <span class="label">Aspecto Superficial:</span>
+                    <app-badge
+                        [label]="data().aspectoSuperficial ? 'SI' : 'NO'"
+                        [variant]="data().aspectoSuperficial ? 'success' : 'error'"
+                        size="sm">
+                    </app-badge>
+                </div>
+                <div class="validation-result-item">
+                    <span class="label">Limpieza:</span>
+                    <app-badge [label]="data().limpieza ? 'SI' : 'NO'"
+                        [variant]="data().limpieza ? 'success' : 'error'"
+                        size="sm">
+                    </app-badge>
+                </div>
+                <div class="validation-result-item">
+                    <span class="label">Acondicionado:</span>
+                    <app-badge [label]="data().acondicionado ? 'SI' : 'NO'"
+                        [variant]="data().acondicionado ? 'success' : 'error'"
+                        size="sm">
+                    </app-badge>
+                </div>
+                <div class="validation-result-item">
+                    <span class="label">Rectificación:</span>
+                    <app-badge [label]="data().rectificacion ? 'SI' : 'NO'"
+                        [variant]="data().rectificacion ? 'success' : 'error'"
+                        size="sm">
+                    </app-badge>
+                </div>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>

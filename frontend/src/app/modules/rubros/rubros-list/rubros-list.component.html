@@ -1,0 +1,14 @@
+<app-table [columns]="columns" [data]="rubros()" [selectableRows]="true" (rowClick)="onRubroClick($event)">
+
+    <!-- custom renderer para columna 'actions' -->
+    <ng-template modernTableCell="actions" let-row>
+        <div class="flex gap-2">
+            <button class="cursor-pointer text-shadow-neutral-500 hover:text-neutral-700 rounded"><span
+                    class="material-icons-outlined" (click)="onEditRubro(row, $event)">edit</span></button>
+            <button (click)="onDeleteRubro(row, $event)"
+                class="cursor-pointer text-shadow-neutral-500 hover:text-red-600 rounded transition-colors">
+                <span class="material-icons-outlined">delete</span>
+            </button>
+        </div>
+    </ng-template>
+</app-table>

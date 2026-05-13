@@ -1,0 +1,117 @@
+/* You can add global styles to this file, and also import other style files */
+@import 'tailwindcss';
+
+@theme {
+    --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+    --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+
+body {
+    margin: 0;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+/* Angular Material Typography Overrides */
+/* Override Material Design 3 typography system tokens to use Inter font */
+html {
+    /* Body Typography */
+    --mat-sys-body-large-font: 'Inter', system-ui, -apple-system, sans-serif;
+    --mat-sys-body-medium-font: 'Inter', system-ui, -apple-system, sans-serif;
+    --mat-sys-body-small-font: 'Inter', system-ui, -apple-system, sans-serif;
+
+    /* Label Typography (used in form fields) */
+    --mat-sys-label-large-font: 'Inter', system-ui, -apple-system, sans-serif;
+    --mat-sys-label-medium-font: 'Inter', system-ui, -apple-system, sans-serif;
+    --mat-sys-label-small-font: 'Inter', system-ui, -apple-system, sans-serif;
+
+    /* Title Typography (used in dialogs, headers) */
+    --mat-sys-title-large-font: 'Inter', system-ui, -apple-system, sans-serif;
+    --mat-sys-title-medium-font: 'Inter', system-ui, -apple-system, sans-serif;
+    --mat-sys-title-small-font: 'Inter', system-ui, -apple-system, sans-serif;
+
+    /* Headline Typography */
+    --mat-sys-headline-large-font: 'Inter', system-ui, -apple-system, sans-serif;
+    --mat-sys-headline-medium-font: 'Inter', system-ui, -apple-system, sans-serif;
+    --mat-sys-headline-small-font: 'Inter', system-ui, -apple-system, sans-serif;
+
+    /* Display Typography */
+    --mat-sys-display-large-font: 'Inter', system-ui, -apple-system, sans-serif;
+    --mat-sys-display-medium-font: 'Inter', system-ui, -apple-system, sans-serif;
+    --mat-sys-display-small-font: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+/* 
+@source inline('bg-sky-600 text-white');
+@source inline('hover:bg-sky-700');
+@source inline('focus:ring-sky-500');
+@source inline('bg-transparent');
+@source inline('text-sky-600');
+@source inline('border-2 border-sky-600');
+@source inline('hover:bg-sky-600/10');
+@source inline('focus:ring-sky-500') @source inline('bg-neutral-800 text-neutral-100') @source inline('hover:bg-neutral-700');
+@source inline('focus:ring-neutral-600');
+@source inline('bg-transparent');
+@source inline('text-neutral-200');
+@source inline('border-2 border-neutral-700');
+@source inline('hover:bg-neutral-700/10');
+@source inline('focus:ring-neutral-600'); */
+
+@layer utilities {
+    @keyframes under-pressure {
+        0% {
+            transform: translateY(0);
+        }
+
+        35% {
+            transform: translateY(1px) scale(0.99);
+        }
+
+        60% {
+            transform: translateY(1px) scale(1.01);
+        }
+
+        100% {
+            transform: translateY(0) scale(1);
+        }
+    }
+
+    .under-pressure {
+        animation: under-pressure 180ms cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+}
+
+.mat-mdc-form-field .mdc-notched-outline__notch {
+    border-right-style: hidden;
+}
+
+/* Print Styles */
+@media print {
+    body * {
+        visibility: hidden;
+    }
+    .print-area, .print-area * {
+        visibility: visible;
+    }
+    .print-area {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+    }
+    .no-print, .no-print * {
+        display: none !important;
+    }
+    mat-card {
+        page-break-inside: avoid;
+        break-inside: avoid;
+    }
+    @page {
+        margin: 1cm;
+    }
+}

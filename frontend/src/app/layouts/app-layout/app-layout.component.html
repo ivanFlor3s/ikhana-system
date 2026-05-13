@@ -1,0 +1,12 @@
+<div class="flex h-screen w-full bg-gray-100">
+    <!-- Sidebar -->
+    <app-side-menu [menuItems]="menuItems" appTitle="Kikhana App"></app-side-menu>
+
+    <!-- Main Content -->
+    <main class="flex-1 overflow-y-auto transition-all duration-300">
+        <router-outlet></router-outlet>
+    </main>
+
+    <!-- Side Detail Panel -->
+    <app-side-detail></app-side-detail>
+</div>
