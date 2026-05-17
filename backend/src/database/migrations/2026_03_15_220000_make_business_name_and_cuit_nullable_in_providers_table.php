@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::table('providers', function (Blueprint $table) {
             $table->string('business_name')->nullable()->change();
-            $table->string('cuit')->nullable()->unique()->change();
+            $table->string('cuit')->nullable()->change();
         });
     }
 
@@ -24,7 +24,7 @@ return new class extends Migration
     {
         Schema::table('providers', function (Blueprint $table) {
             $table->string('business_name')->nullable(false)->change();
-            $table->string('cuit')->nullable(false)->unique()->change();
+            $table->string('cuit')->nullable(false)->change();
         });
     }
 };

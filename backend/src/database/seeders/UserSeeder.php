@@ -16,7 +16,7 @@ class UserSeeder extends Seeder
     {
         // Obtener los roles
         $adminRole = Role::where('name', 'Admin')->first();
-        $empleadoRole = Role::where('name', 'Empleado')->first();
+        $empleadoRole = Role::where('name', 'Operador')->first();
         $consultorRole = Role::where('name', 'Consultor')->first();
 
         // Crear usuarios dummy
