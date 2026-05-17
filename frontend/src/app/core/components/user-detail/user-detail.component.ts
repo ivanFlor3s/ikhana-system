@@ -23,8 +23,9 @@ export class UserDetailComponent {
 
   logout() {
     console.log('logout clicked');
-    this.authService.logout().subscribe(() => {
-      this.router.navigate(['/auth/login']);
-    });
+    this.authService.logout().subscribe({
+      complete: () => {
+        this.router.navigate(['/auth/login']);
+    }});
   }
 }
