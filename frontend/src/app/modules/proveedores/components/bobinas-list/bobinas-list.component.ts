@@ -1,7 +1,7 @@
 import { Component, inject, input, output } from '@angular/core';
 import { TableComponent, ColumnDef, SortDirection, ModernTableCellDirective } from '@shared/components/table/table.component';
 import { CoilsSummaryItemDto } from '@interfaces/dtos/response/coils-summary-item.dto';
-import { ArrowRightLeft, LucideAngularModule } from "lucide-angular";
+import { ArrowRightLeft, Pencil, LucideAngularModule } from "lucide-angular";
 import { Router } from '@angular/router';
 import { MatTooltip } from "@angular/material/tooltip";
 
@@ -15,7 +15,10 @@ export class BobinasListComponent {
   coils = input<CoilsSummaryItemDto[]>([]);
 
   sortChanged = output<{ columnId: string | null; direction: SortDirection }>();
+  editClicked = output<CoilsSummaryItemDto>();
+
   readonly ArrowRightLeft = ArrowRightLeft;
+  readonly Pencil = Pencil;
 
   columns: ColumnDef<CoilsSummaryItemDto>[] = [
     {
@@ -59,5 +62,9 @@ export class BobinasListComponent {
     this.router.navigate(['app', 'proveedores', coil.provider_id, 'movimientos-bobinas'], {
       state: { providerName: coil.provider_name }
     });
+  }
+
+  onEditClicked(coil: CoilsSummaryItemDto): void {
+    this.editClicked.emit(coil);
   }
 }

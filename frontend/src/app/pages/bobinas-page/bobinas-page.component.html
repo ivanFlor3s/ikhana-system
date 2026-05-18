@@ -4,6 +4,14 @@
             <lucide-angular [img]="SpoonIcon"></lucide-angular>
         </div>
     </ng-container>
+    <ng-container actions>
+        <app-button appearance="primary" variant="solid" size="md" (click)="createClicked()">
+            <span class="inline-flex items-center gap-1 text-xs md:text-sm md:gap-2">
+                <span class="material-icons">add</span>
+                <span class="hidden md:block">Crear</span>
+            </span>
+        </app-button>
+    </ng-container>
 </app-page-header>
 
 <div class="flex flex-col gap-4 p-4">
@@ -14,6 +22,6 @@
         <mat-spinner></mat-spinner>
     </div>
     } @else {
-    <app-bobinas-list [coils]="coils()" (sortChanged)="onSortChanged($event)"></app-bobinas-list>
+    <app-bobinas-list [coils]="coils()" (sortChanged)="onSortChanged($event)" (editClicked)="onEditClicked($event)"></app-bobinas-list>
     }
 </div>

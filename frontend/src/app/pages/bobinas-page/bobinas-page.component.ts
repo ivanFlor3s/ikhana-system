@@ -9,21 +9,24 @@ import { CoilsSummaryDto } from '@interfaces/dtos/coils-summary.dto';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { SortDirection } from '@shared/components/table/table.component';
 import { take } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
+import { CreateOrUpdateBobinasProveedorComponent } from '@modules/proveedores/dialogs/create-or-update-bobinas-proveedor/create-or-update-bobinas-proveedor.component';
+import { Button } from "@shared/components/button/button";
 
 @Component({
   selector: 'app-bobinas-page',
-  imports: [PageHeaderComponent, LucideAngularModule, BobinasListComponent, BobinasFilterComponent, MatProgressSpinnerModule],
+  imports: [PageHeaderComponent, LucideAngularModule, BobinasListComponent, BobinasFilterComponent, MatProgressSpinnerModule, Button],
   templateUrl: './bobinas-page.component.html',
   styleUrl: './bobinas-page.component.css'
 })
 export class BobinasPageComponent implements OnInit {
   private bobinasService = inject(BobinasService);
+  private dialogService = inject(MatDialog);
 
   readonly SpoonIcon = Spool;
   coils = signal<CoilsSummaryItemDto[]>([]);
   isLoading = signal<boolean>(false);
 
-  // Filter state
   currentFilters = signal<CoilsSummaryDto>({
     page: 1,
     per_page: 15,
@@ -64,5 +67,31 @@ export class BobinasPageComponent implements OnInit {
       sort_dir: event.direction ?? undefined,
     });
     this.loadCoils();
+  }
+
+  createClicked() {
+    this.dialogService.open(CreateOrUpdateBobinasProveedorComponent, {
+      width: 'auto',
+      data: { providerId: null }
+    }).afterClosed().subscribe((result) => {
+      if (result) {
+        this.loadCoils();
+      }
+    });
+  }
+
+  onEditClicked(coil: CoilsSummaryItemDto) {
+    this.dialogService.open(CreateOrUpdateBobinasProveedorComponent, {
+      width: 'auto',
+      data: {
+        providerId: coil.provider_id,
+        providerName: coil.provider_name,
+        currentCoils: coil.coils_count,
+      }
+    }).afterClosed().subscribe((result) => {
+      if (result) {
+        this.loadCoils();
+      }
+    });
   }
 }

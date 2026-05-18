@@ -5,6 +5,7 @@ import { Provider } from '../models/provider.model';
 import { CreateProviderDto } from '../interfaces/dtos/create-provider.dto';
 import { environment } from '../../environments/environment';
 import { ApiResponse, PaginatedResponse, ProviderFilters } from '../interfaces/pagination.interface';
+import { ProviderInventoryResponse } from '@interfaces/dtos/response/provider-inventory.response';
 
 @Injectable({
   providedIn: 'root'
@@ -48,5 +49,21 @@ export class ProviderService {
 
   deleteProvider(id: number): Observable<{ success: boolean, message: string }> {
     return this.http.delete<{ success: boolean, message: string }>(`${this.apiUrl}/${id}`);
+  }
+
+  getProvidersSummary(): Observable<{ success: boolean, data: Provider[], message: string }> {
+    return this.http.get<{ success: boolean, data: Provider[], message: string }>(`${this.apiUrl}/summary`);
+  }
+
+  getProviderInventoryCoils(providerId: number): Observable<ApiResponse<ProviderInventoryResponse>> {
+    return this.http.get<ApiResponse<ProviderInventoryResponse>>(`${this.apiUrl}/${providerId}/inventory`);
+  }
+
+  createProviderInventoryCoils(providerId: number, coilsAmount: number): Observable<ApiResponse<ProviderInventoryResponse>> {
+    return this.http.post<ApiResponse<ProviderInventoryResponse>>(`${this.apiUrl}/${providerId}/inventory/coils`, { coils_amount: coilsAmount });
+  }
+
+  updateProviderInventoryCoils(providerId: number, coilsAmount: number): Observable<ApiResponse<ProviderInventoryResponse>> {
+    return this.http.put<ApiResponse<ProviderInventoryResponse>>(`${this.apiUrl}/${providerId}/inventory/coils`, { coils_amount: coilsAmount });
   }
 }
