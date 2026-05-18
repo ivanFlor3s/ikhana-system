@@ -4,5 +4,9 @@
             (click)="goToMovements(row)">
             <lucide-angular [img]="ArrowRightLeft" size="14" matTooltip="Ir a movimientos"></lucide-angular>
         </button>
+        <button class="cursor-pointer text-shadow-neutral-500 hover:text-neutral-700 rounded ml-2"
+            (click)="onEditClicked(row)">
+            <lucide-angular [img]="Pencil" size="14" matTooltip="Editar bobinas"></lucide-angular>
+        </button>
     </ng-template>
 </app-table>

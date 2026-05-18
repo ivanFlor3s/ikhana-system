@@ -7,6 +7,8 @@ use App\Http\Resources\ProviderCoilSummaryResource;
 use App\Http\Resources\ProviderCoilMovementResource;
 use App\Models\Provider;
 use App\Models\ProviderCoilMovement;
+use App\Models\ProviderInventory;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -221,5 +223,95 @@ class ProviderCoilController extends Controller
                 'success' => true,
                 'message' => 'Movimientos de bobinas obtenidos exitosamente',
             ]);
+    }
+
+    /**
+     * Crear un registro de bobinas para un proveedor
+     *
+     * @bodyParam coils_amount integer required Cantidad de bobinas iniciales
+     *
+     * @response 201 {
+     *   "success": true,
+     *   "data": {
+     *     "id": 1,
+     *     "provider_id": 1,
+     *     "coils_amount": 10
+     *   },
+     *   "message": "Registro de bobinas creado exitosamente"
+     * }
+     *
+     * @response 404 scenario="proveedor no encontrado" {
+     *   "message": "No query results for model [App\\Models\\Provider] 999"
+     * }
+     */
+    public function create($providerId, Request $request): JsonResponse
+    {
+        $request->validate([
+            'coils_amount' => 'required|integer|min:0',
+        ]);
+
+        $provider = Provider::findOrFail($providerId);
+
+        if (ProviderInventory::where('provider_id', $providerId)->exists()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'El proveedor ya tiene un inventario de bobinas',
+            ], 409);
+        }
+
+        $providerInventory = ProviderInventory::create([
+            'provider_id' => $provider->id,
+            'coils_count' => $request->coils_amount,
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'data' => $providerInventory,
+            'message' => 'Registro de bobinas creado exitosamente',
+        ]);
+    }
+
+    /**
+     * Actualizar un registro de bobinas para un proveedor
+     *
+     * @bodyParam coils_amount integer required Cantidad de bobinas iniciales
+     *
+     * @response 201 {
+     *   "success": true,
+     *   "data": {
+     *     "id": 1,
+     *     "provider_id": 1,
+     *     "coils_amount": 10
+     *   },
+     *   "message": "Registro de bobinas actualizado exitosamente"
+     * }
+     *
+     * @response 404 scenario="proveedor no encontrado" {
+     *   "message": "No query results for model [App\\Models\\Provider] 999"
+     * }
+     */
+    public function update($providerId, Request $request): JsonResponse
+    {
+        $request->validate([
+            'coils_amount' => 'required|integer|min:0',
+        ]);
+
+        $providerInventory = ProviderInventory::where('provider_id', $providerId)->first();
+
+        if (!$providerInventory) {
+            return response()->json([
+                'success' => false,
+                'message' => 'El proveedor no tiene un inventario de bobinas',
+            ], 404);
+        }
+
+        $providerInventory->coils_count = $request->coils_amount;
+        $providerInventory->save();
+
+        return response()->json([
+            'success' => true,
+            'data' => $providerInventory,
+            'message' => 'Registro de bobinas actualizado exitosamente',
+        ]);
     }
 }

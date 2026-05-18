@@ -1,0 +1,48 @@
+<h3 mat-dialog-title>{{ isCreating() ? 'Nuevo' : 'Actualizar' }} registro de bobinas</h3>
+<mat-dialog-content>
+    <form [formGroup]="form" class="flex flex-col gap-4">
+        @if (isCreating()) {
+            <mat-form-field appearance="outline">
+                <mat-label>Proveedor</mat-label>
+                <mat-select formControlName="providerId">
+                    @if (loadingProviders()) {
+                        <mat-option disabled>
+                            <mat-spinner diameter="20"></mat-spinner>
+                        </mat-option>
+                    }
+                    @for (provider of providers(); track provider.value) {
+                        <mat-option [value]="provider.value">{{ provider.name }}</mat-option>
+                    }
+                </mat-select>
+                @if (form.get('providerId')?.hasError('required') && form.get('providerId')?.touched) {
+                    <mat-error>El proveedor es requerido</mat-error>
+                }
+            </mat-form-field>
+        } @else {
+            <mat-form-field appearance="outline">
+                <mat-label>Proveedor</mat-label>
+                <input matInput [value]="data?.providerName" readonly>
+            </mat-form-field>
+        }
+        <mat-form-field appearance="outline">
+            <mat-label>Bobinas</mat-label>
+            <input matInput type="number" step="1" min="0" formControlName="coilAmount">
+            @if (form.get('coilAmount')?.hasError('required') && form.get('coilAmount')?.touched) {
+                <mat-error>La cantidad de bobinas es requerida</mat-error>
+            }
+            @if (form.get('coilAmount')?.hasError('min') && form.get('coilAmount')?.touched) {
+                <mat-error>La cantidad de bobinas no puede ser negativa</mat-error>
+            }
+        </mat-form-field>
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button [disabled]="isSubmitting()" (click)="dialogRef.close()">Cancelar</button>
+    <button mat-button [disabled]="isSubmitting()" (click)="submit()">
+        @if (isSubmitting()) {
+            <mat-spinner diameter="20"></mat-spinner>
+        } @else {
+            Guardar
+        }
+    </button>
+</mat-dialog-actions>
