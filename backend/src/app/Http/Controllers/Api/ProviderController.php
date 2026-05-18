@@ -423,5 +423,50 @@ class ProviderController extends Controller
             ], 500);
         }
     }
+
+    /**
+     * Obtener un resumen de todos los proveedores
+     *
+     * Obtiene un resumen de todos los proveedores del sistema ordenados por nombre de fantasía.
+     *
+     * @response 200 scenario="success" {
+     *   "success": true,
+     *   "data": [
+     *     {
+     *       "id": 1,
+     *       "fantasy_name": "Proveedor Actualizado S.A.",
+     *       "business_name": "Proveedor Actualizado"
+     *     },
+     *     {
+     *       "id": 2,
+     *       "fantasy_name": "Proveedor 2 S.A.",
+     *       "business_name": "Proveedor 2"
+     *     }
+     *   ],
+     *   "message": "Proveedores obtenidos exitosamente"
+     * }
+     * @response 500 scenario="error al obtener proveedores" {
+     *   "success": false,
+     *   "message": "Error al obtener proveedores",
+     *   "error": "Error de ejemplo"
+     * }
+     */
+    public function getAllProvidersSummary(): JsonResponse
+    {
+        try {
+            $providers = Provider::orderBy('fantasy_name')->get(['id', 'fantasy_name', 'business_name']);
+            return response()->json([
+                'success' => true,
+                'data' => $providers,
+                'message' => 'Proveedores obtenidos exitosamente'
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error al obtener proveedores',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
 }
 

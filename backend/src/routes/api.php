@@ -63,9 +63,12 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('providers')->group(function () {
         // Static routes first (before {id} wildcard)
         Route::get('/coil-summary', [ProviderCoilController::class, 'index']);
+        Route::post('/{id}/inventory/coils', [ProviderCoilController::class, 'create']);
+        Route::put('/{id}/inventory/coils', [ProviderCoilController::class, 'update']);
 
         Route::get('/', [ProviderController::class, 'index']);
         Route::post('/', [ProviderController::class, 'store']);
+        Route::get('/summary', [ProviderController::class, 'getAllProvidersSummary']);
         Route::get('/{id}', [ProviderController::class, 'show']);
         Route::put('/{id}', [ProviderController::class, 'update']);
         Route::delete('/{id}', [ProviderController::class, 'destroy']);
