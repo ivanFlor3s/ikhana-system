@@ -404,7 +404,7 @@ export class MpIngresoWizardComponent {
       remito: this.basicInfoFormGroup.get('remito')?.value!,
       quantity_kg: this.basicInfoFormGroup.get('pesoKg')?.value!,
       coils_count: this.basicInfoFormGroup.get('cantidadBobinas')?.value!,
-      returned_coils_count: this.returnBobinasFormGroup.get('cantidadBobinasDevueltas')?.value!,
+      returned_coils_count: this.returnBobinasFormGroup.get('cantidadBobinasDevolver')?.value!,
       observations: this.measurementsFormGroup.get('observacion')?.value!,
       test: {
         resistance_ohm_km: this.measurementsFormGroup.get('resistenciaOhmsKm')?.value!,
