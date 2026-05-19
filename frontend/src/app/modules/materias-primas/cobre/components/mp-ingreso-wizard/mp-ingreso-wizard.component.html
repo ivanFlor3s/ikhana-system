@@ -9,7 +9,7 @@
                 <div class="form-grid">
                     <mat-form-field appearance="outline">
                         <mat-label>Fecha</mat-label>
-                        <input matInput [matDatepicker]="picker" [min]="minDate" formControlName="fecha" required>
+                        <input matInput [matDatepicker]="picker" formControlName="fecha" required>
                         <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                         <mat-datepicker #picker></mat-datepicker>
                         <mat-error>La fecha es requerida</mat-error>
@@ -175,7 +175,7 @@
 
                         <mat-form-field appearance="outline">
                             <mat-label>Fecha de Ensayo</mat-label>
-                            <input matInput [matDatepicker]="pickerTest" [min]="minDate" formControlName="fechaEnsayo"
+                            <input matInput [matDatepicker]="pickerTest" formControlName="fechaEnsayo"
                                 required>
                             <mat-datepicker-toggle matSuffix [for]="pickerTest"></mat-datepicker-toggle>
                             <mat-datepicker #pickerTest></mat-datepicker>
