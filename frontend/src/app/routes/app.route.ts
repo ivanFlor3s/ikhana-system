@@ -54,6 +54,12 @@ export const appRoutes: Routes = [
                                 .then(m => m.MpCobreIngresoPageComponent),
                     },
                     {
+                        path: 'cobre/editar/:id',
+                        loadComponent: () =>
+                            import('app/pages/materias-primas-cobre-page/mp-cobre-editar-page/mp-cobre-editar-page.component')
+                                .then(m => m.MpCobreEditarPageComponent),
+                    },
+                    {
                         path: 'cobre/detalle/:id',
                         loadComponent: () =>
                             import('app/pages/materias-primas-cobre-page/mp-cobre-detalle-page/mp-cobre-detalle-page.component')

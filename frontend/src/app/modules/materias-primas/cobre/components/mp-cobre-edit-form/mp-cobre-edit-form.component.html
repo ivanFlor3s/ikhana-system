@@ -1,0 +1,252 @@
+<!-- Edit Form: Card-based layout matching summary view -->
+
+@if (loading()) {
+<div class="flex justify-center items-center h-64">
+    <mat-spinner diameter="50"></mat-spinner>
+</div>
+} @else {
+<div class="flex flex-col gap-y-4 p-4">
+
+    <!-- Lote badge -->
+    <app-badge [label]="'LOTE ' + batch()" [rounded]="false" variant="neutral"></app-badge>
+
+    <form [formGroup]="form" class="flex flex-col gap-y-4">
+
+        <!-- Basic Information -->
+        <mat-card class="summary-card">
+            <mat-card-header>
+                <mat-card-title>Información Básica</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <div class="summary-grid">
+                    <div class="summary-item">
+                        <span class="label">Fecha</span>
+                        <mat-form-field appearance="outline">
+                            <input matInput [matDatepicker]="pickerFecha" formControlName="fecha" required>
+                            <mat-datepicker-toggle matIconSuffix [for]="pickerFecha"></mat-datepicker-toggle>
+                            <mat-datepicker #pickerFecha></mat-datepicker>
+                            <mat-error>Requerida</mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="summary-item">
+                        <span class="label">Remito</span>
+                        <mat-form-field appearance="outline">
+                            <input matInput formControlName="remito" required>
+                            <mat-error>Requerido</mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="summary-item">
+                        <span class="label">Proveedor</span>
+                        @if (loadingProviders()) {
+                        <mat-spinner diameter="20"></mat-spinner>
+                        } @else {
+                        <mat-form-field appearance="outline">
+                            <mat-select formControlName="proveedor" required>
+                                @for (provider of providers(); track provider.value) {
+                                <mat-option [value]="provider">{{ provider.name }}</mat-option>
+                                }
+                            </mat-select>
+                            <mat-error>Requerido</mat-error>
+                        </mat-form-field>
+                        }
+                    </div>
+
+                    <div class="summary-item">
+                        <span class="label">Cantidad Bobinas</span>
+                        <mat-form-field appearance="outline">
+                            <input matInput type="number" formControlName="cantidadBobinas" required>
+                            <mat-error>Requerido</mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="summary-item">
+                        <span class="label">Peso (kg)</span>
+                        <mat-form-field appearance="outline">
+                            <input matInput type="number" formControlName="pesoKg" required>
+                            <mat-error>Requerido</mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </mat-card-content>
+        </mat-card>
+
+        <!-- Measurements -->
+        <mat-card class="summary-card">
+            <mat-card-header>
+                <mat-card-title>Mediciones</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <div class="flex flex-col md:flex-row gap-3 w-full">
+                    <div class="summary-grid flex-1">
+                        <div class="summary-item">
+                            <span class="label">Diámetro (mm)</span>
+                            @if (loadingCharacteristics()) {
+                            <mat-spinner diameter="20"></mat-spinner>
+                            } @else {
+                            <mat-form-field appearance="outline">
+                                <mat-select formControlName="diametroMedidoMm" required>
+                                    @for (characteristic of characteristics(); track characteristic.id) {
+                                    <mat-option [value]="characteristic.id">
+                                        {{ characteristic.decimal_value }} {{ characteristic.unit }}
+                                    </mat-option>
+                                    }
+                                </mat-select>
+                                <mat-error>Requerido</mat-error>
+                            </mat-form-field>
+                            }
+                        </div>
+
+                        <div class="summary-item">
+                            <span class="label">Resistencia (Ω/km)</span>
+                            <mat-form-field appearance="outline">
+                                <input matInput type="number" step="0.1" formControlName="resistenciaOhmsKm" required>
+                                @if (form.get('resistenciaOhmsKm')?.pending) {
+                                <mat-spinner matSuffix diameter="20"></mat-spinner>
+                                }
+                                @if (form.get('resistenciaOhmsKm')?.hasError('resistanceExceedsLimit')) {
+                                <mat-error>Excede el máximo: {{ form.get('resistenciaOhmsKm')?.errors?.['resistanceExceedsLimit']?.maxAllowed }}</mat-error>
+                                }
+                                @if (form.get('resistenciaOhmsKm')?.hasError('required')) {
+                                <mat-error>Requerida</mat-error>
+                                }
+                            </mat-form-field>
+                        </div>
+
+                        <div class="summary-item">
+                            <span class="label">Estiramiento (%)</span>
+                            <mat-form-field appearance="outline">
+                                <input matInput type="number" step="0.1" formControlName="estiramientoPercent" required>
+                                <mat-error>Requerido (0-100%)</mat-error>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="summary-item">
+                            <span class="label">Observación</span>
+                            <mat-form-field appearance="outline">
+                                <input matInput formControlName="observacion">
+                                <mat-error>Requerida cuando resistencia excede el límite</mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <!-- IRAM reference table -->
+                    <div class="full-width text-neutral-500 text-xs">
+                        <table class="table-fixed">
+                            <thead>
+                                <tr class="text-left">
+                                    <th class="px-2">Diámetro<br>mm</th>
+                                    <th class="px-2">Resistencia Máxima<br>Ω/km</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for (diameter of diametersWithResistance(); track diameter.diameter) {
+                                <tr>
+                                    <td class="px-2">{{ diameter.diameter }}</td>
+                                    <td class="px-2">{{ diameter.iramOhmMaxValue }}</td>
+                                </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </mat-card-content>
+        </mat-card>
+
+        <!-- IRAM Validation -->
+        <mat-card class="summary-card">
+            <mat-card-header>
+                <mat-card-title>Resultados Validación IRAM 2011</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <div class="validation-results">
+                    <div class="validation-result-item">
+                        <span class="label">Fecha de Ensayo</span>
+                        <mat-form-field appearance="outline" class="compact-field">
+                            <input matInput [matDatepicker]="pickerEnsayo" formControlName="fechaEnsayo" required>
+                            <mat-datepicker-toggle matSuffix [for]="pickerEnsayo"></mat-datepicker-toggle>
+                            <mat-datepicker #pickerEnsayo></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="validation-result-item">
+                        <span class="label">Aspecto Superficial</span>
+                        <mat-radio-group formControlName="aspectoSuperficialLibreDefectos" required>
+                            <mat-radio-button [value]="true">SI</mat-radio-button>
+                            <mat-radio-button [value]="false">NO</mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+
+                    <div class="validation-result-item">
+                        <span class="label">Limpieza</span>
+                        <mat-radio-group formControlName="limpieza" required>
+                            <mat-radio-button [value]="true">SI</mat-radio-button>
+                            <mat-radio-button [value]="false">NO</mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+
+                    <div class="validation-result-item">
+                        <span class="label">Acondicionado</span>
+                        <mat-radio-group formControlName="acondicionado" required>
+                            <mat-radio-button [value]="true">SI</mat-radio-button>
+                            <mat-radio-button [value]="false">NO</mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+
+                    <div class="validation-result-item">
+                        <span class="label">Rectificación</span>
+                        <mat-radio-group formControlName="rectificacion" required>
+                            <mat-radio-button [value]="true">SI</mat-radio-button>
+                            <mat-radio-button [value]="false">NO</mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+                </div>
+            </mat-card-content>
+        </mat-card>
+
+        <!-- Devolución de Bobinas -->
+        @if (providerInventory()?.coils_count && providerInventory()!.coils_count > 0) {
+        <mat-card class="summary-card">
+            <mat-card-header>
+                <mat-card-title>Devolución de Bobinas</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <div class="flex justify-between items-center">
+                    <mat-checkbox formControlName="returnToProvider">
+                        ¿Desea devolver bobinas al proveedor?
+                    </mat-checkbox>
+
+                    @if (isReturningCoils) {
+                    <mat-form-field appearance="outline" class="quantity-field">
+                        <mat-label>Cantidad a Devolver</mat-label>
+                        <input matInput type="number" formControlName="cantidadBobinasDevolver" min="1">
+                        @if (form.get('cantidadBobinasDevolver')?.hasError('required')) {
+                        <mat-error>Requerida</mat-error>
+                        }
+                        @if (form.get('cantidadBobinasDevolver')?.hasError('min')) {
+                        <mat-error>Mínimo 1</mat-error>
+                        }
+                        @if (form.get('cantidadBobinasDevolver')?.hasError('max')) {
+                        <mat-error>Máximo {{ providerInventory()!.coils_count }}</mat-error>
+                        }
+                    </mat-form-field>
+                    }
+                </div>
+            </mat-card-content>
+        </mat-card>
+        }
+
+    </form>
+
+    <!-- Actions -->
+    <div class="flex justify-end gap-2">
+        <button mat-button (click)="onCancel()">Cancelar</button>
+        <button mat-raised-button color="primary" (click)="onSubmit()">
+            <mat-icon>save</mat-icon>
+            Guardar Cambios
+        </button>
+    </div>
+
+</div>
+}
