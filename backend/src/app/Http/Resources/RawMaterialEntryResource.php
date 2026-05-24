@@ -17,6 +17,7 @@ class RawMaterialEntryResource extends JsonResource
             'entry_date'     => $this->entry_date?->format('Y-m-d'),
             'quantity_kg'    => $this->quantity_kg,
             'coils_count'    => $this->coils_count,
+            'returned_coils_count' => $this->returned_coils_count,
             'status'         => $this->status,
             'observations'   => $this->observations,
 

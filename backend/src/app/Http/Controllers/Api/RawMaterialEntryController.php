@@ -243,6 +243,7 @@ class RawMaterialEntryController extends Controller
                     \App\Models\ProviderCoilMovement::create([
                         'provider_id' => $validated['provider_id'],
                         'raw_material_entry_id' => $entry->id,
+                        'type' => 'entry',
                         'coils_received' => $coilsReceived,
                         'coils_returned' => $coilsReturned,
                     ]);
@@ -411,5 +412,156 @@ class RawMaterialEntryController extends Controller
             ],
             'message' => 'Último lote obtenido exitosamente',
         ]);
+    }
+
+    /**
+     * Actualizar Entrada de Materia Prima
+     * 
+     * Permite editar una entrada existente junto con su ensayo. Recalcula el inventario
+     * de bobinas y registra un movimiento de tipo 'correction' si las cantidades cambian.
+     * 
+     * @urlParam id integer required ID de la entrada a editar. Example: 1
+     * 
+     * @bodyParam raw_material_type_id integer required ID del tipo de materia prima. Example: 1
+     * @bodyParam provider_id integer required ID del proveedor. Example: 5
+     * @bodyParam raw_material_characteristic_id integer required ID de la característica. Example: 3
+     * @bodyParam entry_date date required Fecha de ingreso. Example: 2024-09-04
+     * @bodyParam remito string required Número de remito. Example: R-12345
+     * @bodyParam quantity_kg number required Peso en Kg. Example: 1050.5
+     * @bodyParam coils_count integer required Cantidad de bobinas. Example: 10
+     * @bodyParam returned_coils_count integer optional Cantidad de bobinas a devolver. Example: 2
+     * @bodyParam observations string optional Observaciones generales.
+     * @bodyParam test object required Datos del ensayo de calidad.
+     * @bodyParam test.resistance_ohm_km number required Resistencia medida. Example: 180.5
+     * @bodyParam test.check_winding boolean required Check bobinado. Example: true
+     * @bodyParam test.check_cleanliness boolean required Check limpieza. Example: true
+     * @bodyParam test.check_packaging boolean required Check acondicionado. Example: true
+     * @bodyParam test.check_identification boolean required Check identificación. Example: true
+     * @bodyParam test.conducted_by string required Nombre de quien realizó el ensayo. Example: Juan Perez
+     * 
+     * @response 200 {
+     *   "success": true,
+     *   "data": { "id": 1, "status": "approved", "coils_count": 10, "returned_coils_count": 2 },
+     *   "message": "Entrada y ensayo actualizados exitosamente"
+     * }
+     */
+    public function update(Request $request, string $id): JsonResponse
+    {
+        $validated = $request->validate([
+            'raw_material_type_id' => 'required|exists:raw_material_types,id',
+            'provider_id' => [
+                'required',
+                'exists:providers,id',
+                function (string $attribute, mixed $value, \Closure $fail) use ($id) {
+                    $entry = RawMaterialEntry::find($id);
+                    if ($entry && $entry->provider_id != (int) $value) {
+                        $fail('No se permite cambiar el proveedor de una entrada existente.');
+                    }
+                },
+            ],
+            'raw_material_characteristic_id' => 'required|exists:raw_material_characteristics,id',
+            'entry_date' => 'required|date',
+            'remito' => 'required|string|max:50',
+            'quantity_kg' => 'required|numeric|min:0',
+            'coils_count' => 'required|integer|min:1',
+            'returned_coils_count' => 'nullable|integer|min:0',
+            'observations' => 'nullable|string',
+
+            'test' => 'required|array',
+            'test.resistance_ohm_km' => 'required|numeric|min:0',
+            'test.check_winding' => 'required|boolean',
+            'test.check_cleanliness' => 'required|boolean',
+            'test.check_packaging' => 'required|boolean',
+            'test.check_identification' => 'required|boolean',
+            'test.conducted_by' => 'required|string|max:120',
+        ]);
+
+        try {
+            return \Illuminate\Support\Facades\DB::transaction(function () use ($validated, $id) {
+                $entry = RawMaterialEntry::with('test')->findOrFail($id);
+
+                $characteristic = \App\Models\RawMaterialCharacteristic::with('iramCopperMaxResistance')
+                    ->find($validated['raw_material_characteristic_id']);
+
+                $rule = $characteristic->iramCopperMaxResistance;
+                $resistance = $validated['test']['resistance_ohm_km'];
+
+                $isResistanceOk = true;
+                if ($rule) {
+                    $isResistanceOk = $resistance <= $rule->max_resistance_ohm_km;
+                }
+
+                $visualChecksOk = $validated['test']['check_winding']
+                    && $validated['test']['check_cleanliness']
+                    && $validated['test']['check_packaging']
+                    && $validated['test']['check_identification'];
+
+                $finalResult = ($isResistanceOk && $visualChecksOk) ? 'OK' : 'NO_OK';
+                $entryStatus = $finalResult === 'OK' ? 'approved' : 'rejected';
+
+                $entry->update([
+                    'raw_material_type_id' => $validated['raw_material_type_id'],
+                    'raw_material_characteristic_id' => $validated['raw_material_characteristic_id'],
+                    'entry_date' => $validated['entry_date'],
+                    'remito' => $validated['remito'],
+                    'quantity_kg' => $validated['quantity_kg'],
+                    'coils_count' => $validated['coils_count'],
+                    'observations' => $validated['observations'] ?? null,
+                    'status' => $entryStatus,
+                ]);
+
+                $entry->test->update([
+                    'test_date' => $validated['entry_date'],
+                    'resistance_ohm_km' => $resistance,
+                    'check_winding' => $validated['test']['check_winding'],
+                    'check_cleanliness' => $validated['test']['check_cleanliness'],
+                    'check_packaging' => $validated['test']['check_packaging'],
+                    'check_identification' => $validated['test']['check_identification'],
+                    'conducted_by' => $validated['test']['conducted_by'],
+                    'result' => $finalResult,
+                ]);
+
+                $oldNet = $entry->coilMovements()->sum('coils_received')
+                    - $entry->coilMovements()->sum('coils_returned');
+
+                $newCoilsReceived = $validated['coils_count'];
+                $newCoilsReturned = $validated['returned_coils_count'] ?? 0;
+                $newNet = $newCoilsReceived - $newCoilsReturned;
+
+                $delta = $newNet - $oldNet;
+
+                if ($delta !== 0) {
+                    $inventory = \App\Models\ProviderInventory::firstOrCreate(
+                        ['provider_id' => $validated['provider_id']],
+                        ['coils_count' => 0]
+                    );
+
+                    $inventory->coils_count += $delta;
+                    $inventory->save();
+
+                    \App\Models\ProviderCoilMovement::create([
+                        'provider_id' => $validated['provider_id'],
+                        'raw_material_entry_id' => $entry->id,
+                        'type' => 'correction',
+                        'coils_received' => max(0, $delta),
+                        'coils_returned' => max(0, -$delta),
+                    ]);
+                }
+
+                return (new RawMaterialEntryResource($entry->fresh(['type', 'provider', 'characteristic', 'test'])))
+                    ->additional([
+                        'success' => true,
+                        'message' => 'Entrada y ensayo actualizados exitosamente',
+                    ])
+                    ->response()
+                    ->setStatusCode(200);
+            });
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Ocurrió un error al actualizar la entrada: ' . $e->getMessage(),
+            ], 500);
+        }
     }
 }
