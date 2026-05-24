@@ -85,7 +85,7 @@ export class MpCobreEditFormComponent implements OnInit {
   form = this._formBuilder.group({
     fecha: [new Date() as Date | null, Validators.required],
     remito: ['', Validators.required],
-    proveedor: [null as NameValue<number> | null, Validators.required],
+    proveedor: [{value: null as NameValue<number> | null, disabled: true}, Validators.required],
     cantidadBobinas: [null as number | null, [Validators.required, Validators.min(0.01)]],
     pesoKg: [null as number | null, [Validators.required, Validators.min(0.01)]],
 

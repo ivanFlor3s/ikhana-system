@@ -7,9 +7,6 @@
 } @else {
 <div class="flex flex-col gap-y-4 p-4">
 
-    <!-- Lote badge -->
-    <app-badge [label]="'LOTE ' + batch()" [rounded]="false" variant="neutral"></app-badge>
-
     <form [formGroup]="form" class="flex flex-col gap-y-4">
 
         <!-- Basic Information -->
@@ -43,12 +40,11 @@
                         <mat-spinner diameter="20"></mat-spinner>
                         } @else {
                         <mat-form-field appearance="outline">
-                            <mat-select formControlName="proveedor" required [compareWith]="compareProvider">
+                            <mat-select formControlName="proveedor" required [compareWith]="compareProvider" [disabled]="true" >
                                 @for (provider of providers(); track provider.value) {
                                 <mat-option [value]="provider">{{ provider.name }}</mat-option>
                                 }
                             </mat-select>
-                            <mat-error>Requerido</mat-error>
                         </mat-form-field>
                         }
                     </div>
@@ -161,8 +157,8 @@
             </mat-card-header>
             <mat-card-content>
                 <div class="validation-results">
-                    <div class="validation-result-item">
-                        <span class="label">Fecha de Ensayo</span>
+                    <div class="col-span-3 flex items-center">
+                        <span class="label mr-4">Fecha de Ensayo</span>
                         <mat-form-field appearance="outline" class="compact-field">
                             <input matInput [matDatepicker]="pickerEnsayo" formControlName="fechaEnsayo" required>
                             <mat-datepicker-toggle matSuffix [for]="pickerEnsayo"></mat-datepicker-toggle>
@@ -238,8 +234,6 @@
         }
 
     </form>
-
-    <pre> {{form.value | json}}</pre>
 
     <!-- Actions -->
     <div class="flex justify-end gap-2">
