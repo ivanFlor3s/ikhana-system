@@ -420,10 +420,13 @@ class RawMaterialEntryController extends Controller
      * Permite editar una entrada existente junto con su ensayo. Recalcula el inventario
      * de bobinas y registra un movimiento de tipo 'correction' si las cantidades cambian.
      * 
+     * El proveedor no se puede modificar. Si se envía un provider_id distinto al original,
+     * la solicitud será rechazada con un error 422.
+     * 
      * @urlParam id integer required ID de la entrada a editar. Example: 1
      * 
      * @bodyParam raw_material_type_id integer required ID del tipo de materia prima. Example: 1
-     * @bodyParam provider_id integer required ID del proveedor. Example: 5
+     * @bodyParam provider_id integer required ID del proveedor. Debe coincidir con el proveedor original de la entrada, no se permite cambiarlo. Example: 5
      * @bodyParam raw_material_characteristic_id integer required ID de la característica. Example: 3
      * @bodyParam entry_date date required Fecha de ingreso. Example: 2024-09-04
      * @bodyParam remito string required Número de remito. Example: R-12345
@@ -443,6 +446,10 @@ class RawMaterialEntryController extends Controller
      *   "success": true,
      *   "data": { "id": 1, "status": "approved", "coils_count": 10, "returned_coils_count": 2 },
      *   "message": "Entrada y ensayo actualizados exitosamente"
+     * }
+     * @response 422 {
+     *   "success": false,
+     *   "message": "No se permite cambiar el proveedor de una entrada existente."
      * }
      */
     public function update(Request $request, string $id): JsonResponse
