@@ -43,7 +43,7 @@
                         <mat-spinner diameter="20"></mat-spinner>
                         } @else {
                         <mat-form-field appearance="outline">
-                            <mat-select formControlName="proveedor" required>
+                            <mat-select formControlName="proveedor" required [compareWith]="compareProvider">
                                 @for (provider of providers(); track provider.value) {
                                 <mat-option [value]="provider">{{ provider.name }}</mat-option>
                                 }
@@ -238,6 +238,8 @@
         }
 
     </form>
+
+    <pre> {{form.value | json}}</pre>
 
     <!-- Actions -->
     <div class="flex justify-end gap-2">

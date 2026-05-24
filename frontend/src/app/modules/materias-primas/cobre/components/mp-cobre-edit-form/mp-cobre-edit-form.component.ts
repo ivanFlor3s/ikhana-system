@@ -62,6 +62,7 @@ export class MpCobreEditFormComponent implements OnInit {
 
   readonly COPPER_TYPE_ID = 1;
 
+
   entryId = input.required<number>();
 
   loading = signal(true);
@@ -113,6 +114,10 @@ export class MpCobreEditFormComponent implements OnInit {
     return this.characteristics().find(c => c.id === Number(id));
   }
 
+  compareProvider(a: NameValue<number> | null, b: NameValue<number> | null): boolean {
+    return a?.value === b?.value;
+  }
+
   constructor() {
     this.loadCharacteristics();
     this.loadDiametersWithMaxResistance();
@@ -131,9 +136,25 @@ export class MpCobreEditFormComponent implements OnInit {
       const entry = this.loadedEntry();
       const providerList = this.providers();
       if (entry && providerList.length > 0) {
-        this.populateForm(entry);
+        const provider = providerList.find(p => p.value === entry.provider.id);
+        this.form.get('proveedor')?.setValue(provider ?? null);
       }
-    })
+    });
+
+    effect(() => {
+      const entry = this.loadedEntry();
+      const charList = this.characteristics();
+      if (entry && charList.length > 0) {
+        this.form.get('diametroMedidoMm')?.setValue(entry.characteristic.id);
+      }
+    });
+
+    effect(() => {
+      const entry = this.loadedEntry();
+      if (entry && !this.loading()) {
+        this.populateEntryFields(entry);
+      }
+    });
   }
 
   ngOnInit(): void {
@@ -148,7 +169,7 @@ export class MpCobreEditFormComponent implements OnInit {
         next: (response) => {
           this.loadedEntry.set(response.data);
           this.batch.set(response.data.batch ?? '');
-          this.form.get('proveedor')?.setValue({name: response.data.provider.fantasy_name, value: response.data.provider.id})
+          this.loading.set(false);
         },
         error: () => {
           this._notificationService.error('Error', 'No se pudo cargar la entrada');
@@ -281,17 +302,13 @@ export class MpCobreEditFormComponent implements OnInit {
       });
   }
 
-  private populateForm(entry: RawMaterialCobreEntry): void {
-    const provider = this.providers().find(p => p.value === entry.provider_id);
-
+  private populateEntryFields(entry: RawMaterialCobreEntry): void {
     this.form.patchValue({
       fecha: new Date(entry.entry_date + 'T00:00:00'),
       remito: entry.remito,
-      proveedor: provider ?? null,
       cantidadBobinas: entry.coils_count,
       pesoKg: entry.quantity_kg,
 
-      diametroMedidoMm: entry.raw_material_characteristic_id,
       resistenciaOhmsKm: entry.test?.resistance_ohm_km,
       estiramientoPercent: entry.test?.elongation_pct ?? 21,
       observacion: entry.observations ?? '',
@@ -305,8 +322,6 @@ export class MpCobreEditFormComponent implements OnInit {
       returnToProvider: (entry.returned_coils_count ?? 0) > 0,
       cantidadBobinasDevolver: (entry.returned_coils_count ?? 0) > 0 ? entry.returned_coils_count! : null,
     });
-
-    this.loading.set(false);
   }
 
   private buildDto(): CreateEntryRequest {
