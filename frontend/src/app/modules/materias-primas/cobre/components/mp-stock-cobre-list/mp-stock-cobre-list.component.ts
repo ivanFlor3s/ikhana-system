@@ -4,7 +4,7 @@ import { ColumnDef, TableComponent, ModernTableCellDirective } from '@shared/com
 import { RawMaterialService } from '@services/raw-material.service';
 import { NotificationService } from '@services/notification.service';
 import { CommonModule } from '@angular/common';
-import { FlaskConical, LucideAngularModule, Send, Tag, Eye } from 'lucide-angular';
+import { FlaskConical, LucideAngularModule, Send, Tag, Eye, Pencil } from 'lucide-angular';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { Router } from '@angular/router';
 
@@ -24,6 +24,7 @@ export class MpStockCobreListComponent {
   readonly flaskConicalIcon = FlaskConical;
   readonly tagIcon = Tag;
   readonly eyeIcon = Eye;
+  readonly pencilIcon = Pencil;
   columns: ColumnDef<RawMaterialCobreEntry>[] = [
     {
       id: 'entry_date',
@@ -144,6 +145,11 @@ export class MpStockCobreListComponent {
     event.stopPropagation();
 
     this.router.navigate(['app', 'materias-primas', 'cobre', 'detalle', entry.id]);
+  }
+
+  onEdit(entry: RawMaterialCobreEntry, event: Event) {
+    event.stopPropagation();
+    this.router.navigate(['app', 'materias-primas', 'cobre', 'editar', entry.id]);
   }
 
   onDownloadLabel(entry: RawMaterialCobreEntry, event: Event) {

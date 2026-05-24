@@ -98,16 +98,15 @@ export class MpIngresoWizardComponent {
     fecha: [new Date(), Validators.required],
     remito: ['', Validators.required],
     proveedor: [null as NameValue<number> | null, Validators.required],
-    cantidadBobinas: [null, [Validators.required, Validators.min(0.01)]],
-    pesoKg: [null, [Validators.required, Validators.min(0.01)]],
+    cantidadBobinas: [null as number | null, [Validators.required, Validators.min(0.01)]],
+    pesoKg: [null as number | null, [Validators.required, Validators.min(0.01)]],
   });
 
   // Step 2: Measurements
-  // Note: diametroMedidoMm now stores the characteristic ID, not just the diameter value
   measurementsFormGroup = this._formBuilder.group({
-    diametroMedidoMm: [null, [Validators.required]],
-    resistenciaOhmsKm: [null, [Validators.required, Validators.min(0)]],
-    estiramientoPercent: [21, [Validators.required, Validators.min(0), Validators.max(100)]],
+    diametroMedidoMm: [null as number | null, [Validators.required]],
+    resistenciaOhmsKm: [null as number | null, [Validators.required, Validators.min(0)]],
+    estiramientoPercent: [21 as number | null, [Validators.required, Validators.min(0), Validators.max(100)]],
     observacion: [''],
   });
 
@@ -122,8 +121,8 @@ export class MpIngresoWizardComponent {
 
   // Step 4: Return Bobinas (Summary step)
   returnBobinasFormGroup = this._formBuilder.group({
-    returnToProvider: [false],
-    cantidadBobinasDevolver: [null],
+    returnToProvider: [false as boolean | null],
+    cantidadBobinasDevolver: [null as number | null],
   });
 
   isReturningCoils = toSignal(this.returnBobinasFormGroup.get('returnToProvider')!.valueChanges);
@@ -210,12 +209,10 @@ export class MpIngresoWizardComponent {
 
   /**
    * Setup listener for diameter changes to update resistance validator
-   * Also setup listeners for resistance and observation to handle conditional validation
    */
   private setupDiameterChangeListener(): void {
     this.measurementsFormGroup.get('diametroMedidoMm')?.valueChanges.subscribe(characteristicId => {
       if (characteristicId) {
-        // Update the async validator with the selected characteristic ID
         this.measurementsFormGroup.get('resistenciaOhmsKm')?.setAsyncValidators(
           [this.resistanceValidator]
         );
@@ -223,7 +220,6 @@ export class MpIngresoWizardComponent {
       }
     });
 
-    // Listen to resistance field changes to update observation field requirement
     this.measurementsFormGroup.get('resistenciaOhmsKm')?.valueChanges.subscribe((value: number | null) => {
       const resistanceControl = this.measurementsFormGroup.get('resistenciaOhmsKm');
       if (resistanceControl?.hasError('resistanceExceedsLimit')) {
@@ -232,7 +228,6 @@ export class MpIngresoWizardComponent {
       }
     });
 
-    // Listen to observation field changes to revalidate the form
     this.measurementsFormGroup.get('observacion')?.valueChanges.subscribe((value: string | null) => {
       const resistanceControl = this.measurementsFormGroup.get('resistenciaOhmsKm');
       const needToRestoreValidation = value != null && value.trim().length == 0 && !resistanceControl?.hasAsyncValidator(this.resistanceValidator)
@@ -245,33 +240,23 @@ export class MpIngresoWizardComponent {
     });
   }
 
-  /**
-   * Check if diameter measurement exists
-   */
   isDiametroValid(): boolean {
     const medido = this.measurementsFormGroup.get('diametroMedidoMm')?.value;
     return medido !== null && medido !== undefined;
   }
 
-  /**
-   * Get the selected characteristic object
-   */
   getSelectedCharacteristic(): RawMaterialCharacteristic | undefined {
     const characteristicId = this.measurementsFormGroup.get('diametroMedidoMm')?.value;
     if (!characteristicId) return undefined;
     return this.characteristics().find(c => c.id === Number(characteristicId));
   }
 
-  /**
-   * Calculate overall IRAM validation result
-   */
   getResultado(): string {
     const aspecto = this.validationFormGroup.get('aspectoSuperficialLibreDefectos')?.value;
     const limpieza = this.validationFormGroup.get('limpieza')?.value;
     const acondicionado = this.validationFormGroup.get('acondicionado')?.value;
     const rectificacion = this.validationFormGroup.get('rectificacion')?.value;
 
-    // All tests must pass (true) for CUMPLE
     if (aspecto && limpieza && acondicionado && rectificacion) {
       return 'CUMPLE';
     }
@@ -359,9 +344,6 @@ export class MpIngresoWizardComponent {
       });
   }
 
-  /**
-   * Load characteristics for copper material type
-   */
   loadCharacteristics(): void {
     this.loadingCharacteristics.set(true);
     this._rawMaterialService.getCharacteristicsByType(this.COPPER_TYPE_ID)
@@ -377,17 +359,12 @@ export class MpIngresoWizardComponent {
       });
   }
 
-  /**
-   * Submit the copper ingreso
-   */
   onSubmit(): void {
     if (this.basicInfoFormGroup.valid &&
       this.measurementsFormGroup.valid &&
       this.validationFormGroup.valid &&
       this.returnBobinasFormGroup.valid) {
 
-      // TODO: Call service to save data
-      // this.cobreService.createIngreso(ingresoData).subscribe(...)
       const dto: CreateEntryRequest = this.buildIngresoDto();
       this.publish(dto);
     }
@@ -404,15 +381,14 @@ export class MpIngresoWizardComponent {
       remito: this.basicInfoFormGroup.get('remito')?.value!,
       quantity_kg: this.basicInfoFormGroup.get('pesoKg')?.value!,
       coils_count: this.basicInfoFormGroup.get('cantidadBobinas')?.value!,
-      returned_coils_count: this.returnBobinasFormGroup.get('cantidadBobinasDevolver')?.value!,
-      observations: this.measurementsFormGroup.get('observacion')?.value!,
+      returned_coils_count: this.returnBobinasFormGroup.get('cantidadBobinasDevolver')?.value ?? 0,
+      observations: this.measurementsFormGroup.get('observacion')?.value ?? '',
       test: {
         resistance_ohm_km: this.measurementsFormGroup.get('resistenciaOhmsKm')?.value!,
         check_winding: this.validationFormGroup.get('aspectoSuperficialLibreDefectos')?.value!,
         check_cleanliness: this.validationFormGroup.get('limpieza')?.value!,
         check_packaging: this.validationFormGroup.get('acondicionado')?.value!,
         check_identification: this.validationFormGroup.get('rectificacion')?.value!,
-        //TODO: Obtener el usuario logueado??
         conducted_by: 'El pato Lucas ',
       },
     };
@@ -473,4 +449,3 @@ export class MpIngresoWizardComponent {
       });
   }
 }
-

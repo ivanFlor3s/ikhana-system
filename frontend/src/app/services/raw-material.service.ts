@@ -82,6 +82,13 @@ export class RawMaterialService {
         );
     }
 
+    updateEntry(id: number, request: CreateEntryRequest): Observable<CreateEntryResponse> {
+        return this.http.put<CreateEntryResponse>(
+            `${this.apiEntriesUrl}/${id}`,
+            request
+        );
+    }
+
     getLastBatch(): Observable<number> {
         return this.http.get<ApiResponse<{ last_batch: string }>>(`${this.apiEntriesUrl}/last-batch`).pipe(map(res => Number(res.data.last_batch)));
     }

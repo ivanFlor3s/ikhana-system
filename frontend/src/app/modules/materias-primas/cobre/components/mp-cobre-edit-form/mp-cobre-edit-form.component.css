@@ -1,0 +1,89 @@
+.summary-grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 16px;
+    padding: 16px 0;
+}
+
+@media (min-width: 768px) {
+    .summary-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.summary-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.summary-item .label {
+    font-size: 12px;
+    font-weight: 500;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.summary-item .value {
+    font-size: 16px;
+    font-weight: 500;
+    color: #0f172a;
+}
+
+.validation-results {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 16px;
+    padding: 16px 0;
+}
+
+@media (min-width: 768px) {
+    .validation-results {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.validation-result-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    background-color: #f8fafc;
+    border-radius: 8px;
+}
+
+.validation-result-item .label {
+    font-weight: 500;
+    color: #334155;
+}
+
+.summary-card {
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+::ng-deep mat-card-header {
+    background-color: #f1f5f9;
+    padding: 16px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+::ng-deep mat-card-title {
+    font-size: 16px !important;
+    font-weight: 600 !important;
+    color: #0f172a;
+    margin: 0 !important;
+}
+
+::ng-deep mat-card-content {
+    padding: 16px !important;
+}
+
+.compact-field {
+    max-width: 200px;
+}
+
+.quantity-field {
+    min-width: 200px;
+}

@@ -12,6 +12,7 @@ class ProviderCoilMovement extends Model
     protected $fillable = [
         'provider_id',
         'raw_material_entry_id',
+        'type',
         'coils_received',
         'coils_returned',
     ];

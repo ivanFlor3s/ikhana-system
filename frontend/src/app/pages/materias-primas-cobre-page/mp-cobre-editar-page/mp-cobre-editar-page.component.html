@@ -1,0 +1,17 @@
+<app-page-header [title]="'Modificacion Ingreso de Cobre Lote ' + entryId() ">
+    <ng-container icon>
+        <div class="bg-amber-500 text-white w-15  flex items-center justify-center ">
+            <lucide-angular [img]="SpoolIcon"></lucide-angular>
+        </div>
+    </ng-container>
+</app-page-header>
+
+@if (entryId()) {
+  <div class="flex justify-center w-full">
+    <div class="md:max-w-[1200px] mx-auto sm:w-full sm:mx-5">
+      <app-mp-cobre-edit-form [entryId]="entryId()!"></app-mp-cobre-edit-form>
+    </div>
+  </div>
+
+
+}

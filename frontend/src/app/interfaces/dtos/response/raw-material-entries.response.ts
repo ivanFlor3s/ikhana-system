@@ -139,6 +139,7 @@ export interface RawMaterialCobreEntry {
     entry_date: string;
     quantity_kg: number;
     coils_count: number;
+    returned_coils_count?: number;
     status: string;
     observations: string | null;
     type: Type;

@@ -25,10 +25,15 @@ class RawMaterialEntry extends Model
         'observations'
     ];
 
+    protected $appends = [
+        'returned_coils_count',
+    ];
+
     protected $casts = [
         'entry_date' => 'date',
         'quantity_kg' => 'float',
         'batch' => 'integer',
+        'returned_coils_count' => 'integer',
     ];
 
     public function type()
@@ -49,5 +54,15 @@ class RawMaterialEntry extends Model
     public function test()
     {
         return $this->hasOne(MaterialTest::class);
+    }
+
+    public function coilMovements()
+    {
+        return $this->hasMany(ProviderCoilMovement::class, 'raw_material_entry_id');
+    }
+
+    public function getReturnedCoilsCountAttribute(): int
+    {
+        return (int) $this->coilMovements()->sum('coils_returned');
     }
 }
