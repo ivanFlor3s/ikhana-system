@@ -43,7 +43,6 @@ import { RawMaterialCobreEntry } from '@interfaces/dtos/response/raw-material-en
     MatCheckboxModule,
     MatSelectModule,
     MatProgressSpinnerModule,
-    BadgeComponent,
     MatOption,
   ],
   providers: [DatePipe],
