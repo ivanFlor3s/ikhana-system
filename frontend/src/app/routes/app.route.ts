@@ -64,6 +64,30 @@ export const appRoutes: Routes = [
                         loadComponent: () =>
                             import('app/pages/materias-primas-cobre-page/mp-cobre-detalle-page/mp-cobre-detalle-page.component')
                                 .then(m => m.MpCobreDetallePageComponent),
+                    },
+                    {
+                        path: 'cuerda',
+                        loadComponent: () =>
+                            import('app/pages/materias-primas-cuerda-page/materias-primas-cuerda-page.component')
+                                .then(m => m.MateriasPrimasCuerdaPageComponent),
+                    },
+                    {
+                        path: 'cuerda/ingreso',
+                        loadComponent: () =>
+                            import('app/pages/materias-primas-cuerda-page/mp-cuerda-ingreso-page/mp-cuerda-ingreso-page.component')
+                                .then(m => m.MpCuerdaIngresoPageComponent),
+                    },
+                    {
+                        path: 'cuerda/editar/:id',
+                        loadComponent: () =>
+                            import('app/pages/materias-primas-cuerda-page/mp-cuerda-editar-page/mp-cuerda-editar-page.component')
+                                .then(m => m.MpCuerdaEditarPageComponent),
+                    },
+                    {
+                        path: 'cuerda/detalle/:id',
+                        loadComponent: () =>
+                            import('app/pages/materias-primas-cuerda-page/mp-cuerda-detalle-page/mp-cuerda-detalle-page.component')
+                                .then(m => m.MpCuerdaDetallePageComponent),
                     }
                 ]
             },

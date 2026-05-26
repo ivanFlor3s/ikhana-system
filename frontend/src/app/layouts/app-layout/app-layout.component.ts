@@ -53,6 +53,7 @@ export class AppLayoutComponent {
       icon: Sprout,
       children: [
         { label: 'Cobre', icon: Spool, route: '/app/materias-primas/cobre' },
+        { label: 'Cuerda', icon: Spool, route: '/app/materias-primas/cuerda' },
       ]
     }
   ];

@@ -1,0 +1,24 @@
+<app-page-header [title]="'Detalle Ingreso de Cuerda'">
+    <div actions class="flex gap-2 no-print">
+        <button mat-button (click)="goBack()">
+            <span class="flex flex-row items-center">
+                <lucide-angular [img]="arrowLeftIcon" size="20" class="mr-2"></lucide-angular>
+                Volver
+            </span>
+        </button>
+        <button mat-flat-button color="primary" (click)="onPrint()">
+            <span class="flex flex-row items-center">
+                <lucide-angular [img]="printerIcon" size="20" class="mr-2"></lucide-angular>
+                Imprimir
+            </span>
+        </button>
+    </div>
+</app-page-header>
+
+@if (isLoading()) {
+    <div class="flex justify-center items-center h-full">
+        <mat-spinner [diameter]="40" />
+    </div>
+} @else if (summaryData()) {
+    <app-mp-cobre-summary [data]="summaryData()!" />
+}
