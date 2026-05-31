@@ -12,6 +12,7 @@ use App\Http\Controllers\Api\BrokerController;
 use App\Http\Controllers\Api\AuditLogController;
 use App\Http\Controllers\Api\RawMaterialController;
 use App\Http\Controllers\Api\RawMaterialEntryController;
+use App\Http\Controllers\Api\CuerdaEntryController;
 use App\Http\Controllers\Api\ProviderCoilController;
 
 
@@ -19,7 +20,7 @@ Route::post('login', [AuthController::class, 'login']);
 Route::get('welcome', function () {
     return response()->json([
         'status' => 'success',
-        'message' => '¡API conectada correctamente!',
+        'message' => 'API conectada correctamente!',
         'timestamp' => now()
     ]);
 });
@@ -61,7 +62,6 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
     Route::prefix('providers')->group(function () {
-        // Static routes first (before {id} wildcard)
         Route::get('/coil-summary', [ProviderCoilController::class, 'index']);
         Route::post('/{id}/inventory/coils', [ProviderCoilController::class, 'create']);
         Route::put('/{id}/inventory/coils', [ProviderCoilController::class, 'update']);
@@ -78,13 +78,12 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::post('tax-id/validate', [TaxIdValidationController::class, 'validate']);
 
-    // Audit Log routes (Logs de Auditoría)
     Route::prefix('audit-logs')->group(function () {
         Route::get('/', [AuditLogController::class, 'index']);
         Route::get('/{id}', [AuditLogController::class, 'show']);
     });
 
-    // Raw Materials Routes
+    // Raw Materials Routes (catalog)
     Route::prefix('raw-materials')->group(function () {
         Route::get('/types', [RawMaterialController::class, 'indexTypes']);
         Route::get('/types/{type_id}/characteristics', [RawMaterialController::class, 'indexCharacteristics']);
@@ -92,7 +91,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/diameters-with-iram-ohm-resistance', [RawMaterialController::class, 'getAllDiameterAndIramOhmResistance']);
     });
 
-    // Entradas de Materia Prima
+    // Cobre entries (backward compatible + new)
     Route::prefix('raw-material-entries')->group(function () {
         Route::get('/last-batch', [RawMaterialEntryController::class, 'lastBatch']);
         Route::get('/', [RawMaterialEntryController::class, 'index']);
@@ -102,5 +101,27 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/{id}/label', [RawMaterialEntryController::class, 'downloadLabel']);
         Route::get('/{id}/test-report', [RawMaterialEntryController::class, 'downloadTestReport']);
     });
-});
 
+    // New cobre entries routes
+    Route::prefix('cobre-entries')->group(function () {
+        Route::get('/last-batch', [RawMaterialEntryController::class, 'lastBatch']);
+        Route::get('/', [RawMaterialEntryController::class, 'index']);
+        Route::post('/', [RawMaterialEntryController::class, 'store']);
+        Route::get('/{id}', [RawMaterialEntryController::class, 'show']);
+        Route::put('/{id}', [RawMaterialEntryController::class, 'update']);
+        Route::get('/{id}/label', [RawMaterialEntryController::class, 'downloadLabel']);
+        Route::get('/{id}/test-report', [RawMaterialEntryController::class, 'downloadTestReport']);
+    });
+
+    // Cuerda entries routes
+    Route::prefix('cuerda-entries')->group(function () {
+        Route::get('/last-batch', [CuerdaEntryController::class, 'lastBatch']);
+        Route::get('/', [CuerdaEntryController::class, 'index']);
+        Route::post('/', [CuerdaEntryController::class, 'store']);
+        Route::get('/{id}', [CuerdaEntryController::class, 'show']);
+        Route::put('/{id}', [CuerdaEntryController::class, 'update']);
+        Route::get('/{id}/label', [CuerdaEntryController::class, 'downloadLabel']);
+        Route::get('/{id}/test-report', [CuerdaEntryController::class, 'downloadTestReport']);
+        Route::get('/diameters-with-iram-ohm-resistance', [CuerdaEntryController::class, 'getAllDiameterAndIramOhmResistance']);
+    });
+});

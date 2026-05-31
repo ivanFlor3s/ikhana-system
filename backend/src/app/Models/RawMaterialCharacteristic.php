@@ -28,14 +28,21 @@ class RawMaterialCharacteristic extends Model
         return $this->hasOne(IramCopperMaxResistance::class);
     }
 
+    public function iramCuerdaMaxResistance()
+    {
+        return $this->hasOne(IramCuerdaMaxResistance::class);
+    }
+
+    public function getIramMaxResistanceAttribute()
+    {
+        return $this->iramCopperMaxResistance ?? $this->iramCuerdaMaxResistance;
+    }
+
     public function getDecimalValueAttribute($value)
     {
         return $value !== null ? number_format((float) $value, 2, '.', '') : null;
     }
 
-    /**
-     * Get a descriptive value (e.g., "0.35 mm" or "Rojo")
-     */
     public function getDescriptionAttribute()
     {
         if ($this->decimal_value !== null) {

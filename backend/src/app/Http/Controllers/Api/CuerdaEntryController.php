@@ -4,29 +4,28 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\RawMaterialEntryResource;
-use App\Models\CobreEntryDetail;
-use App\Models\CobreTest;
+use App\Models\CuerdaEntryDetail;
+use App\Models\CuerdaTest;
 use App\Models\RawMaterialEntry;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 /**
- * @group Entradas de Materia Prima (Cobre)
+ * @group Entradas de Materia Prima (Cuerda)
  *
- * APIs para gestion de ingresos de materia prima de cobre.
+ * APIs para gestion de ingresos de materia prima de cuerda.
  */
-class RawMaterialEntryController extends Controller
+class CuerdaEntryController extends Controller
 {
     /**
-     * Listar Entradas de Cobre
+     * Listar Entradas de Cuerda
      *
-     * Obtiene un listado paginado de las entradas de cobre con opciones de filtrado.
+     * Obtiene un listado paginado de las entradas de cuerda con opciones de filtrado.
      *
      * @queryParam page integer Numero de pagina. Example: 1
      * @queryParam per_page integer Items por pagina (default: 15). Example: 20
      * @queryParam search string Buscar por numero de remito, lote o nombre del proveedor. Example: 123456
-     * @queryParam raw_material_type_id integer Filtrar por tipo de material. Example: 1
      * @queryParam raw_material_characteristic_id integer Filtrar por caracteristica especifica (ej: Diametro 0.35mm). Example: 2
      * @queryParam date_from date Filtrar desde esta fecha de ingreso (YYYY-MM-DD). Example: 2024-01-01
      * @queryParam date_to date Filtrar hasta esta fecha de ingreso (YYYY-MM-DD). Example: 2024-12-31
@@ -43,22 +42,23 @@ class RawMaterialEntryController extends Controller
      *         "batch": "Lote25",
      *         "entry_date": "2024-09-04",
      *         "quantity_kg": 1028.000,
-     *         "type": { "id": 1, "name": "Cobre" },
-     *         "provider": { "id": 5, "business_name": "Proveedor Cobre S.A." },
+     *         "type": { "id": 5, "name": "Cuerda" },
+     *         "provider": { "id": 5, "business_name": "Proveedor Cuerda S.A." },
      *         "characteristic": { "id": 2, "name": "Diametro", "description": "0.35 mm" }
      *       }
      *     ],
      *     "total": 50,
      *     "per_page": 15
      *   },
-     *   "message": "Entradas obtenidas exitosamente"
+     *   "message": "Entradas de cuerda obtenidas exitosamente"
      * }
      */
     public function index(Request $request)
     {
-        $query = RawMaterialEntry::with(['type', 'provider', 'cobreDetail.characteristic', 'cobreTest']);
+        $cuerdaType = \App\Models\RawMaterialType::where('name', 'Cuerda')->firstOrFail();
+        $query = RawMaterialEntry::with(['type', 'provider', 'cuerdaDetail.characteristic', 'cuerdaTest'])
+            ->where('raw_material_type_id', $cuerdaType->id);
 
-        // Filtro de busqueda general
         if ($request->filled('search')) {
             $search = $request->search;
             $query->where(function ($q) use ($search) {
@@ -71,19 +71,12 @@ class RawMaterialEntryController extends Controller
             });
         }
 
-        // Filtro por Tipo de Material
-        if ($request->filled('raw_material_type_id')) {
-            $query->where('raw_material_type_id', $request->raw_material_type_id);
-        }
-
-        // Filtro por Caracteristica (Diametro, etc.)
         if ($request->filled('raw_material_characteristic_id')) {
-            $query->whereHas('cobreDetail', function ($q) use ($request) {
+            $query->whereHas('cuerdaDetail', function ($q) use ($request) {
                 $q->where('raw_material_characteristic_id', $request->raw_material_characteristic_id);
             });
         }
 
-        // Filtro por Rango de Fechas (entry_date)
         if ($request->filled('date_from')) {
             $query->whereDate('entry_date', '>=', $request->date_from);
         }
@@ -91,7 +84,6 @@ class RawMaterialEntryController extends Controller
             $query->whereDate('entry_date', '<=', $request->date_to);
         }
 
-        // Ordenamiento por defecto: mas reciente primero
         $query->orderBy('entry_date', 'desc')->orderBy('created_at', 'desc');
 
         $perPage = $request->input('per_page', 15);
@@ -102,17 +94,16 @@ class RawMaterialEntryController extends Controller
         return RawMaterialEntryResource::collection($entries)
             ->additional([
                 'success' => true,
-                'message' => 'Entradas obtenidas exitosamente',
+                'message' => 'Entradas de cuerda obtenidas exitosamente',
             ]);
     }
 
     /**
-     * Crear Entrada de Cobre
+     * Crear Entrada de Cuerda
      *
-     * Registra una nueva entrada de cobre junto con su ensayo de calidad obligatorio.
+     * Registra una nueva entrada de cuerda junto con su ensayo de calidad obligatorio.
      * El resultado del ensayo determina si la entrada es aprobada (approved) o rechazada (rejected).
      *
-     * @bodyParam raw_material_type_id integer required ID del tipo de materia prima. Example: 1
      * @bodyParam provider_id integer required ID del proveedor. Example: 5
      * @bodyParam raw_material_characteristic_id integer required ID de la caracteristica (ej: diametro). Example: 3
      * @bodyParam entry_date date required Fecha de ingreso/remito. Example: 2024-09-04
@@ -138,14 +129,12 @@ class RawMaterialEntryController extends Controller
      *     "status": "approved",
      *     "test": { "result": "OK" }
      *   },
-     *   "message": "Entrada y ensayo registrados exitosamente"
+     *   "message": "Entrada y ensayo de cuerda registrados exitosamente"
      * }
      */
     public function store(Request $request): JsonResponse
     {
         $validated = $request->validate([
-            // Datos de Entrada
-            'raw_material_type_id' => 'required|exists:raw_material_types,id',
             'provider_id' => 'required|exists:providers,id',
             'raw_material_characteristic_id' => 'required|exists:raw_material_characteristics,id',
             'entry_date' => 'required|date',
@@ -155,7 +144,6 @@ class RawMaterialEntryController extends Controller
             'returned_coils_count' => 'nullable|integer|min:0',
             'observations' => 'nullable|string',
 
-            // Datos del Ensayo (Obligatorios)
             'test' => 'required|array',
             'test.resistance_ohm_km' => 'required|numeric|min:0',
             'test.check_winding' => 'required|boolean',
@@ -167,11 +155,12 @@ class RawMaterialEntryController extends Controller
 
         try {
             return DB::transaction(function () use ($validated) {
-                // 1. Validar Logica IRAM vs Resistencia para determinar Resultado
-                $characteristic = \App\Models\RawMaterialCharacteristic::with('iramCopperMaxResistance')
+                $cuerdaType = \App\Models\RawMaterialType::where('name', 'Cuerda')->firstOrFail();
+
+                $characteristic = \App\Models\RawMaterialCharacteristic::with('iramCuerdaMaxResistance')
                     ->find($validated['raw_material_characteristic_id']);
 
-                $rule = $characteristic->iramCopperMaxResistance;
+                $rule = $characteristic->iramCuerdaMaxResistance;
                 $resistance = $validated['test']['resistance_ohm_km'];
 
                 $isResistanceOk = true;
@@ -184,16 +173,13 @@ class RawMaterialEntryController extends Controller
                     && $validated['test']['check_packaging']
                     && $validated['test']['check_identification'];
 
-                // Definir estado de la entrada basado en el ensayo
                 $finalResult = ($isResistanceOk && $visualChecksOk) ? 'OK' : 'NO_OK';
                 $entryStatus = $finalResult === 'OK' ? 'approved' : 'rejected';
 
-                // 2. Auto-incrementar numero de lote
                 $nextBatch = (RawMaterialEntry::max('batch') ?? 0) + 1;
 
-                // 3. Crear Entrada
                 $entry = RawMaterialEntry::create([
-                    'raw_material_type_id' => $validated['raw_material_type_id'],
+                    'raw_material_type_id' => $cuerdaType->id,
                     'provider_id' => $validated['provider_id'],
                     'entry_date' => $validated['entry_date'],
                     'remito' => $validated['remito'],
@@ -202,18 +188,15 @@ class RawMaterialEntryController extends Controller
                     'status' => $entryStatus,
                 ]);
 
-                // 4. Crear Detalle de Entrada de Cobre
-                CobreEntryDetail::create([
+                CuerdaEntryDetail::create([
                     'raw_material_entry_id' => $entry->id,
                     'raw_material_characteristic_id' => $validated['raw_material_characteristic_id'],
                     'quantity_kg' => $validated['quantity_kg'],
                     'coils_count' => $validated['coils_count'],
                 ]);
 
-                // 5. Crear Ensayo de Cobre
-                CobreTest::create([
+                CuerdaTest::create([
                     'raw_material_entry_id' => $entry->id,
-                    // Asumimos misma fecha que ingreso por consistencia reporte
                     'test_date' => $validated['entry_date'],
                     'resistance_ohm_km' => $resistance,
                     'check_winding' => $validated['test']['check_winding'],
@@ -224,7 +207,6 @@ class RawMaterialEntryController extends Controller
                     'result' => $finalResult,
                 ]);
 
-                // 6. Actualizar Inventario y Registrar Movimiento de Bobinas
                 $coilsReceived = $validated['coils_count'];
                 $coilsReturned = $validated['returned_coils_count'] ?? 0;
 
@@ -247,10 +229,10 @@ class RawMaterialEntryController extends Controller
                     ]);
                 }
 
-                return (new RawMaterialEntryResource($entry->load(['type', 'provider', 'cobreDetail.characteristic', 'cobreTest'])))
+                return (new RawMaterialEntryResource($entry->load(['type', 'provider', 'cuerdaDetail.characteristic', 'cuerdaTest'])))
                     ->additional([
                         'success' => true,
-                        'message' => 'Entrada y ensayo registrados exitosamente',
+                        'message' => 'Entrada y ensayo de cuerda registrados exitosamente',
                     ])
                     ->response()
                     ->setStatusCode(201);
@@ -265,7 +247,7 @@ class RawMaterialEntryController extends Controller
     }
 
     /**
-     * Ver Detalles de Entrada de Cobre (Protocolo de Ensayo)
+     * Ver Detalles de Entrada de Cuerda (Protocolo de Ensayo)
      *
      * Obtiene todos los detalles de una entrada, incluyendo datos del proveedor, caracteristicas,
      * valores de norma IRAM asociados y los resultados del ensayo realizado.
@@ -282,15 +264,15 @@ class RawMaterialEntryController extends Controller
      *     "entry_date": "2025-03-28",
      *     "quantity_kg": 1010.700,
      *     "status": "approved",
-     *     "type": { "id": 1, "name": "Cobre" },
-     *     "provider": { "id": 5, "business_name": "RIO BATEL TRAFILACION COBRE" },
+     *     "type": { "id": 5, "name": "Cuerda" },
+     *     "provider": { "id": 5, "business_name": "Proveedor Cuerda S.A." },
      *     "characteristic": {
      *       "id": 2,
      *       "name": "Diametro",
      *       "description": "0.38 mm",
      *       "decimal_value": 0.38,
      *       "unit": "mm",
-     *       "iram_copper_max_resistance": { "max_resistance_ohm_km": 155.20 }
+     *       "iram_cuerda_max_resistance": { "max_resistance_ohm_km": 155.20 }
      *     },
      *     "test": {
      *       "id": 10,
@@ -312,8 +294,8 @@ class RawMaterialEntryController extends Controller
         $entry = RawMaterialEntry::with([
             'type',
             'provider',
-            'cobreDetail.characteristic.iramCopperMaxResistance',
-            'cobreTest' // Para mostrar valores a cumplir (IRAM)
+            'cuerdaDetail.characteristic.iramCuerdaMaxResistance',
+            'cuerdaTest'
         ])->findOrFail($id);
 
         return (new RawMaterialEntryResource($entry))
@@ -335,20 +317,17 @@ class RawMaterialEntryController extends Controller
      */
     public function downloadLabel(string $id)
     {
-        $entry = RawMaterialEntry::with(['type', 'provider', 'cobreDetail.characteristic', 'cobreTest'])->findOrFail($id);
+        $entry = RawMaterialEntry::with(['type', 'provider', 'cuerdaDetail.characteristic', 'cuerdaTest'])->findOrFail($id);
 
-        // Generar Barcode (batch para seguimiento interno)
         $generator = new \Picqer\Barcode\BarcodeGeneratorPNG();
         $barcodeData = $generator->getBarcode($entry->batch, $generator::TYPE_CODE_128);
         $barcodeBase64 = base64_encode($barcodeData);
 
-        // Configuracion de PDF (Tamano personalizado 150mm x 80mm para etiqueta)
         $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('pdfs.label', [
             'entry' => $entry,
             'barcode' => $barcodeBase64
         ]);
 
-        // 150mm x 80mm
         $customPaper = [0, 0, 425.20, 226.77];
         $pdf->setPaper($customPaper, 'landscape');
 
@@ -367,7 +346,7 @@ class RawMaterialEntryController extends Controller
      */
     public function downloadTestReport(string $id)
     {
-        $entry = RawMaterialEntry::with(['type', 'provider', 'cobreDetail.characteristic.iramCopperMaxResistance', 'cobreTest'])->findOrFail($id);
+        $entry = RawMaterialEntry::with(['type', 'provider', 'cuerdaDetail.characteristic.iramCuerdaMaxResistance', 'cuerdaTest'])->findOrFail($id);
 
         $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('pdfs.report', [
             'entry' => $entry,
@@ -406,7 +385,46 @@ class RawMaterialEntryController extends Controller
     }
 
     /**
-     * Actualizar Entrada de Cobre
+     * Obtener diametros con resistencia IRAM maxima
+     *
+     * Devuelve el listado completo de diametros de cuerda con su resistencia
+     * ohmica maxima segun norma IRAM asociada.
+     *
+     * @response 200 {
+     *   "success": true,
+     *   "data": [
+     *     { "name": "Diametro", "description": "0.30 mm", "decimal_value": "0,30", "iram_copper_ohm_max_resistance": "256,00" }
+     *   ],
+     *   "message": "Diametros y resistencia IRAM obtenidos exitosamente"
+     * }
+     */
+    public function getAllDiameterAndIramOhmResistance(): JsonResponse
+    {
+        $cuerdaType = \App\Models\RawMaterialType::where('name', 'Cuerda')->firstOrFail();
+
+        $diameters = \App\Models\RawMaterialCharacteristic::where('raw_material_type_id', $cuerdaType->id)
+            ->where('name', 'Diametro')
+            ->get();
+
+        $diametersWithOhmResistance = $diameters->map(fn($diameter) => [
+            'name' => $diameter->name,
+            'description' => $diameter->description,
+            'decimal_value' => number_format($diameter->decimal_value, 2, ',', '.'),
+            'iram_copper_ohm_max_resistance' => number_format(
+                $diameter->iramCuerdaMaxResistance?->max_resistance_ohm_km ?? 0,
+                2, ',', '.'
+            ),
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'data' => $diametersWithOhmResistance,
+            'message' => 'Diametros y resistencia IRAM obtenidos exitosamente'
+        ]);
+    }
+
+    /**
+     * Actualizar Entrada de Cuerda
      *
      * Permite editar una entrada existente junto con su ensayo. Recalcula el inventario
      * de bobinas y registra un movimiento de tipo 'correction' si las cantidades cambian.
@@ -416,7 +434,6 @@ class RawMaterialEntryController extends Controller
      *
      * @urlParam id integer required ID de la entrada a editar. Example: 1
      *
-     * @bodyParam raw_material_type_id integer required ID del tipo de materia prima. Example: 1
      * @bodyParam provider_id integer required ID del proveedor. Debe coincidir con el proveedor original de la entrada, no se permite cambiarlo. Example: 5
      * @bodyParam raw_material_characteristic_id integer required ID de la caracteristica. Example: 3
      * @bodyParam entry_date date required Fecha de ingreso. Example: 2024-09-04
@@ -447,7 +464,6 @@ class RawMaterialEntryController extends Controller
     public function update(Request $request, string $id): JsonResponse
     {
         $validated = $request->validate([
-            'raw_material_type_id' => 'required|exists:raw_material_types,id',
             'provider_id' => [
                 'required',
                 'exists:providers,id',
@@ -466,7 +482,6 @@ class RawMaterialEntryController extends Controller
             'returned_coils_count' => 'nullable|integer|min:0',
             'observations' => 'nullable|string',
 
-            // Datos del Ensayo (Obligatorios)
             'test' => 'required|array',
             'test.resistance_ohm_km' => 'required|numeric|min:0',
             'test.check_winding' => 'required|boolean',
@@ -478,13 +493,12 @@ class RawMaterialEntryController extends Controller
 
         try {
             return DB::transaction(function () use ($validated, $id) {
-                // 1. Validar Logica IRAM vs Resistencia para determinar Resultado
-                $entry = RawMaterialEntry::with(['cobreDetail', 'cobreTest'])->findOrFail($id);
+                $entry = RawMaterialEntry::with(['cuerdaDetail', 'cuerdaTest'])->findOrFail($id);
 
-                $characteristic = \App\Models\RawMaterialCharacteristic::with('iramCopperMaxResistance')
+                $characteristic = \App\Models\RawMaterialCharacteristic::with('iramCuerdaMaxResistance')
                     ->find($validated['raw_material_characteristic_id']);
 
-                $rule = $characteristic->iramCopperMaxResistance;
+                $rule = $characteristic->iramCuerdaMaxResistance;
                 $resistance = $validated['test']['resistance_ohm_km'];
 
                 $isResistanceOk = true;
@@ -497,27 +511,23 @@ class RawMaterialEntryController extends Controller
                     && $validated['test']['check_packaging']
                     && $validated['test']['check_identification'];
 
-                // Definir estado de la entrada basado en el ensayo
                 $finalResult = ($isResistanceOk && $visualChecksOk) ? 'OK' : 'NO_OK';
                 $entryStatus = $finalResult === 'OK' ? 'approved' : 'rejected';
 
-                // 2. Actualizar Entrada
                 $entry->update([
-                    'raw_material_type_id' => $validated['raw_material_type_id'],
                     'entry_date' => $validated['entry_date'],
                     'remito' => $validated['remito'],
                     'observations' => $validated['observations'] ?? null,
                     'status' => $entryStatus,
                 ]);
 
-                $entry->cobreDetail->update([
+                $entry->cuerdaDetail->update([
                     'raw_material_characteristic_id' => $validated['raw_material_characteristic_id'],
                     'quantity_kg' => $validated['quantity_kg'],
                     'coils_count' => $validated['coils_count'],
                 ]);
 
-                // 3. Actualizar Ensayo de Cobre
-                $entry->cobreTest->update([
+                $entry->cuerdaTest->update([
                     'test_date' => $validated['entry_date'],
                     'resistance_ohm_km' => $resistance,
                     'check_winding' => $validated['test']['check_winding'],
@@ -528,7 +538,6 @@ class RawMaterialEntryController extends Controller
                     'result' => $finalResult,
                 ]);
 
-                // 4. Recalcular Inventario de Bobinas (correction si cambian cantidades)
                 $oldNet = $entry->coilMovements()->sum('coils_received')
                     - $entry->coilMovements()->sum('coils_returned');
 
@@ -556,7 +565,7 @@ class RawMaterialEntryController extends Controller
                     ]);
                 }
 
-                return (new RawMaterialEntryResource($entry->fresh(['type', 'provider', 'cobreDetail.characteristic', 'cobreTest'])))
+                return (new RawMaterialEntryResource($entry->fresh(['type', 'provider', 'cuerdaDetail.characteristic', 'cuerdaTest'])))
                     ->additional([
                         'success' => true,
                         'message' => 'Entrada y ensayo actualizados exitosamente',

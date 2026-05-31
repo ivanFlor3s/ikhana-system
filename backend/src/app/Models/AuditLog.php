@@ -74,7 +74,10 @@ class AuditLog extends Model
             'Broker' => 'Corredor',
             'TaxStatus' => 'Estado Fiscal',
             'RawMaterialEntry' => 'Entrada de Materia Prima',
-            'MaterialTest' => 'Ensayo de Calidad',
+            'CobreTest' => 'Ensayo de Calidad (Cobre)',
+            'CuerdaTest' => 'Ensayo de Calidad (Cuerda)',
+            'CobreEntryDetail' => 'Detalle de Entrada Cobre',
+            'CuerdaEntryDetail' => 'Detalle de Entrada Cuerda',
         ];
 
         $modelText = $modelMap[$this->model_type] ?? $this->model_type;

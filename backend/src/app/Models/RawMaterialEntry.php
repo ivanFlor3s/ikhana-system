@@ -14,15 +14,12 @@ class RawMaterialEntry extends Model
     protected $fillable = [
         'raw_material_type_id',
         'provider_id',
-        'raw_material_characteristic_id',
         'entry_number',
         'remito',
         'batch',
         'entry_date',
-        'quantity_kg',
-        'coils_count',
         'status',
-        'observations'
+        'observations',
     ];
 
     protected $appends = [
@@ -31,7 +28,6 @@ class RawMaterialEntry extends Model
 
     protected $casts = [
         'entry_date' => 'date',
-        'quantity_kg' => 'float',
         'batch' => 'integer',
         'returned_coils_count' => 'integer',
     ];
@@ -46,19 +42,73 @@ class RawMaterialEntry extends Model
         return $this->belongsTo(Provider::class);
     }
 
-    public function characteristic()
-    {
-        return $this->belongsTo(RawMaterialCharacteristic::class, 'raw_material_characteristic_id');
-    }
-
-    public function test()
-    {
-        return $this->hasOne(MaterialTest::class);
-    }
-
     public function coilMovements()
     {
         return $this->hasMany(ProviderCoilMovement::class, 'raw_material_entry_id');
+    }
+
+    public function cobreDetail()
+    {
+        return $this->hasOne(CobreEntryDetail::class, 'raw_material_entry_id');
+    }
+
+    public function cuerdaDetail()
+    {
+        return $this->hasOne(CuerdaEntryDetail::class, 'raw_material_entry_id');
+    }
+
+    public function cobreTest()
+    {
+        return $this->hasOne(CobreTest::class, 'raw_material_entry_id');
+    }
+
+    public function cuerdaTest()
+    {
+        return $this->hasOne(CuerdaTest::class, 'raw_material_entry_id');
+    }
+
+    public function getQuantityKgAttribute()
+    {
+        if ($this->relationLoaded('cobreDetail') && $this->cobreDetail) {
+            return $this->cobreDetail->quantity_kg;
+        }
+        if ($this->relationLoaded('cuerdaDetail') && $this->cuerdaDetail) {
+            return $this->cuerdaDetail->quantity_kg;
+        }
+        return null;
+    }
+
+    public function getCoilsCountAttribute()
+    {
+        if ($this->relationLoaded('cobreDetail') && $this->cobreDetail) {
+            return $this->cobreDetail->coils_count;
+        }
+        if ($this->relationLoaded('cuerdaDetail') && $this->cuerdaDetail) {
+            return $this->cuerdaDetail->coils_count;
+        }
+        return null;
+    }
+
+    public function getCharacteristicAttribute()
+    {
+        if ($this->relationLoaded('cobreDetail') && $this->cobreDetail) {
+            return $this->cobreDetail->characteristic;
+        }
+        if ($this->relationLoaded('cuerdaDetail') && $this->cuerdaDetail) {
+            return $this->cuerdaDetail->characteristic;
+        }
+        return null;
+    }
+
+    public function getTestAttribute()
+    {
+        if ($this->relationLoaded('cobreTest') && $this->cobreTest) {
+            return $this->cobreTest;
+        }
+        if ($this->relationLoaded('cuerdaTest') && $this->cuerdaTest) {
+            return $this->cuerdaTest;
+        }
+        return null;
     }
 
     public function getReturnedCoilsCountAttribute(): int

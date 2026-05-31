@@ -6,32 +6,28 @@ use Illuminate\Database\Seeder;
 use App\Models\RawMaterialType;
 use App\Models\RawMaterialCharacteristic;
 use App\Models\IramCopperMaxResistance;
+use App\Models\IramCuerdaMaxResistance;
 
 class RawMaterialSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        // 1. Tipos de Materia Prima
         $types = [
             'Cobre',
             'PVC',
             'Master',
-            'Varios'
+            'Varios',
+            'Cuerda'
         ];
 
         foreach ($types as $typeName) {
             RawMaterialType::firstOrCreate(['name' => $typeName]);
         }
 
-        // Obtener el tipo "Cobre"
         $cobre = RawMaterialType::where('name', 'Cobre')->first();
+        $cuerda = RawMaterialType::where('name', 'Cuerda')->first();
 
-        // 2. Características de Cobre: diámetros y sus resistencias máximas (IRAM)
-        $diametros = [
-            // [Diametro (mm), Max Resistance (Ohm/km)]
+        $cobreDiameters = [
             [0.30, 256.00],
             [0.35, 184.60],
             [0.38, 156.50],
@@ -45,15 +41,14 @@ class RawMaterialSeeder extends Seeder
             [1.35, 12.41],
         ];
 
-        foreach ($diametros as $data) {
+        foreach ($cobreDiameters as $data) {
             $diameter = $data[0];
             $maxResistance = $data[1];
 
-            // Crear característica "Diámetro X mm" para Cobre
             $characteristic = RawMaterialCharacteristic::firstOrCreate(
                 [
                     'raw_material_type_id' => $cobre->id,
-                    'name' => 'Diámetro',
+                    'name' => 'Diametro',
                     'decimal_value' => $diameter
                 ],
                 [
@@ -62,8 +57,46 @@ class RawMaterialSeeder extends Seeder
                 ]
             );
 
-            // 3. Crear regla IRAM asociada
             IramCopperMaxResistance::updateOrCreate(
+                ['raw_material_characteristic_id' => $characteristic->id],
+                ['max_resistance_ohm_km' => $maxResistance]
+            );
+        }
+
+        $cuerdaSecciones = [
+            [0.75, 26],
+            [1.00, 19.5],
+            [1.50, 13.3],
+            [2.50, 7.98],
+            [4.00, 4.95],
+            [6.00, 3.3],
+            [10.00, 1.91],
+            [16.00, 1.21],
+            [25.00, 0.78],
+            [35.00, 0.554],
+            [50.00, 0.386],
+            [70.00, 0.272],
+            [95.00, 0.206],
+            [120.00, 0.161],
+        ];
+
+        foreach ($cuerdaSecciones as $data) {
+            $seccion = $data[0];
+            $maxResistance = $data[1];
+
+            $characteristic = RawMaterialCharacteristic::firstOrCreate(
+                [
+                    'raw_material_type_id' => $cuerda->id,
+                    'name' => 'Seccion',
+                    'decimal_value' => $seccion
+                ],
+                [
+                    'unit' => 'mm²',
+                    'text_value' => null
+                ]
+            );
+
+            IramCuerdaMaxResistance::updateOrCreate(
                 ['raw_material_characteristic_id' => $characteristic->id],
                 ['max_resistance_ohm_km' => $maxResistance]
             );

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Traits\Auditable;
 
-class MaterialTest extends Model
+class CuerdaTest extends Model
 {
     use HasFactory, SoftDeletes, Auditable;
 
@@ -22,7 +22,7 @@ class MaterialTest extends Model
         'check_identification',
         'result',
         'conducted_by',
-        'approved_by'
+        'approved_by',
     ];
 
     protected $casts = [

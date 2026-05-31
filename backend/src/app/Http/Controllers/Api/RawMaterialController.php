@@ -118,14 +118,27 @@ class RawMaterialController extends Controller
         $validated = $request->validate([
             'raw_material_characteristic_id' => 'required|exists:raw_material_characteristics,id',
             'resistance_ohm_km' => 'required|numeric|min:0',
+            'raw_material_type_id' => 'nullable|exists:raw_material_types,id',
         ]);
 
-        $characteristic = \App\Models\RawMaterialCharacteristic::with('iramCopperMaxResistance')
-            ->findOrFail($validated['raw_material_characteristic_id']);
+        $characteristic = \App\Models\RawMaterialCharacteristic::findOrFail(
+            $validated['raw_material_characteristic_id']
+        );
 
-        $rule = $characteristic->iramCopperMaxResistance;
+        $type = null;
+        if ($request->filled('raw_material_type_id')) {
+            $type = RawMaterialType::find($validated['raw_material_type_id']);
+        } else {
+            $type = $characteristic->type;
+        }
 
-        // Si no hay regla IRAM, asumimos que no aplica validación (o es siempre válido)
+        $rule = null;
+        if ($type && $type->name === 'Cuerda') {
+            $rule = $characteristic->iramCuerdaMaxResistance;
+        } else {
+            $rule = $characteristic->iramCopperMaxResistance;
+        }
+
         if (!$rule) {
             return response()->json([
                 'success' => true,
@@ -169,17 +182,37 @@ class RawMaterialController extends Controller
      *   "message": "Diámetros y resistencia IRAM obtenidos exitosamente"
      * }
      */
-    public function getAllDiameterAndIramOhmResistance(): JsonResponse
+    public function getAllDiameterAndIramOhmResistance(Request $request): JsonResponse
     {
-        $diameters = \App\Models\RawMaterialCharacteristic::where('name', 'Diámetro')->get();
+        $typeId = $request->input('raw_material_type_id');
 
-        $diametersWithOhmResistance = $diameters->map(fn($diameter) => [
-            'name' => $diameter->name,
-            'description' => $diameter->description,
-            'decimal_value' => number_format($diameter->decimal_value, 2, ',', '.'),
-            'iram_copper_ohm_max_resistance' => number_format($diameter->iramCopperMaxResistance->max_resistance_ohm_km, 2, ',', '.'),
-        ]);
+        if (!$typeId) {
+            $cobreType = \App\Models\RawMaterialType::where('name', 'Cobre')->first();
+            $typeId = $cobreType?->id;
+        }
 
+        $query = \App\Models\RawMaterialCharacteristic::where('name', 'Diametro')
+            ->where('raw_material_type_id', $typeId);
+
+        $diameters = $query->get();
+
+        $diametersWithOhmResistance = $diameters->map(function ($diameter) {
+            $type = $diameter->type;
+            $iramMax = null;
+
+            if ($type && $type->name === 'Cuerda') {
+                $iramMax = $diameter->iramCuerdaMaxResistance?->max_resistance_ohm_km;
+            } else {
+                $iramMax = $diameter->iramCopperMaxResistance?->max_resistance_ohm_km;
+            }
+
+            return [
+                'name' => $diameter->name,
+                'description' => $diameter->description,
+                'decimal_value' => number_format($diameter->decimal_value, 2, ',', '.'),
+                'iram_copper_ohm_max_resistance' => number_format($iramMax ?? 0, 2, ',', '.'),
+            ];
+        });
 
         return response()->json([
             'success' => true,
