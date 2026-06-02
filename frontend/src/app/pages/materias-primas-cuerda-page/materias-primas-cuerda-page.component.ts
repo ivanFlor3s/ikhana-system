@@ -2,7 +2,7 @@ import { Component, OnInit, signal, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MpCobreHeaderComponent } from '@modules/materias-primas/cobre/components/mp-cobre-header/mp-cobre-header.component';
+import { MpCuerdaHeaderComponent } from '@modules/materias-primas/cuerda/components/mp-cuerda-header/mp-cuerda-header.component';
 import { MpCobreFilterComponent, RawMaterialFilterOptions } from '@modules/materias-primas/cobre/components/mp-cobre-filter/mp-cobre-filter.component';
 import { MpStockCobreListComponent } from '@modules/materias-primas/cobre/components/mp-stock-cobre-list/mp-stock-cobre-list.component';
 import { CuerdaService } from '@services/cuerda.service';
@@ -11,11 +11,11 @@ import { RawMaterialCobreEntry } from '@interfaces/dtos/response/raw-material-en
 @Component({
     selector: 'app-materias-primas-cuerda-page',
     imports: [
-        MatProgressSpinnerModule,
-        MpCobreHeaderComponent,
-        MpCobreFilterComponent,
-        MpStockCobreListComponent,
-    ],
+    MatProgressSpinnerModule,
+    MpCuerdaHeaderComponent,
+    MpCobreFilterComponent,
+    MpStockCobreListComponent,
+],
     providers: [DatePipe],
     templateUrl: './materias-primas-cuerda-page.component.html',
     styleUrl: './materias-primas-cuerda-page.component.css',
