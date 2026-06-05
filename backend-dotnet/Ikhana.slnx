@@ -1,0 +1,13 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Ikhana.Api/Ikhana.Api.csproj" />
+    <Project Path="src/Ikhana.Application/Ikhana.Application.csproj" />
+    <Project Path="src/Ikhana.Domain/Ikhana.Domain.csproj" />
+    <Project Path="src/Ikhana.Infrastructure/Ikhana.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Ikhana.Api.Tests/Ikhana.Api.Tests.csproj" />
+    <Project Path="tests/Ikhana.Application.Tests/Ikhana.Application.Tests.csproj" />
+    <Project Path="tests/Ikhana.Domain.Tests/Ikhana.Domain.Tests.csproj" />
+  </Folder>
+</Solution>

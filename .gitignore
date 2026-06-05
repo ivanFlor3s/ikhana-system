@@ -45,6 +45,16 @@ yarn-error.log
 /src/resources/views/scribe/
 /src/.scribe/
 
+# .NET
+bin/
+obj/
+*.user
+*.suo
+*.sln.docstates
+packages/
+.dotnet/
+logs/
+
 # System files
 .DS_Store
 Thumbs.db
