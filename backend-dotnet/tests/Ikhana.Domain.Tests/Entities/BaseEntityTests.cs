@@ -5,8 +5,9 @@ namespace Ikhana.Domain.Tests.Entities;
 
 public class BaseEntityTests
 {
-    private class TestEntity : BaseEntity
+    private class TestEntity : BaseEntity, ISoftDelete
     {
+        public DateTime? DeletedAt { get; set; }
     }
 
     [Fact]

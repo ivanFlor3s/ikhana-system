@@ -1,12 +1,7 @@
 using System.Net;
 using FluentAssertions;
-using Microsoft.AspNetCore.Mvc.Testing;
 
 namespace Ikhana.Api.Tests.Integration;
-
-public class TestWebApplicationFactory : WebApplicationFactory<Program>
-{
-}
 
 public class HealthCheckTests : IClassFixture<TestWebApplicationFactory>
 {
