@@ -13,6 +13,10 @@ public class AppDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, 
     private readonly IHttpContextAccessor? _httpContextAccessor;
 
     public DbSet<AuditLog> AuditLogs => Set<AuditLog>();
+    public DbSet<TaxStatus> TaxStatuses => Set<TaxStatus>();
+    public DbSet<Agreement> Agreements => Set<Agreement>();
+    public DbSet<Category> Categories => Set<Category>();
+    public DbSet<Broker> Brokers => Set<Broker>();
 
     public AppDbContext(DbContextOptions<AppDbContext> options)
         : base(options)
