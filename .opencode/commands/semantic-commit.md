@@ -16,10 +16,15 @@ Below is the current `git status` and a raw `git diff` of the working tree.
 
 ### Your Instructions:
 
-1. **Analyze and Group:** Look at the modified, added, or deleted files. If there are multiple unrelated changes (e.g., a backend API change and a UI component fix), group them into separate, atomic semantic commits.
-2. **Format the Messages:** For each logical group, write a commit message adhering to this structure:
+1. **Analyze and Group:** Look at the modified, added, or deleted files. If there are multiple unrelated changes (e.g., a backend API change and a UI component fix), group them into separate, atomic semantic commits. Check for sensitive or suspicious files (.env, tokens, credentials, keys, secrets).
+
+2. If grouping is clear, continue. If there is real abiguity, ask before commiting.
+
+3. **Format the Messages:** For each logical group, write a commit message adhering to this structure:
    `<type>(<scope>): <short description in lowercase and imperative mood>`
-3. **Allowed Semantic Types:**
+   - Add only the files for each group `git add <files>`
+
+4. **Allowed Semantic Types:**
    - `feat`: A new feature
    - `fix`: A bug fix
    - `docs`: Documentation only changes
