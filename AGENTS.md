@@ -93,3 +93,18 @@ dotnet ef migrations remove \
 ```
 Always pass both `--project` and `--startup-project`. The `.slnx` format does not resolve default projects from solution context.
 
+# Architectural Rules & Standards
+
+## Application Project Structure (Vertical Slices + Clean Architecture)
+- We use Feature-Driven development inside the `Features/` folder.
+- DO NOT create global folders like `Services/`, `Repositories/`, or `DTOs/` for domain-specific logic.
+- Each major entity group must have its own folder under `Features/` (e.g., `Features/Categories/`).
+
+## Feature Folder Layout (Grouped by Action)
+When creating or modifying a feature, group files by action sub-folders to avoid flat-file clutter:
+- `Features/[FeatureName]/[Action]/`
+- Inside the action folder, keep the Command/Query, Handler, and Validator together.
+- Example: 
+  - `Features/Categories/Create/CreateCategoryCommand.cs`
+  - `Features/Categories/Create/CreateCategoryHandler.cs`
+  - `Features/Categories/Create/CreateCategoryValidator.cs`
