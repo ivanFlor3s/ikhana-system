@@ -18,6 +18,9 @@ public class AppDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, 
     public DbSet<Category> Categories => Set<Category>();
     public DbSet<Broker> Brokers => Set<Broker>();
     public DbSet<Provider> Providers => Set<Provider>();
+    public DbSet<RawMaterialType> RawMaterialTypes => Set<RawMaterialType>();
+    public DbSet<RawMaterialCharacteristic> RawMaterialCharacteristics => Set<RawMaterialCharacteristic>();
+    public DbSet<IramOhmMaxResistance> IramOhmMaxResistances => Set<IramOhmMaxResistance>();
 
     public AppDbContext(DbContextOptions<AppDbContext> options)
         : base(options)
