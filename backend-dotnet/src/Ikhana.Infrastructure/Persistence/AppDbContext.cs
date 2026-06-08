@@ -17,6 +17,7 @@ public class AppDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, 
     public DbSet<Agreement> Agreements => Set<Agreement>();
     public DbSet<Category> Categories => Set<Category>();
     public DbSet<Broker> Brokers => Set<Broker>();
+    public DbSet<Provider> Providers => Set<Provider>();
 
     public AppDbContext(DbContextOptions<AppDbContext> options)
         : base(options)

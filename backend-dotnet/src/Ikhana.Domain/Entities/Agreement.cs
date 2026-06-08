@@ -7,4 +7,6 @@ public class Agreement : BaseEntity, ISoftDelete, IAuditable
     public string? Description { get; set; }
     public bool IsActive { get; set; } = true;
     public DateTime? DeletedAt { get; set; }
+
+    public ICollection<Provider> Providers { get; set; } = new List<Provider>();
 }

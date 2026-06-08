@@ -10,7 +10,9 @@ public class Broker : BaseEntity, ISoftDelete, IAuditable
     public string? Phone { get; set; }
     public DateTime? DeletedAt { get; set; }
 
+    public long? ProviderId { get; set; }
+    public Provider? Provider { get; set; }
+
     [NotMapped]
     public string FullName => $"{FirstName} {LastName}".Trim();
-
 }
