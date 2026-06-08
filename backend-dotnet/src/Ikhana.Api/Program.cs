@@ -1,9 +1,11 @@
 using System.Text;
+using Ikhana.Api.Filters;
 using Ikhana.Application;
 using Ikhana.Application.Common.Interfaces;
 using Ikhana.Infrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi;
 using Scalar.AspNetCore;
 using Serilog;
 
@@ -12,8 +14,26 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Host.UseSerilog((context, configuration) =>
     configuration.ReadFrom.Configuration(context.Configuration));
 
-builder.Services.AddControllers();
-builder.Services.AddOpenApi();
+builder.Services.AddControllers(options =>
+{
+    options.Filters.Add<ValidationExceptionFilter>();
+});
+builder.Services.AddOpenApi(options =>
+{
+    options.AddDocumentTransformer((document, context, cancellationToken) =>
+    {
+        var components = document.Components ??= new();
+        components.SecuritySchemes ??= new Dictionary<string, IOpenApiSecurityScheme>();
+        components.SecuritySchemes["Bearer"] = new OpenApiSecurityScheme
+        {
+            Type = SecuritySchemeType.Http,
+            Scheme = "bearer",
+            BearerFormat = "JWT",
+            Description = "Enter your JWT token"
+        };
+        return Task.CompletedTask;
+    });
+});
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddApplication();
@@ -57,7 +77,13 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment() || app.Environment.IsEnvironment("Test"))
 {
     app.MapOpenApi();
-    app.MapScalarApiReference();
+    app.MapScalarApiReference(options =>
+    {
+        options.Authentication = new ScalarAuthenticationOptions
+        {
+            PreferredSecuritySchemes = ["Bearer"]
+        };
+    });
 }
 
 if (app.Environment.IsDevelopment())
