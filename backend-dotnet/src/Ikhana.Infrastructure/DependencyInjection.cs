@@ -1,5 +1,6 @@
 using Ikhana.Application.Common.Interfaces;
 using Ikhana.Domain.Entities;
+using Ikhana.Infrastructure.Data.Seeders;
 using Ikhana.Infrastructure.Persistence;
 using Ikhana.Infrastructure.Services;
 using Microsoft.AspNetCore.Identity;
@@ -40,6 +41,15 @@ public static class DependencyInjection
 
         services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<ITokenService, TokenService>();
+
+        services.AddScoped<IDataSeeder, RoleSeeder>();
+        services.AddScoped<IDataSeeder, UserSeeder>();
+        services.AddScoped<IDataSeeder, TaxStatusSeeder>();
+        services.AddScoped<IDataSeeder, AgreementSeeder>();
+        services.AddScoped<IDataSeeder, CategorySeeder>();
+        services.AddScoped<IDataSeeder, BrokerSeeder>();
+        services.AddScoped<IDataSeeder, RawMaterialSeeder>();
+        services.AddScoped<IDataSeeder, ProviderSeeder>();
 
         return services;
     }

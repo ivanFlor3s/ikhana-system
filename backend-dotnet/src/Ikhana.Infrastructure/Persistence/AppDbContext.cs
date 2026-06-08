@@ -90,6 +90,9 @@ public class AppDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, 
         var entries = new List<AuditEntry>();
         var userId = GetCurrentUserId();
 
+        if (userId is null)
+            return entries;
+
         foreach (var entry in ChangeTracker.Entries())
         {
             if (entry.Entity is not IAuditable) continue;
@@ -98,7 +101,7 @@ public class AppDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, 
             var auditEntry = new AuditEntry
             {
                 TableName = entry.Metadata.GetTableName() ?? entry.Entity.GetType().Name,
-                UserId = userId
+                UserId = userId.Value
             };
 
             foreach (var property in entry.Properties)
@@ -185,12 +188,15 @@ public class AppDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, 
         return JsonSerializer.Serialize(keyValues);
     }
 
-    private long GetCurrentUserId()
+    private long? GetCurrentUserId()
     {
         var userIdClaim = _httpContextAccessor?.HttpContext?.User?.FindFirst(
             System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
 
-        return long.TryParse(userIdClaim, out var userId) ? userId : 0;
+        if (long.TryParse(userIdClaim, out var userId) && userId > 0)
+            return userId;
+
+        return null;
     }
 
     private sealed class AuditEntry

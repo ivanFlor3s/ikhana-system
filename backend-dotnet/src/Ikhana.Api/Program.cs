@@ -1,5 +1,6 @@
 using System.Text;
 using Ikhana.Application;
+using Ikhana.Application.Common.Interfaces;
 using Ikhana.Infrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -53,10 +54,21 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment() || app.Environment.IsEnvironment("Test"))
 {
     app.MapOpenApi();
     app.MapScalarApiReference();
+}
+
+if (app.Environment.IsDevelopment())
+{
+    using var scope = app.Services.CreateScope();
+    var seeders = scope.ServiceProvider.GetRequiredService<IEnumerable<IDataSeeder>>();
+
+    foreach (var seeder in seeders.OrderBy(s => s.Order))
+    {
+        await seeder.SeedAsync();
+    }
 }
 
 app.UseSerilogRequestLogging();
