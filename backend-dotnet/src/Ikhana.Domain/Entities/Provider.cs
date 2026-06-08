@@ -25,4 +25,7 @@ public class Provider : BaseEntity, ISoftDelete, IAuditable
 
     public ICollection<Category> Categories { get; set; } = new List<Category>();
     public ICollection<Broker> Brokers { get; set; } = new List<Broker>();
+    public ProviderInventory? Inventory { get; set; }
+    public ICollection<RawMaterialEntry> RawMaterialEntries { get; set; } = new List<RawMaterialEntry>();
+    public ICollection<ProviderCoilMovement> CoilMovements { get; set; } = new List<ProviderCoilMovement>();
 }

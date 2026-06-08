@@ -21,6 +21,10 @@ public class AppDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, 
     public DbSet<RawMaterialType> RawMaterialTypes => Set<RawMaterialType>();
     public DbSet<RawMaterialCharacteristic> RawMaterialCharacteristics => Set<RawMaterialCharacteristic>();
     public DbSet<IramOhmMaxResistance> IramOhmMaxResistances => Set<IramOhmMaxResistance>();
+    public DbSet<RawMaterialEntry> RawMaterialEntries => Set<RawMaterialEntry>();
+    public DbSet<MaterialTest> MaterialTests => Set<MaterialTest>();
+    public DbSet<ProviderInventory> ProviderInventories => Set<ProviderInventory>();
+    public DbSet<ProviderCoilMovement> ProviderCoilMovements => Set<ProviderCoilMovement>();
 
     public AppDbContext(DbContextOptions<AppDbContext> options)
         : base(options)
