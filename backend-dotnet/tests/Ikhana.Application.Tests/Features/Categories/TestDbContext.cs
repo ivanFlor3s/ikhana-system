@@ -7,6 +7,9 @@ namespace Ikhana.Application.Tests.Features.Categories;
 public class TestDbContext : DbContext, IAppDbContext
 {
     public DbSet<Category> Categories => Set<Category>();
+    public DbSet<TaxStatus> TaxStatuses => Set<TaxStatus>();
+    public DbSet<Agreement> Agreements => Set<Agreement>();
+    public DbSet<Broker> Brokers => Set<Broker>();
 
     public TestDbContext(DbContextOptions<TestDbContext> options) : base(options) { }
 
