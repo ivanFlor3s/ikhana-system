@@ -1,5 +1,3 @@
-using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using Ikhana.Application.Common.Interfaces;
 using Ikhana.Application.Common.Models;
 using MediatR;
@@ -10,12 +8,10 @@ namespace Ikhana.Application.Features.TaxStatuses;
 public class GetTaxStatusesHandler : IRequestHandler<GetTaxStatusesQuery, PaginatedList<TaxStatusResponse>>
 {
     private readonly IAppDbContext _context;
-    private readonly IMapper _mapper;
 
-    public GetTaxStatusesHandler(IAppDbContext context, IMapper mapper)
+    public GetTaxStatusesHandler(IAppDbContext context)
     {
         _context = context;
-        _mapper = mapper;
     }
 
     public async Task<PaginatedList<TaxStatusResponse>> Handle(GetTaxStatusesQuery request, CancellationToken cancellationToken)
@@ -37,7 +33,17 @@ public class GetTaxStatusesHandler : IRequestHandler<GetTaxStatusesQuery, Pagina
         var items = await query
             .Skip((request.Page - 1) * request.PageSize)
             .Take(request.PageSize)
-            .ProjectTo<TaxStatusResponse>(_mapper.ConfigurationProvider)
+            .Select(t => new TaxStatusResponse
+            {
+                Id = t.Id,
+                Code = t.Code,
+                Name = t.Name,
+                Description = t.Description,
+                IsActive = t.IsActive,
+                CreatedAt = t.CreatedAt,
+                UpdatedAt = t.UpdatedAt,
+                DeletedAt = t.DeletedAt
+            })
             .ToListAsync(cancellationToken);
 
         return new PaginatedList<TaxStatusResponse>

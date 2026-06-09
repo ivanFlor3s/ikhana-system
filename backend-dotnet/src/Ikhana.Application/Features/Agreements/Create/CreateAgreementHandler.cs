@@ -1,4 +1,3 @@
-using AutoMapper;
 using Ikhana.Application.Common.Interfaces;
 using Ikhana.Application.Common.Models;
 using Ikhana.Domain.Entities;
@@ -9,12 +8,10 @@ namespace Ikhana.Application.Features.Agreements;
 public class CreateAgreementHandler : IRequestHandler<CreateAgreementCommand, AgreementResponse>
 {
     private readonly IAppDbContext _context;
-    private readonly IMapper _mapper;
 
-    public CreateAgreementHandler(IAppDbContext context, IMapper mapper)
+    public CreateAgreementHandler(IAppDbContext context)
     {
         _context = context;
-        _mapper = mapper;
     }
 
     public async Task<AgreementResponse> Handle(CreateAgreementCommand request, CancellationToken cancellationToken)
@@ -30,6 +27,16 @@ public class CreateAgreementHandler : IRequestHandler<CreateAgreementCommand, Ag
         _context.Agreements.Add(entity);
         await _context.SaveChangesAsync(cancellationToken);
 
-        return _mapper.Map<AgreementResponse>(entity);
+        return new AgreementResponse
+        {
+            Id = entity.Id,
+            Code = entity.Code,
+            Name = entity.Name,
+            Description = entity.Description,
+            IsActive = entity.IsActive,
+            CreatedAt = entity.CreatedAt,
+            UpdatedAt = entity.UpdatedAt,
+            DeletedAt = entity.DeletedAt
+        };
     }
 }

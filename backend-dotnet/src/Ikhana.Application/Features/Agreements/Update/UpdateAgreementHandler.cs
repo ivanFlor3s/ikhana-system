@@ -1,4 +1,3 @@
-using AutoMapper;
 using Ikhana.Application.Common.Interfaces;
 using Ikhana.Application.Common.Models;
 using MediatR;
@@ -9,12 +8,10 @@ namespace Ikhana.Application.Features.Agreements;
 public class UpdateAgreementHandler : IRequestHandler<UpdateAgreementCommand, AgreementResponse?>
 {
     private readonly IAppDbContext _context;
-    private readonly IMapper _mapper;
 
-    public UpdateAgreementHandler(IAppDbContext context, IMapper mapper)
+    public UpdateAgreementHandler(IAppDbContext context)
     {
         _context = context;
-        _mapper = mapper;
     }
 
     public async Task<AgreementResponse?> Handle(UpdateAgreementCommand request, CancellationToken cancellationToken)
@@ -36,6 +33,16 @@ public class UpdateAgreementHandler : IRequestHandler<UpdateAgreementCommand, Ag
 
         await _context.SaveChangesAsync(cancellationToken);
 
-        return _mapper.Map<AgreementResponse>(entity);
+        return new AgreementResponse
+        {
+            Id = entity.Id,
+            Code = entity.Code,
+            Name = entity.Name,
+            Description = entity.Description,
+            IsActive = entity.IsActive,
+            CreatedAt = entity.CreatedAt,
+            UpdatedAt = entity.UpdatedAt,
+            DeletedAt = entity.DeletedAt
+        };
     }
 }

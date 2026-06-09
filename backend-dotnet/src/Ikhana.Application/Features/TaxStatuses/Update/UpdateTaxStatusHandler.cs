@@ -1,4 +1,3 @@
-using AutoMapper;
 using Ikhana.Application.Common.Interfaces;
 using Ikhana.Application.Common.Models;
 using MediatR;
@@ -9,12 +8,10 @@ namespace Ikhana.Application.Features.TaxStatuses;
 public class UpdateTaxStatusHandler : IRequestHandler<UpdateTaxStatusCommand, TaxStatusResponse?>
 {
     private readonly IAppDbContext _context;
-    private readonly IMapper _mapper;
 
-    public UpdateTaxStatusHandler(IAppDbContext context, IMapper mapper)
+    public UpdateTaxStatusHandler(IAppDbContext context)
     {
         _context = context;
-        _mapper = mapper;
     }
 
     public async Task<TaxStatusResponse?> Handle(UpdateTaxStatusCommand request, CancellationToken cancellationToken)
@@ -36,6 +33,16 @@ public class UpdateTaxStatusHandler : IRequestHandler<UpdateTaxStatusCommand, Ta
 
         await _context.SaveChangesAsync(cancellationToken);
 
-        return _mapper.Map<TaxStatusResponse>(entity);
+        return new TaxStatusResponse
+        {
+            Id = entity.Id,
+            Code = entity.Code,
+            Name = entity.Name,
+            Description = entity.Description,
+            IsActive = entity.IsActive,
+            CreatedAt = entity.CreatedAt,
+            UpdatedAt = entity.UpdatedAt,
+            DeletedAt = entity.DeletedAt
+        };
     }
 }

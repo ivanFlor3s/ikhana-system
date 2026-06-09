@@ -1,4 +1,3 @@
-using AutoMapper;
 using Ikhana.Application.Common.Interfaces;
 using Ikhana.Application.Common.Models;
 using Ikhana.Domain.Entities;
@@ -9,12 +8,10 @@ namespace Ikhana.Application.Features.Categories;
 public class CreateCategoryHandler : IRequestHandler<CreateCategoryCommand, CategoryResponse>
 {
     private readonly IAppDbContext _context;
-    private readonly IMapper _mapper;
 
-    public CreateCategoryHandler(IAppDbContext context, IMapper mapper)
+    public CreateCategoryHandler(IAppDbContext context)
     {
         _context = context;
-        _mapper = mapper;
     }
 
     public async Task<CategoryResponse> Handle(CreateCategoryCommand request, CancellationToken cancellationToken)
@@ -28,6 +25,14 @@ public class CreateCategoryHandler : IRequestHandler<CreateCategoryCommand, Cate
         _context.Categories.Add(category);
         await _context.SaveChangesAsync(cancellationToken);
 
-        return _mapper.Map<CategoryResponse>(category);
+        return new CategoryResponse
+        {
+            Id = category.Id,
+            Name = category.Name,
+            Description = category.Description,
+            CreatedAt = category.CreatedAt,
+            UpdatedAt = category.UpdatedAt,
+            DeletedAt = category.DeletedAt
+        };
     }
 }

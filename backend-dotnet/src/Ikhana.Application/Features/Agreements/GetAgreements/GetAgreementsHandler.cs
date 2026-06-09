@@ -1,5 +1,3 @@
-using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using Ikhana.Application.Common.Interfaces;
 using Ikhana.Application.Common.Models;
 using MediatR;
@@ -10,12 +8,10 @@ namespace Ikhana.Application.Features.Agreements;
 public class GetAgreementsHandler : IRequestHandler<GetAgreementsQuery, PaginatedList<AgreementResponse>>
 {
     private readonly IAppDbContext _context;
-    private readonly IMapper _mapper;
 
-    public GetAgreementsHandler(IAppDbContext context, IMapper mapper)
+    public GetAgreementsHandler(IAppDbContext context)
     {
         _context = context;
-        _mapper = mapper;
     }
 
     public async Task<PaginatedList<AgreementResponse>> Handle(GetAgreementsQuery request, CancellationToken cancellationToken)
@@ -37,7 +33,17 @@ public class GetAgreementsHandler : IRequestHandler<GetAgreementsQuery, Paginate
         var items = await query
             .Skip((request.Page - 1) * request.PageSize)
             .Take(request.PageSize)
-            .ProjectTo<AgreementResponse>(_mapper.ConfigurationProvider)
+            .Select(a => new AgreementResponse
+            {
+                Id = a.Id,
+                Code = a.Code,
+                Name = a.Name,
+                Description = a.Description,
+                IsActive = a.IsActive,
+                CreatedAt = a.CreatedAt,
+                UpdatedAt = a.UpdatedAt,
+                DeletedAt = a.DeletedAt
+            })
             .ToListAsync(cancellationToken);
 
         return new PaginatedList<AgreementResponse>

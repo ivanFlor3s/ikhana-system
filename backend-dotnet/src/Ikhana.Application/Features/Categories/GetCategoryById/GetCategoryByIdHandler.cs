@@ -1,5 +1,3 @@
-using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using Ikhana.Application.Common.Interfaces;
 using Ikhana.Application.Common.Models;
 using MediatR;
@@ -10,19 +8,26 @@ namespace Ikhana.Application.Features.Categories;
 public class GetCategoryByIdHandler : IRequestHandler<GetCategoryByIdQuery, CategoryDetailResponse?>
 {
     private readonly IAppDbContext _context;
-    private readonly IMapper _mapper;
 
-    public GetCategoryByIdHandler(IAppDbContext context, IMapper mapper)
+    public GetCategoryByIdHandler(IAppDbContext context)
     {
         _context = context;
-        _mapper = mapper;
     }
 
     public async Task<CategoryDetailResponse?> Handle(GetCategoryByIdQuery request, CancellationToken cancellationToken)
     {
         return await _context.Categories
             .Where(c => c.Id == request.Id && c.DeletedAt == null)
-            .ProjectTo<CategoryDetailResponse>(_mapper.ConfigurationProvider)
+            .Select(c => new CategoryDetailResponse
+            {
+                Id = c.Id,
+                Name = c.Name,
+                Description = c.Description,
+                CreatedAt = c.CreatedAt,
+                UpdatedAt = c.UpdatedAt,
+                DeletedAt = c.DeletedAt,
+                ProvidersCount = c.Providers.Count
+            })
             .FirstOrDefaultAsync(cancellationToken);
     }
 }

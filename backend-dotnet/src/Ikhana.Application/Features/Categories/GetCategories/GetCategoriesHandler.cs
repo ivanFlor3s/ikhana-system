@@ -1,5 +1,3 @@
-using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using Ikhana.Application.Common.Interfaces;
 using Ikhana.Application.Common.Models;
 using MediatR;
@@ -10,12 +8,10 @@ namespace Ikhana.Application.Features.Categories;
 public class GetCategoriesHandler : IRequestHandler<GetCategoriesQuery, PaginatedList<CategoryResponse>>
 {
     private readonly IAppDbContext _context;
-    private readonly IMapper _mapper;
 
-    public GetCategoriesHandler(IAppDbContext context, IMapper mapper)
+    public GetCategoriesHandler(IAppDbContext context)
     {
         _context = context;
-        _mapper = mapper;
     }
 
     public async Task<PaginatedList<CategoryResponse>> Handle(GetCategoriesQuery request, CancellationToken cancellationToken)
@@ -37,7 +33,15 @@ public class GetCategoriesHandler : IRequestHandler<GetCategoriesQuery, Paginate
         var items = await query
             .Skip((request.Page - 1) * request.PageSize)
             .Take(request.PageSize)
-            .ProjectTo<CategoryResponse>(_mapper.ConfigurationProvider)
+            .Select(c => new CategoryResponse
+            {
+                Id = c.Id,
+                Name = c.Name,
+                Description = c.Description,
+                CreatedAt = c.CreatedAt,
+                UpdatedAt = c.UpdatedAt,
+                DeletedAt = c.DeletedAt
+            })
             .ToListAsync(cancellationToken);
 
         return new PaginatedList<CategoryResponse>
