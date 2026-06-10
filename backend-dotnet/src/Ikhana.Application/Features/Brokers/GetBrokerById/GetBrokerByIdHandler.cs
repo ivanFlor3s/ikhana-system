@@ -1,5 +1,3 @@
-using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using Ikhana.Application.Common.Interfaces;
 using Ikhana.Application.Common.Models;
 using MediatR;
@@ -10,19 +8,27 @@ namespace Ikhana.Application.Features.Brokers;
 public class GetBrokerByIdHandler : IRequestHandler<GetBrokerByIdQuery, BrokerResponse?>
 {
     private readonly IAppDbContext _context;
-    private readonly IMapper _mapper;
 
-    public GetBrokerByIdHandler(IAppDbContext context, IMapper mapper)
+    public GetBrokerByIdHandler(IAppDbContext context)
     {
         _context = context;
-        _mapper = mapper;
     }
 
     public async Task<BrokerResponse?> Handle(GetBrokerByIdQuery request, CancellationToken cancellationToken)
     {
         return await _context.Brokers
             .Where(b => b.Id == request.Id && b.DeletedAt == null)
-            .ProjectTo<BrokerResponse>(_mapper.ConfigurationProvider)
+            .Select(b => new BrokerResponse
+            {
+                Id = b.Id,
+                FirstName = b.FirstName,
+                LastName = b.LastName,
+                Email = b.Email,
+                Phone = b.Phone,
+                CreatedAt = b.CreatedAt,
+                UpdatedAt = b.UpdatedAt,
+                DeletedAt = b.DeletedAt
+            })
             .FirstOrDefaultAsync(cancellationToken);
     }
 }

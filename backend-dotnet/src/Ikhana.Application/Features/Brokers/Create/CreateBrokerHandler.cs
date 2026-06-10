@@ -1,4 +1,3 @@
-using AutoMapper;
 using Ikhana.Application.Common.Interfaces;
 using Ikhana.Application.Common.Models;
 using Ikhana.Domain.Entities;
@@ -9,12 +8,10 @@ namespace Ikhana.Application.Features.Brokers;
 public class CreateBrokerHandler : IRequestHandler<CreateBrokerCommand, BrokerResponse>
 {
     private readonly IAppDbContext _context;
-    private readonly IMapper _mapper;
 
-    public CreateBrokerHandler(IAppDbContext context, IMapper mapper)
+    public CreateBrokerHandler(IAppDbContext context)
     {
         _context = context;
-        _mapper = mapper;
     }
 
     public async Task<BrokerResponse> Handle(CreateBrokerCommand request, CancellationToken cancellationToken)
@@ -30,6 +27,16 @@ public class CreateBrokerHandler : IRequestHandler<CreateBrokerCommand, BrokerRe
         _context.Brokers.Add(entity);
         await _context.SaveChangesAsync(cancellationToken);
 
-        return _mapper.Map<BrokerResponse>(entity);
+        return new BrokerResponse
+        {
+            Id = entity.Id,
+            FirstName = entity.FirstName,
+            LastName = entity.LastName,
+            Email = entity.Email,
+            Phone = entity.Phone,
+            CreatedAt = entity.CreatedAt,
+            UpdatedAt = entity.UpdatedAt,
+            DeletedAt = entity.DeletedAt
+        };
     }
 }

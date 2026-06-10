@@ -17,6 +17,9 @@ public class ProviderConfig : IEntityTypeConfiguration<Provider>
         builder.Property(p => p.ContactName).HasMaxLength(255);
         builder.Property(p => p.Observations).HasColumnType("text");
 
+        builder.Property(p => p.Phone).HasMaxLength(50);
+        builder.Property(p => p.Email).HasMaxLength(255);
+
         builder.HasIndex(p => p.Cuit).IsUnique();
 
         builder.HasOne(p => p.TaxStatus)

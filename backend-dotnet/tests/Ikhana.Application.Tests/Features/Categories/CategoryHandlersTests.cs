@@ -27,7 +27,6 @@ public class CategoryHandlersTests : IAsyncLifetime
         serviceCollection.AddLogging();
         serviceCollection.AddSingleton<IAppDbContext>(_db);
         serviceCollection.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(CreateCategoryCommand).Assembly));
-        serviceCollection.AddAutoMapper(typeof(CreateCategoryCommand).Assembly);
 
         _services = serviceCollection.BuildServiceProvider();
         _sender = _services.GetRequiredService<ISender>();

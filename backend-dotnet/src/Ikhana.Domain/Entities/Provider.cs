@@ -15,6 +15,9 @@ public class Provider : BaseEntity, ISoftDelete, IAuditable
     public string? ContactName { get; set; }
     public string? Observations { get; set; }
 
+    public string? Phone { get; set; }
+    public string? Email { get; set; }
+
     public TimeOnly? BusinessHoursStart { get; set; }
     public TimeOnly? BusinessHoursEnd { get; set; }
 

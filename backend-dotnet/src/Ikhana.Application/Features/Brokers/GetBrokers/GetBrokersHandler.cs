@@ -1,5 +1,3 @@
-using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using Ikhana.Application.Common.Interfaces;
 using Ikhana.Application.Common.Models;
 using MediatR;
@@ -10,12 +8,10 @@ namespace Ikhana.Application.Features.Brokers;
 public class GetBrokersHandler : IRequestHandler<GetBrokersQuery, PaginatedList<BrokerResponse>>
 {
     private readonly IAppDbContext _context;
-    private readonly IMapper _mapper;
 
-    public GetBrokersHandler(IAppDbContext context, IMapper mapper)
+    public GetBrokersHandler(IAppDbContext context)
     {
         _context = context;
-        _mapper = mapper;
     }
 
     public async Task<PaginatedList<BrokerResponse>> Handle(GetBrokersQuery request, CancellationToken cancellationToken)
@@ -43,7 +39,17 @@ public class GetBrokersHandler : IRequestHandler<GetBrokersQuery, PaginatedList<
         var items = await query
             .Skip((request.Page - 1) * request.PageSize)
             .Take(request.PageSize)
-            .ProjectTo<BrokerResponse>(_mapper.ConfigurationProvider)
+            .Select(b => new BrokerResponse
+            {
+                Id = b.Id,
+                FirstName = b.FirstName,
+                LastName = b.LastName,
+                Email = b.Email,
+                Phone = b.Phone,
+                CreatedAt = b.CreatedAt,
+                UpdatedAt = b.UpdatedAt,
+                DeletedAt = b.DeletedAt
+            })
             .ToListAsync(cancellationToken);
 
         return new PaginatedList<BrokerResponse>
