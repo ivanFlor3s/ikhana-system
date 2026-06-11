@@ -10,6 +10,9 @@ public class TestDbContext : DbContext, IAppDbContext
     public DbSet<TaxStatus> TaxStatuses => Set<TaxStatus>();
     public DbSet<Agreement> Agreements => Set<Agreement>();
     public DbSet<Broker> Brokers => Set<Broker>();
+    public DbSet<RawMaterialType> RawMaterialTypes => Set<RawMaterialType>();
+    public DbSet<RawMaterialCharacteristic> RawMaterialCharacteristics => Set<RawMaterialCharacteristic>();
+    public DbSet<IramOhmMaxResistance> IramOhmMaxResistances => Set<IramOhmMaxResistance>();
 
     public TestDbContext(DbContextOptions<TestDbContext> options) : base(options) { }
 

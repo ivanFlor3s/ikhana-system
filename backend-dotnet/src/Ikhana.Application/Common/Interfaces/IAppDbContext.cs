@@ -9,5 +9,8 @@ public interface IAppDbContext
     DbSet<TaxStatus> TaxStatuses { get; }
     DbSet<Agreement> Agreements { get; }
     DbSet<Broker> Brokers { get; }
+    DbSet<RawMaterialType> RawMaterialTypes { get; }
+    DbSet<RawMaterialCharacteristic> RawMaterialCharacteristics { get; }
+    DbSet<IramOhmMaxResistance> IramOhmMaxResistances { get; }
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }
