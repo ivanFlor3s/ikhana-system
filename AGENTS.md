@@ -108,3 +108,10 @@ When creating or modifying a feature, group files by action sub-folders to avoid
   - `Features/Categories/Create/CreateCategoryCommand.cs`
   - `Features/Categories/Create/CreateCategoryHandler.cs`
   - `Features/Categories/Create/CreateCategoryValidator.cs`
+
+## Data Models & DTOs Placement
+- Feature-Specific DTOs: Response DTOs that are exclusive to a query or command
+(e.g., CategoryResponse.cs) MUST live inside their respective Feature/Action folder,
+never in a global location.
+- Global Models: Only truly structural and generic models are allowed in Common/Models/
+(e.g., ApiResponse.cs, PaginatedList.cs).
