@@ -12,5 +12,6 @@ public interface IAppDbContext
     DbSet<RawMaterialType> RawMaterialTypes { get; }
     DbSet<RawMaterialCharacteristic> RawMaterialCharacteristics { get; }
     DbSet<IramOhmMaxResistance> IramOhmMaxResistances { get; }
+    DbSet<Provider> Providers { get; }
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }

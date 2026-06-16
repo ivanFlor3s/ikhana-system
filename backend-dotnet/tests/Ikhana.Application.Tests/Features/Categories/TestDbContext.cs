@@ -13,6 +13,7 @@ public class TestDbContext : DbContext, IAppDbContext
     public DbSet<RawMaterialType> RawMaterialTypes => Set<RawMaterialType>();
     public DbSet<RawMaterialCharacteristic> RawMaterialCharacteristics => Set<RawMaterialCharacteristic>();
     public DbSet<IramOhmMaxResistance> IramOhmMaxResistances => Set<IramOhmMaxResistance>();
+    public DbSet<Provider> Providers => Set<Provider>();
 
     public TestDbContext(DbContextOptions<TestDbContext> options) : base(options) { }
 
@@ -26,6 +27,19 @@ public class TestDbContext : DbContext, IAppDbContext
             entity.Property(c => c.CreatedAt);
             entity.Property(c => c.UpdatedAt);
             entity.Property(c => c.DeletedAt);
+            entity.Ignore(c => c.Providers);
+        });
+
+        modelBuilder.Entity<Provider>(entity =>
+        {
+            entity.HasKey(p => p.Id);
+            entity.Ignore(p => p.TaxStatus);
+            entity.Ignore(p => p.Agreement);
+            entity.Ignore(p => p.Categories);
+            entity.Ignore(p => p.Brokers);
+            entity.Ignore(p => p.Inventory);
+            entity.Ignore(p => p.RawMaterialEntries);
+            entity.Ignore(p => p.CoilMovements);
         });
     }
 }
