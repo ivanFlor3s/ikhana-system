@@ -14,6 +14,8 @@ public class TestDbContext : DbContext, IAppDbContext
     public DbSet<RawMaterialCharacteristic> RawMaterialCharacteristics => Set<RawMaterialCharacteristic>();
     public DbSet<IramOhmMaxResistance> IramOhmMaxResistances => Set<IramOhmMaxResistance>();
     public DbSet<Provider> Providers => Set<Provider>();
+    public DbSet<ProviderInventory> ProviderInventories => Set<ProviderInventory>();
+    public DbSet<ProviderCoilMovement> ProviderCoilMovements => Set<ProviderCoilMovement>();
 
     public TestDbContext(DbContextOptions<TestDbContext> options) : base(options) { }
 
@@ -40,6 +42,17 @@ public class TestDbContext : DbContext, IAppDbContext
             entity.Ignore(p => p.Inventory);
             entity.Ignore(p => p.RawMaterialEntries);
             entity.Ignore(p => p.CoilMovements);
+        });
+
+        modelBuilder.Entity<ProviderInventory>(entity =>
+        {
+            entity.HasKey(i => i.Id);
+        });
+
+        modelBuilder.Entity<ProviderCoilMovement>(entity =>
+        {
+            entity.HasKey(m => m.Id);
+            entity.Ignore(m => m.Entry);
         });
     }
 }

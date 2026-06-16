@@ -30,6 +30,25 @@ public class ProvidersController : ControllerBase
         return Ok(ApiResponse<PaginatedList<ProviderListResponse>>.Ok(result, "Proveedores obtenidos exitosamente"));
     }
 
+    [HttpGet("summary")]
+    public async Task<ActionResult<ApiResponse<List<ProviderSummaryResponse>>>> GetAllProvidersSummary()
+    {
+        var result = await _sender.Send(new GetProvidersSummaryQuery());
+        return Ok(ApiResponse<List<ProviderSummaryResponse>>.Ok(result, "Proveedores obtenidos exitosamente"));
+    }
+
+    [HttpGet("coil-summary")]
+    public async Task<ActionResult<ApiResponse<PaginatedList<CoilSummaryResponse>>>> CoilSummary(
+        [FromQuery] int page = 1,
+        [FromQuery] int pageSize = 15,
+        [FromQuery] string? search = null,
+        [FromQuery] string sortBy = "provider_name",
+        [FromQuery] string sortDir = "asc")
+    {
+        var result = await _sender.Send(new GetCoilSummaryQuery(page, pageSize, search, sortBy, sortDir));
+        return Ok(ApiResponse<PaginatedList<CoilSummaryResponse>>.Ok(result, "Resumen de bobinas por proveedor obtenido exitosamente"));
+    }
+
     [HttpPost]
     public async Task<ActionResult<ApiResponse<ProviderDetailResponse>>> Store([FromBody] CreateProviderCommand command)
     {
@@ -67,12 +86,5 @@ public class ProvidersController : ControllerBase
         if (!result)
             return NotFound(ApiResponse<object?>.Fail("Proveedor no encontrado"));
         return Ok(ApiResponse<object?>.Ok(null, "Proveedor eliminado exitosamente"));
-    }
-
-    [HttpGet("summary")]
-    public async Task<ActionResult<ApiResponse<List<ProviderSummaryResponse>>>> GetAllProvidersSummary()
-    {
-        var result = await _sender.Send(new GetProvidersSummaryQuery());
-        return Ok(ApiResponse<List<ProviderSummaryResponse>>.Ok(result, "Proveedores obtenidos exitosamente"));
     }
 }
