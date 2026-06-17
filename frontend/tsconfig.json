@@ -46,6 +46,9 @@
       "@guards/*": [
         "app/guards/*"
       ],
+      "@generated/*": [
+        "app/generated/*"
+      ],
     }
   },
   "angularCompilerOptions": {

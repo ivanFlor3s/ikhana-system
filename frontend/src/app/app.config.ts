@@ -5,12 +5,13 @@ import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { routes } from './app.routes';
 import { AppInitService } from './services/app-init.service';
 import { authInterceptor } from '@core/interceptors/auth.interceptor';
+import { unwrapInterceptor } from '@core/interceptors/unwrap.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
-    provideHttpClient(withInterceptors([authInterceptor])),
+    provideHttpClient(withInterceptors([authInterceptor, unwrapInterceptor])),
     {
       provide: APP_INITIALIZER,
       useFactory: (appInitService: AppInitService) => () => appInitService.loadReferenceData(),
