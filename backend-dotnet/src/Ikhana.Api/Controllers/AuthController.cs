@@ -1,7 +1,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Text;
 using Ikhana.Application.Common.Interfaces;
+using Ikhana.Application.Common.Models;
 using Ikhana.Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -23,25 +23,31 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("login")]
-    public async Task<IActionResult> Login([FromBody] LoginRequest request)
+    [ProducesResponseType(typeof(ApiResponse<AuthResponse>), 200)]
+    [ProducesResponseType(401)]
+    public async Task<ActionResult<ApiResponse<AuthResponse>>> Login([FromBody] LoginRequest request)
     {
         var result = await _authService.LoginAsync(request.Email, request.Password);
         if (result == null)
-            return Unauthorized(new { message = "Invalid credentials" });
+            return Unauthorized(ApiResponse<AuthResponse>.Fail("Invalid credentials"));
 
-        return Ok(new { success = true, data = result, message = "Login successful" });
+        return Ok(ApiResponse<AuthResponse>.Ok(result, "Login successful"));
     }
 
     [HttpPost("logout")]
     [Authorize]
+    [ProducesResponseType(typeof(ApiResponse<object?>), 200)]
     public IActionResult Logout()
     {
-        return Ok(new { success = true, message = "Logged out successfully" });
+        return Ok(ApiResponse<object?>.Ok(null, "Logged out successfully"));
     }
 
     [HttpGet("me")]
     [Authorize]
-    public async Task<IActionResult> Me()
+    [ProducesResponseType(typeof(ApiResponse<MeResponse>), 200)]
+    [ProducesResponseType(401)]
+    [ProducesResponseType(404)]
+    public async Task<ActionResult<ApiResponse<MeResponse>>> Me()
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
         if (userId == null)
@@ -53,19 +59,16 @@ public class AuthController : ControllerBase
 
         var roles = await _userManager.GetRolesAsync(user);
 
-        return Ok(new
-        {
-            success = true,
-            data = new
-            {
-                user.Id,
-                user.Email,
-                user.Name,
-                role = roles.FirstOrDefault()
-            },
-            message = "Current user retrieved"
-        });
+        var me = new MeResponse(
+            user.Id,
+            user.Email!,
+            user.Name,
+            roles.FirstOrDefault()
+        );
+
+        return Ok(ApiResponse<MeResponse>.Ok(me, "Current user retrieved"));
     }
 }
 
 public record LoginRequest(string Email, string Password);
+public record MeResponse(long Id, string Email, string Name, string? Role);

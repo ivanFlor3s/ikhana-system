@@ -5,4 +5,4 @@ export interface AppUser {
     role: AppRole
 }
 
-export type AppRole = 'Administracion' | 'Operador';
+export type AppRole = 'Admin' | 'Administracion' | 'Operador' | 'Consultor';

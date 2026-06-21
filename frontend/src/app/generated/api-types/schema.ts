@@ -193,7 +193,22 @@ export interface paths {
                     headers: {
                         [name: string]: unknown;
                     };
-                    content?: never;
+                    content: {
+                        "text/plain": components["schemas"]["ApiResponseOfAuthResponse"];
+                        "application/json": components["schemas"]["ApiResponseOfAuthResponse"];
+                        "text/json": components["schemas"]["ApiResponseOfAuthResponse"];
+                    };
+                };
+                /** @description Unauthorized */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["ProblemDetails"];
+                        "application/json": components["schemas"]["ProblemDetails"];
+                        "text/json": components["schemas"]["ProblemDetails"];
+                    };
                 };
             };
         };
@@ -226,7 +241,11 @@ export interface paths {
                     headers: {
                         [name: string]: unknown;
                     };
-                    content?: never;
+                    content: {
+                        "text/plain": components["schemas"]["ApiResponseOfObject"];
+                        "application/json": components["schemas"]["ApiResponseOfObject"];
+                        "text/json": components["schemas"]["ApiResponseOfObject"];
+                    };
                 };
             };
         };
@@ -257,7 +276,33 @@ export interface paths {
                     headers: {
                         [name: string]: unknown;
                     };
-                    content?: never;
+                    content: {
+                        "text/plain": components["schemas"]["ApiResponseOfMeResponse"];
+                        "application/json": components["schemas"]["ApiResponseOfMeResponse"];
+                        "text/json": components["schemas"]["ApiResponseOfMeResponse"];
+                    };
+                };
+                /** @description Unauthorized */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["ProblemDetails"];
+                        "application/json": components["schemas"]["ProblemDetails"];
+                        "text/json": components["schemas"]["ProblemDetails"];
+                    };
+                };
+                /** @description Not Found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["ProblemDetails"];
+                        "application/json": components["schemas"]["ProblemDetails"];
+                        "text/json": components["schemas"]["ProblemDetails"];
+                    };
                 };
             };
         };
@@ -1337,6 +1382,11 @@ export interface components {
             message: string;
             data: components["schemas"]["AgreementResponse"];
         };
+        ApiResponseOfAuthResponse: {
+            success: boolean;
+            message: string;
+            data: components["schemas"]["AuthResponse"];
+        };
         ApiResponseOfBrokerResponse: {
             success: boolean;
             message: string;
@@ -1371,6 +1421,11 @@ export interface components {
             success: boolean;
             message: string;
             data: null | components["schemas"]["RawMaterialTypeResponse"][];
+        };
+        ApiResponseOfMeResponse: {
+            success: boolean;
+            message: string;
+            data: components["schemas"]["MeResponse"];
         };
         ApiResponseOfObject: {
             success: boolean;
@@ -1436,6 +1491,14 @@ export interface components {
             success: boolean;
             message: string;
             data: components["schemas"]["ValidateResistanceResult"];
+        };
+        AuthResponse: {
+            /** Format: int64 */
+            userId: number | string;
+            email: string;
+            name: string;
+            role: null | string;
+            token: string;
         };
         BrokerInfo: {
             /** Format: int64 */
@@ -1580,6 +1643,13 @@ export interface components {
             email: string;
             password: string;
         };
+        MeResponse: {
+            /** Format: int64 */
+            id: number | string;
+            email: string;
+            name: string;
+            role: null | string;
+        };
         PaginatedListOfAgreementResponse: {
             items?: components["schemas"]["AgreementResponse"][];
             /** Format: int32 */
@@ -1670,6 +1740,14 @@ export interface components {
             totalPages?: number | string;
             hasPreviousPage?: boolean;
             hasNextPage?: boolean;
+        };
+        ProblemDetails: {
+            type?: null | string;
+            title?: null | string;
+            /** Format: int32 */
+            status?: null | number | string;
+            detail?: null | string;
+            instance?: null | string;
         };
         ProviderDetailResponse: {
             /** Format: int64 */
