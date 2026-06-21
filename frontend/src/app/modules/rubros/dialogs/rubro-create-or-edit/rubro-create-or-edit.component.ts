@@ -13,13 +13,11 @@ import {
 } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
 import { Button } from '@shared/components/button/button';
-import { RubroService } from '@services/rubro.service';
+import { CategoryApiService, CategoryDetailResponse, CreateCategoryCommand, UpdateCategoryCommand, CategoryListResponse } from '@generated/category-api.service';
 import { NotificationService } from '@services/notification.service';
-import { CreateRubroDto } from '@interfaces/dtos/create-rubro.dto';
-import { Rubro } from '@models/rubro';
 
 interface DialogData {
-  rubro?: Rubro
+  rubro?: CategoryListResponse;
   mode: 'create' | 'edit';
 }
 
@@ -46,7 +44,7 @@ export class RubroCreateOrEditComponent implements OnInit {
   readonly data = inject<DialogData>(MAT_DIALOG_DATA, { optional: true });
 
   private fb = inject(FormBuilder);
-  private rubroService = inject(RubroService);
+  private categoryApi = inject(CategoryApiService);
   private notificationService = inject(NotificationService);
 
   isSubmitting = signal(false);
@@ -68,20 +66,18 @@ export class RubroCreateOrEditComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.isEditMode && this.data?.rubro?.id) {
-      this.loadRubro(this.data.rubro.id);
+      this.loadRubro(Number(this.data.rubro.id));
     }
   }
 
   private loadRubro(id: number): void {
     this.isLoading.set(true);
-    this.rubroService.getRubroById(id).subscribe({
-      next: (response) => {
-        if (response.success) {
-          this.form.patchValue({
-            name: response.data.name,
-            description: response.data.description
-          });
-        }
+    this.categoryApi.get(id).subscribe({
+      next: (rubro) => {
+        this.form.patchValue({
+          name: rubro.name,
+          description: rubro.description ?? ''
+        });
         this.isLoading.set(false);
       },
       error: (error) => {
@@ -101,24 +97,28 @@ export class RubroCreateOrEditComponent implements OnInit {
       this.isSubmitting.set(true);
       this.errorMessage.set(null);
 
-      const dto: CreateRubroDto = {
+      const command: CreateCategoryCommand = {
         name: this.form.value.name!,
-        description: this.form.value.description || undefined
+        description: this.form.value.description ?? null
       };
 
       const operation = this.isEditMode && this.data?.rubro?.id
-        ? this.rubroService.updateRubro(this.data.rubro.id, dto)
-        : this.rubroService.createRubro(dto);
+        ? this.categoryApi.update(Number(this.data.rubro.id), {
+            id: Number(this.data.rubro.id),
+            name: command.name,
+            description: command.description
+          } as UpdateCategoryCommand)
+        : this.categoryApi.create(command);
 
       operation.subscribe({
-        next: (response) => {
+        next: (response: CategoryDetailResponse) => {
           this.isSubmitting.set(false);
           const action = this.isEditMode ? 'actualizado' : 'creado';
           this.notificationService.success(
             `Rubro ${action} exitosamente`,
-            `El rubro "${response.data.name}" ha sido ${action} correctamente.`
+            `El rubro "${response.name}" ha sido ${action} correctamente.`
           );
-          this.dialogRef.close(response.data);
+          this.dialogRef.close(response);
         },
         error: (error) => {
           this.isSubmitting.set(false);

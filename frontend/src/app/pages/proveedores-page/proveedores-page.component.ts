@@ -6,7 +6,6 @@ import { ProviderService } from '../../services/provider.service';
 import { ProveedoresListComponent } from '../../modules/proveedores/components/proveedores-list/proveedores-list.component';
 import { ProveedoresHeader } from '../../modules/proveedores/components/proveedores-header/proveedores-header';
 import { ProveedoresFilterComponent } from '../../modules/proveedores/components/proveedores-filter/proveedores-filter.component';
-import { RubroService } from '../../services/rubro.service';
 import { NameValue } from '@models/name-value.model';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
@@ -28,7 +27,6 @@ import { AppInitService } from '@services/app-init.service';
 export class ProveedoresPageComponent implements OnInit {
     readonly dialog = inject(MatDialog);
     readonly providerService = inject(ProviderService);
-    readonly rubroService = inject(RubroService);
 
     private appInitService = inject(AppInitService);
 

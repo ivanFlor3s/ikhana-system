@@ -3,9 +3,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { TableComponent, ColumnDef, ModernTableCellDirective } from '@shared/components/table/table.component';
 import { CommonModule } from '@angular/common';
-import { Rubro } from '../../../models/rubro.model';
+import { CategoryApiService, CategoryListResponse } from '../../../generated/category-api.service';
 import { SideDetailService } from '../../../services/side-detail.service';
-import { RubroService } from '../../../services/rubro.service';
 import { ConfirmDialogComponent } from '@shared/components/confirm-dialog/confirm-dialog.component';
 import { NotificationService } from '../../../services/notification.service';
 import { RubroDetailComponent } from '../components/rubro-detail/rubro-detail.component';
@@ -21,43 +20,33 @@ import { RubroCreateOrEditComponent } from '../dialogs/rubro-create-or-edit/rubr
 export class RubrosListComponent {
   private sideDetailService = inject(SideDetailService);
   private dialog = inject(MatDialog);
-  private rubroService = inject(RubroService);
+  private categoryApi = inject(CategoryApiService);
   private notificationService = inject(NotificationService);
 
-  rubros = input<Rubro[]>([]);
+  rubros = input<CategoryListResponse[]>([]);
   rubroDeleted = output<number>();
 
   columns: ColumnDef[] = [
-    {
-      id: 'id',
-      title: 'ID',
-      width: 'w-20'
-    },
-    {
-      id: 'name',
-      title: 'Nombre',
-    },
-    {
-      id: 'description',
-      title: 'Descripción',
-    },
-    {
-      id: 'actions',
-      title: '',
-      width: 'w-24'
-    }
+    { id: 'id', title: 'ID', width: 'w-20' },
+    { id: 'name', title: 'Nombre' },
+    { id: 'description', title: 'Descripción' },
+    { id: 'actions', title: '', width: 'w-24' }
   ];
 
-  onRubroClick(rubro: Rubro) {
-    this.sideDetailService.open(RubroDetailComponent, { rubroId: rubro.id });
+  onRubroClick(rubro: CategoryListResponse) {
+    this.sideDetailService.open(RubroDetailComponent, { rubroId: Number(rubro.id) });
   }
 
-  onEditRubro(rubro: Rubro, event: Event) {
+  onEditRubro(rubro: CategoryListResponse, event: Event) {
     event.stopPropagation();
-    this.dialog.open(RubroCreateOrEditComponent, { data: { rubro, mode: 'edit' }, width: '450px', disableClose: true });
+    this.dialog.open(RubroCreateOrEditComponent, {
+      data: { rubro, mode: 'edit' },
+      width: '450px',
+      disableClose: true
+    });
   }
 
-  onDeleteRubro(rubro: Rubro, event: Event) {
+  onDeleteRubro(rubro: CategoryListResponse, event: Event) {
     event.stopPropagation();
 
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
@@ -73,7 +62,6 @@ export class RubrosListComponent {
 
     dialogRef.afterClosed().pipe(take(1)).subscribe(confirmed => {
       if (confirmed) {
-        // Show loading snackbar
         const notificationId = this.notificationService.show({
           type: 'info',
           title: 'Eliminando rubro...',
@@ -83,27 +71,18 @@ export class RubrosListComponent {
           duration: 0
         });
 
-        // Call delete API
-        this.rubroService.deleteRubro(rubro.id).subscribe({
-          next: (response) => {
-            // Dismiss loading notification
+        this.categoryApi.delete(Number(rubro.id)).subscribe({
+          next: () => {
             this.notificationService.dismiss(notificationId);
-
-            // Show success notification
             this.notificationService.success(
               'Rubro eliminado',
-              response.message || 'El rubro ha sido eliminado exitosamente',
+              'El rubro ha sido eliminado exitosamente',
               3000
             );
-
-            // Emit event to parent to refresh the list
-            this.rubroDeleted.emit(rubro.id);
+            this.rubroDeleted.emit(Number(rubro.id));
           },
           error: (error) => {
-            // Dismiss loading notification
             this.notificationService.dismiss(notificationId);
-
-            // Show error notification
             this.notificationService.error(
               'Error al eliminar',
               error.error?.message || 'No se pudo eliminar el rubro',
@@ -115,3 +94,4 @@ export class RubrosListComponent {
     });
   }
 }
+

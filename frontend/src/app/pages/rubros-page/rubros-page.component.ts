@@ -3,8 +3,7 @@ import { RubrosHeaderComponent } from "@modules/rubros/rubros-header/rubros-head
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { RubrosListComponent } from "@modules/rubros/rubros-list/rubros-list.component";
 import { MatDialog } from '@angular/material/dialog';
-import { RubroService } from '../../services/rubro.service';
-import { Rubro } from '../../models/rubro.model';
+import { CategoryApiService, CategoryListResponse, PaginatedCategoryList } from '../../generated/category-api.service';
 import { RubroCreateOrEditComponent } from '@modules/rubros/dialogs/rubro-create-or-edit/rubro-create-or-edit.component';
 
 @Component({
@@ -15,10 +14,9 @@ import { RubroCreateOrEditComponent } from '@modules/rubros/dialogs/rubro-create
 })
 export class RubrosPageComponent implements OnInit {
   private dialog = inject(MatDialog);
-  private rubroService = inject(RubroService);
+  private categoryApi = inject(CategoryApiService);
 
-  // State signals
-  rubros = signal<Rubro[]>([]);
+  rubros = signal<CategoryListResponse[]>([]);
   isLoading = signal<boolean>(false);
 
   ngOnInit(): void {
@@ -28,11 +26,9 @@ export class RubrosPageComponent implements OnInit {
   loadRubros(): void {
     this.isLoading.set(true);
 
-    this.rubroService.getRubros().subscribe({
+    this.categoryApi.list().subscribe({
       next: (response) => {
-        if (response.success) {
-          this.rubros.set(response.data);
-        }
+        this.rubros.set(response.items ?? []);
         this.isLoading.set(false);
       },
       error: (error) => {
