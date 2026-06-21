@@ -1,16 +1,15 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { Provider } from '../../models/provider.model';
 import { MatDialog } from '@angular/material/dialog';
 import { ProviderCreateOrEdit } from '../../modules/proveedores/dialogs/provider-create-or-edit/provider-create-or-edit';
-import { ProviderService } from '../../services/provider.service';
 import { ProveedoresListComponent } from '../../modules/proveedores/components/proveedores-list/proveedores-list.component';
 import { ProveedoresHeader } from '../../modules/proveedores/components/proveedores-header/proveedores-header';
 import { ProveedoresFilterComponent } from '../../modules/proveedores/components/proveedores-filter/proveedores-filter.component';
 import { NameValue } from '@models/name-value.model';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
-import { ProviderFilters } from '../../interfaces/pagination.interface';
 import { AppInitService } from '@services/app-init.service';
+import { ProviderApiService, ProviderListItem, ProviderFilters } from '@generated/provider-api.service';
+import { TABLE_FIRST_PAGE, TABLE_PAGE_SIZE } from 'app/constants/table';
 
 @Component({
     selector: 'app-proveedores-page',
@@ -26,24 +25,21 @@ import { AppInitService } from '@services/app-init.service';
 })
 export class ProveedoresPageComponent implements OnInit {
     readonly dialog = inject(MatDialog);
-    readonly providerService = inject(ProviderService);
+    readonly providerApi = inject(ProviderApiService);
 
     private appInitService = inject(AppInitService);
 
-    // State signals
-    providers = signal<Provider[]>([]);
+    providers = signal<ProviderListItem[]>([]);
     rubros = signal<NameValue[]>([]);
     isLoading = signal<boolean>(false);
 
-    // Pagination state
     totalProviders = signal<number>(0);
-    pageSize = signal<number>(15);
-    currentPage = signal<number>(1);
+    pageSize = signal<number>(TABLE_PAGE_SIZE);
+    currentPage = signal<number>(TABLE_FIRST_PAGE);
 
-    // Filter state
     currentFilters = signal<ProviderFilters>({
         page: 1,
-        per_page: 15
+        pageSize: 15
     });
 
     get categories() {
@@ -54,16 +50,15 @@ export class ProveedoresPageComponent implements OnInit {
         this.loadProviders();
     }
 
-
     loadProviders(): void {
         this.isLoading.set(true);
 
-        this.providerService.getProviders(this.currentFilters()).subscribe({
+        this.providerApi.list(this.currentFilters()).subscribe({
             next: (response) => {
-                this.providers.set(response.data.data);
-                this.totalProviders.set(response.data.total);
-                this.currentPage.set(response.data.current_page);
-                this.pageSize.set(response.data.per_page);
+                this.providers.set(response.items ?? []);
+                this.totalProviders.set(Number(response.totalCount) ?? 0);
+                this.currentPage.set(Number(response.page) ?? TABLE_FIRST_PAGE);
+                this.pageSize.set(Number(response.pageSize) ?? TABLE_PAGE_SIZE);
                 this.isLoading.set(false);
             },
             error: (error) => {
@@ -74,12 +69,11 @@ export class ProveedoresPageComponent implements OnInit {
     }
 
     onFilterChange(filters: { search?: string; categoryIds?: number[] }): void {
-        // Update filters
         const newFilters: ProviderFilters = {
-            page: 1, // Reset to first page when filters change
-            per_page: this.pageSize(),
+            page: 1,
+            pageSize: this.pageSize(),
             search: filters.search || undefined,
-            category_id: filters.categoryIds && filters.categoryIds.length > 0
+            categoryId: filters.categoryIds && filters.categoryIds.length > 0
                 ? filters.categoryIds[0]
                 : undefined
         };
@@ -91,8 +85,8 @@ export class ProveedoresPageComponent implements OnInit {
     onPageChange(event: PageEvent): void {
         const newFilters: ProviderFilters = {
             ...this.currentFilters(),
-            page: event.pageIndex + 1, // Material paginator is 0-indexed
-            per_page: event.pageSize
+            page: event.pageIndex + 1,
+            pageSize: event.pageSize
         };
 
         this.currentFilters.set(newFilters);

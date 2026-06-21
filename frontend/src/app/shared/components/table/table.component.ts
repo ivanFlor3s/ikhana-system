@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { CommonModule } from '@angular/common';
 import { Component, Input, Output, EventEmitter, Directive, TemplateRef, ContentChildren, QueryList, signal, computed } from '@angular/core';
+import { TABLE_PAGE_SIZE_OPTIONS } from 'app/constants/table';
 
 
 export type SortDirection = 'asc' | 'desc' | null;
@@ -39,7 +40,7 @@ export class TableComponent {
   // Inputs
   @Input() columns: ColumnDef[] = [];
   @Input() data: any[] = [];
-  @Input() pageSizeOptions: number[] = [5, 10, 20];
+  @Input() pageSizeOptions: number[] = TABLE_PAGE_SIZE_OPTIONS;
   @Input() initialPageSize = 10;
   @Input() selectableRows = false;
 

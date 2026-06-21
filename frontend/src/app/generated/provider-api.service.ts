@@ -22,6 +22,7 @@ import type { components } from '@generated/api-types';
 export type ProviderListResponse = components['schemas']['ProviderListResponse'];
 export type ProviderDetailResponse = components['schemas']['ProviderDetailResponse'];
 export type PaginatedProviderList = components['schemas']['PaginatedListOfProviderListResponse'];
+export type ProviderListItem = components['schemas']['ProviderListResponse'];
 export type CreateProviderCommand = components['schemas']['CreateProviderCommand'];
 export type UpdateProviderCommand = components['schemas']['UpdateProviderCommand'];
 
