@@ -24,10 +24,5 @@ export interface ProviderFormData {
         hours: number;
         minutes: number;
     };
-    // Broker data
-    brokerFirstName: string;
-    brokerLastName: string;
-    brokerEmail: string;
-    brokerPhone: string;
 }
 
