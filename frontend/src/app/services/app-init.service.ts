@@ -7,6 +7,7 @@ import { Agreement } from '../core/models/agreement.model';
 import { Category } from '../core/models/category.model';
 import { NameValue } from '../models/name-value.model';
 import { AuthService } from '@services/auth.service';
+import { CategoryApiService } from '@generated/category-api.service';
 
 @Injectable({
     providedIn: 'root'
@@ -14,6 +15,7 @@ import { AuthService } from '@services/auth.service';
 export class AppInitService {
     private http = inject(HttpClient);
     private authService = inject(AuthService);
+    private categoryService = inject(CategoryApiService);
 
     private apiUrl = environment.apiUrl;
 
@@ -94,11 +96,11 @@ export class AppInitService {
 
     private fetchCategories() {
         this._loadingCategories = true;
-        this.http.get<{ success: boolean, data: Category[], message: string }>(`${this.apiUrl}/categories`)
+        this.categoryService.list()
             .pipe(take(1))
             .subscribe({
                 next: (response) => {
-                    this._categories.set(response.data.map(item => ({ name: item.name, value: item.id })));
+                    this._categories.set(!!response?.items ? response.items.map(item => ({ name: item.name!, value: Number(item.id!)})) : []);
                     this._loadingCategories = false;
                 },
                 error: (error) => {
