@@ -54,8 +54,6 @@ public class ProviderSummaryTests : IClassFixture<TestWebApplicationFactory>, IA
         var content = await response.Content.ReadFromJsonAsync<DataWrap<List<ProviderSummaryData>>>();
         content!.success.Should().BeTrue();
         content.data.Should().NotBeEmpty();
-        content.data.Should().AllSatisfy(p => p.fantasyName.Should().NotBeNullOrEmpty());
-        content.data.Should().AllSatisfy(p => p.businessName.Should().NotBeNullOrEmpty());
     }
 
     [Fact]

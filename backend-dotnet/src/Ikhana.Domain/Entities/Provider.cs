@@ -4,7 +4,14 @@ public class Provider : BaseEntity, ISoftDelete, IAuditable
 {
     public string? FantasyName { get; set; }
     public string? BusinessName { get; set; }
-    public string? Cuit { get; set; }
+
+    private string? _cuit;
+    public string? Cuit
+    {
+        get => _cuit;
+        set => _cuit = string.IsNullOrWhiteSpace(value) ? null : value;
+    }
+
     public string? Iibb { get; set; }
 
     public long? TaxStatusId { get; set; }
